@@ -1,0 +1,28 @@
+.lrList {
+  width: 298px;
+  border: solid 1px white;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.requestDate {
+  background-color: white;
+  color: #673ab7;
+}
+
+.requestDateLabel {
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+.mat-date-range-input-inner {
+  color: black !important;
+}
+
+.label {
+  width: 150px;
+  font-size: 1.2em;
+  font-weight: bold;
+  border: solid 1px white;
+  text-align: center;
+}

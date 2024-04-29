@@ -1,0 +1,8 @@
+<div class="fxLayout-row-topleft">
+  <div class="name" [style]="baseClass">
+    {{employee.name.getLastFirst()}}
+  </div>
+  <app-site-schedule-day *ngFor="let date of dates;let i = index"
+    [day]="workdays[i]" [date]="date" [baseClass]="baseClass">
+  </app-site-schedule-day>
+</div>

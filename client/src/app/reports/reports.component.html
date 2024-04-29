@@ -1,0 +1,43 @@
+<div class="fxLayout fxLayout-column-center">
+  <mat-card style="background-color: #673ab7; color: white;">
+    <mat-card-header>
+      <div class="fxLayout-row-topleft">
+        <div class="fxLayout-column-topleft">
+          <div class="headline">Report Request</div>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content class="fxLayout-column-topleft">
+      <form [formGroup]="reportForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Report Type</mat-label>
+          <mat-select formControlName="reportType" 
+            (selectionChange)="onSelect()">
+            <mat-option value="schedule">Team Schedule</mat-option>
+            <mat-option value="ptoholiday">PTO/Holiday</mat-option>
+            <mat-option value="chargenumber">Charge Number Status</mat-option>
+            <mat-option value="midshift">Mid-Shift Rotation</mat-option>
+            <mat-option value="cofs">Certificate Of Service</mat-option>
+            <mat-option value="enterprise">MSP Finder Input</mat-option>
+            <mat-option value="modtime">ModTime Listing</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+      <app-report-schedule *ngIf="reportType === 'schedule'" 
+        [reportType]="reportType"></app-report-schedule>
+      <app-report-leave-list *ngIf="reportType === 'ptoholiday'"
+        [reportType]="reportType"></app-report-leave-list>
+      <app-report-charge-number 
+        *ngIf="reportType === 'chargenumber'"
+        [reportType]="reportType"></app-report-charge-number>
+      <app-report-cert-of-service *ngIf="reportType === 'cofs'"
+        [reportType]="reportType"></app-report-cert-of-service>
+      <app-report-mid-shift *ngIf="reportType === 'midshift'"
+        [reportType]="reportType"></app-report-mid-shift>
+      <app-report-enterprise *ngIf="reportType === 'enterprise'"
+        [reportType]="reportType"></app-report-enterprise>
+      <app-report-mod-time *ngIf="reportType === 'modtime'"
+        [reportType]="reportType"></app-report-mod-time>
+    </mat-card-content>
+  </mat-card>
+</div>

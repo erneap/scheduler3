@@ -1,0 +1,93 @@
+<div class="fxLayout flexlayout column center">
+  <mat-card style="background-color: #673ab7; color: white;">
+      <mat-card-header>
+        <div class="flexlayout row center">
+          <div class="flexlayout column topleft">
+            <div class="headline">Site's Workcenter Editor</div>
+            <div class="subheadline">Site: {{site.name}}</div>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content style="padding-right: 25px;">
+        <div class="flexlayout row top" style="gap: 10px;">
+          <div class="flexlayout column topleft">
+            <div class="flexlayout row center" style="width: 100%;">
+              <div class="subheadline" style="color: white;">Workcenters</div>
+              <span class="flex-spacer"></span>
+              <button mat-icon-button color="accent"
+                *ngIf="selected !== 'new' && selected !== ''"
+                (click)="onDeleteWorkcenter()"
+                matTooltip="Delete selected workcenter">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div class="flexlayout row topcenter">
+              <div class="list">
+                <div *ngFor="let item of workcenters"
+                (click)="onSelectWorkcenter(item.id)"
+                [class]="getButtonStyle(item.id)"
+                >{{item.label}}</div>
+              </div>
+              <div class="layout-stretch sortdiv">
+                <div class="layout-top movement"
+                  matTooltip="Change Display Order - Move Up"
+                  (click)="onChangeSort('up')">
+                  <mat-icon *ngIf="showSortUp">arrow_drop_up</mat-icon>
+                </div>
+                <div class="layout-bottom movement"
+                  matTooltip="Change Order - Move Down"
+                  (click)="onChangeSort('down')">
+                  <mat-icon *ngIf="showSortDown">arrow_drop_down</mat-icon>
+                </div>
+              </div>
+            </div>
+            <form [formGroup]="wcForm" class="fxLayout-column-topleft"
+              style="margin-top: 15px;">
+              <mat-form-field appearance="fill" style="margin-bottom: 25px;"
+                *ngIf="selected === 'new'">
+                <mat-label>Workcenter Identifier</mat-label>
+                <input matInput formControlName="id" (blur)="onChangeField('id')">
+                <mat-hint>Only lower case letters, numbers and / or -</mat-hint>
+                <mat-error *ngIf="wcForm.controls['id'].hasError('required')"
+                  class="error">Required</mat-error>
+                <mat-error *ngIf="wcForm.controls['id'].hasError('pattern')"
+                  class="error">Check Pattern</mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Workcenter Name/Title</mat-label>
+                <input matInput formControlName="name" (blur)="onChangeField('name')">
+                <mat-error *ngIf="wcForm.controls['id'].hasError('required')"
+                  class="error">Required</mat-error>
+              </mat-form-field>
+              <div class="fxLayout-row-center">
+                <button mat-raised-button color="warn" style="margin-left: 10px;"
+                  *ngIf="selected === 'new'"
+                  (click)="onClearClick()">Clear</button>
+                <button mat-raised-button color="accent"
+                  *ngIf="selected === 'new'"
+                  (click)="onAddWorkcenter()" cdkFocusInitial>Add</button>
+              </div>
+            </form>
+          </div>
+          <div class="flexlayout column top" 
+          style="border: solid 1px white;padding: 2px;"
+          *ngIf="selected !== 'new'">
+            <mat-tab-group [backgroundColor]="'accent'">
+              <mat-tab label="Workcenter Shifts">
+                <app-site-workcenter-shift  [site]="site" 
+                [workcenter]="workcenter"
+                (siteChanged)="changeSite($event)">
+                </app-site-workcenter-shift>
+              </mat-tab>
+              <mat-tab label="Workcenter Positions">
+                <app-site-workcenter-position  [site]="site" 
+                [workcenter]="workcenter"
+                (siteChanged)="changeSite($event)">
+                </app-site-workcenter-position>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+        </div>
+      </mat-card-content>
+  </mat-card>
+</div>

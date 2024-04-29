@@ -1,0 +1,39 @@
+<div class="fxLayout flexlayout column topleft standardCard">
+  <div class="flexlayout row topleft" style="width: 100%;">
+    <div class="flexlayout column topleft">
+      <div class="headline">MOD TIME REVIEW</div>
+      <div class="subheadline">(positive = worked, negative = off time)</div>
+    </div>
+    <div class="flex-spacer"></div>
+    <div class="flexlayout column center">
+      <button mat-raised-button color="accent" (click)="expandAll()">
+        {{expandAllText}}
+      </button>
+    </div>
+  </div>
+  <div class="flexlayout column topleft">
+    <div class="flexlayout row topleft">
+      <div class="name bkg">Name</div>
+      <div class="month bkg" style="height: 42px;width: 50px;">BAL</div>
+      <ng-container *ngFor="let month of months">
+        <div class="flexlayout column center">
+          <div class="month bkg pointer" [style]="monthWidth(month.month.getTime())" 
+            (click)="expand(month.month.getTime())">
+            {{getMonth(month.month)}}
+          </div>
+          <div class="flexlayout row topleft">
+            <div class="cell bkg pointer">Total</div>
+            <ng-container *ngIf="month.expand">
+              <div *ngFor="let prd of month.weeks" class="cell prdbkg">
+                {{prd.end.getMonth() + 1}}/{{prd.end.getDate()}}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <app-site-mod-report-view-employee *ngFor="let emp of employees;let i = index"
+      [employee]="emp" [count]="i" [months]="months">
+    </app-site-mod-report-view-employee>
+  </div>
+</div>

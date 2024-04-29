@@ -1,0 +1,7 @@
+<div class="flexlayout row center">
+  <div class="title">{{shiftTitle.toUpperCase()}}</div>
+  <app-site-employee-leave-request-availability-day [site]="site"
+    [workcenter]="workcenter" [shift]="shift" [request]="request"
+    *ngFor="let day of dates" [date]="day"
+    [employee]="employee"></app-site-employee-leave-request-availability-day>
+</div>

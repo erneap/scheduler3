@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Employee Profile</title>
+  <link rel="stylesheet" href="../../../styles.css" />
+</head>
+<body>
+  <h1>Editing Employee's Basic Information/Deleting</h1>
+  <p class="role">(Site Scheduler/Leadership only)</p>
+  <img src="./images/emp_profile.png" alt="Profile View">
+  <p>
+    The employee profile editor allows the employee to edit their E-mail address, 
+    name and password and space is provided for each.  Add to this the capability 
+    to set the employee's role(s) and to unlock their account.  Lastly, the 
+    scheduler and/or site leadership can delete the employee from the database
+    from this view.
+  </p>
+  <ol class="level1">
+    <li>
+      <b>Email Address/Name Editing</b> - Each item is provided space to display 
+      what the application has stored and for the employee to edit it.  All 
+      changes are saved when the editor either hits the &lt;TAB&gt; key or moves
+      the cursor to another place.  To Edit:
+      <ol class="level2">
+        <li>Place the cursor in the field you wish to change and click the 
+          left mouse button.
+        </li>
+        <li>
+          Use your keyboard to make any necessary changes.
+        </li>
+        <li>
+          Either hit the &lt;TAB&gt; key or click the mouse in any outher field 
+          or space outside the display.  The changes are sent to the server at 
+          this point.
+        </li>
+      </ol>
+    </li>
+    <li>
+      <b>Password Change</b> - The new password must meet the requirements set
+      for the application as minimums (10 characters in length and 2 of each 
+      type of character, lower-case, upper-case, numeric, and other characters).
+      The steps to change a password are:
+      <ol class="level2">
+        <li>
+          Plave the cursor in the "New Password" field and click the left mouse 
+          button.
+        </li>
+        <li>
+          Ensure the field is empty and type in the new password.  If the new 
+          password doesn't meet the minimum requirements a warning will be 
+          provided below the field.
+        </li>
+        <li>
+          Hit the &lt;TAB&gt; key or click in the "Verify New Password" field.
+        </li>
+        <li>
+          Type in the new password again.  If the two entries don't match, an
+          error message with display below this field.  If the new password 
+          meets the minimum requirements and the two entries match the "Change"
+          button will appear to the right of this field.
+        </li>
+        <li>
+          Click the "Change" button to send the change to the server.
+        </li>
+      </ol>
+    </li>
+    <img src="./images/unlock_account.png" style="width: 150px;">
+    <li>
+      <b>Unlocking Account</b> - If the employee's authentication account is 
+      locked (over bad password limit), you can unlock the account with This
+      view.  An  Unlock button (  ) will be available for any locked account.  Click
+      it to reset the count to zero (0) and unlock the account.
+    </li>
+    <img src="./images/permissions.png">
+    <li>
+      <b>Setting Role(s)</b> - The employee permission roles are set in this 
+      view by checking/unchecking the boxes next to the role listed.  Refer to 
+      the <a href="../../overview.html">site overview</a> for a definition of 
+      the roles.
+    </li>
+    <li>
+      <b>Deleting an Employee</b> - This is to be done if the employee is to be
+      completely removed from the database.  If the employee transfers to 
+      another site, set the end date for the current assignment and create an
+      assignment for the new site with a M-F work week.  If the employee quits, 
+      retires or otherwise leaves the job, don't delete them, end their 
+      assignment.  <u><b>DELETING AN EMPLOYEE IS FOR MISTAKES and Absolutely the 
+      last action to take.</b></u>  To Delete, click on the Delete Button 
+      ( <img src="./images/delete_button.png" class="icon"> ) and 
+      verify or confirm the deletion when asked.
+    </li>
+  </ol>
+    
+  <p class="bottomNav">
+    <a href="select_employee.html">Selecting Employee To Edit</a>
+    <a href="companyinfo.html">Editing Employee's Company Information</a>
+  </p>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<div class="fxLayout fxLayout-column-center">
+  <mat-card style="background-color: #673ab7; color: white;">
+      <mat-card-header>
+        <div class="fxLayout-row-left">
+          <div class="fxLayout-column-topleft">
+            <div class="headline">Employee Leave Request Approval</div>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content class="fxLayout-column-center">
+        <div class="flexlayout row topcenter" style="gap: 25px;">
+          <div class="list">
+            <div *ngFor="let item of requests" 
+              [class]="getButtonClass(item.id)"
+              (click)="onSelect(item.id)"
+              >
+              {{item.label}}
+            </div>
+          </div>
+          <app-leave-request-editor [request]="request"
+            [employee]="requestEmployee" 
+            (changed)="employeeChanged($event)"
+            [approver]="true">
+          </app-leave-request-editor>
+        </div>
+        <hr />
+        <app-site-employee-leave-request-availability-period [site]="site"
+          [workcenter]="workcenter" [request]="request"
+          [employee]="requestEmployee.id"
+          *ngIf="workcenter !== ''">
+        </app-site-employee-leave-request-availability-period>
+      </mat-card-content>
+  </mat-card>
+</div>

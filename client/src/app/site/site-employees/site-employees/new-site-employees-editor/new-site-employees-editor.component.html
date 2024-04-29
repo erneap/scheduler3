@@ -1,0 +1,205 @@
+<div class="overall">
+  <div class="flexlayout row center" [style]="formWidth()">
+    <div class="headline">New Employee Form</div>
+    <span class="flex-spacer"></span>
+    <button mat-icon-button
+      matTooltip="Clear editor"
+      (click)="clearForm()">
+      <mat-icon>deselect</mat-icon>
+    </button>
+  </div>
+  <form [formGroup]="employeeForm" [style]="formWidth()">
+    <mat-accordion [style]="accordionWidth()">
+      <mat-expansion-panel expanded="true" style="background-color: lightblue;">
+        <mat-expansion-panel-header style="background-color: #3691b0;">
+          <mat-panel-title style="color: white;">Basic Information</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="flexlayout column center" style="margin-top: 10px;">
+          <div class="flexlayout row center">
+            <mat-form-field>
+              <mat-label>E-mail Address</mat-label>
+              <input matInput formControlName="email">
+              <mat-error *ngIf="this.employeeForm.get('newemail')?.hasError('required')"
+                class="error">Required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="flexlayout row center">
+            <div class="formField">
+              <mat-form-field class="fieldWidth">
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="first">
+                <mat-error *ngIf="this.employeeForm.get('first')?.hasError('required')"
+                  class="error">Required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="formField">
+              <mat-form-field class="fieldWidth">
+                <mat-label>Middle Name</mat-label>
+                <input matInput formControlName="middle">
+                <mat-hint>Optional</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="formField">
+              <mat-form-field class="fieldWidth">
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="last">
+                <mat-error *ngIf="this.employeeForm.get('last')?.hasError('required')"
+                  class="error">Required</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="flexlayout row center">
+            <div class="formFieldWide">
+              <mat-form-field class="fieldWidthWide">
+                <mat-label>New Password</mat-label>
+                <input matInput type="password" formControlName="password">
+                <mat-error *ngIf="this.employeeForm.get('newpassword')?.invalid"
+                  class="error">
+                  {{getPasswordError()}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="formFieldWide">
+              <mat-form-field class="fieldWidthWide">
+                <mat-label>Verify New Password</mat-label>
+                <input matInput type="password" formControlName="password2">
+                <mat-error *ngIf="this.employeeForm.get('password2')?.invalid"
+                  class="error">
+                  {{getVerifyError()}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel style="background-color: lightblue;">
+        <mat-expansion-panel-header style="background-color: #3691b0;">
+          <mat-panel-title style="color: white;">Company Information</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="flexlayout column center" style="margin-top: 10px;">
+          <div class="flexlayout row center">
+            <div class="formFieldWide">
+              <mat-form-field class="fieldWidthWide">
+                <mat-label>Company</mat-label>
+                <mat-select formControlName="company">
+                  <mat-option *ngFor="let co of companies"
+                    [value]="co.id">{{co.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="this.employeeForm.get('company')?.hasError('required')"
+                class="error">Required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="formField">
+              <mat-form-field class="fieldWidth">
+                <mat-label>Employee ID</mat-label>
+                <input matInput formControlName="employeeid">
+                <mat-hint>Company Employee ID</mat-hint>
+                <mat-error *ngIf="this.employeeForm.get('employeeid')?.hasError('required')"
+                  class="error">Required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="formField">
+              <mat-form-field class="fieldWidth">
+                <mat-label>Alternate ID</mat-label>
+                <input matInput formControlName="alternateid">
+                <mat-hint>Optional</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="flexlayout row center">
+            <div class="formField">
+              <mat-form-field class="fieldWidth">
+                <mat-label>Job Title</mat-label>
+                <input matInput formControlName="jobtitle">
+                <mat-error *ngIf="this.employeeForm.get('jobtitle')?.hasError('required')"
+                  class="error">Required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="formField">
+              <mat-form-field class="fieldWidth">
+                <mat-label>Rank/Grade</mat-label>
+                <input matInput formControlName="rank">
+                <mat-hint>Optional</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="formField">
+              <mat-form-field class="fieldWidth">
+                <mat-label>Cost Center</mat-label>
+                <input matInput formControlName="costcenter">
+                <mat-hint>Optional</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="formField">
+              <mat-form-field class="fieldWidth">
+                <mat-label>Division</mat-label>
+                <input matInput formControlName="division">
+                <mat-hint>Optional</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel style="background-color: lightblue;">
+        <mat-expansion-panel-header style="background-color: #3691b0;">
+          <mat-panel-title style="color: white;">Assigned Labor Code(s)</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="fxLayout-column-topleft">
+          <label>Initial Labor Code Assigned:</label>
+          <mat-radio-group class="fxLayout-column-topleft"
+            formControlName="laborcode">
+            <mat-radio-button *ngFor="let lc of laborcodes"
+              [value]="lc.chargeNumber + '|' + lc.extension">
+              {{lc.chargeNumber}} - {{lc.extension}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel style="background-color: lightblue;">
+        <mat-expansion-panel-header style="background-color: #3691b0;">
+          <mat-panel-title style="color: white;">Initial Assignment</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="flexlayout column center">
+          <div class="flexlayout row center">
+            <div class="formField">
+              <mat-form-field class="fieldWidth">
+                <mat-label>Assignment Workcenter</mat-label>
+                <mat-select formControlName="workcenter">
+                  <mat-option *ngFor="let wkctr of workcenters"
+                    [value]="wkctr.id">{{wkctr.name.toUpperCase()}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="formField">
+              <mat-form-field class="fieldWidth">
+                <mat-label>Assignment Start</mat-label>
+                <input matInput [matDatepicker]="startpicker"
+                  formControlName="startdate">
+                <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
+                <mat-datepicker #startpicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <app-site-employees-assignment-schedule 
+            [site]="site"
+            (change)="changeAssignmentSchedule($event)"
+            [schedule]="schedule">
+          </app-site-employees-assignment-schedule>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel style="background-color: lightblue;"
+        *ngIf="newError !== ''" [expanded]="newError !== ''">
+        <mat-expansion-panel-header style="background-color: #3691b0;">
+          <mat-panel-title style="color: white;">Add Problem (Error Message)</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="error">
+          <span style="color: black;">Error: </span>
+          {{newError}}
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="flexlayout row center" *ngIf="employeeForm.valid">
+      <button mat-raised-button color="accent"
+      (click)="addEmployee()">Add</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,115 @@
+<div class="fxLayout fxLayout-column-center">
+  <mat-card style="background-color: #673ab7; color: white;">
+      <mat-card-header>
+        <div class="fxLayout-row-center">
+          <div class="headline">New Team Editor</div>
+          <span class="flex-spacer"></span>
+          <button mat-icon-button
+            matTooltip="Clear editor">
+            <mat-icon>deselect</mat-icon>
+          </button>
+        </div>
+      </mat-card-header>
+      <mat-card-content class="fxLayout-column-center">
+          <mat-accordion>
+            <mat-expansion-panel expanded="true" style="background-color: lightblue;">
+              <mat-expansion-panel-header style="background-color: #3691b0;">
+                <mat-panel-title style="color: white;">Team Basic Information</mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="fxLayout-column-center" style="margin-top: 10px;">
+                <form [formGroup]="teamForm">
+                  <div class="fxLayout-row-center">
+                    <mat-form-field class="formField">
+                      <mat-label>Team Name</mat-label>
+                      <input matInput formControlName="name">
+                      <mat-error *ngIf="this.teamForm.get('name')?.hasError('required')"
+                        class="error">Required</mat-error>
+                    </mat-form-field>
+                    <div class="formField">
+                      <mat-checkbox formControlName="workcodes"
+                        >Copy Standard Workcodes</mat-checkbox>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel style="background-color: lightblue;">
+              <mat-expansion-panel-header style="background-color: #3691b0;">
+                <mat-panel-title style="color: white;">
+                  Initial Team Leader Information
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="fxLayout-column-center" style="margin-top: 10px;">
+                <form [formGroup]="leadForm">
+                  <div class="fxLayout-row-center">
+                    <mat-form-field>
+                      <mat-label>E-mail Address</mat-label>
+                      <input matInput formControlName="email">
+                      <mat-error *ngIf="this.leadForm.get('email')?.hasError('required')"
+                        class="error">Required</mat-error>
+                      <mat-error *ngIf="this.leadForm.get('email')?.hasError('email')"
+                        class="error">Must be in Email Format</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="fxLayout-row-center">
+                    <div class="formField">
+                      <mat-form-field class="fieldWidth">
+                        <mat-label>First Name</mat-label>
+                        <input matInput formControlName="first">
+                        <mat-error *ngIf="this.leadForm.get('first')?.hasError('required')"
+                          class="error">Required</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="formField">
+                      <mat-form-field class="fieldWidth">
+                        <mat-label>Middle Name</mat-label>
+                        <input matInput formControlName="middle">
+                        <mat-hint>Optional</mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="formField">
+                      <mat-form-field class="fieldWidth">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput formControlName="last">
+                        <mat-error *ngIf="this.leadForm.get('last')?.hasError('required')"
+                          class="error">Required</mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="fxLayout-row-center">
+                    <div class="formFieldWide">
+                      <mat-form-field class="fieldWidthWide">
+                        <mat-label>New Password</mat-label>
+                        <input matInput type="password" formControlName="password">
+                        <mat-error *ngIf="this.leadForm.get('password')?.invalid"
+                          class="error">
+                          {{getLeadPasswordError()}}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="formFieldWide">
+                      <mat-form-field class="fieldWidthWide">
+                        <mat-label>Verify New Password</mat-label>
+                        <input matInput type="password" formControlName="password2">
+                        <mat-error *ngIf="this.leadForm.get('password2')?.invalid"
+                          class="error">
+                          {{getLeadVerifyError()}}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <div class="fxLayout-row-center" style="padding: 5px 0 5px 0;">
+            <button mat-raised-button color="accent"
+              *ngIf="this.teamForm.valid && this.leadForm.valid"
+              matTooltip="Add Team"
+              (click)="addTeam()"
+              >Add</button>
+          </div>
+      </mat-card-content>
+  </mat-card>
+</div>
+

@@ -1,0 +1,24 @@
+<div class="toplevel">
+  <div class="flexlayout column topleft">
+    <div class="headline">Mid-Shift Coverage</div>
+    <div class="flexlayout column center chart">
+      <div class="flexlayout row center">
+        <div class="direction" (click)="updateYear('down')">&lt;&lt;</div>
+        <div class="year">{{year}}</div>
+        <div class="direction" (click)="updateYear('up')">&gt;&gt;</div>
+      </div>
+      <div class="flexlayout row center">
+        <div class="namelabel">NAME</div>
+        <div class="datelabel">FROM</div>
+        <div class="datelabel">TO</div>
+      </div>
+      <ng-container *ngFor="let eVar of midList">
+        <div class="flexlayout row center data">
+          <div class="name">{{eVar.employee.name.getLastFirst()}}</div>
+          <div class="date">{{dateString(eVar.variation.startdate)}}</div>
+          <div class="date">{{dateString(eVar.variation.enddate)}}</div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

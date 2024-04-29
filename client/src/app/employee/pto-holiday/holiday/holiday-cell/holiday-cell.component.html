@@ -1,0 +1,10 @@
+<div class="flexlayout row center" [style]="cellBackground">
+  <div class="code" [style]="getCodeStyle()">{{getHolidayID()}}</div>
+  <div class="referenceDate" [style]="getReferenceStyle()">{{referenceDate}}</div>
+  <div class="dates" [style]="getDatesStyle()">
+    <app-holiday-cell-display *ngFor="let day of holiday.leaveDays" 
+      [holiday]="day"
+      ></app-holiday-cell-display>
+  </div>
+  <div class="actual" [style]="getHoursStyle()">{{getTotalActual()}}</div>
+</div>

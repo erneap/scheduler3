@@ -1,0 +1,30 @@
+.checkbox {
+  width: 35px;
+  align-items: center;
+  align-content: center;
+}
+
+.message {
+  align-items: left;
+  justify-content: stretch;
+  margin: 2px 5px;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px 2px;
+}
+
+.notification {
+  flex-direction: row;
+  padding: 0;
+  margin: 0;
+}
+
+.title {
+  background-color: lightpink;
+  color: black;
+  font-weight: bold;
+}

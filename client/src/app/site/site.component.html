@@ -1,0 +1,17 @@
+<div style="margin: 10px;">
+  <mat-tab-group preserveContent="true" backgroundColor="primary">
+    <mat-tab label="Name/ID">
+      <app-site-basic-information [site]="site"
+        (siteChanged)="onChangedSite($event)"></app-site-basic-information>
+    </mat-tab>
+    <mat-tab label="Workcenter Editor">
+      <app-site-workcenters [site]="site"
+        (siteChanged)="onChangedSite($event)"></app-site-workcenters>
+    </mat-tab>
+    <mat-tab label="Report Editor">
+      <app-site-report-editor [site]="site"
+        (siteChanged)="onChangedSite($event)">
+      </app-site-report-editor>
+    </mat-tab>
+  </mat-tab-group>
+</div>

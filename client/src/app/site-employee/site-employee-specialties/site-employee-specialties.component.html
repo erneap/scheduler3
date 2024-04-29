@@ -1,0 +1,47 @@
+<div class="fxLayout fxLayout-column-center">
+  <mat-card style="background-color: #673ab7; color: white;">
+      <mat-card-header>
+        <div class="fxLayout-row-left">
+          <div class="fxLayout-column-topleft">
+            <div class="headline">Employee's Specialties</div>
+            <div class="subheadline">{{employee.name.getFullName()}}</div>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content class="fxLayout-column-center">
+        <div class="flexlayout column center" >
+          <div class="flexlayout row center">
+            <div class="typeText">Available Specialties</div>
+            <div>&nbsp;</div>
+            <div class="typeText">Employee's Specialties</div>
+          </div>
+          <div class="flexlayout row center">
+            <div class="list">
+              <div *ngFor="let emp of available"
+              [class]="getButtonClass(emp.id, 'available')"
+              (click)="onSelect(emp.id, 'available')">
+              {{emp.label}}
+            </div>
+            </div>
+            <div class="moveGap">
+              <mat-icon class="icon"
+              *ngIf="availableSelected.length > 0"
+              (click)="onSetChanges('available')"
+              >chevron_right</mat-icon>
+              <mat-icon class="icon"
+              *ngIf="specialtiesSelected.length > 0"
+              (click)="onSetChanges('specialties')"
+              >chevron_left</mat-icon>
+            </div>
+            <div class="list">
+              <div *ngFor="let emp of specialties"
+              [class]="getButtonClass(emp.id, 'specialties')"
+              (click)="onSelect(emp.id, 'specialties')">
+              {{emp.label}}
+            </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+  </mat-card>
+</div>

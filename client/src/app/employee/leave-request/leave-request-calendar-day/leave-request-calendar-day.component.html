@@ -1,0 +1,14 @@
+<div class="cell" [style]="getWorkdayStyle()">
+  <div [class]="getDateClass()" [style]="getDateStyles()">{{leave.leavedate.getUTCDate()}}</div>
+  <form [formGroup]="dayForm" class="form" [style]="getFormFont()">
+    <select formControlName="code" [style]="getCodeStyle()"
+      (change)="changeCode()">
+      <option value=""></option>
+      <option *ngFor="let lc of leavecodes" [value]="lc.id">
+        {{lc.id}}
+      </option>
+    </select>
+    <input formControlName="hours" class="hours" [style]="getHoursStyle()"
+      (blur)="changeCode()">
+  </form>
+</div>

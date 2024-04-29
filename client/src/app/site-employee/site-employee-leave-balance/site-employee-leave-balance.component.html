@@ -1,0 +1,34 @@
+<div class="fxLayout fxLayout-column-center">
+  <mat-card style="background-color: #673ab7; color: white;">
+    <mat-card-header>
+      <div class="fxLayout-row-center">
+        <div class="fxLayout-column-topleft">
+          <div class="headline">Employee's Leave Balances</div>
+          <div class="subheadline">{{employee.name.getFullName()}}</div>
+        </div>
+        <span class="flex-spacer"></span>
+        <button mat-raised-button color="accent"
+          matTooltip="Add Leave Balance for all employees"
+          (click)="addAllBalances()">
+          Add All
+        </button>
+      </div>
+    </mat-card-header>
+    <mat-card-content class="fxLayout-column-center">
+      <div class="fxLayout-row-center">
+        <div class="year">YEAR</div>
+        <div class="amounts">Annual Leave</div>
+        <div class="amounts">Carryover</div>
+      </div>
+      <app-site-employee-leave-balance-year *ngFor="let al of balances"
+        [employee]="employee"
+        [annualLeave]="al"
+        (changed)="employeeChanged($event)">
+      </app-site-employee-leave-balance-year>
+      <div class="button">
+        <button mat-raised-button color="accent"
+        (click)="AddLeaveBalance()">Add Year</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

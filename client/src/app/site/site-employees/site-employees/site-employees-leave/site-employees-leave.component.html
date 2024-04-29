@@ -1,0 +1,96 @@
+<div class="flexlayout column topleft">
+  <div class="flexlayout row center">
+    <div class="movement" (click)="updateYear('down')">&lt;&lt;</div>
+    <div class="year">{{this.year}}</div>
+    <div class="movement" (click)="updateYear('up')">&gt;&gt;</div>
+  </div>
+  <form [formGroup]="leaveForm" *ngIf="showLeaveEditor()">
+    <div class="editorLabel">New Leave Editor</div>
+    <div class="flexlayout row center">
+      <div class="formdate">
+        <mat-form-field appearance="fill">
+          <mat-label>New Date</mat-label>
+          <input matInput class="form-field" formControlName="date" [matDatepicker]="picker">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error class="error formerror" 
+            *ngIf="leaveForm.controls['date'].hasError('required')">
+              * Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="code">
+        <mat-form-field appearance="fill">
+          <mat-label>Leave Type</mat-label>
+          <mat-select class="form-field" formControlName="code" >
+            <mat-option *ngFor="let lc of leaveCodes" [value]="lc.id">
+              {{lc.title}}
+            </mat-option>
+          </mat-select>
+          <mat-error class="error formerror" 
+            *ngIf="leaveForm.controls['code'].hasError('required')">
+              * Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="hours">
+        <mat-form-field appearance="fill">
+          <mat-label>Hours</mat-label>
+          <input matInput type="number" class="form-field" 
+            formControlName="hours" step="0.1">
+          <mat-hint>0.0</mat-hint>
+          <mat-error class="error formerror" 
+            *ngIf="leaveForm.controls['hours'].hasError('required')">
+              * Required
+          </mat-error>
+          <mat-error class="error formerror" 
+            *ngIf="leaveForm.controls['hours'].hasError('min')">
+              * &gt; 0.1
+          </mat-error>
+          <mat-error class="error formerror" 
+            *ngIf="leaveForm.controls['hours'].hasError('max')">
+              * &lt;= 12.0
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="status">
+        <mat-form-field appearance="fill">
+          <mat-label>Status</mat-label>
+          <mat-select class="form-field" formControlName="status">
+            <mat-option value="REQUESTED">Requested</mat-option>
+            <mat-option value="APPROVED">Approved</mat-option>
+            <mat-option value="ACTUAL">Actual</mat-option>
+          </mat-select>
+          <mat-error class="error formerror" 
+            *ngIf="leaveForm.controls['status'].hasError('required')">
+              * Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="editorLabel">
+      <button mat-raised-button color="accent" (click)="addLeave()"
+        *ngIf="showAddButton()">
+        Add Leave
+      </button>
+      <button mat-raised-button (click)="clearLeaveForm()">
+        Clear
+      </button>
+    </div>
+  </form>
+  <div class="flexlayout row center">
+    <div class="delete">&nbsp;</div>
+    <div class="date">Leave Date</div>
+    <div class="code">Leave Type</div>
+    <div class="hours">Hours</div>
+    <div class="status">Status</div>
+  </div>
+  <div class="leavebox">
+    <div class="flexlayout column center">
+      <app-site-employees-leave-row *ngFor="let ld of leaveDays"
+      [leaveday]="ld" [employee]="employee"
+      (changed)="updateEmployee($event)"></app-site-employees-leave-row>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,220 @@
+<div class="fxLayout flexlayout column center">
+  <mat-card style="background-color: #673ab7; color: white;">
+    <mat-card-header>
+      <div class="flexlayout row center">
+        <div class="flexlayout column topleft">
+          <div class="headline">
+            Site Certificate of Service Reports Editor
+          </div>
+          <div class="subheadline">Site: {{site.name}}</div>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content style="padding-right: 25px;">
+      <div class="flexlayout row top" style="gap: 20px;">
+        <div class="flexlayout column centertop">
+          <div class="flexlayout row centertop" style="width: 100%;">
+            <h3>CofS Report List</h3>
+            <span class="flex-spacer"></span>
+            <button mat-icon-button color="accent"
+              *ngIf="selected !== 'new' && selected !== ''"
+              (click)="onDeleteReport()"
+              matTooltip="Delete selected forecast report">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <div class="flexlayout row topcenter">
+            <div class="list">
+              <div *ngFor="let item of reports"
+              [class]="getButtonStyle(item.id)"
+              (click)="onSelectReport(item.id)"
+              >{{item.label}}</div>
+            </div>
+          </div>
+          <H4>Certificate of Service Report Editor</H4>
+          <form [formGroup]="reportForm" class="fxLayout-column-center"
+            style="margin-top: 20px;">
+            <div class="formFieldWider">
+              <mat-form-field appearance="fill" class="extraWideField">
+                <mat-label>CofS Report Name</mat-label>
+                <input matInput formControlName="name" (blur)="onChange('name')">
+                <mat-error *ngIf="reportForm.controls['name'].hasError('required')"
+                  class="error">Name Required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="formFieldWider">
+              <mat-form-field appearance="fill" class="extraWideField">
+                <mat-label>Short Name</mat-label>
+                <input matInput formControlName="short" (blur)="onChange('short')">
+                <mat-error *ngIf="reportForm.controls['short'].hasError('required')"
+                  class="error">Short Name Required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="formFieldWider">
+              <mat-form-field appearance="fill" class="extraWideField">
+                <mat-label>Associated Unit</mat-label>
+                <input matInput formControlName="unit" (blur)="onChange('unit')">
+                <mat-error *ngIf="reportForm.controls['unit'].hasError('required')"
+                  class="error">Unit Required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="formFieldWider">
+              <mat-form-field appearance="fill">
+                <mat-label>Report date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate formControlName="start" 
+                    placeholder="Start date" (dateChange)="onChange('start')">
+                  <input matEndDate formControlName="end" 
+                    placeholder="End date" (dateChange)="onChange('end')">
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+                <mat-error *ngIf="reportForm.controls['start'].hasError('required')">Invalid start date</mat-error>
+                <mat-error *ngIf="reportForm.controls['end'].hasError('required')">Invalid end date</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="fxLayout-row-center" style="gap: 10px;">
+              <button mat-raised-button color="accent"
+                *ngIf="this.reportForm.valid && this.selected === 'new'"
+                (click)="onAddReport()">Add</button>
+                <button mat-raised-button color="warn"
+                  *ngIf="this.reportForm.valid && this.selected === 'new'">Clear</button>
+            </div>
+          </form>
+        </div>
+        <div class="flexlayout column centertop" 
+          *ngIf="selected !== 'new'">
+          <div class="flexlayout row center">
+            <div class="flexlayout column center">
+              <h3>Unassigned Companies</h3>
+              <div class="compList">
+                <div *ngFor="let item of compUnassigned"
+                [class]="getUnassignedCompanyStyle(item.id)"
+                (click)="onSelectUnassignedCompany(item.id)"
+                >{{item.label}}</div>
+              </div>
+            </div>
+            <div class="flexlayout column center" style="width: 40px;">
+              <mat-icon class="icon" 
+                *ngIf="compUnassigned.length > 0 && unassignedCompany !== ''"
+                (click)="onChange('addcompany')"
+                >
+                chevron_right
+              </mat-icon>
+              <mat-icon class="icon"
+                *ngIf="compAssigned.length > 0 && assignedCompany !== ''"
+                (click)="onChange('delcompany')"
+                >
+                chevron_left
+              </mat-icon>
+            </div>
+            <div class="flexlayout column center">
+              <h3>Assigned Companies</h3>
+              <div class="flexlayout row center">
+                <div class="compList">
+                  <div *ngFor="let item of compAssigned"
+                  [class]="getAssignedCompanyStyle(item.id)"
+                  (click)="onSelectAssignedCompany(item.id)"
+                  >{{item.label}}</div>
+                </div>
+                <div class="layout-stretch sortdiv">
+                  <div class="layout-top movement"
+                    matTooltip="Change Display Order - Move Up"
+                    (click)="onChangeSort('up')">
+                    <mat-icon *ngIf="showSortUp">arrow_drop_up</mat-icon>
+                  </div>
+                  <div class="layout-bottom movement"
+                    matTooltip="Change Order - Move Down"
+                    (click)="onChangeSort('down')">
+                    <mat-icon *ngIf="showSortDown">arrow_drop_down</mat-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h4>CofS Company Editor</h4>
+          <form [formGroup]="companyForm" 
+            class="flexlayout column center" 
+            style="margin-top:10px;width: 99%;">
+            <div class="formFieldWider">
+              <mat-form-field appearance="fill" class="extraWideField">
+                <mat-label>Company Lead Signature Block</mat-label>
+                <input matInput formControlName="signature" (blur)="onChange('signature')">
+                <mat-error *ngIf="companyForm.controls['signature'].hasError('required')"
+                  class="error">Signature Block Required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="formFieldWide whiteback">
+              <mat-checkbox formControlName="exercises"
+                (click)="onChange('exercises')">
+                Show Exercise Section</mat-checkbox>
+            </div>
+          </form>
+          <div class="flexlayout row center" 
+            *ngIf="assignedCompany !== ''">
+            <div class="flexlayout column center">
+              <h3>Unassigned Labor Codes</h3>
+              <div class="compList">
+                <div *ngFor="let item of laborUnassigned"
+                [class]="getUnassignedLaborStyle(item.id)"
+                (click)="onSelectUnassignedLabor(item.id)"
+                >{{item.label}}</div>
+              </div>
+            </div>
+            <div class="flexlayout column center" style="width: 40px;">
+              <mat-icon class="icon" 
+                *ngIf="laborUnassigned.length > 0 && unassignedLabor !== ''"
+                (click)="onChange('addlabor')"
+                >
+                chevron_right
+              </mat-icon>
+              <mat-icon class="icon"
+                *ngIf="laborAssigned.length > 0 && assignedLabor !== ''"
+                (click)="onChange('dellabor')"
+                >
+                chevron_left
+              </mat-icon>
+            </div>
+            <div class="flexlayout column center">
+              <h3>Assigned Labor Codes</h3>
+              <div class="flexlayout row center">
+                <div class="compList">
+                  <div *ngFor="let item of laborAssigned"
+                  [class]="getAssignedLaborStyle(item.id)"
+                  (click)="onSelectAssignedLabor(item.id)"
+                  >{{item.label}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h4 *ngIf="assignedCompany !== ''">Unlisted Labor Code </h4>
+          <form [formGroup]="laborForm" 
+            class="flexlayout row center"
+            *ngIf="assignedCompany !== ''">
+            <div class="formField">
+              <mat-form-field appearance="fill" class="fieldWidth">
+                <mat-label>Charge Number</mat-label>
+                <input matInput formControlName="chargenumber">
+                <mat-error *ngIf="laborForm.controls['chargenumber'].hasError('required')"
+                  class="error">Charge Number Required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="formField">
+              <mat-form-field appearance="fill" class="fieldWidth">
+                <mat-label>Extension</mat-label>
+                <input matInput formControlName="extension">
+                <mat-error *ngIf="laborForm.controls['extension'].hasError('required')"
+                  class="error">Extension Required</mat-error>
+              </mat-form-field>
+            </div>
+            <button mat-raised-button color="accent"
+              *ngIf="laborForm.valid"
+              (click)="onAddLaborCharge()"
+            >Add</button>
+          </form>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

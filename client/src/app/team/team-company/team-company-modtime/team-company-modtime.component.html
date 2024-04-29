@@ -1,0 +1,50 @@
+<div class="flexlayout column topcenter">
+  <div class="list">
+    <div *ngFor="let item of periods"
+      (click)="onSelect(item.id)"
+      [class]="getButtonClass(item.id)"
+      >{{item.label}}</div>
+  </div>
+  <form [formGroup]="modForm" class="fxLayout flexlayout column center">
+    <div class="formField">
+      <mat-form-field appearance="fill">
+        <mat-label>Mod Period Year</mat-label>
+        <input matInput formControlName="year" type="number"
+          [min]="minYear">
+        <mat-error *ngIf="modForm.controls['year'].hasError('required')"
+        class="error">Required</mat-error>
+        <mat-error *ngIf="modForm.controls['year'].hasError('min')"
+          class="error">Below Current Year</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="formField">
+      <mat-form-field appearance="fill">
+        <mat-label>Start Date</mat-label>
+        <input matInput formControlName="start" [matDatepicker]="startpicker"
+          (dateChange)="onUpdate('start')">
+        <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
+        <mat-datepicker #startpicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="formField">
+      <mat-form-field appearance="fill">
+        <mat-label>End Date</mat-label>
+        <input matInput formControlName="end" [matDatepicker]="endpicker"
+          (dateChange)="onUpdate('end')">
+        <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
+        <mat-datepicker #endpicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="flexlayout row center" *ngIf="selected.year === 0">
+      <button mat-raised-button color="primary"
+        (click)="onAdd()">Add</button>
+      <button mat-raised-button color="warn"
+        (click)="setModPeriod()">Clear</button>
+    </div>
+    <div class="flexlayout row center" *ngIf="selected.year !== 0">
+      <button mat-raised-button color="warn"
+        (click)="onDelete()">Delete</button>
+    </div>
+    <div class="error" *ngIf="dupKeyError">Duplicate Year</div>
+  </form>
+</div>

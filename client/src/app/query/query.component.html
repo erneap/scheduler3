@@ -1,0 +1,52 @@
+<div class="app-container">
+  <div class="flexlayout row topleft" style="gap: 2px;">
+    <div class="flexlayout column top" [style]="getQueryStyle()">
+      <div class="label">Who's Working Query</div>
+      <form [formGroup]="query" class="flexlayout column center">
+        <mat-form-field appearance="fill">
+          <mat-label>Hours for Period</mat-label>
+          <input matInput type="number" formControlName="hours">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Find Specialties</mat-label>
+          <mat-select formControlName="specialties" multiple="true">
+            <mat-option *ngFor="let sp of specialtyTypes" [value]="sp.id">
+              {{sp.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary"
+          (click)="onComplexStart()">
+          Run
+        </button>
+      </form>
+    </div>
+    <div class="flexlayout row topleft" style="gap: 2px;">
+      <div class="flexlayout column center" style="width: 270px;">
+        <div class="label">Working Employees</div>
+        <div class="list" [style]="getListStyle()">
+          <div *ngFor="let emp of employees"
+            [class]="getButtonClass(emp.id)"
+            (click)="onSelect(emp.id)">
+            {{emp.name.getFullName()}} ({{emp.site.toUpperCase()}})
+          </div>
+        </div>
+      </div>
+      <div class="flexlayout column center" style="width: 600px;">
+        <div class="label">Contact Information</div>
+        <ng-container *ngFor="let ct of contactTypes">
+          <div class="item" *ngIf="hasContact(ct.id)">
+            <div class="leftlabel">{{contactLabel(ct.id)}}</div>
+            <div class="rightData">{{contactValue(ct.id)}}</div>
+          </div>
+        </ng-container>
+        <div class="label">Specialties</div>
+        <ng-container *ngFor="let sp of specialtyTypes">
+          <div class="specialty" *ngIf="hasSpecialty(sp.id)">
+            {{sp.name}}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

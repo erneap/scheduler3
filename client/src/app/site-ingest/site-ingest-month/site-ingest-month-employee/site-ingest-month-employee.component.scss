@@ -1,0 +1,27 @@
+.name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 25px;
+  font-size: 12pt;
+  font-weight: bold;
+  border: solid 1px black;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.total {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 25px;
+  font-size: 14pt;
+  font-weight: bold;
+  border: solid 1px black;
+  color: black;
+  margin: 0;
+  padding: 0;
+}

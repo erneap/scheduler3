@@ -1,0 +1,105 @@
+.overall {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 20px;
+  margin: 0;
+  background-color: #673ab7;
+  color: white;
+}
+
+.listLabel {
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  right: 10px;
+  height: 29px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+.list {
+  position: absolute;
+  top: 30px;
+  left: 10px;
+  width: 348px;
+  bottom: 128px;
+  border: solid 1px black;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 348px;
+  height: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: solid 1px black;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
+.item:hover {
+  background-color: lightblue;
+  color: black;
+  border: solid 1px black;
+}
+
+.selected {
+  background-color: #ffcc33;
+  color: black;
+  border: solid 1px white;
+}
+
+.request {
+  position: absolute;
+  top: 30px;
+  left: 370px;
+  bottom: 128px;
+  right: 10px;
+  overflow: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.available {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  height: 115px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.availableLabel {
+  font-size: 12pt;
+  font-weight: bold;
+  color: white;
+}

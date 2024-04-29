@@ -1,0 +1,11 @@
+<div class="day" [style]="getDisplayStyle()">
+  <ng-container *ngIf="ingestType === 'manual'">
+    <form [formGroup]="dayForm">
+      <input formControlName="changevalue" class="dayInput"
+        (blur)="onChange()">
+    </form>
+  </ng-container>
+  <ng-container *ngIf="ingestType !== 'manual'">
+    {{getDisplayValue()}}
+  </ng-container>
+</div>

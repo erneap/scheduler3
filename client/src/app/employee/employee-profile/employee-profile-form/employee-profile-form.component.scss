@@ -1,0 +1,46 @@
+.editor {
+  color: white;
+  font-size: 12pt;
+}
+
+.delete {
+  position: relative;
+  color: pink;
+  font-size: 12pt;
+  cursor: pointer;
+}
+
+.emailinput {
+  position: relative;
+  width: 150px;
+  background-color: white;
+  color: black;
+}
+
+.emaillist {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 200px;
+  height: 100px;
+  overflow-y: auto;
+  background-color: white;
+  color: black;
+}
+
+.selected {
+  background-color: #673ab7;
+  color: white;
+  font-weight: bold;
+}
+
+.item {
+  font-size: 10pt;
+  cursor: pointer;
+}
+
+.error {
+  color: salmon;
+}

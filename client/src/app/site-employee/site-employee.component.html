@@ -1,0 +1,26 @@
+<div class="app-container">
+  <div class="flexlayout column topleft">
+    <div class="list" [style]="getListStyle()">
+      <div *ngFor="let emp of employees"
+        [class]="getButtonClass(emp.id)"
+        (click)="onSelect(emp.id)">
+        {{emp.label}}
+      </div>
+    </div>
+    <div class="activeOnly">
+      <mat-checkbox [(ngModel)]="activeOnly"
+        (change)="setEmployees()">
+        <span style="color: white;">Show Active Only</span>
+      </mat-checkbox>
+    </div>
+    <div class="employee expired">Password Expired</div>
+    <div class="employee locked">Account Locked</div>
+  </div>
+  <app-new-employee [site]="site" *ngIf="selected === 'new'"
+    (siteChanged)="siteUpdated($event)">
+  </app-new-employee>
+  <app-site-employee-editor [site]="site" [employee]="employee"
+    *ngIf="selected !== 'new'" style="width: 100%;"
+    (siteChanged)="siteUpdated($event)">
+  </app-site-employee-editor>
+</div>

@@ -1,0 +1,79 @@
+<div class="flexlayout column top" style="background-color: white;">
+    <div class="flexlayout row center">
+      <div class="list">
+        <div *ngFor="let item of shifts"
+        (click)="onSelectShift(item.id)"
+        [class]="getButtonStyle(item.id)"
+        >{{item.label}}</div>
+      </div>
+      <div class="layout-stretch sortdiv">
+        <div class="layout-top movement"
+          matTooltip="Change Display Order - Move Up"
+          (click)="onChangeSort('up')">
+          <mat-icon *ngIf="showSortUp">arrow_drop_up</mat-icon>
+        </div>
+        <div class="layout-bottom movement"
+          matTooltip="Change Order - Move Down"
+          (click)="onChangeSort('down')">
+          <mat-icon *ngIf="showSortDown">arrow_drop_down</mat-icon>
+        </div>
+      </div>
+      <button mat-icon-button color="warn" *ngIf="selected !== 'new'"
+        (click)="onDeleteShift()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <form [formGroup]="shiftForm" class="fxLayout-column-center"
+      style="margin-top: 15px;">
+      <div class="flexlayout row top" style="gap: 5px;">
+        <mat-form-field *ngIf="selected === 'new'">
+            <mat-label>Shift Identifier</mat-label>
+            <input matInput formControlName="id" (blur)="onChangeField('id')">
+            <mat-error *ngIf="shiftForm.controls['id'].hasError('required')"
+            class="error">Required</mat-error>
+            <mat-error *ngIf="shiftForm.controls['id'].hasError('pattern')"
+            class="error">Check Pattern</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Shift Name/Title</mat-label>
+            <input matInput formControlName="name" (blur)="onChangeField('name')">
+            <mat-error *ngIf="shiftForm.controls['id'].hasError('required')"
+            class="error">Required</mat-error>
+        </mat-form-field>
+        <button mat-icon-button color="accent"
+          *ngIf="showAddButton()"
+          (click)="onAddShift()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <div class="flexlayout row top">
+        <mat-form-field appearance="outline" class="extraWideField"
+        *ngIf="this.selected !== 'new'">
+            <mat-label>Associated Work Codes</mat-label>
+            <mat-select formControlName="associated" multiple
+              (selectionChange)="onChangeField('associated')">
+                <mat-option *ngFor="let wc of workcodes" [value]="wc.id">
+                    {{wc.id}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="flexlayout row top">
+        <mat-form-field appearance="outline" class="formField"
+          *ngIf="this.selected !== 'new'">
+          <mat-label>Pay Code</mat-label>
+          <input matInput formControlName="paycode" 
+            (blur)="onChangeField('paycode')">
+          <mat-hint>(Optional)</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="formField"
+        *ngIf="this.selected !== 'new'">
+          <mat-label>Minimum Working</mat-label>
+          <input type="number" matInput formControlName="minimums"
+            (blur)="onChangeField('minimums')">
+          <mat-error *ngIf="shiftForm.controls['minimums'].hasError('required')"
+            class="error">Required</mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>

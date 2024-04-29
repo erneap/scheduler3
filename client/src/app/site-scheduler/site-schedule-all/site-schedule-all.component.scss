@@ -1,0 +1,44 @@
+.toplevel {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  background-color: #673ab7;
+  color: white;
+}
+
+.calendarDiv {
+  position: absolute;
+  top: 0;
+  left: 0px;
+  right: 0px;
+  bottom: 150px;
+  border-bottom: solid 3px white;
+}
+
+.calendar {
+  position: absolute;
+  top: 36px;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  margin-left: 10px;
+
+  overflow: auto;
+}
+
+.legendDiv {
+  position: absolute;
+  bottom: 0px;
+  height: 149px;
+  left: 0;
+  right: 0;
+}
+
+.labelDiv {
+  font-size: 16pt;
+  font-weight: bold;
+  height: 25px;
+  margin: 5px 10px;
+}

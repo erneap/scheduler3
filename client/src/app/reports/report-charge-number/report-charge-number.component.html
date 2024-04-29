@@ -1,0 +1,25 @@
+<form [formGroup]="reportForm" class="flexlayout column center">
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Associated Company</mat-label>
+            <mat-select formControlName="company">
+                <mat-option *ngFor="let co of companyList" [value]="co.id">
+                    {{co.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Report Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="year">
+            <mat-datepicker-toggle matIconSuffix [for]="picker">
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div> 
+    <div> 
+        <button mat-raised-button color="accent"
+            (click)="onSubmit()">Create</button>
+    </div>
+</form>  

@@ -1,0 +1,18 @@
+.mat-expansion-panel,
+.mat-expansion-panel-header,
+mat-expansion-panel-body {
+  padding: 2px !important;
+  margin: 0 !important;
+}
+
+.mat-expansion-panel,
+.mat-expansion-panel.mat-extended {
+  background-color: white;
+}
+mat-panel-title,
+mat-panel-description {
+  font-size: 1.25em;
+  font-weight: bold;
+  color: black;
+  padding-left: 5px;
+}

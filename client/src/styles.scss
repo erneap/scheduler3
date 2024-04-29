@@ -1,0 +1,257 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.margin-top { margin-top: 16px; }
+.horizontal-padding { margin-left: 16px; margin-right: 16px; }
+.flex-spacer { flex: 1 1 auto; }
+
+.fxLayout {
+    margin-top: 32px;
+}
+
+.flexlayout {
+    display: flex;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.topcenter {
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.centertop {
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.topleft {
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.topright {
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.flexgap {
+    gap: 5px;
+}
+
+.flexwrap {
+    flex-wrap: wrap;
+}
+
+.noflexgap {
+    gap: 0px;
+}
+
+.noflexwrap {
+    flex-wrap: no-wrap;
+}
+
+.fxLayout-column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.fxLayout-column-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.fxLayout-column-topleft {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.fxLayout-row-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+}
+
+.fxLayout-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+}
+
+.fxLayout-row-topcenter {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0;
+}
+
+.fxLayout-row-topright {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0;
+}
+
+.fxLayout-row-topleft {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0;
+}
+
+.standardCard {
+    width: 90%;
+    background-color: #673ab7;
+    color: white;
+}
+
+.formField {
+    margin-right: 3px;
+    width: 178px;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+    margin-right: 5px;
+}
+
+.formFieldWide {
+    margin-right: 3px;
+    width: 250px;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+    margin-right: 5px;
+}
+
+.formFieldWider {
+    margin-right: 3px;
+    width: 350px;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+    margin-right: 5px;
+}
+
+.fieldWidth {
+    width: 175px;
+}
+
+.fieldWidthWide {
+    width: 247px;
+}
+
+.extraWideField {
+    width: 300px;
+}
+
+::ng-deep .spinner-dialog > mat-dialog-container {
+    background-color: var(--background);
+}
+
+.error {
+    color: red;
+}
+
+.headline {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.subheadline {
+    font-size: 16pt;
+    font-weight: bold;
+    color: cyan;
+    margin-bottom: 5px;
+}
+
+.checkbox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 247px;
+    padding: 0;
+    margin: 0;
+    background-color: white;
+}
+
+.remove-mat-expansion-panel-padding {
+    .mat-expansion-panel-content .mat-expansion-panel-body {
+        padding: 0 !important;
+    }
+    .mat-expansion-panel-content .mat-expansion-panel-header {
+        padding: 2px !important;
+    }
+}
+
+.workcenter-container {
+    width: 99%;
+}
+
+.workcenter-container .mat-expansion-indicator::after {
+    height: 5px;
+    width: 5px;
+    color: white;
+}
+
+
+.workcenter-container .mat-expansion-panel,
+.workcenter-container .mat-expansion-panel-header,
+mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+.workcenter-container .mat-expansion-panel-header {
+    background-color: black !important;
+    border-bottom: solid 1px white !important;
+}
+
+.workcenter-container .mat-expansion-panel-header {
+  padding-right: 5px !important;
+  color: white !important;
+}
+
+.workcenter-container .mat-expansion-panel, 
+.workcenter-container .mat-expansion-panel.mat-extended {
+  background-color: gray;
+  border-bottom: solid 1px black;
+}
+
+.mat-sidenav {
+    width: 250px;
+}

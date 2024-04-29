@@ -1,0 +1,30 @@
+<mat-tab-group preserveContent="true" [backgroundColor]="'primary'"
+  style="margin-top: 10px;width: 100%;">
+  <mat-tab label="Team Name">
+    <div style="padding-top: 25px;padding-bottom: 25px;">
+      <form [formGroup]="teamForm">
+        <div class="formFieldWider">
+          <mat-form-field appearance="outline" class="extraWideField">
+            <mat-label>Team Name</mat-label>
+            <input matInput formControlName="name"
+              (blur)="onUpdate()">
+            <mat-error *ngIf="teamForm.controls['name'].hasError('required')"
+              class="error">Required</mat-error>
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+  </mat-tab>
+  <mat-tab label="Team Work Codes">
+    <app-team-workcodes [team]="team"></app-team-workcodes>
+  </mat-tab>
+  <mat-tab label="Team Companies">
+    <app-team-company [team]="team"></app-team-company>
+  </mat-tab>
+  <mat-tab label="Team Contact Types">
+    <app-team-contact-list [team]="team"></app-team-contact-list>
+  </mat-tab>
+  <mat-tab label="Team Specialty Types">
+    <app-team-specialties-list [team]="team"></app-team-specialties-list>
+  </mat-tab>
+</mat-tab-group>

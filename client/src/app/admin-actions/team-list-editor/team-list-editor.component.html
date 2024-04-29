@@ -1,0 +1,21 @@
+<div class="app-container">
+  <div class="flexlayout column center">
+    <div class="list">
+      <div *ngFor="let tm of teamList"
+        [class]="getButtonClass(tm.id)"
+        (click)="onSelect(tm.id)">
+        {{tm.label}}
+      </div>
+    </div>
+  </div>
+  <div *ngIf="selected !== 'new'">
+    <button mat-icon-button color="warn"
+      (click)="onDelete()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <app-new-team *ngIf="selected === 'new'" (added)="changed($event)">
+  </app-new-team>
+  <app-team-editor [team]="team" *ngIf="selected !== 'new'"
+    (changed)="changed($event)"></app-team-editor>
+</div>

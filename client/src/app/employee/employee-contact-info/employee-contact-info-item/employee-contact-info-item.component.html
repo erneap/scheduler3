@@ -1,0 +1,8 @@
+<form [formGroup]="form" class="overall">
+  <div class="typeText" [style]="contactStyle()">
+    {{contacttype.name}}
+  </div>
+  <input class="typeInput" (blur)="updateContactType()"
+    [style]="contactStyle()"
+    formControlName="itemValue">
+</form> 

@@ -1,0 +1,63 @@
+<div class="flexlayout column top" style="background-color: white;">
+  <div class="flexlayout row center">
+    <div class="list">
+      <div *ngFor="let item of positions"
+      (click)="selectPosition(item.id)"
+      [class]="getButtonStyle(item.id)"
+      >{{item.label}}</div>
+    </div>
+    <div class="layout-stretch sortdiv">
+      <div class="layout-top movement"
+        matTooltip="Change Display Order - Move Up"
+        (click)="onChangeSort('up')">
+        <mat-icon *ngIf="showSortUp">arrow_drop_up</mat-icon>
+      </div>
+      <div class="layout-bottom movement"
+        matTooltip="Change Order - Move Down"
+        (click)="onChangeSort('down')">
+        <mat-icon *ngIf="showSortDown">arrow_drop_down</mat-icon>
+      </div>
+    </div>
+    <button mat-icon-button color="warn" *ngIf="selected !== 'new'"
+      (click)="onDeletePosition()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <form [formGroup]="shiftForm" class="fxLayout-column-center"
+      style="margin-top: 15px;">
+      <div class="flexlayout row top" style="gap: 5px;">
+        <mat-form-field *ngIf="selected === 'new'">
+            <mat-label>Position Identifier</mat-label>
+            <input matInput formControlName="id" >
+            <mat-error *ngIf="shiftForm.controls['id'].hasError('required')"
+            class="error">Required</mat-error>
+            <mat-error *ngIf="shiftForm.controls['id'].hasError('pattern')"
+            class="error">Check Pattern</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Position Name/Title</mat-label>
+            <input matInput formControlName="name" 
+            (blur)="onChangePosition('name')">
+            <mat-error *ngIf="shiftForm.controls['id'].hasError('required')"
+            class="error">Required</mat-error>
+        </mat-form-field>
+        <button mat-icon-button color="accent" 
+          *ngIf="showAddButton()"
+          (click)="onAddPosition()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <div class="flexlayout row top">
+        <mat-form-field appearance="outline" class="extraWideField"
+        *ngIf="this.selected !== 'new'">
+            <mat-label>Assigned Employees</mat-label>
+            <mat-select formControlName="assigned" multiple
+              (selectionChange)="onChangePosition('assigned')">
+                <mat-option *ngFor="let emp of employees" [value]="emp.id">
+                    {{emp.name.getLastFirst()}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+  </form>
+</div>

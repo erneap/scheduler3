@@ -1,0 +1,19 @@
+<div class="row">
+  <div [class]="getStyle('name', this.count, 0.0)">
+    {{employee.name.getLastFirst()}}
+  </div>
+  <div [class]="getStyle('balance', this.count, 0.0)">
+    {{getTotalValue()}}
+  </div>
+  <ng-container *ngFor="let month of months">
+    <div [class]="getStyle('total', this.count, getValue(month.startDate(), month.endDate()))">
+      {{getValue(month.startDate(), month.endDate()).toFixed(1)}}
+    </div>
+    <ng-container *ngIf="month.expand">
+      <div *ngFor="let prd of month.weeks" 
+        [class]="getStyle('cell', count, getValue(prd.start, prd.end))">
+        {{getValue(prd.start, prd.end)}}
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

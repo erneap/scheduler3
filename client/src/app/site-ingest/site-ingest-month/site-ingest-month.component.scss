@@ -1,0 +1,73 @@
+.name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 25px;
+  font-size: 12pt;
+  font-weight: bold;
+  border: solid 1px white;
+}
+
+.total {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 25px;
+  font-size: 14pt;
+  font-weight: bold;
+  border: solid 1px white;
+}
+
+.day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 25px;
+  font-size: 14pt;
+  font-weight: bold;
+  border: solid 1px white;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.movement {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 25px;
+  font-size: 14pt;
+  font-weight: bold;
+  border: solid 1px white;
+  color: white;
+  background-color: #673ab7;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.month {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  font-size: 16pt;
+  font-weight: bold;
+  border: solid 1px white;
+  color: white;
+  background-color: #673ab7;
+  margin: 0;
+  padding: 0;
+}
+
+.employee:nth-child(even) {
+  background-color: white;
+}
+
+.employee:nth-child(odd) {
+  background-color: #99ccff;
+}

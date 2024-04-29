@@ -1,0 +1,73 @@
+
+<form [formGroup]="compInfoForm" class="flexlayout column topleft" 
+  style="margin-top: 10px;">
+  <div class="fxLayout-column-center" style="margin-top: 10px;">
+    <div class="fxLayout-row-center">
+      <div class="formFieldWide">
+        <mat-form-field class="fieldWidthWide">
+          <mat-label>Company</mat-label>
+          <mat-select formControlName="company"
+            (selectionChange)="updateCompanyInfo('company')">
+            <mat-option *ngFor="let co of companies"
+              [value]="co.id">{{co.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="this.compInfoForm.get('last')?.hasError('required')"
+          class="error">Required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="formField">
+        <mat-form-field class="fieldWidth">
+          <mat-label>Employee ID</mat-label>
+          <input matInput formControlName="employeeid"
+            (blur)="updateCompanyInfo('employeeid')">
+          <mat-hint>Company Employee ID</mat-hint>
+          <mat-error *ngIf="this.compInfoForm.get('employeeid')?.hasError('required')"
+            class="error">Required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="formField">
+        <mat-form-field class="fieldWidth">
+          <mat-label>Alternate ID</mat-label>
+          <input matInput formControlName="alternateid"
+            (blur)="updateCompanyInfo('alternateid')">
+          <mat-hint>Optional</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="fxLayout-row-center">
+      <div class="formField">
+        <mat-form-field class="fieldWidth">
+          <mat-label>Job Title</mat-label>
+          <input matInput formControlName="jobtitle"
+            (blur)="updateCompanyInfo('jobtitle')">
+          <mat-error *ngIf="this.compInfoForm.get('jobtitle')?.hasError('required')"
+            class="error">Required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="formField">
+        <mat-form-field class="fieldWidth">
+          <mat-label>Rank/Grade</mat-label>
+          <input matInput formControlName="rank"
+            (blur)="updateCompanyInfo('rank')">
+          <mat-hint>Optional</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="formField">
+        <mat-form-field class="fieldWidth">
+          <mat-label>Cost Center</mat-label>
+          <input matInput formControlName="costcenter"
+            (blur)="updateCompanyInfo('costcenter')">
+          <mat-hint>Optional</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="formField">
+        <mat-form-field class="fieldWidth">
+          <mat-label>Division</mat-label>
+          <input matInput formControlName="division"
+            (blur)="updateCompanyInfo('division')">
+          <mat-hint>Optional</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</form>

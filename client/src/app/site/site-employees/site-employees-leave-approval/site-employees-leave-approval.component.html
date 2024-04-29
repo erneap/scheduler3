@@ -1,0 +1,19 @@
+<div class="overall">
+  <div class="listLabel">Unapproved Leaves</div>
+  <div class="list">
+    <div [class]="getButtonClass(item.id)" *ngFor="let item of requests"
+      (click)="onSelect(item.id)">
+      {{item.label}}
+    </div>
+  </div>
+  <div class="request">
+    <app-leave-request-editor [employee]="requestEmployee" [request]="request"
+      [width]="requestWidth">
+    </app-leave-request-editor>
+  </div>
+  <div class="available">
+    <div class="availableLabel">
+      Shift Availability (Dates reflect as if the request is approved)
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+.mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
+  height: 20px;
+}
+
+.list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 350px;
+  margin: 0;
+  padding: 0;
+}

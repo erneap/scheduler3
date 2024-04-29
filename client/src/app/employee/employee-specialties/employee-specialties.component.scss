@@ -1,0 +1,55 @@
+.typeText {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  background-color: darkblue;
+  color: white;
+  font-weight: bold;
+  border: none;
+}
+
+.list {
+  text-align: center;
+  vertical-align: top;
+  background-color: white;
+  color: black;
+  padding: 0;
+  margin: 0;
+  height: 600px;
+  border: solid 1px white;
+  overflow-y: auto;
+}
+
+.employee {
+  display: flex;
+  min-height: 30px !important;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.selected {
+  background-color: #673ab7;
+  color: white;
+  border: solid 1px white;
+}
+
+.employee:hover {
+  background-color: lightblue;
+  color: black;
+  border: solid 1px black;
+}
+
+.moveGap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.icon {
+  cursor: pointer;
+}

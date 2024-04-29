@@ -1,0 +1,22 @@
+<div class="flexlayout column topcenter">
+  <h3>Selected Report Periods</h3>
+  <div class="flexlayout row center">
+    <div class="list" [style]="getListHeight()">
+      <div *ngFor="let item of periods"
+      [class]="getButtonStyle(item.id)"
+      (click)="selectPeriod(item.id)"
+      >{{item.label}}</div>
+    </div>
+  </div>
+  <div class="moveLabel">
+    Shift Week From Selected Month
+  </div>
+  <div class="flexlayout row center">
+    <div class="movePeriod back" (click)="onMovePeriod('back')">
+      &lt; First Week 
+    </div>
+    <div class="movePeriod forward" (click)="onMovePeriod('forward')">
+      Last Week &gt;
+    </div>
+  </div>
+</div>

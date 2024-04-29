@@ -1,0 +1,15 @@
+<div class="toplevel">
+  <div class="calendarDiv flexlayout column topleft">
+    <div class="labelDiv flexlayout row left">Site Schedule</div>
+    <div class="calendar">
+      <app-site-schedule-month></app-site-schedule-month>
+    </div>
+  </div>
+  <div class="legendDiv flexlayout column topleft">
+    <div class="labelDiv flexlayout row left">Code Legend</div>
+    <div class="calendar">
+      <app-site-ingest-month-legend [leavecodes]="leavecodes">
+      </app-site-ingest-month-legend>
+    </div>
+  </div>
+</div>

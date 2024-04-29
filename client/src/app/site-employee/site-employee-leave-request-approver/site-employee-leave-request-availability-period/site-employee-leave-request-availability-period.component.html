@@ -1,0 +1,14 @@
+<div class="flexlayout column center">
+  <div>(Coverage if leave request approved)</div>
+  <div style="font-size: 16pt;">{{workcenterTitle}}</div>
+  <div class="flexlayout row center">
+    <div class="title">Shift</div>
+    <div *ngFor="let day of dates" class="day">
+      {{day.getDate()}}
+    </div>
+  </div>
+  <app-site-employee-leave-request-availability-shift
+    *ngFor="let s of shifts" [site]="site" [workcenter]="workcenter"
+    [shift]="s" [request]="request"
+    [employee]="employee"></app-site-employee-leave-request-availability-shift>
+</div>

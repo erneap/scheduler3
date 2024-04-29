@@ -1,0 +1,29 @@
+<div class="fxLayout-column-center">
+  <div class="fxLayout-row-center">
+    <div class="movement" [style]="getMoveStyle()"
+      (click)="changeMonth('down', 'year')">&lt;&lt;</div>
+    <div class="movement"  [style]="getMoveStyle()"
+    (click)="changeMonth('down', 'month')">&lt;</div>
+    <div class="month" [style]="getMonthStyle()">{{monthLabel}}</div>
+    <div class="movement"  [style]="getMoveStyle()"
+    (click)="changeMonth('up', 'month')">&gt;</div>
+    <div class="movement"  [style]="getMoveStyle()"
+    (click)="changeMonth('up', 'year')">&gt;&gt;</div>
+  </div>
+  <div class="fxLayout-row-center">
+    <div class="daycell weekend" [style]="getDayStyle()">SUN</div>
+    <div class="daycell weekday" [style]="getDayStyle()">MON</div>
+    <div class="daycell weekday" [style]="getDayStyle()">TUE</div>
+    <div class="daycell weekday" [style]="getDayStyle()">WED</div>
+    <div class="daycell weekday" [style]="getDayStyle()">THU</div>
+    <div class="daycell weekday" [style]="getDayStyle()">FRI</div>
+    <div class="daycell weekend" [style]="getDayStyle()">SAT</div>
+  </div>
+  <ng-container *ngFor="let week of workweeks">
+    <div class="fxLayout-row-center">
+      <app-employee-schedule-day *ngFor="let day of week.getWorkdays()"
+        [workday]="day" [month]="month" [width]="getCellWidth()"
+        [workcenters]="workcenters"></app-employee-schedule-day>
+    </div>
+  </ng-container>
+</div>

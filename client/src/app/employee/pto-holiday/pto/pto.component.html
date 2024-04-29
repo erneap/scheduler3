@@ -1,0 +1,30 @@
+<div class="flexlayout column center">
+  <div class="label" [style]="getLabelStyle()">Leaves</div>
+  <div class="flexlayout row center">
+    <div class="code" [style]="getMonthStyle()">Month</div>
+    <div class="dates" [style]="getDatesStyle()">
+      Dates Taken <span style="color: #3399ff;">(Projected)</span>
+    </div>
+    <div class="actual" [style]="getMonthStyle()">Taken</div>
+    <div class="requested" [style]="getMonthStyle()">Project</div>
+  </div>
+  <app-pto-month *ngFor="let lm of leaveMonths" [leaveMonth]="lm"
+    [width]="width">
+  </app-pto-month>
+  <ng-container *ngIf="annual > 0.0">
+    <div class="flexlayout row center">
+      <div class="bottomlabel" [style]="getTotalsStyle()">Annual</div>
+      <div class="bottomlabel" [style]="getTotalsStyle()">Carryover</div>
+      <div class="bottomlabel" [style]="getTotalsStyle()">Taken</div>
+      <div class="bottomlabel" [style]="getTotalsStyle()">Projected</div>
+      <div class="bottomlabel" [style]="getTotalsStyle()">Balance</div>
+    </div>
+    <div class="flexlayout row centerr">
+      <div class="bottomdata" [style]="getTotalsStyle()">{{annual.toFixed(1)}}</div>
+      <div class="bottomdata" [style]="getTotalsStyle()">{{carryover.toFixed(1)}}</div>
+      <div class="bottomdata" [style]="getTotalsStyle()">{{actual.toFixed(1)}}</div>
+      <div class="bottomdata" [style]="getTotalsStyle()">{{requested.toFixed(1)}}</div>
+      <div [class]="balanceStyle" [style]="getTotalsStyle()">{{balance.toFixed(1)}}</div>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,54 @@
+<div class="overall">
+  <div class="columns">
+    <div class="name" [style]="nameCellStyle(undefined)">&nbsp;</div>
+    <div class="name" [style]="nameCellStyle(undefined)">NAME</div>
+    <ng-container *ngIf="workcenter.positions && workcenter.positions.length > 0">
+      <ng-container *ngFor="let pos of workcenter.positions">
+        <ng-container *ngIf="pos.employees && pos.employees.length > 0">
+          <div class="name" [style]="nameCellStyle(emp)" 
+            *ngFor="let emp of pos.employees">
+            {{emp.name.getLastFirst()}}
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="workcenter.shifts && workcenter.shifts.length > 0">
+      <ng-container *ngFor="let pos of workcenter.shifts">
+        <ng-container *ngIf="pos.employees && pos.employees.length > 0">
+          <div class="name" [style]="nameCellStyle(emp)" 
+            *ngFor="let emp of pos.employees">
+            {{emp.name.getLastFirst()}}
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+  <div class="columns overflowx" [style]="daysStyle()">
+    <!-- the first two rows of this section are the date headers of date 
+      number and weekday for the date -->
+    <app-site-schedule-month-days [workcodes]="workcodes" [dates]="monthDays"
+      [viewtype]="'label'" [width]="width"></app-site-schedule-month-days>
+    <app-site-schedule-month-days [workcodes]="workcodes" [dates]="monthDays"
+      [viewtype]="'day'" [width]="width"></app-site-schedule-month-days>
+    <ng-container *ngIf="workcenter.positions && workcenter.positions.length > 0">
+      <ng-container *ngFor="let pos of workcenter.positions">
+        <ng-container *ngIf="pos.employees && pos.employees.length > 0">
+          <app-site-schedule-month-days [workcodes]="workcodes" 
+            [dates]="monthDays" [viewtype]="(emp.even) ? 'even' : 'odd'" 
+            *ngFor="let emp of pos.employees" [employee]="emp" [width]="width">
+          </app-site-schedule-month-days>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="workcenter.shifts && workcenter.shifts.length > 0">
+      <ng-container *ngFor="let pos of workcenter.shifts">
+        <ng-container *ngIf="pos.employees && pos.employees.length > 0">
+          <app-site-schedule-month-days [workcodes]="workcodes" 
+            [dates]="monthDays" [viewtype]="(emp.even) ? 'even' : 'odd'" 
+            *ngFor="let emp of pos.employees" [employee]="emp" [width]="width">
+          </app-site-schedule-month-days>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+.typeText {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  background-color: darkblue;
+  color: white;
+  font-weight: bold;
+  border: solid 1px white;
+}
+
+.typeInput {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+  background-color: darkblue;
+  color: white;
+  border: solid 1px white;
+}

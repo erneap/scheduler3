@@ -1,0 +1,14 @@
+<div style="margin: 10px;">
+  <mat-tab-group preserveContent="true" backgroundColor="primary">
+    <mat-tab label="Forecast Report Editor">
+      <app-site-forecast-report-editor [site]="site"
+        (siteChanged)="onChangedSite($event)">
+      </app-site-forecast-report-editor>
+    </mat-tab>
+    <mat-tab label="CofS Editor">
+      <app-site-cofs-report-editor
+      [site]="site"
+      ></app-site-cofs-report-editor>
+    </mat-tab>
+  </mat-tab-group>
+</div>

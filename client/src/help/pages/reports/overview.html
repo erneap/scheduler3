@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Scheduler Assistance</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <h1>Report Creation Overview</h1>
+  <hr>
+  <p>
+    A single page is provided to create report output of the requested type.  
+    Depending on the report type, additional data, such as month and year will 
+    be required to provide the necessary limits to the report.  All current 
+    reports are for site level output.
+  </p>
+  <p>Output type - The output format will either be an Microsoft Excel formatted 
+    file or a zip file with several subordinate files included in it.  All 
+    outputs will be named as the &lt;team&gt;-&lt;site&gt;-&lt;report type&gt; 
+    and will be downloaded for use.
+  </p>
+  <ol class="level1">
+    <li>
+      <b>Team Schedule</b> - The team schedule is a site-specific report of the 
+      site's schedule by workcenter for the entire requested year.  The report 
+      is prepared in Excel-based file with a separate worksheet for each month 
+      within the year.  Each site's employee is shown in their respective 
+      workcenter ordered by position and/or shift.
+    </li>
+    <li>
+      <b>PTO/Holiday</b> - The PTO/Holiday report is site- and company-specific 
+      report of the site/company's employees, listed in alphabetic order by name, 
+      showing their holiday (if company has holidays) and PTO/Other leave taken 
+      during the calendar year.  This report is Excel-based with a worksheet for:
+      <ol class="level2">
+        <li>Employee Holidays and Leave Projection/Use</li>
+        <li>Lists by Month or each Employee's Leave Usage, listing all 
+          employees in alphabetical order</li>
+        <li>Lists by Month of each employee's leave usage, but only those 
+          employees that actual used leave or holiday time.
+        </li>
+      </ol>
+    </li>
+    <li>
+      <b>Charge Number Status</b> - This report shows the site's contract hours 
+      accomplishment, displaying the hours actually used or projected.  It is 
+      provided in Excel-based format.  It will include worksheets for:
+      <ol class="level2">
+        <li><b>Statistics Sheet</b> - This sheet provides an overview of the 
+          site's actual/forecast accomplishment of work hours by charge number 
+          and extension.  It uses the data from the other sheets to fill the 
+          matrix.  It readily shows the overrun (over total contract hours)/ 
+          underrun (under total contract hours) to site and other leadership.
+        </li>
+        <li>
+          <b>Forecast Report Sheets</b> - These are two sheets per forecast 
+          report definition for actual hours or for actual/forecast hours.  It
+          shows each employee assigned to a particular charge number/extension 
+          in alphabetical order, then by name in alphabetical order.  One sheet 
+          will contain only actual hours derived by the ingest and the other 
+          sheet will contain buth actual and forecast hours.  Forecast is based 
+          on hours to be worked (non-leave) during the period, if they are 
+          assigned to the charge number/extension.  Each month is separated into 
+          sections (outlines) to be collapsed manually.
+        </li>
+      </ol>
+    </li>
+    <li>
+      <b>Mid-Shift Rotation</b> - For sites that don't have a permanent mid-shift 
+      and require mid-shift coverage, the site can assigned individuals on a 
+      rotational basis.  This report provides a listing of the site's rotation 
+      list by date each year.  The report is Excel-based and provides sheets for 
+      the current year, plus any future years already scheduled.
+    </li>
+    <li>
+      <b>Certificate of Service</b> - This report is for a single designated 
+      month/year.  The download output is zip-based file of XML files for each 
+      defined Certificate of Service report. (See Site Editor for CofS Definitions). 
+      The XML-Based files should be used to fill in the data for the various 
+      PDF file provided by team leadership.
+    </li>
+  </ol>
+  <p class="bottomNav">
+    <a href="">Purging Old Data</a>
+    <a href="./report.html">Creating a Report</a>
+  </p>
+</body>
+</html>

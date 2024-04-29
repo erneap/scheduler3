@@ -1,0 +1,23 @@
+<div class="app-container">
+  <div class="flexlayout column center">
+    <div class="list">
+      <div *ngFor="let site of sites"
+        [class]="getButtonClass(site.id)"
+        (click)="onSelect(site.id)">
+        {{site.label}}
+      </div>
+    </div>
+  </div>
+  <app-new-site *ngIf="selected === 'new'"
+    (added)="onAdd($event)"></app-new-site>
+  <mat-tab-group [backgroundColor]="'accent'" *ngIf="selected !== 'new'"
+    style="width: 100%;">
+    <mat-tab label="Site Editor">
+      <app-site [site]="site"></app-site>
+    </mat-tab>
+    <mat-tab label="Site Employee Editor">
+      <app-team-site-employee-editor [site]="site" style="width: 100%;">
+      </app-team-site-employee-editor>
+    </mat-tab>
+  </mat-tab-group>
+</div>

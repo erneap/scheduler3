@@ -1,0 +1,35 @@
+.requestDate {
+  background-color: white;
+  color: #673ab7;
+}
+
+.requestDateLabel {
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+.mat-date-range-input-inner {
+  color: black !important;
+}
+
+.label {
+  width: 90px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: solid 1px white;
+  text-align: center;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 25px;
+  max-height: 100px;
+  overflow: auto;
+  font-size: 1rem;
+  margin: 0;
+  padding: 1px 3px;
+  border: solid 1px white;
+}

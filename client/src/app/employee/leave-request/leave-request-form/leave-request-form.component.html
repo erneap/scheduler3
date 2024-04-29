@@ -1,0 +1,25 @@
+<div [class]="viewClass()">
+  <div class="flexlayout column topleft">
+    <div class="flexlayout column center">
+      <h3>Current Leave Requests</h3>
+      <div class="list" [style]="listStyle()">
+        <div class="employee" (click)="setSelected('new')">
+          Add New Request
+        </div>
+        <div *ngFor="let item of currentLeaveRequests" 
+          [class]="getButtonClass(item.id)"
+          (click)="setSelected(item.id)">
+          {{getDateString(item.startdate)}} - {{getDateString(item.enddate)}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-leave-request-editor [employee]="employee" 
+    [request]="currentLeaveRequest" (changed)="changedEmployee($event)">
+  </app-leave-request-editor>
+</div>
+<div class="flexlayout row center flexwrap" style="margin-top: 10px;">
+  <div class="legend" *ngFor="let wc of leaveList" [style]="legendStyle(wc)">
+    {{wc.id.toUpperCase()}} - {{wc.title}}
+  </div>
+</div>

@@ -1,0 +1,22 @@
+.dayInput {
+  font-size: 12pt;
+  font-weight: bold;
+  border: none;
+  width: 31px;
+  text-align: center;
+  background-color: transparent;
+  color: inherit;
+}
+
+.day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 25px;
+  font-size: 12pt;
+  font-weight: bold;
+  border: solid 1px black;
+  margin: 0;
+  padding: 0;
+}

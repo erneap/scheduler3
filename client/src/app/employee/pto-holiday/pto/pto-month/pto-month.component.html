@@ -1,0 +1,15 @@
+<div class="fxLayout-row-center">
+  <div class="month" [style]="getMonthStyle()">
+    {{months[leaveMonth.month.getMonth()]}}</div>
+  <div [class]="getStyle('dates')" [style]="getDatesStyle()">
+    <ng-container *ngFor="let lvs of leaveMonth.leaveGroups; index as i">
+      <app-pto-month-dates-display [leaves]="lvs.leaves">
+      </app-pto-month-dates-display>
+      <ng-container *ngIf="i < (leaveMonth.leaveGroups.length - 1)">, </ng-container>
+    </ng-container>
+  </div>
+  <div [class]="getStyle('actual')" [style]="getMonthStyle()">
+    {{getActualHours()}}</div>
+  <div [class]="getStyle('requested')" [style]="getMonthStyle()">
+    {{getProjectedHours()}}</div>
+</div>

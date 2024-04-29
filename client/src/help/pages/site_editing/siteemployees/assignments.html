@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Employee Profile</title>
+  <link rel="stylesheet" href="../../../styles.css" />
+</head>
+<body>
+  <h1>Editing Employee's Assignment List</h1>
+  <p class="role">(Site Scheduler/Leadership only)</p>
+
+  <p>
+    An assignment is the normal work schedule for any employee between a period
+    of time.  A variation is a temporary change to an assignment, so before and 
+    after the variation period the employee will return to their current 
+    assignment.
+  </p>
+
+  <p><span class="importantNote">When you created a new employee, he/she was 
+    automatically assigned to your site through the use of an assignment 
+    record.  During the New Employee process, you were asked when they 
+    started, this will be the date of the first assignment.  When an employee 
+    is transfered to another site, within the contract,  you will create a new 
+    assignment record with the date they arrive there.
+  </span></p>
+
+  <h2>New Assignment</h2>
+
+  <p><span class="importantNote">You will use a "New Assignment" whenever the 
+    employee transfers to a different site, changes work assignment (shift 
+    and/or workcenter). This allows the individual to continue to be assigned 
+    in the schedule at their current work assignment, then the schedule will 
+    smoothly transition to the new assignment.
+  </span></p>
+
+  <img src="./images/employee_newasgmt.png">
+
+  <ol class="level1">
+    <li>Click on the "Work Related" tab at the top of the view</li>
+    <li>Click on the "Assignments" tab below the previous.</li>
+    <li>
+      Select "New Assignment" in the "Select Assignment selector.  You will be
+      presented with two fields below the selector
+    </li>
+    <li>Select their assigned workcenter.</li>
+    <li>Click the calendar icon on the right of the "Assignment Start" field to 
+      display a calendar, then choose the date the individual started/starts.
+    </li>
+    <li>Click the "Add" button to add the assignment.  The assigment will be 
+      added to the employee's record at this time and the display will change
+      to edit the employee.
+    </li>
+  </ol>
+
+  <h2>Edit an Assignment</h2>
+
+  <img src="./images/employee_asgmt_edit.png">
+
+  <ol class="level1">
+    <li>Click on the "Work Related" tab at the top of the view</li>
+    <li>Click on the "Assignments" tab below the previous.</li>
+    <li>
+      Select the employees current assignment in the "Select Assignment selector. 
+    </li>
+    <li>(if necessary) Select their assigned workcenter.</li>
+    <li>(if necessary) Click the calendar icon on the right of the "Assignment Start" field to 
+      display a calendar, then choose the date the individual started/starts.
+    </li>
+    <li><span class="importantNote">(if the individual is leaving the site and 
+      the contract)</span> Click the 
+      calendar icon on the right of the "Assignement End Date" field to display 
+      a calendar, then choose their last day of work on this assignment.
+    </li>
+    <li>Scheduling:  The individual is normally assigned to a schedule period of 
+      some multiple of 7 days (7, 14, 21, 28,...) and they may be assigned 
+      multiple schedules that rotate every ? number of days (multiple of 7).  
+      when the automatic schedule is created, it creates a single schedule 
+      period of 7 days with the individual working Monday through Friday, day 
+      shift.
+    </li>
+    <ol class="level2">
+      <li>Add another schedule for rotation</li>
+      <img src="./images/employee_second_schedule_edit.png">
+      <ol class="level3">
+        <li>Click the "+" button next to the "Select Schedule" field.  This 
+          will create a second blank schedule of seven days, but not display it.
+        </li>
+        <li>Select "Schedule 1" or other schedule for editing.</li>
+        <li>Click the calendar icon on the right of "Rotation Date" field to 
+          set the base date for the rotation.  Please use a Sunday as a base 
+          date.
+        </li>
+        <li>Select the number of days to base the rotation on in the "Rotation 
+          Days" field.  You will be allowed to select 28 - 336 days.
+        </li>
+        <li>
+          To the right of the Schedule label (Dark blue), select the number of 
+          days in the schedule.  You can choose 7, 14, 21 or 28.  It defaults to 7.  
+        </li>
+        <li>The schedule days are numbered 0 to one less than the number of days 
+          in the schedule.  In each day:  if day off, ensure all fields are blank,
+          for workday, select the shift, workcenter and humber of hours worked 
+          on that day.
+        </li>
+      </ol>
+      <li>Remove a schedule <span class="importantNote">You can't remove 
+        Schedule 0.</span></li>
+      <ol class="level3">
+        <li>Select the schedule you want to remove.</li>
+        <li>Click on the red trash can icon to the left of the schedule label.</li>
+        <li>You will be asked to confirm the deletion.  Click "Yes" if you want
+          to continue.
+        </li>
+      </ol>
+      <li>Change the schedule's period</li>
+      <ol class="level3">
+        <li>Select the schedule you want to change</li>
+        <li>Select the number of days in the schedule in the field to the right 
+          of the schedule label. You will be able to select 7, 14, 21 or 28 days.
+        </li>
+        <li>The schedule days are numbered 0 to one less than the number of days 
+          in the schedule.  In each day:  if day off, ensure all fields are blank,
+          for workday, select the shift, workcenter and humber of hours worked 
+          on that day.</li>
+      </ol>
+      <li>Adjust a single workday in the assignment</li>
+      <ol class="level3">
+        <li>If day off:  ensure all fields in that day are empty/blank.</li>
+        <li>If workday: Select the shift worked, workcenter and number of hours 
+          to be worked on that day.
+        </li>
+      </ol>
+    </ol>
+    <li>(if applicable) Select the employee's primary work charge 
+      numbers/extensions.  Companies that don't have work charge numbers use 
+      a different method of recording work performed based on workcenter and 
+      year of work to replace the charge number/extension combination.
+    </li>
+  </ol>
+    
+  <p class="bottomNav">
+    <a href="companyinfo.html">Updating Employee Company Info</a>
+    <a href="variations.html">Variation Editing</a>
+  </p>
+</body>
+</html>

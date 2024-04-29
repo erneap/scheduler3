@@ -1,0 +1,54 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 42px;
+  font-size: 1em;
+  font-weight: bold;
+  border: solid 1px white;
+  color: black;
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 20px;
+  font-size: 1em;
+  font-weight: bold;
+  border: solid 1px white;
+}
+
+.month {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  font-size: 1em;
+  font-weight: bold;
+  border: solid 1px white;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.bkg {
+  background-color: black;
+  color: white;
+}
+
+.prdbkg {
+  background-color: darkgray;
+  color: white;
+}

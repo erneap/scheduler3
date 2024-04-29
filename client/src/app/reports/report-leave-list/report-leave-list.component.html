@@ -1,0 +1,8 @@
+<form [formGroup]="reportForm" class="flexlayout column center">
+    <mat-form-field appearance="fill">
+        <mat-label>Schedule Year</mat-label>
+        <input matInput type="number" formControlName="year">
+    </mat-form-field>
+    <button mat-raised-button color="accent"
+        (click)="onSubmit()">Create</button>
+</form>  

@@ -1,0 +1,61 @@
+<mat-tab-group preserveContent="true" [backgroundColor]="'primary'"
+  style="margin-top: 10px;width: 100%;">
+  <mat-tab label="Leave Information">
+    <mat-tab-group preserveContent="true">
+      <mat-tab label="PTO/Holidays List">
+        <app-site-pto-holiday [employee]="employee"></app-site-pto-holiday>
+      </mat-tab>
+      <mat-tab label="Leaves">
+        <app-site-employee-leave [employee]="employee"
+        (changed)="employeeChanged($event)"></app-site-employee-leave>
+      </mat-tab>
+      <mat-tab label="Leave Balances">
+        <app-site-employee-leave-balance [employee]="employee"
+          [site]="site"
+          (changed)="employeeChanged($event)"></app-site-employee-leave-balance>
+      </mat-tab>
+      <mat-tab label="Leave Requests">
+        <app-site-employee-leave-request [employee]="employee"
+          (changed)="employeeChanged($event)"></app-site-employee-leave-request>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-tab>
+  <mat-tab label="Personal/Company">
+    <mat-tab-group preserveContent="true">
+      <mat-tab label="Personal Information">
+        <app-site-employee-profile [employee]="employee"
+          (changed)="employeeChanged($event)"></app-site-employee-profile>
+      </mat-tab>
+      <mat-tab label="Company Information">
+        <app-site-employee-company-info [employee]="employee"
+        (changed)="employeeChanged($event)">
+        </app-site-employee-company-info>
+      </mat-tab>
+      <mat-tab label="Contact Information">
+        <app-site-employee-contact-info [employee]="employee"
+        (changed)="employeeChanged($event)">
+        </app-site-employee-contact-info>
+      </mat-tab>
+      <mat-tab label="Specialties">
+        <app-site-employee-specialties [employee]="employee"
+        (changed)="employeeChanged($event)">
+        </app-site-employee-specialties>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-tab>
+  <mat-tab label="Work Related">
+    <mat-tab-group preserveContent="true">
+      <mat-tab label="Assignments">
+        <app-site-employee-assignment [employee]="employee"
+        [site]="site"
+          (changed)="employeeChanged($event)"
+        ></app-site-employee-assignment>
+      </mat-tab>
+      <mat-tab label="Variations">
+        <app-site-employee-variation [employee]="employee"
+          [site]="site"
+          (changed)="employeeChanged($event)"></app-site-employee-variation>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-tab>
+</mat-tab-group>

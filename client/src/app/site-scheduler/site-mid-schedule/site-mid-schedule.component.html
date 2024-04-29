@@ -1,0 +1,30 @@
+<div class="fxLayout fxLayout-column-center">
+  <mat-card style="background-color: #673ab7; color: white;">
+      <mat-card-header style="text-align: center;">
+          <mat-card-title>
+              <div class="mat-headline">Mid-Shift Coverage</div>
+            </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="fxLayout-column-center">
+        <div class="fxLayout-column-center">
+          <div class="fxLayout-row-center">
+            <div class="movement" (click)="updateYear('down')">&lt;&lt;</div>
+            <div class="year">{{year}}</div>
+            <div class="movement" (click)="updateYear('up')">&gt;&gt;</div>
+          </div>
+          <div class="fxLayout-row-center">
+            <div class="namelabel">NAME</div>
+            <div class="datelabel">FROM</div>
+            <div class="datelabel">TO</div>
+          </div>
+          <ng-container *ngFor="let eVar of midList">
+            <div class="fxLayout-row-center row">
+              <div class="name">{{eVar.employee.name.getLastFirst()}}</div>
+              <div class="date">{{dateString(eVar.variation.startdate)}}</div>
+              <div class="date">{{dateString(eVar.variation.enddate)}}</div>
+            </div>
+          </ng-container>
+        </div>
+      </mat-card-content>
+  </mat-card>
+</div>

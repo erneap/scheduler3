@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Leave Request</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <h1>Leave Request Editor</h1>
+  <p>
+    Requesting Leave of any type starts with this portion of the Scheduler
+    application.
+  </p>
+  <p>
+    (NOTE:  As an example to follow, the steps are provided to request a 
+    vacation over about a two-week period, but will consist of several holidays
+    used in conjunction with the normal vacation days.)
+  </p>
+  <img src="./images/leaverequest_empty.png">
+  <p> 
+    The leave request editor opens as the blank slate show above, with the 
+    possible exception of having previously request leaves shown in the "Current 
+    Leave Request" list.
+  </p>
+  <ol class="level1">
+    <li>
+      <b>Drafting a New Leave Request:</b>
+      <ol class="level2">
+        <img src="./images/leaverequest_calendar.png" style="height: 200px;">
+        <li>
+          Click on the "Request Dates" field's calendar icon on the right side.  
+          A calendar will display to allow you to select the inclusive dates for 
+          the leave.  These must include regular days off, so that if your 
+          work schedule assignment changes the leave can be recalculated.  Click 
+          on the first and last days of this period within the calendar.  
+          It should highlight the period selected.
+        </li>
+        <li>
+          Next, select the "Primary Leave Code" to be used for the majority of
+          the leave days displayed.  You can select the leave code to use on
+          individual days later.
+        </li>
+        <li>
+          Lastly, use your mouse and click the "+" button to the right of the 
+          "Primary Leave Code" selector.  This will send this basic information 
+          to the server and display the request for further editing, as shown 
+          below.
+        </li>
+        <img src="./images/leaverequest_complete.png">
+        <li>
+          Now this leave request is in "draft" mode and is only in the DRAFT 
+          state.  If you want to change some of the days to Holidays, you can 
+          edit individual days by going to that day and changing the type of 
+          leave to use/project for that day and the number of hours.  When you 
+          change it’s leave type the color scheme will probably change.
+          <ol class="level3">
+            <li>
+              Find the date you want to modify.
+            </li>
+            <li>
+              If you want to change the leave code to be used, say holiday 
+              instead of vacation. The date's code display "Vacation" is a 
+              selector that allows you to select the code to use.
+            </li>
+            <li> 
+              If you want to change the leave's hours taken/scheduled.  Click 
+              next to the number and edit it.
+            </li>
+            <li>
+              All data is saved immediately after the change is made.
+            </li>
+          </ol>
+        </li>
+        <li>
+          To submit the request for approval, click the "Submit for Approval" 
+          button, which changes the status to requested and sends an email to 
+          all the approving authorities for approval.
+        </li>
+        <img src="./images/leaverequest_edit.png">
+        <p>
+          Note the leave request's status information. this tells you the date 
+          it was created, it's current status, and if approved, when and by 
+          whom is was approved.
+        </p>
+        <li>
+          <b>Editing a Leave Request</b> - The assumption here is that you 
+          changed your mind on the dates or codes to use for a date.  You can 
+          make changes to any leave request until the leave is actually taken, 
+          even if it has been approved.  (NOTE:  If the leave request is 
+          approved and you change the inclusive dates, the status returns to 
+          "REQUESTED" and the dates are re-set to the primary leave code.)
+          <ol class="level2">
+            <img src="./images/leaverequest_list.png" style="height: 200px;">
+            <li>
+              The first step is to select the desired leave request, you want to 
+              edit, from the "Current Leave Requests" list.  This will fill in 
+              the leave request data for editing.
+            </li>
+            <li>
+              Make any changes to the information you need to change, understanding 
+              the status restrictions/changes automatic to any change.  The data 
+              is saved immediately after completed.
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li>
+      <b>Clearing the Selected Leave Request</b> - Once you choose a leave 
+      request to display, the application thinks you are editing that leave
+      request.  So to clear off the display and get back to the "Add" mode, 
+      click on the Clear button ( <img src="./images/clear_button.png" 
+      class="icon"> ) to the right of the "Primary Leave Code" to clear the 
+      selected leave request.
+    </li>
+    <li>
+      <b>Deleting a Leave Request</b>
+      <ol class="level2">
+        <li>Select the leave request to delete from the "Current Leave Requests" 
+          list.
+        </li>
+        <li>
+          Click the Delete button ( <img src="./images/delete_button.png" 
+          class="icon"> )
+        </li>
+        <li>
+          Finally, you have to validate or confirm the deletion (see image below).
+        </li>
+        <img src="./images/leaverequest_delvalid.png" style="height: 200px;">
+      </ol>
+    </li>
+  </ol>
+    
+  <p class="bottomNav">
+    <a href="profile.html">Employee Profile</a>
+    <a href="../schedule/schedule.html">Site Schedule</a>
+  </p>
+</body>
+</html>

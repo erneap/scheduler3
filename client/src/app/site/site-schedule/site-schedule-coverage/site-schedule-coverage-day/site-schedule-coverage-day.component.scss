@@ -1,0 +1,13 @@
+.cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  border: solid 1px black;
+}
+
+.under {
+  background-color: #ff8080;
+}

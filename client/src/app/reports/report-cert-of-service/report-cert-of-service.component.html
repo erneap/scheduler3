@@ -1,0 +1,17 @@
+<form [formGroup]="reportForm" class="flexlayout column center">
+  <div class="flexlayout row center">
+    <mat-form-field appearance="fill">
+      <mat-label>Report Year</mat-label>
+      <input matInput type="number" formControlName="year">
+    </mat-form-field>
+    <mat-form-field appearance="fill" style="margin-left: 5px;">
+      <mat-label>Report Month</mat-label>
+      <mat-select formControlName="month">
+        <mat-option *ngFor="let m of months;let i = index"
+          [value]="i+1">{{months[i]}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <button mat-raised-button color="accent"
+      (click)="onSubmit()">Create</button>
+</form>  

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Add Employee</title>
+  <link rel="stylesheet" href="../../../styles.css">
+</head>
+<body>
+  <h1>Add Employee Editor</h1>
+  <p class="role">(Site Scheduler/Leadership only)</p>
+  <ol class="level1">
+    <img src="./images/newemployee_button.png" style="width: 250px;">
+    <li>
+      <b>Select Add Employee</b> - This is a button at the top of the employee 
+      list.  By clicking on this employee choice, it will open the New Employee 
+      form to allow you to give the minimum information to create an employee.
+    </li>
+    <li>
+      <b>Minimum Information</b> - To provide the minimum information the "New 
+      Employee Editor" provides four sections for the information entry.
+      <ol class="level2">
+        <img src="./images/newemployee_1.png">
+        <li>
+          <b>Panel 1</b>: Enter in the required information of Email Address, 
+          first and last name, a new password, plus verify that password.  It is 
+          optional that you include a middle initial or name.  After entering in
+          the required information, click on "Company Information" header to go 
+          to the next panel.
+        </li>
+        <img src="./images/newemployee_2.png">
+        <li>
+          <b>Panel 2</b>:  Select in the employee's company and type in their 
+          company employee id and a job title.  The other information is 
+          optional.  After entry, click on "Assigned Labor Code(s)" header to go 
+          to this panel.
+        </li>
+        <img src="./images/newemployee_3.png">
+        <li>
+          <b>Panel 3</b>: This is an optional information selector, select the 
+          new employee's primary labor code he/she will use in their timecard
+          system. You don't have to select any of the available codes.
+        </li>
+        <img src="./images/newemployee_4.png">
+        <li>
+          <b>Panel 4</b>: All the fields are mandatory on this panel.  
+          <ol class="level3">
+            <li>Select the work center the employee will work in.</li>
+            <li>Click the calendar icon in the "Assignment Start" space to 
+              select the employee's start date or first day of work at the site.
+            </li>
+            <li>
+              Next, next to "Schedule 0" is a selector for choosing the number 
+              of days in the employee's schedule.  All schedules start on a 
+              Sunday and the number of days is a multiple of 7 or week.  After 
+              changing the number of days, the schedule will display that number 
+              of day boxes for the schedule.
+            </li>,
+            <li>
+              In each day box where the employee will be working, select the 
+              work code, work center and number of hours for the days he/she 
+              will be working.
+            </li>
+          </ol>
+        </li>
+        <li>
+          <b>Sending the Information to the Server</b>:  After all the required 
+          information is entered or selected, an "Add" button will display at 
+          the bottom of the form.  Click it to send the information to the 
+          server to create the employee.  An authentication record will be 
+          create at this time automatically with the employee role.
+        </li>
+      </ol>
+    </li>
+  </ol>
+    
+  <p class="bottomNav">
+    <a href="../employees.html">Employee Editor Overview</a>
+    <a href="select_employee.html">Selecting an Employee to Edit</a>
+  </p>
+</body>
+</html>

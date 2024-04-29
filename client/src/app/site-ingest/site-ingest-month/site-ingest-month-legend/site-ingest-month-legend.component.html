@@ -1,0 +1,6 @@
+<div class="flexlayout column center">
+  <div class="flexlayout row center" *ngFor="let row of rows">
+    <app-site-ingest-month-legend-code *ngFor="let wc of row"
+      [leavecode]="wc"></app-site-ingest-month-legend-code>
+  </div>
+</div>

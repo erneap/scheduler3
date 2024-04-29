@@ -1,0 +1,87 @@
+<div class="flexlayout column center">
+  <h3>Edit Team Workcodes</h3>
+  <div class="flexlayout row topcenter" style="border: solid 1px darkblue;">
+    <div class="list">
+      <div *ngFor="let item of workcodes"
+        [class]="getButtonClass(item.id)"
+        (click)="onSelect(item.id)">
+        <span [style]="getCodeClass(item.id)">{{item.id}}</span>&nbsp;- {{item.label}}
+      </div>
+    </div>
+    <button mat-icon-button color="warn" *ngIf="selected !== 'new'"
+      matTooltip="Delete selected workcode"
+      (click)="onDelete()">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <form [formGroup]="codeForm" class="flexlayout column center">
+      <div class="flexlayout row center">
+        <mat-form-field class="formField" *ngIf="selected === 'new'">
+          <mat-label>Workcode ID</mat-label>
+          <input matInput formControlName="id">
+          <mat-error *ngIf="codeForm.controls['id'].hasError('required')"
+            class="error">ID is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="flexlayout row center">
+        <mat-form-field class="formField" 
+          *ngIf="workcode.isLeave || selected === 'new'">
+          <mat-label>Alternate ID</mat-label>
+          <input matInput formControlName="altcode"
+          (blur)="onUpdate('altcode')">
+        </mat-form-field>
+      </div>
+      <div class="flexlayout row center">
+        <mat-form-field class="formField" 
+          *ngIf="workcode.isLeave || selected === 'new'">
+          <mat-label>Search For</mat-label>
+          <input matInput formControlName="search"
+          (blur)="onUpdate('search')">
+        </mat-form-field>
+      </div>
+      <div class="flexlayout row center">
+        <mat-form-field class="formFieldWide">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title"
+            (blur)="onUpdate('title')">
+          <mat-error *ngIf="codeForm.controls['title'].hasError('required')"
+            class="error">Title is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="flexlayout row center" *ngIf="!workcode.isLeave">
+        <mat-form-field class="formFieldWide">
+          <mat-label>Shift Start Hour</mat-label>
+          <mat-select formControlName="start"
+            (selectionChange)="onUpdate('start')">
+            <mat-option value="0"></mat-option>
+            <mat-option *ngFor="let hour of hours" [value]="hour">
+              {{hour}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="flexlayout row center">
+        <mat-checkbox formControlName="leave"
+          (change)="onUpdate('leave')">Is Leave</mat-checkbox>
+      </div>
+      <div class="flexlayout row center" *ngIf="!workcode.isLeave">
+        <mat-form-field class="formFieldWide">
+          <mat-label>Shift Premimum Code</mat-label>
+          <input matInput formControlName="premimum"
+            (blur)="onUpdate('premimum')">
+        </mat-form-field>
+      </div>
+      <div class="flexlayout column center"
+        [style]="getFormColorStyle()">
+        Color Scheme
+        <input formControlName="colors" class="colors"
+          (blur)="onUpdate('colors')">
+        (Foreground-Background RGB Hex)
+      </div>
+      <button mat-raised-button color="accent" style="padding-top: 10px;"
+        *ngIf="selected === 'new' && codeForm.valid"
+        (click)="onAdd()">
+        Add
+      </button>
+    </form>
+  </div>
+</div>

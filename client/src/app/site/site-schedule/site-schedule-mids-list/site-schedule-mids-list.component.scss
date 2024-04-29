@@ -1,0 +1,90 @@
+.toplevel {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: #673ab7;
+  color: white;
+}
+
+.direction {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  background-color: #e60000;
+  color: white;
+  border: solid 1px white;
+  cursor: pointer;
+  height: 35px;
+  width: 100px;
+}
+
+.chart {
+  border-bottom: solid 1px white;
+  border-top: solid 1px white;
+  margin-left: 10px;
+}
+
+.year {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  background-color: transparent;
+  color: white;
+  font-size: 16pt;
+  height: 35px;
+  width: 300px;
+}
+
+.datelabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 125px;
+  font-size: 14pt;
+  font-weight: bold;
+  border: solid 1px white;
+}
+
+.namelabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  font-size: 14pt;
+  font-weight: bold;
+  border: solid 1px white;
+}
+
+.name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  font-size: 12pt;
+  font-weight: bold;
+  border: solid 1px black;
+}
+
+.data:nth-child(even) {
+  background-color: #c0c0c0;
+  color: black;
+}
+
+.data:nth-child(odd) {
+  background-color: white;
+  color: black;
+}
+
+.date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 125px;
+  font-size: 12pt;
+  font-weight: bold;
+  border: solid 1px black;
+}

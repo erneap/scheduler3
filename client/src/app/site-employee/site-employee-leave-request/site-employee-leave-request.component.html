@@ -1,0 +1,16 @@
+<div class="fxLayout fxLayout-column-center">
+  <mat-card style="background-color: #673ab7; color: white;">
+      <mat-card-header>
+        <div class="fxLayout-row-left">
+          <div class="fxLayout-column-topleft">
+            <div class="headline">Employee's PTO/Holidays</div>
+            <div class="subheadline">{{employee.name.getFullName()}}</div>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content class="fxLayout-column-center">
+          <app-leave-request-form [employee]="employee"
+            (changed)="employeeChanged($event)"></app-leave-request-form>
+      </mat-card-content>
+  </mat-card>
+</div>

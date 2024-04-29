@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Scheduler Overview</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <h1>Scheduler Overview</h1>
+  <h2>Terms</h2>
+  <ol class="level1">
+    <li><b>Assignment</b> – This refers to the normal work 
+      schedule over a period of time.  All employees have 
+      at least one assignment which also annotates when the 
+      employee started working for the team/site and when 
+      their last day of work was.  An assignment can have 
+      multiple schedules.  If multiple schedules are to be 
+      used and rotated through, the assignment can designate 
+      a date to rotate upon and the number of days between 
+      changes.  The selection of the assignment workday by 
+      date is checking for a rotation period and date, 
+      finding which schedule to use, then determine with 
+      days within that schedule to provide.</li>
+    <li><b>Schedule</b> – The schedule is defined as a 
+      group of days (must be a multiple of 7) to be used to 
+      define the workdays for the assignment.  All schedule 
+      days start on a Sunday (first day of the week) and 
+      include a multiple of 7 days.</li>
+    <li><b>Workday</b> – A workday contains the work code for a particular day 
+      numbered within the schedule, the work center assigned for that work and 
+      the number of hours expected to be worked.  A blank workday includes a 
+      blank code, a blank work center and zero hours.</li>
+      
+    <li><b>Variation</b> – A variation is defined as a temporary alteration in 
+      the employee’s normal work schedule.  As an example:  The employee works 
+      Tuesday through Saturday, 8 hours per day, working day shift in the GEOINT 
+      work center, but you need them to work Mid Shift for 4 weeks.  You create 
+      a variation with the scheduled start and end dates for the variation, 
+      plus assign the variation’s schedule to the proper mid work code, work 
+      center and number of hours.  If the site is using a mid-rotation, you 
+      should set the IsMids flag of the variation to true.  A variation only 
+      has one schedule and can be set to whatever multiple of 7-day period to 
+      use.</li>
+      
+      <li><b>Leave</b> – A leave is any non-workday.  It could be vacation time, 
+        a holiday, military or jury duty, or a few other options.  These are 
+        started by completing a leave request and the individual’s supervisor 
+        approving the leave.  All leaves include a leave code to show what type 
+        of leave it is and the number of hours to be used.  The system 
+        automatically adds a leave status (Actual, Approved, or Requested) to 
+        show where the leave is in the process.
+        <ol class="level2">
+          <li><b>Actual Status</b> – This is normally determined by ingestion 
+            of the timecard data or from the company lead’s timecard manual 
+            input.</li>
+          <li><b>Approved Status</b> – This signifies that the supervisor has 
+            approved the leave request and will remain in this status until the 
+            timecard data modifies the status that the leave was actual taken.</li>
+          <li><b>Requested Status</b> – This signifies that the employee has 
+            requested the leave, but the supervisor hasn’t approved it yet.</li>
+        </ol>
+      </li>
+      <li>
+        <b>Team</b> - A team is a group of employees working for a particular 
+        purpose.  This could be an entire IT team or grouped to cover a single 
+        contract or group of related contracts.  A team is normally composed of 
+        a leadership team and at least one site.
+      </li>
+      <li>
+        <b>Site</b> - A site is an organization within the team, either 
+        geographically or functionally separate.  It normal consists of a 
+        leadership team plus at least one workcenter.
+      </li>
+      <li><b>Workcenter</b> - A workcenter is the assigned work area/function 
+        an employee works at.  Workcenters are normally divided by work shifts 
+        and/or positions so that employees can be assigned within and displayed 
+        properly.  These shifts and positions are defined within the site and 
+        workcenter.
+      </li>
+      <li>
+        <b>Ingest</b> - This is either a file upload or manual entry process to 
+        provide actual work and leave information to the database.  File upload 
+        is currently restricted to SAP Excel exports and the manual entry 
+        process provides a worksheet type view for entry with approved leave 
+        already shown.  In the manual process, every cell must be entered to 
+        update that particular date, this includes all leave dates.  Upon exit 
+        of the cell, the data is sent to a recorder for update when approved.
+      </li>
+  </ol>
+    
+  <p class="bottomNav">
+    <a href="../overview.html">Overview</a>
+    <a href="layout.html">View Layout</a>
+  </p>
+</body>
+</html>

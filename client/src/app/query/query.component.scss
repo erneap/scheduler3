@@ -1,0 +1,107 @@
+.app-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 80;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.list {
+  text-align: center;
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+  width: 360px;
+  border: solid 1px white;
+  overflow-y: auto;
+}
+
+.employee {
+  display: flex;
+  width: 343px;
+  min-height: 30px !important;
+  justify-content: center;
+  align-items: center;
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+.selected {
+  background-color: #673ab7;
+  color: white;
+  border: solid 1px white;
+}
+
+.employee:hover {
+  background-color: lightblue;
+  color: black;
+  border: solid 1px black;
+}
+
+.active {
+  background-color: white;
+  color: black;
+  border: solid 1px black;
+}
+
+.label {
+  background-color: #673ab7;
+  color: white;
+  width: 100%;
+  height: 25px;
+  margin-top: 5px;
+  font-size: 14pt;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-bottom: solid 1px black;
+  background-color: white;
+  color: black;
+  font-size: 14pt;
+}
+
+.specialty {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: black;
+  font-size: 14pt;
+}
+
+.leftlabel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  background-color: white;
+  color: black;
+  font-size: 14pt;
+}
+
+.rightData {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 400px;
+  background-color: white;
+  color: black;
+  font-size: 14pt;
+}

@@ -1,0 +1,121 @@
+<div class="flexlayout column topcenter">
+  <h3>Selected Report Labor Codes</h3>
+  <div class="flexlayout row center">
+    <div class="list">
+      <div *ngFor="let item of laborcodes"
+      [class]="getButtonStyle(item.id)"
+      (click)="onSelect(item.id)"
+      >{{item.label}}</div>
+    </div>
+    <div class="flexlayout column center">
+      <button mat-icon-button color="warn"
+        matTooltip="Delete selected labor code"
+        *ngIf="selected != 'new'"
+        (click)="onDeleteLaborCode()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+  <form [formGroup]="laborForm" class="flexlayout column topcenter">
+    <div class="flexlayout row center" style="padding-top: 5px;"
+      *ngIf="selected === 'new'">
+      <div class="formField">
+        <mat-form-field class="fieldWidth" appearance="fill">
+          <mat-label>Charge Number</mat-label>
+          <input matInput formControlName="chargeNumber">
+          <mat-error *ngIf="laborForm.controls['chargeNumber'].hasError('required')"
+            class="error">Required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="formField">
+        <mat-form-field class="fieldWidth" appearance="fill">
+          <mat-label>Extension</mat-label>
+          <input matInput formControlName="extension">
+          <mat-error *ngIf="laborForm.controls['extension'].hasError('required')"
+            class="error">Required</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flexlayout row center" style="padding-top: 5px;">
+      <div class="formField">
+        <mat-form-field class="fieldWidth" appearance="fill">
+          <mat-label>CLIN</mat-label>
+          <input matInput formControlName="clin" 
+            (blur)="onUpdateLaborCode('clin')">
+        </mat-form-field>
+      </div>
+      <div class="formField">
+        <mat-form-field class="fieldWidth" appearance="fill">
+          <mat-label>SLIN</mat-label>
+          <input matInput formControlName="slin" (blur)="onUpdateLaborCode('slin')">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flexlayout row center" style="padding-top: 5px;">
+      <div class="formField">
+        <mat-form-field class="fieldWidth" appearance="fill">
+          <mat-label>WBS</mat-label>
+          <input matInput formControlName="wbs" (blur)="onUpdateLaborCode('wbs')">
+        </mat-form-field>
+      </div>
+      <div class="formField">
+        <mat-form-field class="fieldWidth" appearance="fill">
+          <mat-label>Location</mat-label>
+          <input matInput formControlName="location" 
+            (blur)="onUpdateLaborCode('location')">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flexlayout row center" style="padding-top: 5px;">
+      <div class="formField">
+        <mat-form-field class="fieldWidth" appearance="fill">
+          <mat-label>Number of Slots</mat-label>
+          <input matInput type="number" formControlName="minimum"
+            (change)="onUpdateLaborCode('minimum')">
+        </mat-form-field>
+      </div>
+      <div class="formField">
+        <mat-form-field class="fieldWidth" appearance="fill">
+          <mat-label>Hours Per Employee</mat-label>
+          <input matInput type="number" formControlName="hoursPerEmployee"
+            (change)="onUpdateLaborCode('hoursPerEmployee')">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flexlayout row center" style="padding-top: 5px;">
+      <div class="formField">
+        <mat-form-field class="fieldWidth" appearance="fill">
+          <mat-label>Empty Slot Name</mat-label>
+          <input matInput formControlName="notAssignedName"
+            (blur)="onUpdateLaborCode('notAssignedName')">
+        </mat-form-field>
+      </div>
+      <div class="formField" style="background-color: white;">
+        <mat-checkbox formControlName="exercise"
+          (change)="onUpdateLaborCode('exercise')">Exercise Code</mat-checkbox>
+      </div>
+    </div>
+    <div class="flexlayout row center" style="padding-top: 5px;">
+      <mat-form-field class="fieldWidthWider" appearance="fill">
+        <mat-label>Usable Period</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Start Date" 
+            formControlName="startDate" 
+            (dateChange)="onUpdateLaborCode('startDate')">
+          <input matEndDate placeholder="End Date" formControlName="endDate"
+            (dateChange)="onUpdateLaborCode('endDate')">
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+    <div class="flexlayout row center" style="gap: 10px;"
+      *ngIf="selected === 'new'">
+      <button mat-raised-button color="accent" (click)="onAddLaborCode()">
+        Add
+      </button>
+      <button mat-raised-button color="warn" (click)="onClear()">Clear</button>
+    </div>
+  </form>
+</div>

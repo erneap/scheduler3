@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Leave Request Comment</h1>
+<div mat-dialog-content class="fxLayout-column-center">
+    <p>
+      Reason for Un-Approval:
+    </p>
+    <form [formGroup]="commentForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Reason</mat-label>
+        <textarea matInput
+            formControlName="comment"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"></textarea>
+      </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="" cdkFocusInitial>Cancel</button>
+    <button mat-button [mat-dialog-close]="commentForm.value.comment">Add</button>
+</div>

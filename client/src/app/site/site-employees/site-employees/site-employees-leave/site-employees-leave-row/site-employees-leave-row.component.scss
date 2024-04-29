@@ -1,0 +1,72 @@
+.date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  height: 25px;
+  width: 125px;
+  border: solid 1px black;
+}
+
+.form-field {
+  width: 99%;
+  height: 99%;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 12pt;
+  font-weight: bold;
+  background-color: transparent;
+  border: none;
+}
+
+.code {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  width: 250px;
+  height: 25px;
+  border: solid 1px black;
+}
+
+.hours {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  width: 100px;
+  height: 25px;
+  border: solid 1px black;
+}
+
+.status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  width: 215px;
+  height: 25px;
+  border: solid 1px black;
+}
+
+.delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  height: 25px;
+  width: 25px;
+  font-size: 14pt;
+  border: solid 1px black;
+}
+
+.deleteIcon {
+  transform: scale(.5);
+  color: pink;
+  cursor: pointer;
+}

@@ -1,0 +1,47 @@
+<div [class]="viewClass()">
+  <mat-card [style]="cardClass()">
+      <mat-card-header style="text-align: center;">
+          <mat-card-title>
+            <div class="mat-headline">Employee's Specialties</div>
+          </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="fxLayout-column-center">
+        <div class="flexlayout column center" >
+          <div class="flexlayout row center">
+            <div class="typeText" [style]="labelStyle()">Available Specialties</div>
+            <div>&nbsp;</div>
+            <div class="typeText" [style]="labelStyle()">Employee's Specialties</div>
+          </div>
+          <div class="flexlayout row center">
+            <div class="list" [style]="listStyle()">
+              <div *ngFor="let emp of available"
+              [class]="getButtonClass(emp.id, 'available')"
+              (click)="onSelect(emp.id, 'available')"
+              [style]="itemStyle()">
+              {{emp.label}}
+            </div>
+            </div>
+            <div class="moveGap" [style]="moveStyle()">
+              <mat-icon class="icon" [style]="iconStyle()"
+              *ngIf="availableSelected.length > 0"
+              (click)="onSetChanges('available')"
+              >chevron_right</mat-icon>
+              <mat-icon class="icon" [style]="iconStyle()"
+              *ngIf="specialtiesSelected.length > 0"
+              (click)="onSetChanges('specialties')"
+              >chevron_left</mat-icon>
+            </div>
+            <div class="list" [style]="listStyle()">
+              <div *ngFor="let emp of specialties"
+              [class]="getButtonClass(emp.id, 'specialties')"
+              (click)="onSelect(emp.id, 'specialties')"
+              [style]="itemStyle()">
+              {{emp.label}}
+            </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+  </mat-card>
+</div>
+

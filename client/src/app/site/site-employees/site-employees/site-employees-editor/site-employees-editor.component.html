@@ -1,0 +1,73 @@
+<div class="overall">
+  <div class="flexlayout row topleft" style="width: 100%;">
+    <div class="headline">Current Site Employee Editor</div>
+    <span class="flex-spacer"></span>
+    <button mat-icon-button color="warn"
+      matTooltip="Delete Employee"
+      (click)="deleteEmployee()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <div class="flexlayout row left" [style]="formWidth()">
+    <div class="subheadline">
+      {{employee.name.getFullName()}}
+    </div>
+  </div>
+  <mat-tab-group preserveContent="true" [backgroundColor]="'primary'"
+  style="margin-top: 10px;width: 100%;">
+  <mat-tab label="Leave Information">
+    <mat-tab-group preserveContent="true" [backgroundColor]="'primary'">
+      <mat-tab label="PTO/Holidays List">
+        <app-pto-holiday-chart [employee]="employee" [width]="width">
+        </app-pto-holiday-chart>
+      </mat-tab>
+      <mat-tab label="Leaves">
+        <app-site-employees-leave [employee]="employee"
+        (changed)="changeEmployee($event)"></app-site-employees-leave>
+      </mat-tab>
+      <mat-tab label="Leave Balances">
+        <app-site-employees-leave-balance [employee]="employee"
+          (changed)="changeEmployee($event)">
+        </app-site-employees-leave-balance>
+      </mat-tab>
+      <mat-tab label="Leave Requests">
+        <app-leave-request-form [employee]="employee" 
+          (changed)="changeEmployee($event)"></app-leave-request-form>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-tab>
+  <mat-tab label="Personal/Company">
+    <mat-tab-group preserveContent="true" [backgroundColor]="'primary'">
+      <mat-tab label="Personal Information" >
+        <app-employee-profile-form [employee]="employee" [width]="width"
+          (changed)="changeEmployee($event)"></app-employee-profile-form>
+      </mat-tab>
+      <mat-tab label="Company Information">
+        <app-site-employees-company-info [employee]="employee" [width]="width"
+          (changed)="changeEmployee($event)"></app-site-employees-company-info>
+      </mat-tab>
+      <mat-tab label="Contact Information">
+        <app-employee-contact-info [employee]="employee"
+          (changed)="changeEmployee($event)"></app-employee-contact-info>
+      </mat-tab>
+      <mat-tab label="Specialties">
+        <app-employee-specialties [employee]="employee" [height]="height"
+          (changed)="changeEmployee($event)"></app-employee-specialties>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-tab>
+  <mat-tab label="Work Related">
+    <mat-tab-group preserveContent="true" [backgroundColor]="'primary'">
+      <mat-tab label="Assignments">
+        <app-site-employees-assignment [employee]="employee" [site]="site"
+          (changed)="changeEmployee($event)" [height]="height"></app-site-employees-assignment>
+      </mat-tab>
+      <mat-tab label="Variations">
+        <app-site-employees-variation [employee]="employee" [site]="site"
+          (changed)="changeEmployee($event)"></app-site-employees-variation>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-tab>
+</mat-tab-group>
+
+</div>

@@ -1,0 +1,60 @@
+.month {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: solid 2px black;
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
+  font-weight: bold;
+  color: white;
+  background-color: darkred;
+}
+
+.dates {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: solid 1px black;
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
+  color: black;
+  background-color: white;
+}
+
+.actual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: solid 1px black;
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
+  border-right: solid 2px black;
+  font-weight: bold;
+  color: black;
+  background-color: white;
+}
+
+.requested {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: solid 1px black;
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
+  border-right: solid 2px black;
+  font-weight: bold;
+  color: #339933;
+  background-color: white;
+}
+
+sup {
+  font-size: 8pt;
+}
+
+.disabled {
+  background-color: #808080;
+}
+
+.active {
+  background-color: white;
+}

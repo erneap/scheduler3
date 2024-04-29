@@ -1,0 +1,8 @@
+<div class="fxLayout-row-topleft">
+  <div class="name">
+    {{shift.name.toUpperCase()}}
+  </div>
+  <app-site-availability-day *ngFor="let day of dates" [workcenter]="workcenter"
+    [shift]="shift" [date]="day">
+  </app-site-availability-day>
+</div>

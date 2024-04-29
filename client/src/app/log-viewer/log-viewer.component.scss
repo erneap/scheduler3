@@ -1,0 +1,26 @@
+.overall {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 950px;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 900px;
+  gap: 10px;
+}
+
+.logViewer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 900px;
+  height: 600px;
+  overflow: auto;
+}

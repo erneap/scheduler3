@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Employee Leave Editor</title>
+  <link rel="stylesheet" href="../../../styles.css" />
+</head>
+<body>
+  <h1>Employee's Leave Editor</h1>
+  <p class="role">(Site Scheduler/Leadership only)</p>
+
+  <p>
+    This display/editor will display all the employee's leave (taken or approved) 
+    for a single calendar year.
+  </p>
+  <img src="./images/leaves_list.png">
+  <ol class="level1">
+    <li>
+      Adjust the Displayed Calendar Year
+      <ol class="level2">
+        <li>
+          Click the "&lt;&lt;" button to adjust the viewing calendar backward 
+          one year.
+        </li>
+        <li>
+          Click the "&gt;&gt;" button to adjust the viewing calendar forward 
+          one year.
+        </li>
+      </ol>
+    </li>
+    <li>
+      Edit a Leave Day
+      <ol class="level2">
+        <li>
+          Find the date you want to edit.  All four fields can be editted unless 
+          the leave status is already actual.  Actual leaves are either previously 
+          so marked or were verified by ingest data.  All updated fields will be 
+          saved upon exit from the field.
+        </li>
+        <li>
+          If Leave Date is to be edited - The leave date must be in the form 
+          MM/DD/YYYY to be saved.
+        </li>
+        <li>
+          If you want to change the Leave Type - A list of available leave codes, 
+          select the new leave code from the list provided.
+        </li>
+        <li>
+          If you want to change the Leave's Hours - The hours are in decimal 
+          hour format and must contain a minimum of one digit to the right of 
+          the decimal place.
+        </li>
+        <li>
+          If you are changingin the Leave's Status - The leave status can be 
+          one of three values (Requested, Approved or Actual).  Select one of
+          these from the list provided.
+        </li>
+      </ol>
+    </li>
+    <li>
+      Add a Leave Day - At the bottom of the display four input fields are 
+      present to all the new leave.  All four fields must be entered before you 
+      will be able to add it to the employee's leave list.
+      <ol class="level2">
+        <li>
+          The leave date must be in the format "MM/DD/YYYY".  Type in the new 
+          leave date.
+        </li>
+        <li>
+          Select the leave code to be used from the list provided.
+        </li>
+        <li>
+          Type in the number of hours for the leave in decimal hour format with 
+          a minimum of one digit to the right of the decimal point.
+        </li>
+        <li>
+          Select one of the three values (Requested, Approved, or Actual) for 
+          the leave status.
+        </li>
+        <li>
+          After all four values are entered or selected, a "+" sign will be 
+          visible on the left of the entry fields.  Click the "+" sign to add 
+          the new leave.  It will be added to the list of leaves.
+        </li>
+      </ol>
+    </li>
+    <li>
+      Delete a Leave Day
+      <ol class="level2">
+        <li>
+          Find the leave you need to delete.
+        </li>
+        <li>
+          Click the delete button to the left of the leave you want to delete. 
+          A verification dialog will be displayed to verify the deletion. Click 
+          the "Yes" or "No" button to verify the deletion or cancel the deletion.
+        </li>
+      </ol>
+    </li>
+  </ol>
+    
+  <p class="bottomNav">
+    <a href="leave_information.html">Updating Employee Variations</a>
+    <a href="leave_balance.html">Editing Employee's Leaves</a>
+  </p>
+</body>
+</html>

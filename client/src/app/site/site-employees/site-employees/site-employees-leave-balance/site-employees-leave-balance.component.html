@@ -1,0 +1,16 @@
+<div class="fxLayout flexlayout column topleft">
+  <div class="flexlayout row center">
+    <div class="year">YEAR</div>
+    <div class="amounts">Annual Leave</div>
+    <div class="amounts">Carryover</div>
+  </div>
+  <app-site-employees-leave-balance-year *ngFor="let al of balances"
+    [employee]="employee"
+    [annualLeave]="al"
+    (changed)="employeeChanged($event)">
+  </app-site-employees-leave-balance-year>
+  <div class="button">
+    <button mat-raised-button color="accent"
+    (click)="AddLeaveBalance()">Add Year</button>
+  </div>
+</div>

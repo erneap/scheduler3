@@ -1,0 +1,8 @@
+<div class="flexlayout row leftcenter">
+  <div class="name">{{employee.name.getLastFirst()}}</div>
+  <app-site-ingest-month-employee-day *ngFor="let day of dates"
+    [employee]="employee" [date]="day" [ingestType]="ingestType"
+    [leavecodes]="leavecodes" (changed)="onChange($event)">
+  </app-site-ingest-month-employee-day>
+  <div class="total">{{getTotal()}}</div>
+</div>
