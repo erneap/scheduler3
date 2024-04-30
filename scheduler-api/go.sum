@@ -113,6 +113,8 @@ github.com/erneap/go-models v1.5.35 h1:h4U1Ii41+yF3pjvBTsXMJkRj8u8U8scckr0+9Sezb
 github.com/erneap/go-models v1.5.35/go.mod h1:p2ZX+1lQMCF5HYcXztKZg2F0eGzaMqcYzT7dsa9ugx8=
 github.com/erneap/go-models v1.5.36 h1:eyDCGSLZWiF4TcuTEU04XLKKUC8nzAjn7cl6+A3u6Dc=
 github.com/erneap/go-models v1.5.36/go.mod h1:p2ZX+1lQMCF5HYcXztKZg2F0eGzaMqcYzT7dsa9ugx8=
+github.com/erneap/go-models v1.5.37 h1:VmY5xH1kccOGyYjPLeDbXOzeRT1fMG3tXtLkyNJEUj4=
+github.com/erneap/go-models v1.5.37/go.mod h1:p2ZX+1lQMCF5HYcXztKZg2F0eGzaMqcYzT7dsa9ugx8=
 github.com/gabriel-vasile/mimetype v1.4.2 h1:w5qFW6JKBz9Y393Y4q372O9A7cUSequkh1Q7OhCmWKU=
 github.com/gabriel-vasile/mimetype v1.4.2/go.mod h1:zApsH/mKG4w07erKIaJPFiX0Tsq9BFQgN3qGY5GnNgA=
 github.com/gabriel-vasile/mimetype v1.4.3 h1:in2uUcidCuFcDKtdcBxlR0rJ1+fsokWf+uqxgUFjbI0=

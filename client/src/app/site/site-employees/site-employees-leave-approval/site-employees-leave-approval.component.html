@@ -15,5 +15,9 @@
     <div class="availableLabel">
       Shift Availability (Dates reflect as if the request is approved)
     </div>
+    <app-site-employees-leave-approval-availability [site]="site" 
+      [workcenterid]="workcenter" [employeeid]="requestEmployee.id" 
+      [requestid]="request.id" [width]="requestWidth">
+    </app-site-employees-leave-approval-availability>
   </div>
 </div>

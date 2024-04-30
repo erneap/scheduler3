@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Employee } from 'src/app/models/employees/employee';
 import { Site } from 'src/app/models/sites/site';
 import { Team } from 'src/app/models/teams/team';
+import { AppStateService } from 'src/app/services/app-state.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
@@ -74,12 +75,19 @@ export class SiteModReportViewComponent {
   end: Date = new Date(0);
   months: MonthPeriod[] = [];
   expandAllText: string = "Expand All";
+  width: number = 960;
 
   constructor(
     protected empService: EmployeeService,
     protected siteService: SiteService,
-    protected teamService: TeamService
+    protected teamService: TeamService,
+    protected stateService: AppStateService
   ) {
+
+    this.width = this.stateService.viewWidth - (this.stateService.showMenu ? 270 : 20);
+    if (this.width > 960) {
+      this.width = 960;
+    }
     const iSite = this.siteService.getSite();
     this.site = new Site(iSite);
     const now = new Date();
@@ -129,6 +137,14 @@ export class SiteModReportViewComponent {
     }
     this.months.sort((a,b) => b.compareTo(a));
     this.getEmployees();
+  }
+
+  setWidth(): string {
+    return `width: ${this.width}px;`;
+  }
+
+  setChartWidth(): string {
+    return `width: ${this.width}px;overflow: auto;`;
   }
 
   getEmployees(): void {

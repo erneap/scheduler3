@@ -1,1 +1,12 @@
-<p>site-employees-leave-approval-availability works!</p>
+<div class="overall">
+  <div class="labels">
+    <div class="label day">Date(s)</div>
+    <div *ngFor="let label of shiftLabels;let i = index" [class]="getShiftStyle(i)">
+      {{label}}
+    </div>
+  </div>
+  <app-site-employees-leave-approval-availability-day *ngFor="let dt of dates"
+    [site]="site" [workcenterid]="workcenterid" [employeeid]="employeeid"
+    [requestid]="requestid" [date]="dt" [shiftids]="shiftids">
+  </app-site-employees-leave-approval-availability-day>
+</div>

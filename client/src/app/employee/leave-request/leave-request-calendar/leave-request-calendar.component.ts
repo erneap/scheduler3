@@ -41,10 +41,10 @@ export class LeaveRequestCalendarComponent {
   get leavedays(): LeaveDay[] {
     return this._leaveDays;
   }
+  @Input() width: number = 714;
   @Output() changed = new EventEmitter<string>();
 
   calendar: LeaveMonth = new LeaveMonth();
-  width: number = 714;
 
   constructor(
     protected appState: AppStateService
@@ -95,7 +95,11 @@ export class LeaveRequestCalendarComponent {
   }
 
   getCellWidth(): number {
-    return ((this.width - 14) / 7);
+    let cWidth = Math.floor((this.width - 14) / 7);
+    if (cWidth > 100) {
+      cWidth = 100;
+    }
+    return cWidth;
   }
 
   getDateStyles(): string {

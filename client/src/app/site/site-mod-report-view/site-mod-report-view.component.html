@@ -1,5 +1,5 @@
-<div class="fxLayout flexlayout column topleft standardCard">
-  <div class="flexlayout row topleft" style="width: 100%;">
+<div class="toplevel">
+  <div class="flexlayout row topleft" [style]="setWidth()">
     <div class="flexlayout column topleft">
       <div class="headline">MOD TIME REVIEW</div>
       <div class="subheadline">(positive = worked, negative = off time)</div>
@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="flexlayout column topleft">
-    <div class="flexlayout row topleft">
+    <div class="flexlayout row topleft" [style]="setChartWidth()">
       <div class="name bkg">Name</div>
       <div class="month bkg" style="height: 42px;width: 50px;">BAL</div>
       <ng-container *ngFor="let month of months">

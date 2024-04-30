@@ -64,7 +64,15 @@ export class SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent {
     return this._date;
   }
   @Input() width: number = 25;
-  @Input() viewtype: string = 'day';
+  private _viewtype: string = 'day';
+  @Input() 
+  public set viewtype(vtype: string) {
+    this._viewtype = vtype;
+    this.setValues();
+  }
+  get viewtype(): string {
+    return this._viewtype;
+  }
   coverage: number = 0;
   minimums: number = 0;
   
@@ -75,7 +83,7 @@ export class SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent {
       this.coverage = this.date.getDate();
       return;
     }
-    if (this.site.id !== '' && this.workcenterid !== '' 
+    else if (this.site.id !== '' && this.workcenterid !== '' 
       && this.employeeid !== '' && this.requestid !== ''
       && this.shiftid !== '' && this.date.getTime() > 0) {
       let shift = new Shift();

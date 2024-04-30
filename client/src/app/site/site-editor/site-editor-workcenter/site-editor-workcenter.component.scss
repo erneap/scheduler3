@@ -1,0 +1,43 @@
+.list {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 248px;
+  height: 250px;
+  border: solid 1px black;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 248px;
+  height: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: solid 1px black;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.item:hover {
+  background-color: lightblue;
+  color: black;
+  border: solid 1px black;
+}
+
+.selected {
+  background-color: #673ab7;
+  color: white;
+  border: solid 1px white;
+}

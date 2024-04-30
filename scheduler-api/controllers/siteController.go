@@ -179,7 +179,7 @@ func CreateSite(c *gin.Context) {
 }
 
 func UpdateSite(c *gin.Context) {
-	var data web.NewSiteRequest
+	var data web.UpdateSiteRequest
 	logmsg := "SiteController: UpdateSite:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
@@ -206,9 +206,15 @@ func UpdateSite(c *gin.Context) {
 		return
 	}
 
-	site.Name = data.Name
-	site.UtcOffset = data.Offset
-	site.ShowMids = data.UseMids
+	switch strings.ToLower(data.Field) {
+	case "name":
+		site.Name = data.Value
+	case "offset":
+		val, err := strconv.ParseFloat(data.Value, 64)
+		if err == nil {
+			site.UtcOffset = val
+		}
+	}
 
 	err = services.UpdateSite(data.TeamID, *site)
 	if err != nil {

@@ -25,11 +25,28 @@ export class SiteEmployeesLeaveApprovalAvailabilityComponent {
   get workcenterid(): string {
     return this._wkctrid;
   }
-  @Input() employeeid: string = '';
-  @Input() requestid: string = '';
+  private _empID: string = '';
+  @Input() 
+  public set employeeid(eid: string) {
+    this._empID = eid;
+    this.setDates();
+  }
+  get employeeid(): string {
+    return this._empID;
+  }
+  private _reqID: string = '';
+  @Input()
+  public set requestid(rid: string) {
+    this._reqID = rid;
+    this.setDates();
+  }
+  get requestid(): string {
+    return this._reqID;
+  }
   @Input() width: number = 1000;
   shiftids: string[] = [];
   shiftLabels: string[] = [];
+  dates: Date[] = [];
 
   setShifts() {
     this.shiftids = [];
@@ -46,5 +63,33 @@ export class SiteEmployeesLeaveApprovalAvailabilityComponent {
         }
       });
     }
+  }
+
+  setDates() {
+    this.dates = [];
+    if (this.employeeid !== '' && this.requestid !== '') {
+      if (this.site && this.site.employees) {
+        this.site.employees.forEach(emp => {
+          if (emp.id === this.employeeid) {
+            emp.requests.forEach(req => {
+              if (req.id === this.requestid) {
+                let start = new Date(req.startdate);
+                while (start.getTime() <= req.enddate.getTime()) {
+                  this.dates.push(new Date(start));
+                  start = new Date(start.getTime() + (24 * 3600000));
+                }
+              }
+            })
+          }
+        });
+      }
+    }
+  }
+
+  getShiftStyle(i: number): string {
+    if (i % 2 === 0) {
+      return "label even";
+    }
+    return "label odd";
   }
 }

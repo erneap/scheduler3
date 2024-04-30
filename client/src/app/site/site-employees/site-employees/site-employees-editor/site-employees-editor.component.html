@@ -32,7 +32,8 @@
       </mat-tab>
       <mat-tab label="Leave Requests">
         <app-leave-request-form [employee]="employee" 
-          (changed)="changeEmployee($event)"></app-leave-request-form>
+          (changed)="changeEmployee($event)"
+          [width]="width - 70"></app-leave-request-form>
       </mat-tab>
     </mat-tab-group>
   </mat-tab>

@@ -44,7 +44,6 @@ const routes: Routes = [
         children: [
           { path: 'schedule', component: SiteScheduleComponent },
           { path: 'coverage', component: SiteScheduleCoverageComponent },
-          { path: 'modview', component: SiteModReportViewComponent },
           { path: 'mids', component: SiteScheduleMidsListComponent },
           { path: '**', component: SiteScheduleComponent }
         ]
@@ -56,7 +55,8 @@ const routes: Routes = [
             component: SiteEmployeesLeaveApprovalComponent },
           { path: '**', component: SiteEmployeesComponent }
         ]
-      }
+      },
+      { path: 'modview', component: SiteModReportViewComponent }
     ]
   },
   { path: 'newemployee', component: NewEmployeeComponent },

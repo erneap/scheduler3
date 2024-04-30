@@ -10,12 +10,14 @@ import { NewSiteRequest, NewSiteWorkcenter, SiteResponse, SiteWorkcenterUpdate,
   UpdateSiteLaborCode,
   NewCofSReport,
   UpdateCofSReport,
-  SiteWorkResponse} 
+  SiteWorkResponse,
+  UpdateSiteRequest} 
   from '../models/web/siteWeb';
 import { CacheService } from './cache.service';
 import { NewSiteLaborCode } from '../models/web/siteWeb';
 import { AuthService } from './auth.service';
 import { ITeam } from '../models/teams/team';
+import { UpdateRequest } from '../models/web/employeeWeb';
 
 @Injectable({
   providedIn: 'root'
@@ -153,16 +155,14 @@ export class SiteService extends CacheService {
     return this.httpClient.post<SiteResponse>(url, data);
   }
 
-  UpdateSite(teamID: string, siteID: string, siteName: string, mids: boolean, 
-  offset: number): Observable<SiteResponse> {
+  UpdateSite(teamID: string, siteID: string, field: string, value: string): 
+    Observable<SiteResponse> {
     const url = '/api/v2/scheduler/site';
-    const data: NewSiteRequest = {
-      team: teamID,
+    const data: UpdateSiteRequest = {
+      teamid: teamID,
       siteid: siteID,
-      name: siteName,
-      mids: mids,
-      offset: offset,
-      lead: new User(),
+      field: field,
+      value: value
     }
     return this.httpClient.put<SiteResponse>(url, data);
   }

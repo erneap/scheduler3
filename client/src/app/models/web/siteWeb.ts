@@ -16,6 +16,13 @@ export interface NewSiteRequest {
   scheduler?: IUser;
 }
 
+export interface UpdateSiteRequest {
+  teamid: string;
+  siteid: string;
+  field: string;
+  value: string;
+}
+
 export interface CreateSiteEmployeeLeaveBalances {
   team: string;
   siteid: string;

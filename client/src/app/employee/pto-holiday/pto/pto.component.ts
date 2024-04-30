@@ -117,7 +117,9 @@ export class PtoComponent {
                   const ld = lg.leaves[lg.leaves.length - 1];
                   if (ld.code.toLowerCase() === lv.code.toLowerCase() 
                     && ld.status.toLowerCase() === lv.status.toLowerCase() 
-                    && lv.leavedate.getDate() === ld.leavedate.getDate() + 1) {
+                    && lv.leavedate.getDate() === ld.leavedate.getDate() + 1
+                    && lv.hours >= 8.0 && ld.hours >= 8.0) 
+                  {
                     lg.addLeave(lv);
                     lm.leaveGroups[lm.leaveGroups.length - 1] = lg;
                   } else {

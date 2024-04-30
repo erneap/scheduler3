@@ -104,6 +104,13 @@ type NewSiteRequest struct {
 	Scheduler *users.User `json:"scheduler,omitempty"`
 }
 
+type UpdateSiteRequest struct {
+	TeamID string `json:"teamid"`
+	SiteID string `json:"siteid"`
+	Field  string `json:"field,omitempty"`
+	Value  string `json:"value"`
+}
+
 type CreateEmployeeLeaveBalances struct {
 	TeamID string `json:"team"`
 	SiteID string `json:"siteid"`

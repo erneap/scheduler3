@@ -76,32 +76,6 @@ export class SiteBasicInformationComponent {
     if (this.siteForm.valid) {
       this.authService.statusMessage = "Updating Site Information";
       this.dialogService.showSpinner();
-      this.siteService.UpdateSite(this.teamid, this.site.id, this.siteForm.value.name,
-      (this.siteForm.value.mids !== 'yes'), this.siteForm.value.offset)
-      .subscribe({
-        next: (data: SiteResponse) => {
-          this.dialogService.closeSpinner();
-          if (data && data != null && data.site) {
-            this.site = new Site(data.site);
-            this.siteChanged.emit(new Site(data.site));
-            const site = this.siteService.getSite();
-            if (site && data.site.id === site.id) {
-              this.siteService.setSite(new Site(data.site));
-            }
-            this.teamService.setSelectedSite(new Site(data.site));
-            const iTeam = this.teamService.getTeam();
-            if (iTeam) {
-              this.authService.setWebLabel(iTeam.name, this.site.name,
-                this.stateService.viewState);
-            }
-          }
-          this.authService.statusMessage = "Update complete"
-        },
-        error: (err: SiteResponse) => {
-          this.dialogService.closeSpinner();
-          this.authService.statusMessage = err.exception;
-        }
-      });
     }
   }
 }

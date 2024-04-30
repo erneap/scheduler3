@@ -294,7 +294,7 @@ export class Employee implements IEmployee {
       this.work.forEach(wk => {
         if (date.getFullYear() === wk.dateWorked.getFullYear() 
         && date.getMonth() === wk.dateWorked.getMonth() 
-        && date.getDate() === wk.dateWorked.getDate()) {
+        && date.getDate() === wk.dateWorked.getDate() && !wk.modtime) {
           actualHours += wk.hours;
         }
       });
