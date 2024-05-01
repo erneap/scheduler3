@@ -8,7 +8,7 @@
   </div>
   <div class="request">
     <app-leave-request-editor [employee]="requestEmployee" [request]="request"
-      [width]="requestWidth">
+      [width]="requestWidth" (changed)="employeeChanged($event)">
     </app-leave-request-editor>
   </div>
   <div class="available">

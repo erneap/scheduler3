@@ -6,6 +6,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SiteEditorWorkcenterComponent } from './site-editor-workcenter/site-editor-workcenter.component';
 import { SiteEditorWorkcenterPositionComponent } from './site-editor-workcenter/site-editor-workcenter-position/site-editor-workcenter-position.component';
 import { SiteEditorWorkcenterShiftComponent } from './site-editor-workcenter/site-editor-workcenter-shift/site-editor-workcenter-shift.component';
+import { SiteEditorReportsComponent } from './site-editor-reports/site-editor-reports.component';
+import { SiteEditorReportsForecastComponent } from './site-editor-reports/site-editor-reports-forecast/site-editor-reports-forecast.component';
+import { SiteEditorReportsCofsComponent } from './site-editor-reports/site-editor-reports-cofs/site-editor-reports-cofs.component';
+import { SiteEditorReportsForecastPeriodComponent } from './site-editor-reports/site-editor-reports-forecast/site-editor-reports-forecast-period/site-editor-reports-forecast-period.component';
+import { SiteEditorReportsForecastLaborComponent } from './site-editor-reports/site-editor-reports-forecast/site-editor-reports-forecast-labor/site-editor-reports-forecast-labor.component';
 
 
 @NgModule({
@@ -13,7 +18,12 @@ import { SiteEditorWorkcenterShiftComponent } from './site-editor-workcenter/sit
     SiteEditorComponent,
     SiteEditorWorkcenterComponent,
     SiteEditorWorkcenterPositionComponent,
-    SiteEditorWorkcenterShiftComponent
+    SiteEditorWorkcenterShiftComponent,
+    SiteEditorReportsComponent,
+    SiteEditorReportsForecastComponent,
+    SiteEditorReportsCofsComponent,
+    SiteEditorReportsForecastPeriodComponent,
+    SiteEditorReportsForecastLaborComponent
   ],
   imports: [
     CommonModule,

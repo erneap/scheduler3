@@ -52,6 +52,11 @@ export class TeamService extends CacheService {
     return undefined;
   }
 
+  retrieveTeam(teamid: string): Observable<SiteResponse> {
+    const url = `/api/v2/scheduler/team/${teamid}`;
+    return this.httpClient.get<SiteResponse>(url);
+  }
+
   retrieveSelectedSite(teamid: string, siteid: string): Observable<SiteResponse> {
     const url = `/api/v2/scheduler/site/${teamid}/${siteid}/true`;
     return this.httpClient.get<SiteResponse>(url);

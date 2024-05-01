@@ -21,7 +21,8 @@
   <mat-tab-group preserveContent="true" color="accent" [style]="setViewStyle()">
     <mat-tab label="Workcenter Editor">
       <app-site-editor-workcenter [teamid]="teamid" [site]="site" 
-        [width]="width"></app-site-editor-workcenter>
+        [width]="width" (changed)="siteChanged($event)">
+      </app-site-editor-workcenter>
     </mat-tab>
     <mat-tab label="Report Editor">
 
