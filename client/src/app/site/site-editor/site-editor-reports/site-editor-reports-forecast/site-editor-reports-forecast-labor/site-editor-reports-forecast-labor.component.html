@@ -1,1 +1,15 @@
-<p>site-editor-reports-forecast-labor works!</p>
+<div class="flexlayout column center">
+  <div class="list">
+    <div *ngFor="let item of laborcodes" [class]="setItemClass(item.id)"
+      (click)="onSelectLaborCode(item.id)">
+      {{item.label}}
+    </div>
+  </div>
+  <div class="flexlayout column center">
+    <div class="formrow">
+      <div class="formlabel">Charge Number</div>
+      <div class="forminput">
+        <input matNativeControl formControlName="chargenumber">
+      </div>
+  </div>
+</div>
