@@ -23,6 +23,10 @@ export class SiteEditorReportsForecastLaborComponent {
   public set report(r: IForecastReport) {
     this._report = new ForecastReport(r);
     this.setLaborCodes();
+    if (this._report.laborCodes && this._report.laborCodes.length > 0) {
+      this.selected = new LaborCode(this._report.laborCodes[0]);
+      this.setLaborCode();
+    }
   }
   get report(): ForecastReport {
     return this._report;
@@ -55,7 +59,7 @@ export class SiteEditorReportsForecastLaborComponent {
       this.teamid = iteam.id;
     }
     this.laborForm = this.fb.group({
-      chargeNumber: ['', [Validators.required]],
+      chargenumber: ['', [Validators.required]],
       extension: ['', [Validators.required]],
       clin: '',
       slin: '',
@@ -67,7 +71,8 @@ export class SiteEditorReportsForecastLaborComponent {
       exercise: false,
       startDate: [this.report.startDate, [Validators.required]],
       endDate: [this.report.endDate, [Validators.required]],
-    })
+    });
+    this.setLaborCode();
   }
 
   setLaborCodes() {
@@ -110,29 +115,70 @@ export class SiteEditorReportsForecastLaborComponent {
 
   setLaborCode() {
     if (this.selected.chargeNumber === 'new') {
-      this.laborForm.controls['chargenumber'].setValue('');
+      let first = undefined;
+      if (this.report.laborCodes && this.report.laborCodes.length > 0) {
+        first = this.report.laborCodes[0];
+      }
       this.laborForm.controls['extension'].setValue('');
+      if (first) {
+        this.laborForm.controls['chargenumber'].setValue(first.chargeNumber);
+        this.laborForm.controls['clin'].setValue(first.clin);
+        this.laborForm.controls['slin'].setValue(first.slin);
+        this.laborForm.controls['wbs'].setValue(first.wbs);
+        this.laborForm.controls['location'].setValue(first.location);
+        this.laborForm.controls['minimum'].setValue(1);
+        this.laborForm.controls['notAssignedName'].setValue('Empty');
+        this.laborForm.controls['hoursPerEmployee'].setValue(1824);
+        this.laborForm.controls['exercise'].setValue(false);
+        this.laborForm.controls['startDate'].setValue(
+          new Date(first.startDate));
+        this.laborForm.controls['endDate'].setValue(
+          new Date(first.endDate));
+      } else {
+        this.laborForm.controls['chargenumber'].setValue('');
+        this.laborForm.controls['clin'].setValue(this.selected.clin);
+        this.laborForm.controls['slin'].setValue(this.selected.slin);
+        this.laborForm.controls['wbs'].setValue(this.selected.wbs);
+        this.laborForm.controls['location'].setValue(this.selected.location);
+        this.laborForm.controls['minimum'].setValue(this.selected.minimumEmployees);
+        this.laborForm.controls['notAssignedName'].setValue(
+          this.selected.notAssignedName);
+        this.laborForm.controls['hoursPerEmployee'].setValue(
+          this.selected.hoursPerEmployee);
+        this.laborForm.controls['exercise'].setValue(this.selected.exercise);
+        this.laborForm.controls['startDate'].setValue(
+          new Date(this.selected.startDate));
+        this.laborForm.controls['endDate'].setValue(
+          new Date(this.selected.endDate));
+      }
     } else {
       this.laborForm.controls['chargenumber'].setValue(
         this.selected.chargeNumber);
       this.laborForm.controls['extension'].setValue(this.selected.extension);
+      this.laborForm.controls['clin'].setValue(this.selected.clin);
+      this.laborForm.controls['slin'].setValue(this.selected.slin);
+      this.laborForm.controls['wbs'].setValue(this.selected.wbs);
+      this.laborForm.controls['location'].setValue(this.selected.location);
+      this.laborForm.controls['minimum'].setValue(this.selected.minimumEmployees);
+      this.laborForm.controls['notAssignedName'].setValue(
+        this.selected.notAssignedName);
+      this.laborForm.controls['hoursPerEmployee'].setValue(
+        this.selected.hoursPerEmployee);
+      this.laborForm.controls['exercise'].setValue(this.selected.exercise);
+      this.laborForm.controls['startDate'].setValue(
+        new Date(this.selected.startDate));
+      this.laborForm.controls['endDate'].setValue(
+        new Date(this.selected.endDate));
     }
-    this.laborForm.controls['clin'].setValue(this.selected.clin);
-    this.laborForm.controls['slin'].setValue(this.selected.slin);
-    this.laborForm.controls['wbs'].setValue(this.selected.wbs);
-    this.laborForm.controls['location'].setValue(this.selected.location);
-    this.laborForm.controls['minimum'].setValue(this.selected.minimumEmployees);
-    this.laborForm.controls['notAssignedName'].setValue(
-      this.selected.notAssignedName);
-    this.laborForm.controls['hoursPerEmployee'].setValue(
-      this.selected.hoursPerEmployee);
-    this.laborForm.controls['exercise'].setValue(this.selected.exercise);
-    this.laborForm.controls['startDate'].setValue(
-      new Date(this.selected.startDate));
-    this.laborForm.controls['endDate'].setValue(
-      new Date(this.selected.endDate));
   }
 
+  setLaborInputStyle(field: string): string {
+    if (this.laborForm.controls[field].hasError('required')) {
+      return "width: 99%;background-color: pink;";
+    }
+    return "width: 99%;background-color: white;";
+  }
+ 
   getDateString(date: Date): string {
     date = new Date(date);
     let answer = `${date.getFullYear()}-`;
@@ -148,7 +194,7 @@ export class SiteEditorReportsForecastLaborComponent {
   }
 
   onAddLaborCode() {
-    const chgNo = this.laborForm.value.chargeNumber;
+    const chgNo = this.laborForm.value.chargenumber;
     const ext = this.laborForm.value.extension;
     const startDate = this.laborForm.value.startDate;
     const endDate = this.laborForm.value.endDate;

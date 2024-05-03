@@ -24,7 +24,7 @@ export class SiteEditorComponent {
   get site(): Site {
     return this._site;
   }
-  @Input() teamid: string = '';
+  @Input() team: Team = new Team();
   @Input() width: number = 1048;
   @Output() changed = new EventEmitter<Site>();
 
@@ -46,7 +46,7 @@ export class SiteEditorComponent {
     }
     const iteam = this.teamService.getTeam();
     if (iteam) {
-      this.teamid = iteam.id;
+      this.team = new Team(iteam);
     }
     this.siteform = this.fb.group({
       name: ['', [Validators.required]],
@@ -67,7 +67,7 @@ export class SiteEditorComponent {
   updateSite(field: string) {
     const fieldValue = `${this.siteform.controls[field].value}`;
     this.dialogService.showSpinner();
-    this.siteService.UpdateSite(this.teamid, this.site.id, field, fieldValue)
+    this.siteService.UpdateSite(this.team.id, this.site.id, field, fieldValue)
     .subscribe({
       next: (resp: SiteResponse) => {
         this.dialogService.closeSpinner();

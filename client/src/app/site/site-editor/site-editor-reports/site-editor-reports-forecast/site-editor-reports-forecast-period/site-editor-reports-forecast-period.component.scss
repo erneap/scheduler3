@@ -4,8 +4,7 @@
   vertical-align: top;
   padding: 0;
   margin: 0;
-  width: 248px;
-  height: 250px;
+  width: 298px;
   background-color: white;
   border: solid 1px white;
   overflow-y: auto;
@@ -14,9 +13,9 @@
 .item {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  width: 248px;
+  width: 298px;
   height: 20px;
   font-size: 1rem;
   font-weight: bold;
@@ -41,9 +40,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 460px;
-  height: 30px;
-  font-size: 16pt;
+  width: 298px;
+  height: 20px;
+  font-size: 1rem;
   font-weight: bold;
   background-color:darkblue;
   color: white;
@@ -53,9 +52,9 @@
 .movePeriod {
   display: flex;
   align-items: center;
-  width: 219px;
-  height: 30px;
-  font-size: 16pt;
+  width: 138px;
+  height: 20px;
+  font-size: 1rem;
   font-weight: bold;
   background-color: cyan;
   color: black;

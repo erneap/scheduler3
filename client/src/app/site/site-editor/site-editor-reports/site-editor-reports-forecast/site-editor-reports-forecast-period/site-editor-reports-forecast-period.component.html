@@ -1,5 +1,5 @@
 <div class="flexlayout column topcenter">
-  <h3>Selected Report Periods</h3>
+  <h5>Selected Report Periods</h5>
   <div class="flexlayout row center">
     <div class="list" [style]="getListHeight()">
       <div *ngFor="let item of periods"
@@ -18,5 +18,21 @@
     <div class="movePeriod forward" (click)="onMovePeriod('forward')">
       Last Week &gt;
     </div>
+  </div>
+  <div class="flexlayout column center" style="width: 100%;">
+    <div class="movelabel">
+      Out-of-Cycle Period
+    </div>
+    <form [formGroup]="periodForm" class="flexlayout row center">
+      <mat-form-field appearance="fill">
+        <input matInput formControlName="newdate" [matDatepicker]="datepicker">
+        <mat-datepicker-toggle matIconSuffix [for]="datepicker">
+        </mat-datepicker-toggle>
+        <mat-datepicker #datepicker></mat-datepicker>
+      </mat-form-field>
+      <button mat-icon-button color="accent" (click)="onAddOutOfCycle()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </form>
   </div>
 </div>

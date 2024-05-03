@@ -5,7 +5,6 @@ import { SiteWorkcentersComponent } from './site-workcenters/site-workcenters.co
 import { SiteComponent } from './site.component';
 import { NewSiteComponent } from './new-site/new-site.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SiteBasicInformationComponent } from './site-basic-information/site-basic-information.component';
 import { SiteForecastReportEditorComponent } from './site-forecast-report-editor/site-forecast-report-editor.component';
 import { SiteWorkcenterShiftComponent } from './site-workcenters/site-workcenter-shift/site-workcenter-shift.component';
 import { SiteWorkcenterPositionComponent } from './site-workcenters/site-workcenter-position/site-workcenter-position.component';
@@ -25,7 +24,6 @@ import { SiteEditorModule } from './site-editor/site-editor.module';
     SiteWorkcentersComponent,
        SiteComponent,
        NewSiteComponent,
-       SiteBasicInformationComponent,
        SiteForecastReportEditorComponent,
        SiteWorkcenterShiftComponent,
        SiteWorkcenterPositionComponent,

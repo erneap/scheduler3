@@ -4,7 +4,7 @@
   vertical-align: top;
   padding: 0;
   margin: 0;
-  width: 248px;
+  width: 348px;
   height: 250px;
   background-color: white;
   border: solid 1px white;
@@ -16,7 +16,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 248px;
+  width: 348px;
   height: 20px;
   font-size: 1rem;
   font-weight: bold;
@@ -35,4 +35,12 @@
 .selected {
   background-color: #3f51b5;
   color: white;
+}
+
+.input {
+  width: 340px !important;
+}
+
+.halfinput {
+  width: 170px !important;
 }

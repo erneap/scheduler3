@@ -20,12 +20,13 @@
   </form>
   <mat-tab-group preserveContent="true" color="accent" [style]="setViewStyle()">
     <mat-tab label="Workcenter Editor">
-      <app-site-editor-workcenter [teamid]="teamid" [site]="site" 
+      <app-site-editor-workcenter [teamid]="team.id" [site]="site" 
         [width]="width" (changed)="siteChanged($event)">
       </app-site-editor-workcenter>
     </mat-tab>
     <mat-tab label="Report Editor">
-
+      <app-site-editor-reports [team]="team" [site]="site" [width]="width"
+        (changed)="siteChanged($event)"></app-site-editor-reports>
     </mat-tab>
   </mat-tab-group>
 </div>

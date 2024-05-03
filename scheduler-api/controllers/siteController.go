@@ -1289,6 +1289,9 @@ func UpdateSiteForecastReport(c *gin.Context) {
 				fromDate, _ := time.Parse("2006-01-02", parts[0])
 				toDate, _ := time.Parse("2006-01-02", parts[1])
 				rpt.MovePeriodBetweenMonths(fromDate, toDate)
+			case "addperiod":
+				prdDate, _ := time.Parse("2006-01-02", data.Value)
+				rpt.AddOutCyclePeriod(prdDate)
 			}
 			site.ForecastReports[r] = rpt
 		}

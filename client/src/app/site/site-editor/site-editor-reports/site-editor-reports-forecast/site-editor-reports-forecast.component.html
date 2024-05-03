@@ -1,1 +1,77 @@
-<p>site-editor-reports-forecast works!</p>
+<div class="flexlayout row topleft flexgap">
+  <form [formGroup]="reportForm" class="flexlayout column topleft flexgap">
+    <div class="list">
+      <div *ngFor="let item of reports" [class]="setItemClass(item.id)"
+        (click)="onSelect(item.id)">
+        {{item.label}}
+      </div>
+    </div>
+    <mat-form-field class="input" appearance="fill">
+      <mat-label>Report Name</mat-label>
+      <input matInput formControlName="name" (blur)="onChange('name')">
+      <mat-error class="error" *ngIf="reportForm.controls['name'].hasError('required')">
+        Required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="input" appearance="fill">
+      <mat-label>Associated Company</mat-label>
+      <mat-select formControlName="companyid" (selectionChange)="onChange('companyid')">
+        <mat-option *ngFor="let item of companylist" [value]="item.id">
+          {{item.label}}
+        </mat-option>
+      </mat-select>
+      <mat-error class="error" *ngIf="reportForm.controls['companyid'].hasError('required')">
+        Required
+      </mat-error>
+    </mat-form-field>
+    <div class="flexlayout row topleft flexgap">
+      <mat-form-field class="halfinput" appearance="fill">
+        <mat-label>Start Date</mat-label>
+        <input matInput formControlName="start" [matDatepicker]="startpicker"
+          (dateChange)="onChange('start')">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
+        <mat-datepicker #startpicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="halfinput" appearance="fill">
+        <mat-label>End Date</mat-label>
+        <input matInput formControlName="end" [matDatepicker]="endpicker"
+          (dateChange)="onChange('end')">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
+        <mat-datepicker #endpicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="flexlayout column center">
+      <div>Select Sub-Period Ending Day:</div>
+      <mat-radio-group formControlName="period" color="accent"
+        class="flexlayout row center flexwrap input"
+        style="background-color: white;"
+        (change)="onChange('period')">
+        <mat-radio-button value="0">Sunday</mat-radio-button>
+        <mat-radio-button value="1">Monday</mat-radio-button>
+        <mat-radio-button value="2">Tuesday</mat-radio-button>
+        <mat-radio-button value="3">Wednesday</mat-radio-button>
+        <mat-radio-button value="4">Thursday</mat-radio-button>
+        <mat-radio-button value="5">Friday</mat-radio-button>
+        <mat-radio-button value="6">Saturday</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="flexlayout row center flexgap">
+      <button mat-raised-button color="accent"
+        *ngIf="this.reportForm.valid && this.selected.id <= 0"
+        (click)="onAddReport()">Add</button>
+      <button mat-raised-button color="warn"
+        *ngIf="this.reportForm.valid && this.selected.id <= 0"
+        (click)="onClear()">Clear</button>
+    </div>
+  </form>
+  <app-site-editor-reports-forecast-period *ngIf="selected.id > 0"
+    [site]="site" [report]="selected" [teamid]="team.id" 
+    (changed)="onSiteChanged($event)">
+  </app-site-editor-reports-forecast-period>
+  <app-site-editor-reports-forecast-labor *ngIf="selected.id > 0"
+    [siteid]="site.id" [report]="selected" [teamid]="team.id" 
+    [width]="width" (changed)="onSiteChanged($event)">
+  </app-site-editor-reports-forecast-labor>
+</div>

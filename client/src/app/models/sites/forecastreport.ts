@@ -86,4 +86,9 @@ export class ForecastReport implements IForecastReport {
     return (dt.getTime() >= this.startDate.getTime() 
       && dt.getTime() <= this.endDate.getTime());
   }
+  
+  show(dt: Date): boolean {
+    return (dt.getTime() <= this.startDate.getTime()
+      || dt.getTime() <= this.endDate.getTime());
+  }
 }

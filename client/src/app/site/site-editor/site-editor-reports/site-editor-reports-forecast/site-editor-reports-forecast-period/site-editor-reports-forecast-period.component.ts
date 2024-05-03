@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ListItem } from 'src/app/generic/button-list/listitem';
 import { ForecastPeriod, ForecastReport, IForecastReport } from 'src/app/models/sites/forecastreport';
 import { ISite, Site } from 'src/app/models/sites/site';
@@ -32,17 +32,19 @@ export class SiteEditorReportsForecastPeriodComponent {
   get site(): Site {
     return this._site;
   }
+  @Input() teamid: string = '';
   @Output() changed = new EventEmitter<Site>();
-  teamid: string;
   periods: ListItem[] = [];
   periodMap = new Map<string, ForecastPeriod>()
   selected: string = 'new';
+  periodForm: FormGroup;
 
   constructor(
     protected authService: AuthService,
     protected dialogService: DialogService,
     protected siteService: SiteService,
-    protected teamService: TeamService
+    protected teamService: TeamService,
+    private fb: FormBuilder
   ) {
     const team = this.teamService.getTeam();
     if (team) {
@@ -50,18 +52,21 @@ export class SiteEditorReportsForecastPeriodComponent {
     } else {
       this.teamid = '';
     }
+    this.periodForm = this.fb.group({
+      newdate: [new Date(), [Validators.required]]
+    });
   }
   
   setItemClass(id: string): string {
     if (id.toLowerCase() === this.selected.toLowerCase()) {
-      return "employee active";
+      return "item selected";
     }
-    return "employee";
+    return "item";
   }
 
   getListHeight(): string {
     if (this.report.periods && this.report.periods.length > 0) {
-      const length = (this.report.periods.length+1) * 30;
+      const length = (this.report.periods.length+1) * 22;
       return `height: ${length}px;`;
     }
     return `height: 30px;`;
@@ -136,13 +141,7 @@ export class SiteEditorReportsForecastPeriodComponent {
                 }
               })
             }
-            const site = this.siteService.getSite();
-            if (site && data.site.id === site.id) {
-              this.siteService.setSite(new Site(data.site));
-            }
-            this.teamService.setSelectedSite(new Site(data.site));
           }
-          this.authService.statusMessage = "Retrieval complete"
         },
         error: (err: SiteResponse) => {
           this.dialogService.closeSpinner();
@@ -150,5 +149,32 @@ export class SiteEditorReportsForecastPeriodComponent {
         }
       });
     }
+  }
+
+  onAddOutOfCycle() {
+    const newdate = new Date(this.periodForm.value.newdate);
+    this.dialogService.showSpinner();
+    this.siteService.updateForecastReport(this.teamid, this.site.id, 
+      this.report.id, 'addperiod', this.getDateString(newdate)).subscribe({
+      next: (data: SiteResponse) => {
+        this.dialogService.closeSpinner();
+        if (data && data != null && data.site) {
+          this.site = new Site(data.site);
+          this.changed.emit(new Site(data.site));
+          if (this.site.forecasts) {
+            this.site.forecasts.forEach(rpt => {
+              if (rpt.id === this.report.id) {
+                this.report = rpt;
+              }
+            })
+          }
+        }
+      },
+      error: (err: SiteResponse) => {
+        this.dialogService.closeSpinner();
+        this.authService.statusMessage = err.exception;
+      }
+    });
+  
   }
 }
