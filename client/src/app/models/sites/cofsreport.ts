@@ -34,6 +34,42 @@ export class CofSCompany implements ICofSCompany {
   }
 }
 
+export interface ICofSSection {
+  id: number;
+  company: string;
+  label: string;
+  signature: string;
+  laborcodes: IEmployeeLaborCode[];
+  showunit: boolean;
+}
+
+export class CofSSection implements ICofSSection {
+  id: number;
+  company: string;
+  label: string;
+  signature: string;
+  laborcodes: IEmployeeLaborCode[];
+  showunit: boolean;
+
+  constructor(section?: ICofSSection) {
+    this.id = (section) ? section.id : 0;
+    this.company = (section) ? section.company : '';
+    this.label = (section) ? section.label : '';
+    this.signature = (section) ? section.signature : '';
+    this.showunit = (section) ? section.showunit : false;
+    this.laborcodes = [];
+    if (section && section.laborcodes && section.laborcodes.length > 0) {
+      section.laborcodes.forEach(lc => {
+        this.laborcodes.push(new EmployeeLaborCode(lc));
+      })
+    }
+  }
+
+  compareTo(other?: ICofSSection) {
+    return (other) ? ((this.id < other.id) ? -1 : 1) : -1;
+  }
+}
+
 export interface ICofSReport {
   id: number;
   name: string;
@@ -42,6 +78,7 @@ export interface ICofSReport {
   enddate: Date;
   unit: string;
   companies?: ICofSCompany[];
+  sections?: ICofSSection[];
 }
 
 export class CofSReport implements ICofSReport {
@@ -52,6 +89,7 @@ export class CofSReport implements ICofSReport {
   enddate: Date;
   unit: string;
   companies: CofSCompany[];
+  sections: CofSSection[];
 
   constructor(rpt?: ICofSReport) {
     this.id = (rpt) ? rpt.id : 0;
@@ -64,7 +102,13 @@ export class CofSReport implements ICofSReport {
     if (rpt && rpt.companies) {
       rpt.companies.forEach(co => {
         this.companies.push(new CofSCompany(co));
-      })
+      });
+    }
+    this.sections = [];
+    if (rpt && rpt.sections) {
+      rpt.sections.forEach(sect => {
+        this.sections.push(new CofSSection(sect));
+      });
     }
   }
 
