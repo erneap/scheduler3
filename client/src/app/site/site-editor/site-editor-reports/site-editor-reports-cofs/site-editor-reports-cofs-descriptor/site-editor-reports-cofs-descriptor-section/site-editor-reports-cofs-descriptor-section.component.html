@@ -1,1 +1,87 @@
-<p>site-editor-reports-cofs-descriptor-section works!</p>
+<div class="flexlayout column topleft" style="margin-left: 10px;">
+  <h4>Report Sections Editor</h4>
+  <div class="flexlayout row topleft flexgap">
+    <div class="flexlayout row topcenter">
+      <div class="sectionlist">
+        <div *ngFor="let item of sections" [class]="setSectionItem(item.id)"
+          (click)="onSelectSection(item.id)">
+          {{item.label}}
+        </div>
+      </div>
+      <div class="layout-stretch sortdiv">
+        <div class="movement layout-top" (click)="moveSection('up')"
+          *ngIf="showMoveUp">
+          <mat-icon>arrow_drop_up</mat-icon>
+        </div>
+        <div class="movement layout-top" *ngIf="!showMoveUp">
+        </div>
+        <div class="delete" *ngIf="this.selected.id > 0"
+          (click)="deleteSection()">
+          <mat-icon>delete</mat-icon>
+        </div>
+        <div class="delete" *ngIf="this.selected.id <= 0">
+        </div>
+        <div class="movement layout-bottom" (click)="moveSection('down')"
+          *ngIf="showMoveDown">
+          <mat-icon>arrow_drop_down</mat-icon>
+        </div>
+        <div class="movement layout-bottom" *ngIf="!showMoveDown">
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="sectionForm" class="flexlayout column topcenter">
+      <div class="formrow">
+        <div class="formlabel">Section Company</div>
+        <div class="forminput">
+          <select matNativeControl formControlName="company"
+            class="forminput" (change)="updateSection('company')"
+            [style]="setInputStyle('company')">
+            <option *ngFor="let co of companylist" [value]="co.id">
+              {{co.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="formrow">
+        <div class="formlabel">Section Label</div>
+        <div class="forminput">
+          <input matNativeControl formControlName="label"
+            class="forminput" (blur)="updateSection('label')"
+            [style]="setInputStyle('label')">
+        </div>
+      </div>
+      <div class="formrow">
+        <div class="formlabel">Signature</div>
+        <div class="forminput">
+          <input matNativeControl formControlName="signature"
+            class="forminput" (blur)="updateSection('signature')"
+            [style]="setInputStyle('signature')">
+        </div>
+      </div>
+      <div class="formrow">
+        <div class="formlabel">Show Unit in Section</div>
+        <div class="forminput" style="background-color: white;">
+          <mat-checkbox formControlName="showunit" 
+            (change)="updateSection('showunit')">
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="formrow formfull">
+        Labor Codes to Use in Section
+      </div>
+      <div class="formrow formfull">
+        <div class="laborlist">
+          <div *ngFor="let item of laborcodes" [class]="setLaborClass(item.id)" 
+            (click)="updateSectionLaborCode(item.id)">
+            {{item.label}}
+          </div>
+        </div>
+      </div>
+      <div class="formrow formfull" *ngIf="this.selected.id <= 0">
+        <button mat-raised-button color="accent" (click)="addNewSection()">
+          Add
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

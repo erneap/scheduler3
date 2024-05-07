@@ -1462,6 +1462,51 @@ func UpdateSiteCofSReport(c *gin.Context) {
 	for r, rpt := range site.CofSReports {
 		if rpt.ID == data.ReportID {
 			switch strings.ToLower(data.Field) {
+			case "convert":
+				// this option will convert a CofS Report described by companies to
+				// one described by sections.  Each section will contain one company
+				// but if the report allows exercise info, it will be added to another
+				// section
+				if len(rpt.Sections) > 0 {
+					rpt.Sections = rpt.Sections[:0]
+				} else {
+					rpt.Sections = make([]sites.CofSSection, 0)
+				}
+				sort.Sort(sites.ByCofSCompany(rpt.Companies))
+				exercises := 0
+				for i := 0; i < len(rpt.Companies); i++ {
+					co := rpt.Companies[i]
+					sect := sites.CofSSection{
+						ID:             i + 1,
+						CompanyID:      co.ID,
+						Label:          strings.ToUpper(co.ID),
+						SignatureBlock: co.SignatureBlock,
+						ShowUnit:       false,
+						LaborCodes:     make([]labor.LaborCode, 0),
+					}
+					for _, lc := range co.LaborCodes {
+						if !strings.Contains(strings.ToLower(lc.Extension), "ex") {
+							sect.LaborCodes = append(sect.LaborCodes, lc)
+						}
+					}
+					rpt.Sections = append(rpt.Sections, sect)
+					if co.AddExercises {
+						exsect := sites.CofSSection{
+							ID:             len(rpt.Companies) + exercises,
+							CompanyID:      co.ID,
+							Label:          strings.ToUpper(co.ID),
+							SignatureBlock: co.SignatureBlock,
+							ShowUnit:       false,
+							LaborCodes:     make([]labor.LaborCode, 0),
+						}
+						for _, lc := range co.LaborCodes {
+							if strings.Contains(strings.ToLower(lc.Extension), "ex") {
+								exsect.LaborCodes = append(exsect.LaborCodes, lc)
+							}
+						}
+						rpt.Sections = append(rpt.Sections, exsect)
+					}
+				}
 			case "name":
 				rpt.Name = data.Value
 			case "unit":
@@ -1696,6 +1741,208 @@ func UpdateSiteCofSReport(c *gin.Context) {
 		})
 }
 
+func AddCofSReportSection(c *gin.Context) {
+	var data web.NewCofSReportSection
+	logmsg := "SiteController: NewCofSReportSection:"
+
+	if err := c.ShouldBindJSON(&data); err != nil {
+		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		c.JSON(http.StatusBadRequest,
+			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
+		return
+	}
+
+	site, err := services.GetSite(data.TeamID, data.SiteID)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s GetSite: %s", logmsg, "Site Not Found"))
+			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
+				Exception: "Site Not Found"})
+		} else {
+			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s GetSite Error: %s", logmsg, err.Error()))
+			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
+				Exception: err.Error()})
+		}
+		return
+	}
+
+	for r, rpt := range site.CofSReports {
+		if rpt.ID == data.ReportID {
+			if data.SectionID > 0 {
+				sort.Sort(sites.ByCofSSection(rpt.Sections))
+				found := false
+				for s, sect := range rpt.Sections {
+					if sect.ID == data.SectionID {
+						found = true
+						rpt.Sections[s] = sites.CofSSection{
+							ID:             data.SectionID,
+							CompanyID:      data.Company,
+							Label:          data.Label,
+							SignatureBlock: data.Signature,
+							ShowUnit:       data.ShowUnit,
+							LaborCodes:     data.LaborCodes,
+						}
+					}
+				}
+				if !found {
+					sect := sites.CofSSection{
+						ID:             data.SectionID,
+						CompanyID:      data.Company,
+						Label:          data.Label,
+						SignatureBlock: data.Signature,
+						ShowUnit:       data.ShowUnit,
+						LaborCodes:     data.LaborCodes,
+					}
+					rpt.Sections = append(rpt.Sections, sect)
+					sort.Sort(sites.ByCofSSection(rpt.Sections))
+				}
+			} else {
+				sort.Sort(sites.ByCofSSection(rpt.Sections))
+				max := 0
+				if len(rpt.Sections) > 0 {
+					max = rpt.Sections[len(rpt.Sections)-1].ID
+				}
+				max++
+
+				sect := sites.CofSSection{
+					ID:             max,
+					CompanyID:      data.Company,
+					Label:          data.Label,
+					SignatureBlock: data.Signature,
+					ShowUnit:       data.ShowUnit,
+					LaborCodes:     data.LaborCodes,
+				}
+				fmt.Println(max)
+				rpt.Sections = append(rpt.Sections, sect)
+				sort.Sort(sites.ByCofSSection(rpt.Sections))
+			}
+			site.CofSReports[r] = rpt
+		}
+	}
+
+	err = services.UpdateSite(data.TeamID, *site)
+	if err != nil {
+		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s UpdateSite: %s", logmsg, err.Error()))
+		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil,
+			Site: nil, Exception: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK,
+		web.SiteResponse{
+			Team: nil, Site: site, Exception: "",
+		})
+}
+
+func UpdateCofSReportSection(c *gin.Context) {
+	var data web.UpdateCofSReportSection
+	logmsg := "SiteController: UpdateCofSReportSection:"
+
+	if err := c.ShouldBindJSON(&data); err != nil {
+		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		c.JSON(http.StatusBadRequest,
+			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
+		return
+	}
+
+	site, err := services.GetSite(data.TeamID, data.SiteID)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s GetSite: %s", logmsg, "Site Not Found"))
+			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
+				Exception: "Site Not Found"})
+		} else {
+			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s GetSite Error: %s", logmsg, err.Error()))
+			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
+				Exception: err.Error()})
+		}
+		return
+	}
+
+	for r, rpt := range site.CofSReports {
+		if rpt.ID == data.ReportID {
+			sort.Sort(sites.ByCofSSection(rpt.Sections))
+			for s, sect := range rpt.Sections {
+				if sect.ID == data.SectionID {
+					switch strings.ToLower(data.Field) {
+					case "company":
+						sect.CompanyID = data.Value
+					case "label":
+						sect.Label = data.Value
+					case "signature":
+						sect.SignatureBlock = data.Value
+					case "showunit":
+						sect.ShowUnit = (strings.ToLower(data.Value) == "true")
+					case "addlaborcode":
+						parts := strings.Split(data.Value, "-")
+						found := false
+						for _, lc := range sect.LaborCodes {
+							if lc.ChargeNumber == parts[0] && lc.Extension == parts[1] {
+								found = true
+							}
+						}
+						if !found {
+							newLc := labor.LaborCode{
+								ChargeNumber: parts[0],
+								Extension:    parts[1],
+							}
+							sect.LaborCodes = append(sect.LaborCodes, newLc)
+						}
+					case "removelaborcode":
+						parts := strings.Split(data.Value, "-")
+						pos := -1
+						for l, lc := range sect.LaborCodes {
+							if lc.ChargeNumber == parts[0] && lc.Extension == parts[1] {
+								pos = l
+							}
+						}
+						if pos >= 0 {
+							sect.LaborCodes = append(sect.LaborCodes[:pos], sect.LaborCodes[pos+1:]...)
+						}
+					case "move":
+						if strings.ToLower(data.Value) == "up" && s > 0 {
+							altsect := rpt.Sections[s-1]
+							newID := altsect.ID
+							altsect.ID = sect.ID
+							sect.ID = newID
+							rpt.Sections[s-1] = altsect
+						} else if strings.ToLower(data.Value) == "down" && s < len(rpt.Sections)-1 {
+							altsect := rpt.Sections[s+1]
+							newID := altsect.ID
+							altsect.ID = sect.ID
+							sect.ID = newID
+							rpt.Sections[s+1] = altsect
+						}
+					}
+					rpt.Sections[s] = sect
+				}
+			}
+			site.CofSReports[r] = rpt
+		}
+	}
+
+	err = services.UpdateSite(data.TeamID, *site)
+	if err != nil {
+		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s UpdateSite: %s", logmsg, err.Error()))
+		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil,
+			Site: nil, Exception: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK,
+		web.SiteResponse{
+			Team: nil, Site: site, Exception: "",
+		})
+}
+
 func DeleteCofSReport(c *gin.Context) {
 	teamID := c.Param("teamid")
 	siteID := c.Param("siteid")
@@ -1733,6 +1980,72 @@ func DeleteCofSReport(c *gin.Context) {
 	if found >= 0 {
 		site.CofSReports = append(site.CofSReports[:found],
 			site.CofSReports[found+1:]...)
+	}
+
+	err = services.UpdateSite(teamID, *site)
+	if err != nil {
+		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s Update Site: %s", logmsg, err.Error()))
+		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil,
+			Site: nil, Exception: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK,
+		web.SiteResponse{
+			Team: nil, Site: site, Exception: "",
+		})
+}
+
+func DeleteCofSReportSection(c *gin.Context) {
+	teamID := c.Param("teamid")
+	siteID := c.Param("siteid")
+	logmsg := "SiteController: DeleteCofSReport:"
+	rptID, err := strconv.Atoi(c.Param("rptid"))
+	if err != nil {
+		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s Report ID Convert: %s", logmsg, err.Error()))
+		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
+			Exception: err.Error()})
+	}
+	sectID, err := strconv.Atoi(c.Param("sectid"))
+	if err != nil {
+		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s Section ID Convert: %s", logmsg, err.Error()))
+		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
+			Exception: err.Error()})
+	}
+
+	site, err := services.GetSite(teamID, siteID)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s GetSite: %s", logmsg, "Site Not Found"))
+			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
+				Exception: "Site Not Found"})
+		} else {
+			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s GetSite Error: %s", logmsg, err.Error()))
+			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
+				Exception: err.Error()})
+		}
+		return
+	}
+
+	for r, rpt := range site.CofSReports {
+		if rpt.ID == rptID {
+			found := -1
+			for s, sect := range rpt.Sections {
+				if sect.ID == sectID {
+					found = s
+				}
+			}
+			if found >= 0 {
+				rpt.Sections = append(rpt.Sections[:found],
+					rpt.Sections[found+1:]...)
+			}
+			site.CofSReports[r] = rpt
+		}
 	}
 
 	err = services.UpdateSite(teamID, *site)

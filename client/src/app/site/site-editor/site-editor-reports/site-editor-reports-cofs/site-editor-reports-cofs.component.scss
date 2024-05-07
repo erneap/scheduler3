@@ -1,0 +1,75 @@
+.list {
+  position: relative;
+  text-align: center;
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+  width: 348px;
+  height: 160px;
+  background-color: white;
+  border: solid 1px #ffffff;
+  overflow-y: auto;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 348px;
+  height: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: solid 1px black;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.item:hover {
+  background-color: lightblue;
+  color: black;
+  border: solid 1px black;
+}
+
+.selected {
+  background-color: #3f51b5;
+  color: white;
+}
+
+.formlabel {
+  width: 125px;
+  font-size: 10pt;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.forminput {
+  width: 223px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.formfull {
+  width: 348px;
+  margin: 0;
+  padding: 0;
+}
+
+.formrow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  border: solid 1px black;
+  margin: 0;
+  padding: 0;
+}

@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/erneap/go-models/employees"
+	"github.com/erneap/go-models/labor"
 	"github.com/erneap/go-models/users"
 )
 
@@ -276,6 +277,27 @@ type UpdateCofSReport struct {
 	SiteID    string `json:"siteid"`
 	ReportID  int    `json:"rptid"`
 	CompanyID string `json:"companyid,omitempty"`
+	Field     string `json:"field"`
+	Value     string `json:"value"`
+}
+
+type NewCofSReportSection struct {
+	TeamID     string            `json:"teamid"`
+	SiteID     string            `json:"siteid"`
+	ReportID   int               `json:"rptid"`
+	SectionID  int               `json:"sectionid"`
+	Company    string            `json:"company"`
+	Label      string            `json:"label"`
+	Signature  string            `json:"signature"`
+	ShowUnit   bool              `json:"showunit"`
+	LaborCodes []labor.LaborCode `json:"laborcodes,omitempty"`
+}
+
+type UpdateCofSReportSection struct {
+	TeamID    string `json:"teamid"`
+	SiteID    string `json:"siteid"`
+	ReportID  int    `json:"rptid"`
+	SectionID int    `json:"sectionid"`
 	Field     string `json:"field"`
 	Value     string `json:"value"`
 }

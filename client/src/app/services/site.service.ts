@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { Employee, IEmployee } from '../models/employees/employee';
+import { Employee, EmployeeLaborCode, IEmployee, IEmployeeLaborCode } from '../models/employees/employee';
 import { ISite, Site } from '../models/sites/site';
 import { IUser, User } from '../models/users/user';
 import { NewSiteRequest, NewSiteWorkcenter, SiteResponse, SiteWorkcenterUpdate,
@@ -11,7 +11,9 @@ import { NewSiteRequest, NewSiteWorkcenter, SiteResponse, SiteWorkcenterUpdate,
   NewCofSReport,
   UpdateCofSReport,
   SiteWorkResponse,
-  UpdateSiteRequest} 
+  UpdateSiteRequest,
+  NewCofSReportSection,
+  UpdateCofSReportSection} 
   from '../models/web/siteWeb';
 import { CacheService } from './cache.service';
 import { NewSiteLaborCode } from '../models/web/siteWeb';
@@ -407,6 +409,55 @@ export class SiteService extends CacheService {
     rptid: number): Observable<SiteResponse> {
     const url = `/api/v2/scheduler/site/cofs/${teamid}/`
       + `${siteid}/${rptid}`;
+    return this.httpClient.delete<SiteResponse>(url);
+  }
+
+  addCofSReportSection(teamid: string, siteid: string, rptid: number, 
+    sectionid: number, company: string, label: string, signature: string,
+    showunit: boolean, laborcodes: IEmployeeLaborCode[]):Observable<SiteResponse> {
+    const url = '/api/v2/scheduler/site/cofs/section';
+    const data: NewCofSReportSection = {
+      teamid: teamid,
+      siteid: siteid,
+      rptid: rptid,
+      sectionid: sectionid,
+      company: company,
+      label: label,
+      signature: signature,
+      showunit: showunit,
+      laborcodes: undefined,
+    };
+    if (laborcodes && laborcodes.length > 0) {
+      data.laborcodes = [];
+      laborcodes.forEach(lc => {
+        const newLc: IEmployeeLaborCode = {
+          chargeNumber: lc.chargeNumber,
+          extension: lc.extension,
+        }
+        data.laborcodes?.push(newLc);
+      });
+    }
+    return this.httpClient.post<SiteResponse>(url, data);
+  }
+
+  updateCofSReportSection(teamid: string, siteid: string, rptid: number, 
+    sectionid: number, field: string, value: string):Observable<SiteResponse> {
+    const url = '/api/v2/scheduler/site/cofs/section';
+    const data: UpdateCofSReportSection = {
+      teamid: teamid,
+      siteid: siteid,
+      rptid: rptid,
+      sectionid: sectionid,
+      field: field,
+      value: value,
+    };
+    return this.httpClient.put<SiteResponse>(url, data);
+  }
+
+  deleteCofSReportSection(teamid: string, siteid: string, rptid: number, 
+    sectionid: number): Observable<SiteResponse> {
+    const url = `/api/v2/scheduler/site/cofs/section/${teamid}/`
+      + `${siteid}/${rptid}/${sectionid}`;
     return this.httpClient.delete<SiteResponse>(url);
   }
 }

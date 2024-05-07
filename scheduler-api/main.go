@@ -137,6 +137,14 @@ func main() {
 				cofs.PUT("/", controllers.UpdateSiteCofSReport)
 				cofs.DELETE("/:teamid/:siteid/:rptid",
 					controllers.DeleteCofSReport)
+
+				sect := cofs.Group("/section", svcs.CheckRoles("scheduler", siteRoles))
+				{
+					sect.POST("/", controllers.AddCofSReportSection)
+					sect.PUT("/", controllers.UpdateCofSReportSection)
+					sect.DELETE("/:teamid/:siteid/:rptid/:sectid",
+						controllers.DeleteCofSReportSection)
+				}
 			}
 			site.GET("/work/:teamid/:siteid/:year", controllers.GetSiteEmployeesWork)
 		}

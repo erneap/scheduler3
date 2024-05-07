@@ -1,1 +1,66 @@
-<p>site-editor-reports-cofs works!</p>
+<div class="flexlayout row topleft">
+  <div class="flexlayout column center">
+    <div class="list">
+      <div *ngFor="let item of reportList" [class]="setListClass(item.id)"
+        (click)="selectReport(item.id)">
+        {{item.label}}
+      </div>
+    </div>
+    <form [formGroup]="reportForm" class="flexlayout column center flexgap"
+      style="margin-top: 10px;">
+      <div class="formrow">
+        <div class="formlabel">CofS Report Name*</div>
+        <div class="forminput">
+          <input matNativeControl formControlName="name"
+            class="forminput"
+            [style]="setInputStyle('name')">
+        </div>
+      </div>
+      <div class="formrow">
+        <div class="formlabel">XML File Name*</div>
+        <div class="forminput">
+          <input matNativeControl formControlName="short"
+            class="forminput"
+            [style]="setInputStyle('name')">
+        </div>
+      </div>
+      <div class="formrow">
+        <div class="formlabel">Associated Unit*</div>
+        <div class="forminput">
+          <input matNativeControl formControlName="unit"
+            class="forminput"
+            [style]="setInputStyle('unit')">
+        </div>
+      </div>
+      <div class="formrow">
+        <div class="formlabel">Report Start Date</div>
+        <div class="forminput" style="background-color: white;">
+          <input matNativeControl formControlName="start" 
+            style="border: none;width: 180px;"
+            [matDatepicker]="startpicker">
+          <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
+          <mat-datepicker #startpicker></mat-datepicker>
+        </div>
+      </div>
+      <div class="formrow">
+        <div class="formlabel">Report End Date</div>
+        <div class="forminput" style="background-color: white;">
+          <input matNativeControl formControlName="end" 
+            style="border: none;width: 180px;"
+            [matDatepicker]="endpicker">
+          <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
+          <mat-datepicker #endpicker></mat-datepicker>
+        </div>
+      </div>
+      <div class="flexlayout row center">
+        <button mat-raised-button *ngIf="selected.id <= 0" color="accent">Add</button>
+        <button mat-raised-button *ngIf="selected.id > 0" color="warn">Delete</button>
+        <button mat-raised-button>Clear</button>
+      </div>
+    </form>
+  </div>
+  <app-site-editor-reports-cofs-descriptor-section [site]="site"
+    [team]="team" [report]="selected" [width]="width" 
+    (changed)="onChange($event)">
+  </app-site-editor-reports-cofs-descriptor-section>
+</div>

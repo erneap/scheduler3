@@ -1,4 +1,4 @@
-import { Employee, IEmployee } from "../employees/employee";
+import { Employee, IEmployee, IEmployeeLaborCode } from "../employees/employee";
 import { ILeaveRequest, LeaveDay, LeaveRequest } from "../employees/leave";
 import { Work } from "../employees/work";
 import { ISite } from "../sites/site";
@@ -159,6 +159,27 @@ export interface UpdateCofSReport {
   siteid: string;
   rptid: number;
   companyid?: string;
+  field: string;
+  value: string;
+}
+
+export interface NewCofSReportSection {
+  teamid: string;
+  siteid: string;
+  rptid: number;
+  sectionid: number;
+  company: string;
+  label: string;
+  signature: string;
+  showunit: boolean;
+  laborcodes?: IEmployeeLaborCode[];
+}
+
+export interface UpdateCofSReportSection {
+  teamid: string;
+  siteid: string;
+  rptid: number;
+  sectionid: number;
   field: string;
   value: string;
 }

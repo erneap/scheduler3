@@ -1761,11 +1761,21 @@ func GetEmployeeWork(c *gin.Context) {
 
 	rec, err := services.GetEmployeeWork(employeeID, uint(year))
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s Getting Work Record: %s", logmsg, err.Error()))
-		c.JSON(http.StatusBadRequest,
-			web.EmployeeResponse{Employee: nil, Exception: err.Error()})
-		return
+		if err == mongo.ErrNoDocuments {
+			tempid, _ := primitive.ObjectIDFromHex(employeeID)
+			rec = &employees.EmployeeWorkRecord{
+				ID:         primitive.NewObjectID(),
+				EmployeeID: tempid,
+				Year:       uint(year),
+				Work:       make([]employees.Work, 0),
+			}
+		} else {
+			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Getting Work Record: %s", logmsg, err.Error()))
+			c.JSON(http.StatusBadRequest,
+				web.EmployeeResponse{Employee: nil, Exception: err.Error()})
+			return
+		}
 	}
 
 	response := web.EmployeeWorkResponse{

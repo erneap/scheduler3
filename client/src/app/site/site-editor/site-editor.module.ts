@@ -11,8 +11,6 @@ import { SiteEditorReportsForecastComponent } from './site-editor-reports/site-e
 import { SiteEditorReportsCofsComponent } from './site-editor-reports/site-editor-reports-cofs/site-editor-reports-cofs.component';
 import { SiteEditorReportsForecastPeriodComponent } from './site-editor-reports/site-editor-reports-forecast/site-editor-reports-forecast-period/site-editor-reports-forecast-period.component';
 import { SiteEditorReportsForecastLaborComponent } from './site-editor-reports/site-editor-reports-forecast/site-editor-reports-forecast-labor/site-editor-reports-forecast-labor.component';
-import { SiteEditorReportsCofsDescriptorComponent } from './site-editor-reports/site-editor-reports-cofs/site-editor-reports-cofs-descriptor/site-editor-reports-cofs-descriptor.component';
-import { SiteEditorReportsCofsDescriptorCompanyComponent } from './site-editor-reports/site-editor-reports-cofs/site-editor-reports-cofs-descriptor/site-editor-reports-cofs-descriptor-company/site-editor-reports-cofs-descriptor-company.component';
 import { SiteEditorReportsCofsDescriptorSectionComponent } from './site-editor-reports/site-editor-reports-cofs/site-editor-reports-cofs-descriptor/site-editor-reports-cofs-descriptor-section/site-editor-reports-cofs-descriptor-section.component';
 
 @NgModule({
@@ -26,8 +24,6 @@ import { SiteEditorReportsCofsDescriptorSectionComponent } from './site-editor-r
     SiteEditorReportsCofsComponent,
     SiteEditorReportsForecastPeriodComponent,
     SiteEditorReportsForecastLaborComponent,
-    SiteEditorReportsCofsDescriptorComponent,
-    SiteEditorReportsCofsDescriptorCompanyComponent,
     SiteEditorReportsCofsDescriptorSectionComponent
   ],
   imports: [

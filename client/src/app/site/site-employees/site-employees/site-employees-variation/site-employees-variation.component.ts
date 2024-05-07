@@ -241,8 +241,10 @@ export class SiteEmployeesVariationComponent {
       this.variation.mids = this.variationForm.value.mids;
       let sDate = new Date(this.variationForm.value.start);
       let eDate = new Date(this.variationForm.value.end);
-      this.variation.startdate = sDate;
-      this.variation.enddate = eDate;
+      this.variation.startdate = new Date(Date.UTC(sDate.getFullYear(),
+        sDate.getMonth(), sDate.getDate(), 0, 0, 0, 0));
+      this.variation.enddate = new Date(Date.UTC(eDate.getFullYear(),
+        eDate.getMonth(), eDate.getDate(), 0, 0, 0, 0));
       this.variation.schedule.showdates = this.variationForm.value.dates;
       this.authService.statusMessage = "Adding New Variation";
       this.dialogService.showSpinner();

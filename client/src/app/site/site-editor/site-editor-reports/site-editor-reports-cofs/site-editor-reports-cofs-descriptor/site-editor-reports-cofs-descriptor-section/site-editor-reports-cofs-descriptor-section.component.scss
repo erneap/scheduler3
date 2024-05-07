@@ -1,0 +1,162 @@
+.sectionlist {
+  position: relative;
+  text-align: center;
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+  width: 248px;
+  height: 160px;
+  background-color: white;
+  border: solid 1px #ffffff;
+  overflow-y: auto;
+}
+
+.sectionitem {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 248px;
+  height: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: solid 1px black;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.laborlist {
+  position: relative;
+  text-align: center;
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+  width: 248px;
+  height: 250px;
+  background-color: white;
+  border: solid 1px white;
+  overflow-y: auto;
+}
+
+.laboritem {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 248px;
+  height: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: solid 1px black;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.sectionitem:hover, laboritem:hover {
+  background-color: lightblue;
+  color: black;
+  border: solid 1px black;
+}
+
+.selected {
+  background-color: #3f51b5;
+  color: white;
+}
+
+.layout-top {
+  align-items: flex-start;
+}
+
+.layout-bottom {
+  align-items: flex-end;
+}
+
+.layout-stretch {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+}
+
+.sortdiv {
+  height: 160px;
+  width: 25px;
+  border: solid 1px white;
+
+}
+
+.movement {
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: pt;
+  font-weight: bold;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.delete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  width: 25px;
+  color: pink;
+  font-size: 12pt;
+}
+
+.showunit {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  margin-right: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.formlabel {
+  width: 150px;
+  font-size: 10pt;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.forminput {
+  width: 125px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.formfull {
+  width: 275px;
+  margin: 0;
+  padding: 0;
+}
+
+.formrow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  border: solid 1px black;
+  margin: 0;
+  padding: 0;
+}
