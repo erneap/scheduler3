@@ -12,6 +12,7 @@
         <div class="formlabel">CofS Report Name*</div>
         <div class="forminput">
           <input matNativeControl formControlName="name"
+            (blur)="updateReport('name')"
             class="forminput"
             [style]="setInputStyle('name')">
         </div>
@@ -20,6 +21,7 @@
         <div class="formlabel">XML File Name*</div>
         <div class="forminput">
           <input matNativeControl formControlName="short"
+            (blur)="updateReport('short')"
             class="forminput"
             [style]="setInputStyle('name')">
         </div>
@@ -28,6 +30,7 @@
         <div class="formlabel">Associated Unit*</div>
         <div class="forminput">
           <input matNativeControl formControlName="unit"
+            (blur)="updateReport('unit')"
             class="forminput"
             [style]="setInputStyle('unit')">
         </div>
@@ -36,6 +39,7 @@
         <div class="formlabel">Report Start Date</div>
         <div class="forminput" style="background-color: white;">
           <input matNativeControl formControlName="start" 
+            (dateChange)="updateReport('start')"
             style="border: none;width: 180px;"
             [matDatepicker]="startpicker">
           <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
@@ -46,6 +50,7 @@
         <div class="formlabel">Report End Date</div>
         <div class="forminput" style="background-color: white;">
           <input matNativeControl formControlName="end" 
+            (dateChange)="updateReport('end')"
             style="border: none;width: 180px;"
             [matDatepicker]="endpicker">
           <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
@@ -53,9 +58,17 @@
         </div>
       </div>
       <div class="flexlayout row center">
-        <button mat-raised-button *ngIf="selected.id <= 0" color="accent">Add</button>
-        <button mat-raised-button *ngIf="selected.id > 0" color="warn">Delete</button>
-        <button mat-raised-button>Clear</button>
+        <button mat-raised-button *ngIf="selected.id <= 0" color="accent"
+          (click)="addReport()">
+          Add
+        </button>
+        <button mat-raised-button *ngIf="selected.id > 0" color="warn"
+          (click)="deleteReport()">
+          Delete
+        </button>
+        <button mat-raised-button (click)="clearReport()">
+          Clear
+        </button>
       </div>
     </form>
   </div>

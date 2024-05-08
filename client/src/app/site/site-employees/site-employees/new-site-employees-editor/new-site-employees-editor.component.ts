@@ -7,6 +7,7 @@ import { AnnualLeave } from 'src/app/models/employees/leave';
 import { ISite, Site } from 'src/app/models/sites/site';
 import { Workcenter } from 'src/app/models/sites/workcenter';
 import { Company } from 'src/app/models/teams/company';
+import { ITeam, Team } from 'src/app/models/teams/team';
 import { MustMatchValidator } from 'src/app/models/validators/must-match-validator.directive';
 import { PasswordStrengthValidator } from 'src/app/models/validators/password-strength-validator.directive';
 import { EmployeeResponse } from 'src/app/models/web/employeeWeb';
@@ -22,11 +23,18 @@ import { TeamService } from 'src/app/services/team.service';
   styleUrls: ['./new-site-employees-editor.component.scss']
 })
 export class NewSiteEmployeesEditorComponent {
+  private _team: Team = new Team();
+  @Input()
+  public set team(t: ITeam) {
+    this._team = new Team(t);
+  }
+  get team(): Team {
+    return this._team;
+  }
   private _site: Site = new Site();
   @Input()
   public set site(iSite: ISite) {
     this._site = new Site(iSite);
-    this.siteid = this._site.id;
     this.setLaborCodes();
     this.setWorkcenters();
   }
@@ -41,8 +49,6 @@ export class NewSiteEmployeesEditorComponent {
   laborcodes: EmployeeLaborCode[] = [];
   workcenters: Workcenter[] = [];
   schedule: Schedule;
-  teamid: string = '';
-  siteid: string = '';
   newError: string = '';
 
   constructor(
@@ -57,7 +63,7 @@ export class NewSiteEmployeesEditorComponent {
     this.companies = [];
     const team = this.teamService.getTeam();
     if (team && team.companies && team.companies.length > 0) {
-      this.teamid = team.id;
+      this.team = team;
       team.companies.forEach(co => {
         this.companies.push(new Company(co));
       });
@@ -113,7 +119,6 @@ export class NewSiteEmployeesEditorComponent {
     const now = new Date();
     this.laborcodes = [];
     if (this.site) {
-      this.siteid = this.site.id;
       if ( this.site.forecasts && this.site.forecasts.length > 0) {
         this.site.forecasts.forEach(rpt => {
           if (rpt.startDate.getTime() <= now.getTime() 
@@ -137,7 +142,6 @@ export class NewSiteEmployeesEditorComponent {
   setWorkcenters() {
     this.workcenters = [];
     if (this.site) {
-      this.siteid = this.site.id;
       if (this.site.workcenters && this.site.workcenters.length > 0) {
         this.site.workcenters.forEach(wc => {
           this.workcenters.push(new Workcenter(wc));
@@ -234,8 +238,8 @@ export class NewSiteEmployeesEditorComponent {
   }
 
   addEmployee() {
-    this.employee.team = this.teamid;
-    this.employee.site = this.siteid;
+    this.employee.team = this.team.id;
+    this.employee.site = this.site.id;
     this.employee.name.first = this.employeeForm.value.first;
     this.employee.name.middle = this.employeeForm.value.middle;
     this.employee.name.last = this.employeeForm.value.last;
@@ -256,7 +260,7 @@ export class NewSiteEmployeesEditorComponent {
       chargeNumber: laborParts[0],
       extension: laborParts[1],
     });
-    this.employee.assignments[0].site = this.siteid;  
+    this.employee.assignments[0].site = this.site.id;  
     this.employee.assignments[0].workcenter = this.employeeForm.value.workcenter;
     const start:Date = new Date(this.employeeForm.value.startdate);
     this.employee.assignments[0].startDate = new Date(Date.UTC(start.getFullYear(),
@@ -277,7 +281,7 @@ export class NewSiteEmployeesEditorComponent {
 
     this.dialogService.showSpinner();
     this.authService.statusMessage = "Creating New Employee";
-    this.empService.addEmployee(this.employee, passwd, this.teamid, this.siteid)
+    this.empService.addEmployee(this.employee, passwd, this.team.id, this.site.id)
       .subscribe({
         next: (data: EmployeeResponse) => {
           this.dialogService.closeSpinner();

@@ -18,7 +18,7 @@
         class="error">Minimum -12</mat-error>
     </mat-form-field>
   </form>
-  <mat-tab-group preserveContent="true" color="accent" [style]="setViewStyle()">
+  <mat-tab-group preserveContent="true" backgroundColor="accent" [style]="setViewStyle()">
     <mat-tab label="Workcenter Editor">
       <app-site-editor-workcenter [teamid]="team.id" [site]="site" 
         [width]="width" (changed)="siteChanged($event)">

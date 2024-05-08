@@ -1,0 +1,32 @@
+<div class="flexlayout column topleft">
+  <form [formGroup]="companyForm" class="flexlayout row topleft companyform">
+    <mat-radio-group formControlName="company" class="flexlayout row topleft"
+      (change)="onChangeCompany()">
+      <mat-radio-button *ngFor="let co of team.companies" [value]="co.id" color="primary">
+        {{co.name}}
+      </mat-radio-button>
+    </mat-radio-group>
+  </form>
+  <div class="toplevel" [style]="getViewStyle()">
+    <app-site-ingest-form-month [team]="team" [site]="site" [company]="company"
+      [height]="height" [width]="width" (monthChanged)="onChangeMonth($event)">
+    </app-site-ingest-form-month>
+  </div>
+  <form [formGroup]="ingestForm" *ngIf="company.ingest !== 'manual'"
+    class="flexlayout row center flexgap">
+    <input formControlName="file" id="file" type="file" multiple
+        (change)="onFileChange($event)">
+    <div class="flexlayout column center" style="padding-top: 10px;">
+      <div *ngFor="let file of myFiles">
+        {{file.name}}
+      </div>
+    </div>
+    <div class="flexlayout row center" style="gap: 5px;"
+      *ngIf="myFiles.length > 0">
+      <button mat-raised-button color="accent"
+        (click)="onSubmit()">Upload</button>
+      <button mat-raised-button color="warn"
+        (click)="onClear()">Clear</button>
+    </div>
+  </form>
+</div>

@@ -4,9 +4,11 @@ import { DeletionConfirmationComponent } from 'src/app/generic/deletion-confirma
 import { NoticeDialogComponent } from 'src/app/generic/notice-dialog/notice-dialog.component';
 import { Employee, IEmployee } from 'src/app/models/employees/employee';
 import { Site } from 'src/app/models/sites/site';
+import { Team } from 'src/app/models/teams/team';
 import { AppStateService } from 'src/app/services/app-state.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { SiteService } from 'src/app/services/site.service';
+import { TeamService } from 'src/app/services/team.service';
 
 @Component({
   selector: 'app-site-employees-editor',
@@ -23,6 +25,7 @@ export class SiteEmployeesEditorComponent {
     return this._employee;
   }
   @Input() site: Site = new Site();
+  @Input() team: Team = new Team();
   private _width: number = 1048;
   @Input()
   public set width(w: number) {
@@ -39,6 +42,7 @@ export class SiteEmployeesEditorComponent {
   constructor(
     protected empService: EmployeeService,
     protected siteService: SiteService,
+    protected teamService: TeamService,
     protected appState: AppStateService,
     protected dialog: MatDialog
   ) {
@@ -46,6 +50,10 @@ export class SiteEmployeesEditorComponent {
     const iSite = this.siteService.getSite();
     if (iSite) {
       this.site = new Site(iSite);
+    }
+    const iTeam = this.teamService.getTeam();
+    if (iTeam) {
+      this.team = new Team(iTeam);
     }
   }
 

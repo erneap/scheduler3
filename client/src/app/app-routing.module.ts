@@ -2,12 +2,9 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './home/not-found/not-found.component';
-import { NewEmployeeComponent } from './site-employee/new-employee/new-employee.component';
-import { SiteEmployeeComponent } from './site-employee/site-employee.component';
 import { NewSiteComponent } from './site/new-site/new-site.component';
 import { SiteComponent } from './site/site.component';
 import { TeamSiteEditorComponent } from './team/team-site-editor/team-site-editor.component';
-import { SiteEmployeeLeaveRequestApproverComponent } from './site-employee/site-employee-leave-request-approver/site-employee-leave-request-approver.component';
 import { FileIngestComponent } from './site-ingest/file-ingest/file-ingest.component';
 import { TeamListEditorComponent } from './admin-actions/team-list-editor/team-list-editor.component';
 import { TeamComponent } from './team/team.component';
@@ -24,6 +21,7 @@ import { SiteEmployeesComponent } from './site/site-employees/site-employees/sit
 import { SiteScheduleCoverageComponent } from './site/site-schedule/site-schedule-coverage/site-schedule-coverage.component';
 import { SiteScheduleMidsListComponent } from './site/site-schedule/site-schedule-mids-list/site-schedule-mids-list.component';
 import { SiteEmployeesLeaveApprovalComponent } from './site/site-employees/site-employees-leave-approval/site-employees-leave-approval.component';
+import { SiteIngestComponent } from './site/site-ingest/site-ingest.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -56,12 +54,11 @@ const routes: Routes = [
           { path: '**', component: SiteEmployeesComponent }
         ]
       },
-      { path: 'modview', component: SiteModReportViewComponent }
+      { path: 'modview', component: SiteModReportViewComponent },
+      { path: 'ingest', component: SiteIngestComponent }
     ]
   },
-  { path: 'newemployee', component: NewEmployeeComponent },
   { path: 'siteemployees', component: SiteEmployeesComponent },
-  { path: 'siteleaveapprover', component: SiteEmployeeLeaveRequestApproverComponent },
   { path: 'newsite', component: NewSiteComponent },
   { path: 'siteeditor', component: SiteComponent},
   { path: 'ingest/files', component: FileIngestComponent },

@@ -53,7 +53,9 @@ import { SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent } from './site-
     EmployeeModule
   ],
   exports: [
-    SiteEmployeesLeaveApprovalComponent
+    SiteEmployeesLeaveApprovalComponent,
+    NewSiteEmployeesEditorComponent,
+    SiteEmployeesEditorComponent
   ]
 })
 export class SiteEmployeesModule { }

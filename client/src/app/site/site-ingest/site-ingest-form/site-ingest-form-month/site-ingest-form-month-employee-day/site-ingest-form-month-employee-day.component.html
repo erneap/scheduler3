@@ -1,0 +1,11 @@
+<ng-container *ngIf="ingest.toLowerCase() === 'manual'">
+  <form [formGroup]="dayForm">
+    <input matNativeControl formControlName="day" class="cellinput"
+      [style]="dayStyle()">
+  </form>
+</ng-container>
+<ng-container *ngIf="ingest.toLowerCase() !== 'manual'">
+  <div class="cell" [style]="dayStyle()">
+    {{dayValue}}
+  </div>
+</ng-container>

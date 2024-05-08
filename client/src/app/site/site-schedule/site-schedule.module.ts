@@ -42,7 +42,8 @@ import { SiteScheduleMidsListComponent } from './site-schedule-mids-list/site-sc
   exports: [
     SiteScheduleComponent,
     SiteScheduleCoverageComponent,
-    SiteScheduleMidsListComponent
+    SiteScheduleMidsListComponent,
+    SiteScheduleLegendComponent
   ]
 })
 export class SiteScheduleModule { }

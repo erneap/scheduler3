@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Employee, IEmployee } from 'src/app/models/employees/employee';
 import { LeaveDay } from 'src/app/models/employees/leave';
 import { Site } from 'src/app/models/sites/site';
@@ -14,7 +16,16 @@ import { TeamService } from 'src/app/services/team.service';
 @Component({
   selector: 'app-site-employees-leave',
   templateUrl: './site-employees-leave.component.html',
-  styleUrls: ['./site-employees-leave.component.scss']
+  styleUrls: ['./site-employees-leave.component.scss'],
+  providers: [
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true}},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+  ]
 })
 export class SiteEmployeesLeaveComponent {
   private _employee: Employee = new Employee();

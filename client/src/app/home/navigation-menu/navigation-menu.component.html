@@ -56,7 +56,7 @@
       <a mat-list-item (click)="goToLink('/siteeditor')"
       *ngIf="(this.authService.isScheduler || this.authService.isSiteLeader) && appState.isDesktop()"
       style="height: 20px;">Site Editor</a>
-      <a mat-list-item (click)="goToLink('ingest/files')"
+      <a mat-list-item (click)="goToLink('site/ingest')"
       *ngIf="(authService.isScheduler || authService.isSiteLeader || authService.isCompanyLead) && appState.isDesktop()"
       style="height: 20px;">Timecard Ingest/Entry</a>
       <a mat-list-item (click)="goToLink('/team/siteeditor')"

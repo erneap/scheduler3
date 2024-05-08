@@ -5,7 +5,6 @@ import { MaterialModule } from '../material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TeamSiteEditorComponent } from './team-site-editor/team-site-editor.component';
 import { SiteModule } from '../site/site.module';
-import { SiteEmployeeModule } from '../site-employee/site-employee.module';
 import { TeamCompanyComponent } from './team-company/team-company.component';
 import { TeamCompanyHolidaysComponent } from './team-company/team-company-holidays/team-company-holidays.component';
 import { TeamWorkcodesComponent } from './team-workcodes/team-workcodes.component';
@@ -15,6 +14,7 @@ import { TeamComponent } from './team.component';
 import { TeamContactListComponent } from './team-contact-list/team-contact-list.component';
 import { TeamSpecialtiesListComponent } from './team-specialties-list/team-specialties-list.component';
 import { TeamCompanyModtimeComponent } from './team-company/team-company-modtime/team-company-modtime.component';
+import { SiteEmployeesModule } from '../site/site-employees/site-employees.module';
 
 @NgModule({
   declarations: [
@@ -34,9 +34,9 @@ import { TeamCompanyModtimeComponent } from './team-company/team-company-modtime
     CommonModule,
     MaterialModule,
     SiteModule,
-    SiteEmployeeModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SiteEmployeesModule
   ],
   exports: [
     NewTeamComponent,

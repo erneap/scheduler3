@@ -1,0 +1,44 @@
+<div class="flexlayout column topleft">
+  <div class="flexlayout row topleft">
+    <div class="direction" [style]="directionStyle()" 
+      (click)="changeMonth('year', 'down')">
+      &lt;&lt;
+    </div>
+    <div class="direction" [style]="directionStyle()" 
+      (click)="changeMonth('month', 'down')">
+      &lt;
+    </div>
+    <div class="month" [style]="monthStyle()">
+      <form [formGroup]="dateForm" class="flexlayout row center">
+        <select matNativeControl formControlName="month" 
+          (change)="selectMonth()" class="input">
+          <option *ngFor="let month of months;let i = index" [value]="i">
+            {{month}}
+          </option>
+        </select>
+        <input matNativeControl type="number" formControlName="year" 
+          class="input"
+          (change)="selectMonth()">
+      </form>
+    </div>
+    <div class="direction" [style]="directionStyle()" 
+      (click)="changeMonth('month', 'add')">
+      &gt;
+    </div>
+    <div class="direction" [style]="directionStyle()" 
+      (click)="changeMonth('year', 'add')">
+      &gt;&gt;
+    </div>
+  </div>
+  <div class="overall">
+    <div class="flexlayout column topleft">
+      <div class="flexlayout row topleft">
+        <div class="name" [style]="nameCellStyle(undefined)">
+          Name
+        </div>
+      </div>
+      <div class="name" *ngFor="let emp of employees" 
+        [style]="nameCellStyle(emp)">{{emp.name.getLastFirst()}}</div>
+    </div>
+  </div>
+</div>

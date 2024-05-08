@@ -5,7 +5,7 @@
     <mat-sidenav #sidenav id="sidenav" 
       [mode]="stateService.isMobile() ? 'over' : 'side'"
       [fixedInViewport]="stateService.isMobile()" fixedTopGap="56" 
-      [opened]="authService.showMenu()">
+      [opened]="stateService.showMenu">
       <app-navigation-menu (sidenav)="sidenav.toggle"></app-navigation-menu>
     </mat-sidenav>
     <mat-sidenav-content>

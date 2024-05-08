@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ListItem } from 'src/app/generic/button-list/listitem';
 import { Employee } from 'src/app/models/employees/employee';
 import { ISite, Site } from 'src/app/models/sites/site';
-import { Team } from 'src/app/models/teams/team';
+import { ITeam, Team } from 'src/app/models/teams/team';
 import { AuthService } from 'src/app/services/auth.service';
 import { DialogService } from 'src/app/services/dialog-service.service';
 import { SiteService } from 'src/app/services/site.service';
@@ -14,6 +14,14 @@ import { TeamService } from 'src/app/services/team.service';
   styleUrls: ['./team-site-employee-editor.component.scss']
 })
 export class TeamSiteEmployeeEditorComponent {
+  private _team: Team = new Team();
+  @Input()
+  public set team(t: ITeam) {
+    this._team = new Team(t);
+  }
+  get team(): Team {
+    return this._team;
+  }
   private _site: Site = new Site();
   @Input()
   public set site(iSite: ISite) {
@@ -25,7 +33,6 @@ export class TeamSiteEmployeeEditorComponent {
     return this._site;
   }
   @Output() siteChanged = new EventEmitter<Site>()
-  teamid: string;
   selected: string = 'new';
   employees: ListItem[] = [];
   employee: Employee = new Employee();
@@ -39,10 +46,8 @@ export class TeamSiteEmployeeEditorComponent {
   ) {
     const iTeam = this.teamService.getTeam();
     if (iTeam) {
-      this.teamid = iTeam.id;
-    } else {
-      this.teamid = '';
-    }
+      this.team = iTeam;
+    } 
     const iSite = this.siteService.getSite();
     if (iSite) {
       this.site = iSite;

@@ -1513,7 +1513,7 @@ func UpdateSiteCofSReport(c *gin.Context) {
 				rpt.AssociatedUnit = data.Value
 			case "short", "shortname":
 				rpt.ShortName = data.Value
-			case "startdate":
+			case "startdate", "start":
 				dt, err := time.ParseInLocation("01/02/2006",
 					data.Value, time.UTC)
 				if err != nil {
@@ -1525,7 +1525,7 @@ func UpdateSiteCofSReport(c *gin.Context) {
 					return
 				}
 				rpt.StartDate = dt
-			case "enddate":
+			case "enddate", "end":
 				dt, err := time.ParseInLocation("01/02/2006",
 					data.Value, time.UTC)
 				if err != nil {
@@ -1922,6 +1922,7 @@ func UpdateCofSReportSection(c *gin.Context) {
 						}
 					}
 					rpt.Sections[s] = sect
+					sort.Sort(sites.ByCofSSection(rpt.Sections))
 				}
 			}
 			site.CofSReports[r] = rpt

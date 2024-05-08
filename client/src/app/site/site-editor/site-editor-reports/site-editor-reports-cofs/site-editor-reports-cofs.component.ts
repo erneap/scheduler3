@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ListItem } from 'src/app/generic/button-list/listitem';
+import { DeletionConfirmationComponent } from 'src/app/generic/deletion-confirmation/deletion-confirmation.component';
 import { EmployeeLaborCode } from 'src/app/models/employees/employee';
-import { CofSReport, CofSSection } from 'src/app/models/sites/cofsreport';
-import { LaborCode } from 'src/app/models/sites/laborcode';
+import { CofSReport, CofSSection } from 'src/app/models/sites/cofsreport';import { LaborCode } from 'src/app/models/sites/laborcode';
 import { ISite, Site } from 'src/app/models/sites/site';
 import { ITeam, Team } from 'src/app/models/teams/team';
 import { SiteResponse } from 'src/app/models/web/siteWeb';
@@ -12,12 +14,20 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DialogService } from 'src/app/services/dialog-service.service';
 import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
-import { SiteReportEditorComponent } from 'src/app/site/site-report-editor/site-report-editor.component';
 
 @Component({
   selector: 'app-site-editor-reports-cofs',
   templateUrl: './site-editor-reports-cofs.component.html',
-  styleUrls: ['./site-editor-reports-cofs.component.scss']
+  styleUrls: ['./site-editor-reports-cofs.component.scss'],
+  providers: [
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true}},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+  ]
 })
 export class SiteEditorReportsCofsComponent {
   private _site: Site = new Site();
@@ -189,15 +199,118 @@ export class SiteEditorReportsCofsComponent {
   }
 
   addReport() {
-
+    if (this.reportForm.valid) {
+      let sDate = new Date(this.reportForm.value.start);
+      sDate = new Date(Date.UTC(sDate.getFullYear(), sDate.getMonth(), 
+        sDate.getDate(), 0, 0, 0, 0));
+      let eDate = new Date(this.reportForm.value.end);
+      eDate = new Date(Date.UTC(eDate.getFullYear(), eDate.getMonth(), 
+        eDate.getDate(), 0, 0, 0, 0));
+      this.dialogService.showSpinner();
+      this.siteService.createCofSReport(this.team.id, this.site.id,
+      this.reportForm.value.name, this.reportForm.value.short, 
+      this.reportForm.value.unit, sDate, eDate).subscribe({
+        next: (resp: SiteResponse) => {
+          this.dialogService.closeSpinner();
+          if (resp && resp.site) {
+            this.site = resp.site;
+            this.site.cofs.sort((a,b) => a.compareTo(b))
+            let maxid = -1;
+            let srpt = new CofSReport();
+            this.site.cofs.forEach(rpt => {
+              if (rpt.id > maxid) {
+                srpt = new CofSReport(rpt);
+                maxid = srpt.id;
+              }
+            });
+            this.selected = new CofSReport(srpt);
+            this.changed.emit(new Site(resp.site));
+          }
+        },
+        error: (err: SiteResponse) => {
+          this.dialogService.closeSpinner();
+          this.authService.statusMessage = err.exception;
+        }
+      });
+    }
   }
 
   updateReport(field: string) {
-
+    if (this.selected.id > 0) {
+      let sValue = '';
+      if (field.toLowerCase() === 'start' || field.toLowerCase() === 'end') {
+        const tDate = new Date(this.reportForm.controls[field].value);
+        if (tDate.getMonth() < 9) {
+          sValue = '0';
+        }
+        sValue += `${tDate.getMonth() + 1}/`;
+        if (tDate.getDate() < 10) {
+          sValue += '0';
+        }
+        sValue += `${tDate.getDate()}/${tDate.getFullYear()}`;
+      } else {
+        sValue = this.reportForm.controls[field].value;
+      }
+      this.dialogService.showSpinner();
+      this.siteService.updateCofSReport(this.team.id, this.site.id, 
+      this.selected.id, field, sValue).subscribe({
+        next: (resp: SiteResponse) => {
+          this.dialogService.closeSpinner();
+          if (resp && resp.site) {
+            this.site = resp.site;
+            if (this.selected.id > 0) {
+              this.site.cofs.forEach(rpt => {
+                if (rpt.id === this.selected.id) {
+                  this.selected = new CofSReport(rpt);
+                }
+              });
+            }
+            this.changed.emit(new Site(resp.site));
+          }
+        },
+        error: (err: SiteResponse) => {
+          this.dialogService.closeSpinner();
+          this.authService.statusMessage = err.exception;
+        }
+      });
+    } else if (field.toLowerCase() === 'start') {
+      let sDate = new Date(this.reportForm.value.start);
+      sDate = new Date(Date.UTC(sDate.getFullYear(), sDate.getMonth(), 
+        sDate.getDate(), 0, 0, 0, 0));
+      this.reportForm.controls['end'].setValue(sDate);
+    }
   }
 
   deleteReport() {
-
+    if (this.selected.id > 0) {
+      const dialogRef = this.dialog.open(DeletionConfirmationComponent, {
+        data: {title: 'Confirm CofS Report Deletion', 
+        message: 'Are you sure you want to delete this CofS Report?'},
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 'yes') {
+          this.dialogService.showSpinner();
+          this.siteService.deleteCofSReport(this.team.id, 
+            this.site.id, this.selected.id ).subscribe({
+            next: (data: SiteResponse) => {
+              this.dialogService.closeSpinner();
+              if (data && data != null && data.site) {
+                this.site = new Site(data.site);
+                this.changed.emit(new Site(data.site));
+                this.selected = new CofSReport();
+                this.selected.id = -1;
+                this.setReportForm();
+              }
+            },
+            error: (err: SiteResponse) => {
+              this.dialogService.closeSpinner();
+              this.authService.statusMessage = err.exception;
+            }
+          });
+        }
+      });
+    }
   }
   
   clearReport() {
