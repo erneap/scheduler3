@@ -21,7 +21,7 @@ import { TeamService } from 'src/app/services/team.service';
 export class SiteIngestFormComponent {
   team: Team;
   site: Site;
-  width: number = 1048;
+  width: number = 1158;
   height: number = 700;
   company: Company = new Company();
   myFiles: File[] = [];
@@ -56,10 +56,8 @@ export class SiteIngestFormComponent {
     } else {
       this.site = new Site();
     }
-    this.width = this.stateService.viewWidth;
-    if (this.stateService.showMenu) {
-      this.width -= 250;
-    }
+    this.width = this.stateService.viewWidth - 20;
+    if (this.width > 1158) this.width = 1158;
     this.companyForm = this.fb.group({
       company: this.company.id,
     });
@@ -82,31 +80,27 @@ export class SiteIngestFormComponent {
   }
 
   getViewStyle(): string {
-   let height = Math.floor(this.stateService.viewHeight / 4);
-    if (height > 150) {
-      height = 150;
-    }
-
-    height = this.stateService.viewHeight - (height + 100);
-    if (this.company.ingest.toLowerCase() !== 'manual') {
+    if (this.company.ingest !== 'manual') {
+      let height = 35;
       if (this.myFiles.length > 1) {
-        height -= this.myFiles.length * 20;
-      } else {
-        height -= 35;
+        let tHeight = this.myFiles.length * 22;
+        if (tHeight > height) height = tHeight;
       }
+      return `bottom: ${height}px;`;
     }
-    let width = this.stateService.viewWidth - 20;
-    if (this.stateService.showMenu) {
-      width -= 250;
-    }
-    if (width > 1135) {
-      width = 1135;
-    }
+    return `bottom: 10px;`;
+  }
 
-    this.width = width;
-    this.height = height;
-
-    return `width: ${width}px;height: ${height}px;`;
+  formStyle(): string {
+    if (this.company.ingest !== 'manual') {
+      let height = 35;
+      if (this.myFiles.length > 1) {
+        let tHeight = this.myFiles.length * 22;
+        if (tHeight > height) height = tHeight;
+      }
+      return `height: ${height}px;`;
+    }
+    return `height: 10px;`;
   }
 
   onFileChange(event: any) {

@@ -1,5 +1,5 @@
 <div class="flexlayout column topleft">
-  <div class="flexlayout row topleft">
+  <div class="monthDirectionDiv flexlayout row topleft" [style]="monthDirStyle()">
     <div class="direction" [style]="directionStyle()" 
       (click)="changeMonth('year', 'down')">
       &lt;&lt;
@@ -30,15 +30,21 @@
       &gt;&gt;
     </div>
   </div>
-  <div class="overall">
+  <div class="monthLabelDiv flexlayout row topleft" [style]="monthLabelStyle()">
+    <div class="name" [style]="nameCellStyle(undefined)">
+      Name
+    </div>
+    <app-site-ingest-form-month-employee-day [ingest]="'anything'"
+      *ngFor="let date of dates" [date]="date" [leavecodes]="leavecodes"
+      [width]="width"></app-site-ingest-form-month-employee-day>
+    <div class="name" [style]="totalsStyle()">Totals</div>
+  </div>
+  <div class="monthDiv" [style]="viewStyle()">
     <div class="flexlayout column topleft">
-      <div class="flexlayout row topleft">
-        <div class="name" [style]="nameCellStyle(undefined)">
-          Name
-        </div>
-      </div>
-      <div class="name" *ngFor="let emp of employees" 
-        [style]="nameCellStyle(emp)">{{emp.name.getLastFirst()}}</div>
+      <app-site-ingest-form-month-employee *ngFor="let emp of employees"
+        [dates]="dates" [employee]="emp" [ingest]="company.ingest"
+        [leavecodes]="leavecodes" [width]="width">
+      </app-site-ingest-form-month-employee>
     </div>
   </div>
 </div>

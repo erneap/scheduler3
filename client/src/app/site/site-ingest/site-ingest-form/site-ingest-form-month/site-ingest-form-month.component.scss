@@ -1,3 +1,30 @@
+.monthDiv {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+
+.monthDirectionDiv {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.monthLabelDiv {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+}
+
 .direction {
   display: flex;
   flex-direction: row;

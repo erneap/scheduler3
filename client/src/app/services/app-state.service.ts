@@ -21,6 +21,9 @@ export class AppStateService {
       this.viewState = ViewState.Desktop;
     }
     this.showMenu = !this.isMobile();
+    if (this.showMenu) {
+      this.viewWidth -= 250;
+    }
   }
 
   isMobile(): boolean {
@@ -58,5 +61,6 @@ export class AppStateService {
     if (this.showMenu && !this.isMobile()) {
       this.viewWidth -= 250;
     }
+    console.log(`Inner: ${window.innerWidth} - View: ${this.viewWidth}`);
   }
 }

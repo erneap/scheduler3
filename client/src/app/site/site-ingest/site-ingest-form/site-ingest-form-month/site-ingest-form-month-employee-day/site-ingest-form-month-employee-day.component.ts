@@ -28,7 +28,7 @@ export class SiteIngestFormMonthEmployeeDayComponent {
     return this._date;
   }
   @Input() leavecodes: Workcode[] = [];
-  @Input() width: number = 1135;
+  @Input() width: number = 1158;
   @Output() changed = new EventEmitter<Employee>();
   dayForm: FormGroup;
   dayValue: string = '';
@@ -43,15 +43,18 @@ export class SiteIngestFormMonthEmployeeDayComponent {
   }
 
   dayStyle(): string {
-    const ratio = this.width / 1135;
-    const fontSize = (this.width <= 15) ? 9 : Math.floor(12 * ratio);
-    let height = Math.floor(25 * ratio);
-    if (height < 15) {
-      height = 15;
+    this.dayValue = '';
+    const ratio = this.width / 1158;
+    let fontSize = ratio * .9;
+    if (fontSize < 0.7) {
+      fontSize = 0.7;
     }
+    let height = Math.floor(25 * ratio);
+    let width = Math.floor(29 * ratio);
     let bkColor: string = "ffffff";
     let txColor: string = "000000";
     if (this.employee.id === '') {
+      this.dayValue = `${this.date.getDate()}`;
       if (this.date.getDay() === 0 || this.date.getDay() === 6) {
         bkColor = "99ccff";
       }
@@ -66,6 +69,7 @@ export class SiteIngestFormMonthEmployeeDayComponent {
         if (wc.id.toLowerCase() === wd.code.toLowerCase()) {
           bkColor = wc.backcolor;
           txColor = wc.textcolor;
+          this.dayValue = wd.code.toUpperCase();
         }
       });
       if (bkColor === 'ffffff') {
@@ -82,13 +86,24 @@ export class SiteIngestFormMonthEmployeeDayComponent {
             bkColor = 'ffffff';
           }
         }
+        let work = 0.0;
+        if (this.employee.work) {
+          this.employee.work.forEach(wk => {
+            if (wk.dateWorked.getTime() === this.date.getTime() && !wk.modtime) {
+              work += wk.hours;
+            }
+          });
+        }
+        if (work === 0) {
+          this.dayValue = '';
+        } else if (work.toFixed(1).indexOf('.0') >= 0) {
+          this.dayValue = work.toFixed(0);
+        } else {
+          this.dayValue = work.toFixed(1);
+        }
       }
     }
-    return `width: ${height}px;height: ${height}px;font-size: ${fontSize}pt;`
+    return `width: ${width}px;height: ${height}px;font-size: ${fontSize}rem;`
       + `background-color: #${bkColor};color: #${txColor}`;
-  }
-
-  setDay() {
-
   }
 }

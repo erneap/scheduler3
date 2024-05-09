@@ -13,7 +13,7 @@
     </app-site-ingest-form-month>
   </div>
   <form [formGroup]="ingestForm" *ngIf="company.ingest !== 'manual'"
-    class="flexlayout row center flexgap">
+    class="ingestDiv flexlayout row topleft flexgap" [style]="formStyle()">
     <input formControlName="file" id="file" type="file" multiple
         (change)="onFileChange($event)">
     <div class="flexlayout column center" style="padding-top: 10px;">

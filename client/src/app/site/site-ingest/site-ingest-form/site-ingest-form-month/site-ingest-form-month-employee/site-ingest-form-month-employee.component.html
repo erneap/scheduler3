@@ -1,1 +1,12 @@
-<p>site-ingest-form-month-employee works!</p>
+<div class="overall">
+  <div class="name" [style]="nameCellStyle()">
+    {{employee.name.getLastFirst()}}
+  </div>
+  <app-site-ingest-form-month-employee-day *ngFor="let date of dates"
+    [date]="date" [employee]="employee" [ingest]="ingest" 
+    [leavecodes]="leavecodes" [width]="width">
+  </app-site-ingest-form-month-employee-day>
+  <div class="name" [style]="totalsStyle()">
+    {{totalsValue()}}
+  </div>
+</div>

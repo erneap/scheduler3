@@ -1,9 +1,25 @@
 .companyform {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 10px;
+  height: 35px;
   background-color: #ff9900;
   color: black;
   padding-right: 10px;
 }
 
 .toplevel {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  right: 10px;
   border: solid 1px white;
+}
+
+.ingestDiv {
+  position: absolute;
+  left: 0;
+  right: 10px;
+  bottom: 0px;
 }

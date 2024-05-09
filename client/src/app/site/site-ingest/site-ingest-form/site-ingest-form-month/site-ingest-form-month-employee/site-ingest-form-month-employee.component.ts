@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Employee } from 'src/app/models/employees/employee';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Employee, IEmployee } from 'src/app/models/employees/employee';
 import { Workcode } from 'src/app/models/teams/workcode';
 
 @Component({
@@ -8,17 +8,23 @@ import { Workcode } from 'src/app/models/teams/workcode';
   styleUrls: ['./site-ingest-form-month-employee.component.scss']
 })
 export class SiteIngestFormMonthEmployeeComponent {
-  @Input() width: number = 1135;
+  @Input() ingest: string = 'manual';
+  private _employee: Employee = new Employee();
+  @Input() 
+  public set employee(e: IEmployee) {
+    this._employee = new Employee(e);
+  }
+  get employee(): Employee {
+    return this._employee;
+  }
+  @Input() dates: Date[] = [];
   @Input() leavecodes: Workcode[] = [];
-  @Input() employee: Employee = new Employee();
-  @Input() month: Date = new Date();
+  @Input() width: number = 1158;
+  @Output() changed = new EventEmitter<Employee>();
 
   nameWidth(): number {
-    const ratio = this.width / 1135;
-    let width = Math.floor(200 * ratio);
-    if (width < 150) {
-      width = 150;
-    }
+    const ratio = this.width / 1158;
+    let width = Math.floor(150 * ratio);
     return width;
   }
 
@@ -26,22 +32,16 @@ export class SiteIngestFormMonthEmployeeComponent {
     return `width: ${this.nameWidth()}px;`
   }
 
-  nameCellStyle(emp?: Employee): string {
-    const ratio = this.width / 1135;
-    let fontSize = Math.floor(12 * ratio);
-    if (fontSize < 9) fontSize = 9;
+  nameCellStyle(): string {
+    const ratio = this.width / 1158;
+    let fontSize = ratio;
+    if (fontSize < .7) fontSize = .7;
     let height = Math.floor(25 * ratio);
-    if (height < 15) {
-      height = 15;
-    }
-    if (!emp) {
-      return `background-color: black;color: white;font-size: ${fontSize}pt;`
-        + `width: ${this.nameWidth()}px;height: ${height}px;`;
-    } else if (emp.even) {
-      return `background-color: #c0c0c0;color: black;font-size: ${fontSize}pt;`
+    if (this.employee.even) {
+      return `background-color: #c0c0c0;color: black;font-size: ${fontSize}rem;`
         + `width: ${this.nameWidth()}px;height: ${height}px;`;
     } else {
-      return `background-color: white;color: black;font-size: ${fontSize}pt;`
+      return `background-color: white;color: black;font-size: ${fontSize}rem;`
         + `width: ${this.nameWidth()}px;height: ${height}px;`;
     }
   }
@@ -49,5 +49,37 @@ export class SiteIngestFormMonthEmployeeComponent {
   daysStyle(): string {
     let width = this.width - (this.nameWidth() + 2); 
     return `width: ${width}px;`;
+  }
+
+  totalsStyle(): string {
+    const ratio = this.width / 1158;
+    let fontSize = ratio;
+    if (fontSize < .7) fontSize = .7;
+    let height = Math.floor(25 * ratio);
+    let width = Math.floor(50 * ratio);
+    if (this.employee.even) {
+      return `background-color: #c0c0c0;color: black;font-size: ${fontSize}rem;`
+        + `width: ${width}px;height: ${height}px;`;
+    } else {
+      return `background-color: white;color: black;font-size: ${fontSize}rem;`
+        + `width: ${width}px;height: ${height}px;`;
+    }
+  }
+
+  totalsValue(): string {
+    let work = 0.0;
+    this.dates.forEach(date => {
+      if (this.employee.work) {
+        this.employee.work.forEach(wk => {
+          if (wk.dateWorked.getTime() === date.getTime() && !wk.modtime) {
+            work += wk.hours;
+          }
+        })
+      }
+    });
+    if (work.toFixed(1).indexOf('.0') >= 0) {
+      return work.toFixed(0);
+    }
+    return work.toFixed(1);
   }
 }

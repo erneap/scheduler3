@@ -83,6 +83,7 @@ export interface IEmployee {
   contactinfo: IContact[];
   specialties: ISpecialty[];
   emails?: string[];
+  even: boolean;
 }
 
 export class Employee implements IEmployee {
@@ -171,7 +172,7 @@ export class Employee implements IEmployee {
         this.emails.push(em);
       })
     }
-    this.even = false;
+    this.even = (emp) ? emp.even : false;
   }
 
   compareTo(other?: Employee): number {

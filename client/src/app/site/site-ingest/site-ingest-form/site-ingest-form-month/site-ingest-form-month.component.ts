@@ -4,7 +4,8 @@ import { Assignment } from 'src/app/models/employees/assignments';
 import { Employee } from 'src/app/models/employees/employee';
 import { ISite, Site } from 'src/app/models/sites/site';
 import { Company, ICompany } from 'src/app/models/teams/company';
-import { Team } from 'src/app/models/teams/team';
+import { ITeam, Team } from 'src/app/models/teams/team';
+import { Workcode } from 'src/app/models/teams/workcode';
 import { IngestResponse } from 'src/app/models/web/siteWeb';
 import { AppStateService } from 'src/app/services/app-state.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -20,7 +21,7 @@ import { TeamService } from 'src/app/services/team.service';
   styleUrls: ['./site-ingest-form-month.component.scss']
 })
 export class SiteIngestFormMonthComponent {
-  @Input() width: number = 1048;
+  @Input() width: number = 1158;
   @Input() height: number = 700;
   private _company: Company = new Company();
   @Input()
@@ -31,20 +32,29 @@ export class SiteIngestFormMonthComponent {
   get company(): Company {
     return this._company;
   }
-  @Input() team: Team = new Team();
+  private _team: Team = new Team();
+  @Input()
+  public set team(t: ITeam) {
+    this._team = new Team(t);
+    this.setLeaveCodes();
+  }
+  get team(): Team {
+    return this._team;
+  }
   private _site: Site = new Site();
   @Input()
   public set site(s: ISite) {
     this._site = new Site(s);
-    console.log(`Form: ${this.site.employees?.length}`);
     this.setEmployees();
   }
   get site(): Site {
     return this._site;
   }
   @Output() monthChanged = new EventEmitter<Date>();
+  leavecodes: Workcode[] = [];
   monthShown: Date;
   dateForm: FormGroup;
+  dates: Date[] = [];
   months: string[] = ['January', 'Febuary', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
   employees: Employee[] = [];
@@ -61,6 +71,16 @@ export class SiteIngestFormMonthComponent {
       year: now.getFullYear(),
     });
     this.setEmployees();
+    this.setMonth();
+  }
+
+  setLeaveCodes() {
+    this.leavecodes = [];
+    this.team.workcodes.forEach(wc => {
+      if (wc.isLeave) {
+        this.leavecodes.push(new Workcode(wc));
+      }
+    });
   }
 
   changeMonth(size: string, direction: string) {
@@ -84,6 +104,34 @@ export class SiteIngestFormMonthComponent {
     }
     this.monthChanged.emit(new Date(this.monthShown));
     this.setEmployees();
+    this.setMonth();
+  }
+
+  monthDirStyle(): string {
+    const ratio = this.width / 1158;
+    let height = Math.floor(25 * ratio);
+    if (height < 15) {
+      height = 15;
+    }
+    return `height: ${height}px;`;
+  }
+
+  monthLabelStyle(): string {
+    const ratio = this.width / 1158;
+    let height = Math.floor(25 * ratio);
+    if (height < 15) {
+      height = 15;
+    }
+    return `top: ${height + 1}px;height: ${height}px;`;
+  }
+
+  viewStyle(): string {
+    const ratio = this.width / 1158;
+    let height = Math.floor(25 * ratio);
+    if (height < 15) {
+      height = 15;
+    }
+    return `top: ${2 * (height + 1)}px;`;
   }
 
   selectMonth() {
@@ -92,10 +140,22 @@ export class SiteIngestFormMonthComponent {
     this.monthShown = new Date(Date.UTC(iYear, iMonth, 1, 0, 0, 0, 0));
     this.monthChanged.emit(new Date(this.monthShown));
     this.setEmployees();
+    this.setMonth();
+  }
+
+  setMonth() {
+    this.dates = [];
+    let start = new Date(this.monthShown);
+    const end = new Date(Date.UTC(start.getFullYear(), start.getMonth() + 1, 1, 
+      0, 0, 0, 0));
+    while (start.getTime() < end.getTime()) {
+      this.dates.push(new Date(start));
+      start = new Date(start.getTime() + (24 * 3600000));
+    }
   }
 
   directionStyle(): string {
-    const ratio = this.width / 1135;
+    const ratio = this.width / 1158;
     let fontSize = ratio;
     if (fontSize < 0.7) {
       fontSize = 0.7;
@@ -112,7 +172,7 @@ export class SiteIngestFormMonthComponent {
   }
 
   monthStyle(): string {
-    const ratio = this.width / 1135;
+    const ratio = this.width / 1158;
     let fontSize = ratio;
     if (fontSize < 0.7) {
       fontSize = 0.7;
@@ -130,17 +190,15 @@ export class SiteIngestFormMonthComponent {
   }
 
   overallStyle(): string {
-    const ratio = this.width / 1135;
+    const ratio = this.width / 1158;
     let height = Math.floor(25 * ratio);
-    if (height < 15) {
-      height = 15;
-    }
     height = this.height - ((height + 2) * 2);
     return `width: ${this.width}px;height: ${height}px;`;
   }
 
   setEmployees() {
     this.employees = [];
+    let count = 0;
     if (this.site.employees) {
       const end = new Date(Date.UTC(this.monthShown.getFullYear(), 
         this.monthShown.getMonth() + 1, 1, 0, 0, 0, 0));
@@ -152,22 +210,18 @@ export class SiteIngestFormMonthComponent {
           const last = new Assignment(emp.assignments[emp.assignments.length - 1]);
           if (first.startDate.getTime() < end.getTime() 
             && last.endDate.getTime() >= this.monthShown.getTime()) {
+            emp.even = (count % 2 === 0);
             this.employees.push(new Employee(emp));
+            count++;
           }
         }
       });
     }
-    for (let i = 0; i < this.employees.length; i++) {
-      this.employees[i].even = (i % 2 === 0);
-    }
   }
 
   nameWidth(): number {
-    const ratio = this.width / 1135;
-    let width = Math.floor(200 * ratio)
-    if (width < 150) {
-      width = 150;
-    }
+    const ratio = this.width / 1158;
+    let width = Math.floor(150 * ratio)
     return width;
   }
 
@@ -176,21 +230,20 @@ export class SiteIngestFormMonthComponent {
   }
 
   nameCellStyle(emp?: Employee): string {
-    const ratio = this.width / 1135;
-    let fontSize = Math.floor(12 * ratio);
-    if (fontSize < 9) fontSize = 9;
-    let height = Math.floor(25 * ratio);
-    if (height < 15) {
-      height = 15;
+    const ratio = this.width / 1158;
+    let fontSize = ratio;
+    if (fontSize < 0.7) {
+      fontSize = 0.7;
     }
+    let height = Math.floor(25 * ratio);
     if (!emp) {
-      return `background-color: black;color: white;font-size: ${fontSize}pt;`
+      return `background-color: black;color: white;font-size: ${fontSize}rem;`
         + `width: ${this.nameWidth()}px;height: ${height}px;`;
     } else if (emp.even) {
-      return `background-color: #c0c0c0;color: black;font-size: ${fontSize}pt;`
+      return `background-color: #c0c0c0;color: black;font-size: ${fontSize}rem;`
         + `width: ${this.nameWidth()}px;height: ${height}px;`;
     } else {
-      return `background-color: white;color: black;font-size: ${fontSize}pt;`
+      return `background-color: white;color: black;font-size: ${fontSize}rem;`
         + `width: ${this.nameWidth()}px;height: ${height}px;`;
     }
   }
@@ -198,5 +251,18 @@ export class SiteIngestFormMonthComponent {
   daysStyle(): string {
     let width = this.width - (this.nameWidth() + 2); 
     return `width: ${width}px;`;
+  }
+
+  totalsStyle(): string {
+    const ratio = this.width / 1158;
+    let fontSize = ratio;
+    if (fontSize < 0.7) {
+      fontSize = 0.7;
+    }
+    let height = Math.floor(25 * ratio);
+    let width = Math.floor(50 * ratio);
+    if (width < 30) width = 30;
+    return `background-color: black; color: white;font-size: ${fontSize}rem;`
+      + `width: ${width}px;height: ${height}px;`;
   }
 }
