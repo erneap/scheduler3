@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Team } from 'src/app/models/teams/team';
 import { Workcode } from 'src/app/models/teams/workcode';
+import { TeamService } from 'src/app/services/team.service';
 
 @Component({
   selector: 'app-team-editor-workcode',
@@ -16,6 +17,7 @@ export class TeamEditorWorkcodeComponent {
   codeForm: FormGroup;
 
   constructor(
+    protected teamService: TeamService,
     private fb: FormBuilder
   ) {
     this.codeForm = this.fb.group({
@@ -62,6 +64,7 @@ export class TeamEditorWorkcodeComponent {
 
   setWorkcode() {
     this.codeForm.controls['id'].setValue(this.selected.id);
+    /*
     this.codeForm.controls['title'].setValue(this.selected.title);
     this.codeForm.controls['start'].setValue(this.selected.start);
     this.codeForm.controls['shiftcode'].setValue(this.selected.shiftCode);
@@ -69,6 +72,6 @@ export class TeamEditorWorkcodeComponent {
     this.codeForm.controls['search'].setValue(this.selected.search);
     this.codeForm.controls['isleave'].setValue(this.selected.isLeave);
     this.codeForm.controls['textcolor'].setValue(this.selected.textcolor);
-    this.codeForm.controls['backcolor'].setValue(this.selected.backcolor);
+    this.codeForm.controls['backcolor'].setValue(this.selected.backcolor);*/
   }
 }

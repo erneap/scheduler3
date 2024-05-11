@@ -5,6 +5,45 @@
       <span [style]="spanStyle(wc)">{{wc.id}}</span> - {{wc.title}}
     </div>
   </div>
-  <form [formGroup]="codeForm" class="flexlayout column topleft">
+  <form [formGroup]="codeForm" class="formDiv flexlayout column topleft">
+    <div class="formrow">
+      <div class="formlabel">ID *</div>
+      <div class="forminput" *ngIf="selected.id === ''">
+        <input matNativeControl formControlName="id" 
+          class="forminput">
+      </div>
+      <div class="forminput" *ngIf="selected.id !== ''">
+        <input matNativeControl formControlName="id" 
+          class="forminput" readonly="readonly">
+      </div>
+    </div>
+    <div class="formrow">
+      <div class="formlabel">Title *</div>
+      <div class="forminput">
+        <input matNativeControl formControlName="title" 
+          class="forminput">
+      </div>
+    </div>
+    <div class="formrow">
+      <div class="formlabel">Alternate ID</div>
+      <div class="forminput">
+        <input matNativeControl formControlName="altcode" 
+          class="forminput">
+      </div>
+    </div>
+    <div class="formrow">
+      <div class="formlabel">Search For</div>
+      <div class="forminput">
+        <input matNativeControl formControlName="search" 
+          class="forminput">
+      </div>
+    </div>
+    <div class="formrow">
+      <div class="formlabel">Shift Start Hour</div>
+      <div class="forminput">
+        <input matNativeControl type="number" formControlName="start" 
+          min="0" max="23" class="forminput">
+      </div>
+    </div>
   </form>
 </div>
