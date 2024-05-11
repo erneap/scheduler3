@@ -43,7 +43,7 @@
     <div class="flexlayout column topleft">
       <app-site-ingest-form-month-employee *ngFor="let emp of employees"
         [dates]="dates" [employee]="emp" [ingest]="company.ingest"
-        [leavecodes]="leavecodes" [width]="width">
+        [leavecodes]="leavecodes" [width]="width" (changed)="onChanged($event)">
       </app-site-ingest-form-month-employee>
     </div>
   </div>

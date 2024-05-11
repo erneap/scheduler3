@@ -15,8 +15,8 @@ export class SiteIngestComponent {
   getCalendarStyle(): string {
     if (this.appState.viewHeight < this.appState.viewWidth) {
       let height = Math.floor(this.appState.viewHeight / 4);
-      if (height > 150) {
-        height = 150;
+      if (height > 100) {
+        height = 100;
       }
       return `bottom: ${height}px;`;
     } else {
@@ -27,8 +27,8 @@ export class SiteIngestComponent {
   getLegendStyle(): string {
     if (this.appState.viewHeight < this.appState.viewWidth) {
       let height = Math.floor(this.appState.viewHeight / 4);
-      if (height > 149) {
-        height = 149;
+      if (height > 99) {
+        height = 99;
       }
       return `height: ${height}px;`;
     } else {

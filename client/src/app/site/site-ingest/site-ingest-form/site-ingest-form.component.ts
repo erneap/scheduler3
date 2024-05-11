@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Employee } from 'src/app/models/employees/employee';
+import { LeaveDay } from 'src/app/models/employees/leave';
+import { Work } from 'src/app/models/employees/work';
 import { Site } from 'src/app/models/sites/site';
 import { Company } from 'src/app/models/teams/company';
 import { Team } from 'src/app/models/teams/team';
-import { IngestResponse } from 'src/app/models/web/siteWeb';
+import { IngestManualChange } from 'src/app/models/web/internalWeb';
+import { IngestChange, IngestResponse } from 'src/app/models/web/siteWeb';
 import { AppStateService } from 'src/app/services/app-state.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { DialogService } from 'src/app/services/dialog-service.service';
@@ -25,6 +28,7 @@ export class SiteIngestFormComponent {
   height: number = 700;
   company: Company = new Company();
   myFiles: File[] = [];
+  changes: IngestChange[] = [];
   companyForm: FormGroup;
   ingestForm: FormGroup;
   monthShown: Date = new Date();
@@ -64,6 +68,8 @@ export class SiteIngestFormComponent {
     this.ingestForm = this.fb.group({
       file: ['', [Validators.required]],
     });
+
+    this.changes = [];
   }
 
   onChangeCompany() {
@@ -87,6 +93,8 @@ export class SiteIngestFormComponent {
         if (tHeight > height) height = tHeight;
       }
       return `bottom: ${height}px;`;
+    } else if (this.changes.length > 0) {
+      return 'bottom: 35px;';
     }
     return `bottom: 10px;`;
   }
@@ -99,6 +107,8 @@ export class SiteIngestFormComponent {
         if (tHeight > height) height = tHeight;
       }
       return `height: ${height}px;`;
+    } else if (this.changes.length > 0) {
+      return 'height: 35px;';
     }
     return `height: 10px;`;
   }
@@ -140,9 +150,27 @@ export class SiteIngestFormComponent {
             const iSite = this.siteService.getSite();
             if (iSite) {
               const site = new Site(iSite);
-              if (!site.employees) {
-                site.employees = [];
-              }
+              data.employees.forEach(emp => {
+                if (site.employees) {
+                  let found = false;
+                  for (let e = 0; e < site.employees.length && !found; e++) {
+                    if (site.employees[e].id === emp.id) {
+                      found = true;
+                      site.employees[e] = new Employee(emp);
+                    }
+                  }
+                  if (!found) {
+                    site.employees.push(new Employee(emp));
+                  }
+                  site.employees.sort((a,b) => a.compareTo(b));
+                } else {
+                  site.employees = [];
+                  site.employees.push(new Employee(emp));
+                }
+              });
+              this.siteService.setSite(site);
+              this.updateTeam(site);
+              this.site = new Site(site);
             } 
           }
           this.ingestForm.controls["file"].setValue('');
@@ -154,5 +182,208 @@ export class SiteIngestFormComponent {
         }
       });
     }
+  }
+
+  updateTeam(site: Site) {
+    const iTeam = this.teamService.getTeam();
+    if (iTeam) {
+      const team = new Team(iTeam);
+      let found = false;
+      for (let s=0; s < team.sites.length && !found; s++) {
+        if (team.sites[s].id === site.id) {
+          team.sites[s] = new Site(site);
+          found = true;
+        }
+      }
+      this.teamService.setTeam(team);
+    }
+  }
+
+  onManualChange(change: IngestManualChange) {
+    const numRe = new RegExp("^[0-9]{1,2}(\.[0-9])?$");
+    if (this.site.employees) {
+      this.site.employees.forEach(emp => {
+        if (emp.id === change.employeeid) {
+          if (change.changevalue === '' || change.changevalue === '0') {
+            // this will delete work or leave as necessary
+            // check for work on date.
+            if (emp.work && emp.work.length > 0) {
+              for (let i=emp.work.length -1; i >= 0; i--) {
+                if (emp.work[i].dateWorked.getFullYear() === change.changedate.getFullYear()
+                  && emp.work[i].dateWorked.getMonth() === change.changedate.getMonth()
+                  && emp.work[i].dateWorked.getDate() === change.changedate.getDate()) {
+                  const wk = new Work(emp.work[i]);
+                  this.changes.push(new IngestChange(emp.id, "delete-work",
+                    wk, undefined));
+                  emp.work.splice(i, 1);
+                }
+              }
+            }
+            // check for leave on date.
+            if (emp.leaves && emp.leaves.length > 0) {
+              for (let i=emp.leaves.length - 1; i >= 0; i--) {
+                if (emp.leaves[i].leavedate.getFullYear() === change.changedate.getFullYear()
+                && emp.leaves[i].leavedate.getMonth() === change.changedate.getMonth()
+                && emp.leaves[i].leavedate.getDate() === change.changedate.getDate()) {
+                  const lv = new LeaveDay(emp.leaves[i]);
+                  this.changes.push(new IngestChange(emp.id, "delete-leave", 
+                    undefined, lv));
+                  emp.leaves.splice(i, 1);
+                }
+              }
+            }
+          } else if (numRe.test(change.changevalue)) {
+            // check for work already present on this date
+            let found = false;
+            if (emp.work && emp.work.length > 0) {
+              emp.work.forEach(wk => {
+                if (wk.dateWorked.getFullYear() === change.changedate.getFullYear()
+                  && wk.dateWorked.getMonth() === change.changedate.getMonth()
+                  && wk.dateWorked.getDate() === change.changedate.getDate()
+                  && !found) {
+                  wk.hours = Number(change.changevalue);
+                  this.changes.push(
+                    new IngestChange(emp.id, "update-work", wk, undefined)
+                  );
+                  found = true;
+                }
+              });
+            }
+            // if not found, add a work record
+            if (!found) {
+              // determine labor code to use.  If no labor codes are found for
+              // date, the labor code will be workcenter for charge number and
+              // year for the extension
+              const iSite = this.siteService.getSite();
+              let chgNo = '';
+              let ext = '';
+              if (iSite) {
+                const site = new Site(iSite);
+                emp.assignments.forEach(asgmt => {
+                  asgmt.laborcodes.forEach(lc => {
+                    if (site.forecasts && site.forecasts.length > 0) {
+                      site.forecasts.forEach(f => {
+                        if (f.isActive(change.changedate) && chgNo === ''
+                          && ext === '') {
+                          if (f.laborCodes && f.laborCodes.length > 0) {
+                            f.laborCodes.forEach(fc => {
+                              if (lc.chargeNumber === fc.chargeNumber
+                                && lc.extension == fc.extension) {
+                                chgNo = lc.chargeNumber;
+                                ext = lc.extension;
+                              }
+                            });
+                          }
+                        }
+                      });
+                    }
+                  });
+                });
+              }
+              if (chgNo === '' || ext === '') {
+                const wd = emp.getWorkdayWOLeaves(emp.site, change.changedate);
+                chgNo = wd.workcenter;
+                ext = `${change.changedate.getFullYear()}`;
+              }
+              if (!emp.work) {
+                emp.work = [];
+              }
+              const wk = new Work();
+              wk.chargeNumber = chgNo;
+              wk.extension = ext;
+              wk.dateWorked = new Date(change.changedate);
+              wk.payCode = 1;
+              wk.hours = Number(change.changevalue);
+              emp.work.push(wk);
+              this.changes.push(new IngestChange(emp.id, "add-work", wk, undefined));
+            }
+          } else {
+            // check for leave on this date.  if so mark as actual
+            let found = false;
+            if (emp.leaves && emp.leaves.length > 0) {
+              emp.leaves.forEach(lv => {
+                if (lv.leavedate.getFullYear() === change.changedate.getFullYear()
+                && lv.leavedate.getMonth() === change.changedate.getMonth()
+                && lv.leavedate.getDate() === change.changedate.getDate()
+                && !found) {
+                  found = true
+                  lv.code = change.changevalue;
+                  lv.status = "ACTUAL";
+                  this.changes.push(new IngestChange(emp.id, "update-leave",
+                    undefined, new LeaveDay(lv)));
+                }
+              });
+            }
+            // if not found, add leave to list and mark as actual
+            if (!found) {
+              const std = emp.getStandardWorkday(emp.site, change.changedate);
+              const lv = new LeaveDay();
+              lv.code = change.changevalue;
+              lv.leavedate = new Date(change.changedate);
+              lv.hours = std;
+              lv.status = "ACTUAL";
+              emp.leaves.push(lv);
+              this.changes.push(new IngestChange(emp.id, "add-leave",
+                undefined, lv));
+            }
+          } 
+        }
+      });
+    }
+  }
+
+  approveChanges() {
+    // update changes to database
+    const iEmp = this.empService.getEmployee();
+    if (iEmp) {
+      const emp = new Employee(iEmp);
+      this.authService.statusMessage = "Sending manual timecard updates";
+      this.dialogService.showSpinner();
+      this.ingestService.manualIngest(this.team.id, this.site.id, 
+        emp.companyinfo.company, this.changes).subscribe({
+        next: (data: IngestResponse) => {
+          this.dialogService.closeSpinner();
+          if (data && data !== null && data.employees) {
+            this.authService.statusMessage = "Ingest complete";
+            const iSite = this.siteService.getSite();
+            if (iSite) {
+              const site = new Site(iSite);
+              if (!site.employees) {
+                site.employees = [];
+              }
+              data.employees.forEach(tEmp => {
+                if (site.employees) {
+                  let found = false;
+                  for (let e=0; e < site.employees.length && !found; e++) {
+                    if (site.employees[e].id === tEmp.id) {
+                      found = true;
+                      site.employees[e] = new Employee(tEmp);
+                    }
+                  }
+                  if (!found) {
+                    site.employees.push(new Employee(tEmp));
+                  }
+                }
+              });
+              this.siteService.setSite(site);
+              this.updateTeam(site);
+              this.site = new Site(site);
+              this.changes = [];
+            } 
+          }
+          this.ingestForm.controls["file"].setValue('');
+          this.myFiles = [];
+        },
+        error: (err: IngestResponse) => {
+          this.dialogService.closeSpinner();
+          this.authService.statusMessage = err.exception;
+        }
+      });
+    }
+  }
+
+  clearChanges() {
+    this.changes = [];
+    this.site = new Site(this.site);
   }
 }

@@ -1,11 +1,11 @@
-<ng-container *ngIf="ingest.toLowerCase() === 'manual'">
-  <form [formGroup]="dayForm">
-    <input matNativeControl formControlName="day" class="cellinput"
-      [style]="dayStyle()">
-  </form>
-</ng-container>
-<ng-container *ngIf="ingest.toLowerCase() !== 'manual'">
-  <div class="cell" [style]="dayStyle()">
-    {{dayValue}}
-  </div>
-</ng-container>
+<div class="cell" [style]="dayStyle()">
+  <ng-container *ngIf="ingest.toLowerCase() === 'manual' && employee.id !== ''">
+    <form [formGroup]="dayForm">
+      <input formControlName="changedValue" class="cellinput" 
+        [style]="inputStyle()" (blur)="onChange()">
+    </form>
+  </ng-container>
+  <ng-container *ngIf="ingest.toLowerCase() !== 'manual' || employee.id === ''">
+      {{getDisplayValue()}}
+  </ng-container>
+</div>

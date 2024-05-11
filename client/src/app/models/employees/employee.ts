@@ -218,6 +218,9 @@ export class Employee implements IEmployee {
       });
     }
     if (work > 0.0) {
+      if (work.toFixed(1).indexOf('.0') >= 0) {
+        return work.toFixed(0);
+      }
       return work.toFixed(1);
     }
     let code: string = '';

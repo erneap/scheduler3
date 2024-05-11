@@ -8,6 +8,7 @@ import { SiteIngestFormComponent } from './site-ingest-form/site-ingest-form.com
 import { SiteIngestFormMonthComponent } from './site-ingest-form/site-ingest-form-month/site-ingest-form-month.component';
 import { SiteIngestFormMonthEmployeeComponent } from './site-ingest-form/site-ingest-form-month/site-ingest-form-month-employee/site-ingest-form-month-employee.component';
 import { SiteIngestFormMonthEmployeeDayComponent } from './site-ingest-form/site-ingest-form-month/site-ingest-form-month-employee-day/site-ingest-form-month-employee-day.component';
+import { SiteIngestLegendComponent } from './site-ingest-legend/site-ingest-legend.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SiteIngestFormMonthEmployeeDayComponent } from './site-ingest-form/site
        SiteIngestFormComponent,
        SiteIngestFormMonthComponent,
        SiteIngestFormMonthEmployeeComponent,
-       SiteIngestFormMonthEmployeeDayComponent
+       SiteIngestFormMonthEmployeeDayComponent,
+       SiteIngestLegendComponent
   ],
   imports: [
     CommonModule,

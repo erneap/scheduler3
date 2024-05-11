@@ -23,8 +23,10 @@ export class EditorComponent {
   get team(): Team {
     return this._team;
   }
+  @Input() width: number = 1200;
   @Output() changed = new EventEmitter<Team>();
   teamForm: FormGroup;
+  viewHeight: number = 900;
 
   constructor(
     protected authService: AuthService,
@@ -39,6 +41,11 @@ export class EditorComponent {
       name: ['', [Validators.required]],
     });
     this.setTeam();
+    this.width = this.stateService.viewWidth;
+    if (this.stateService.showMenu) {
+      this.width -= 250;
+    }
+    this.viewHeight = this.stateService.viewHeight - 200;
   }
 
   setTeam() {
@@ -46,7 +53,6 @@ export class EditorComponent {
   }
 
   onUpdate() {
-    this.authService.statusMessage = "Updating Team Name";
     this.dialogService.showSpinner();
     this.teamService.updateTeam(this.team.id, this.teamForm.value.name).subscribe({
       next: (data: SiteResponse) => {

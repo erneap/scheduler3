@@ -15,6 +15,7 @@ import { TeamContactListComponent } from './team-contact-list/team-contact-list.
 import { TeamSpecialtiesListComponent } from './team-specialties-list/team-specialties-list.component';
 import { TeamCompanyModtimeComponent } from './team-company/team-company-modtime/team-company-modtime.component';
 import { SiteEmployeesModule } from '../site/site-employees/site-employees.module';
+import { TeamEditorModule } from './team-editor/team-editor.module';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { SiteEmployeesModule } from '../site/site-employees/site-employees.modul
     SiteModule,
     FormsModule,
     ReactiveFormsModule,
-    SiteEmployeesModule
+    SiteEmployeesModule,
+    TeamEditorModule
   ],
   exports: [
     NewTeamComponent,

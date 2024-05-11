@@ -1,0 +1,19 @@
+<div class="toplevel">
+  <div class="nameDiv">
+    <form [formGroup]="teamForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Team Name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="editorDiv">
+    <mat-tab-group [backgroundColor]="'warn'" [color]="'primary'" 
+      style="width:100%;">
+      <mat-tab label="Work Codes">
+        <app-team-editor-workcode [team]="team" [width]="width" 
+          [height]="height"></app-team-editor-workcode>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

@@ -9,7 +9,8 @@
   </form>
   <div class="toplevel" [style]="getViewStyle()">
     <app-site-ingest-form-month [team]="team" [site]="site" [company]="company"
-      [height]="height" [width]="width" (monthChanged)="onChangeMonth($event)">
+      [height]="height" [width]="width" (monthChanged)="onChangeMonth($event)"
+      (manualChanged)="onManualChange($event)">
     </app-site-ingest-form-month>
   </div>
   <form [formGroup]="ingestForm" *ngIf="company.ingest !== 'manual'"
@@ -29,4 +30,13 @@
         (click)="onClear()">Clear</button>
     </div>
   </form>
+  <div class="ingestDiv flexlayout row topleft" [style]="formStyle()"
+    *ngIf="changes.length > 0">
+    <button mat-raised-button color="accent" (click)="approveChanges()">
+      Approve Changes
+    </button>
+    <button mat-raised-button color="warn" (click)="clearChanges()">
+      Clear Changes
+    </button>
+  </div>
 </div>

@@ -4,7 +4,7 @@
   </div>
   <app-site-ingest-form-month-employee-day *ngFor="let date of dates"
     [date]="date" [employee]="employee" [ingest]="ingest" 
-    [leavecodes]="leavecodes" [width]="width">
+    [leavecodes]="leavecodes" [width]="width" (changed)="onChange($event)">
   </app-site-ingest-form-month-employee-day>
   <div class="name" [style]="totalsStyle()">
     {{totalsValue()}}

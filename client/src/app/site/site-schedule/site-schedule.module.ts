@@ -43,7 +43,8 @@ import { SiteScheduleMidsListComponent } from './site-schedule-mids-list/site-sc
     SiteScheduleComponent,
     SiteScheduleCoverageComponent,
     SiteScheduleMidsListComponent,
-    SiteScheduleLegendComponent
+    SiteScheduleLegendComponent,
+    SiteScheduleLegendCodeComponent
   ]
 })
 export class SiteScheduleModule { }

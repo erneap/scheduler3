@@ -19,11 +19,9 @@ import { EmployeeService } from './services/employee.service';
 import { SiteService } from './services/site.service';
 import { TeamService } from './services/team.service';
 import { SiteModule } from './site/site.module';
-import { SiteSchedulerModule } from './site-scheduler/site-scheduler.module';
 import { GenericModule } from './generic/generic.module';
 import { DeletionConfirmationComponent } from './generic/deletion-confirmation/deletion-confirmation.component';
 import { TeamModule } from './team/team.module';
-import { SiteIngestModule } from './site-ingest/site-ingest.module';
 import { AdminActionsModule } from './admin-actions/admin-actions.module';
 import { ReportsModule } from './reports/reports.module';
 import { ForgotPasswordComponent } from './home/forgot-password/forgot-password.component';
@@ -64,8 +62,6 @@ import { StatusbarComponent } from './home/statusbar/statusbar.component';
     ReactiveFormsModule,
     EmployeeModule,
     SiteModule,
-    SiteSchedulerModule,
-    SiteIngestModule,
     GenericModule,
     TeamModule,
     AdminActionsModule,

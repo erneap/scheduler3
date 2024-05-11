@@ -1,0 +1,10 @@
+<div class="toplevel" [style]="viewStyle()">
+  <div class="list">
+    <div [class]="itemClass('')">Add New Workcode</div>
+    <div *ngFor="let wc of team.workcodes" [class]="itemClass(wc.id)">
+      <span [style]="spanStyle(wc)">{{wc.id}}</span> - {{wc.title}}
+    </div>
+  </div>
+  <form [formGroup]="codeForm" class="flexlayout column topleft">
+  </form>
+</div>

@@ -6,6 +6,7 @@ import { ISite, Site } from 'src/app/models/sites/site';
 import { Company, ICompany } from 'src/app/models/teams/company';
 import { ITeam, Team } from 'src/app/models/teams/team';
 import { Workcode } from 'src/app/models/teams/workcode';
+import { IngestManualChange } from 'src/app/models/web/internalWeb';
 import { IngestResponse } from 'src/app/models/web/siteWeb';
 import { AppStateService } from 'src/app/services/app-state.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -51,6 +52,7 @@ export class SiteIngestFormMonthComponent {
     return this._site;
   }
   @Output() monthChanged = new EventEmitter<Date>();
+  @Output() manualChanged = new EventEmitter<IngestManualChange>();
   leavecodes: Workcode[] = [];
   monthShown: Date;
   dateForm: FormGroup;
@@ -264,5 +266,9 @@ export class SiteIngestFormMonthComponent {
     if (width < 30) width = 30;
     return `background-color: black; color: white;font-size: ${fontSize}rem;`
       + `width: ${width}px;height: ${height}px;`;
+  }
+
+  onChanged(change: IngestManualChange) {
+    this.manualChanged.emit(change);
   }
 }

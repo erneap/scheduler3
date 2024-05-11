@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Employee, IEmployee } from 'src/app/models/employees/employee';
 import { Workcode } from 'src/app/models/teams/workcode';
+import { IngestManualChange } from 'src/app/models/web/internalWeb';
 
 @Component({
   selector: 'app-site-ingest-form-month-employee',
@@ -20,7 +21,7 @@ export class SiteIngestFormMonthEmployeeComponent {
   @Input() dates: Date[] = [];
   @Input() leavecodes: Workcode[] = [];
   @Input() width: number = 1158;
-  @Output() changed = new EventEmitter<Employee>();
+  @Output() changed = new EventEmitter<IngestManualChange>();
 
   nameWidth(): number {
     const ratio = this.width / 1158;
@@ -81,5 +82,9 @@ export class SiteIngestFormMonthEmployeeComponent {
       return work.toFixed(0);
     }
     return work.toFixed(1);
+  }
+
+  onChange(change: IngestManualChange) {
+    this.changed.emit(change)
   }
 }

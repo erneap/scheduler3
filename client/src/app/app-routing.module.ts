@@ -5,7 +5,6 @@ import { NotFoundComponent } from './home/not-found/not-found.component';
 import { NewSiteComponent } from './site/new-site/new-site.component';
 import { SiteComponent } from './site/site.component';
 import { TeamSiteEditorComponent } from './team/team-site-editor/team-site-editor.component';
-import { FileIngestComponent } from './site-ingest/file-ingest/file-ingest.component';
 import { TeamListEditorComponent } from './admin-actions/team-list-editor/team-list-editor.component';
 import { TeamComponent } from './team/team.component';
 import { DataPurgeComponent } from './admin-actions/data-purge/data-purge.component';
@@ -22,6 +21,7 @@ import { SiteScheduleCoverageComponent } from './site/site-schedule/site-schedul
 import { SiteScheduleMidsListComponent } from './site/site-schedule/site-schedule-mids-list/site-schedule-mids-list.component';
 import { SiteEmployeesLeaveApprovalComponent } from './site/site-employees/site-employees-leave-approval/site-employees-leave-approval.component';
 import { SiteIngestComponent } from './site/site-ingest/site-ingest.component';
+import { TeamEditorComponent } from './team/team-editor/team-editor.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -31,10 +31,6 @@ const routes: Routes = [
   { path: 'employee', 
     loadChildren: () => import('./employee/employee.module')
       .then(m => m.EmployeeModule) 
-  },
-  { path: 'siteschedule',
-    loadChildren: () => import('./site-scheduler/site-scheduler.module')
-      .then(m => m.SiteSchedulerModule)
   },
   { path: 'site', 
     children: [
@@ -58,13 +54,11 @@ const routes: Routes = [
       { path: 'ingest', component: SiteIngestComponent }
     ]
   },
-  { path: 'siteemployees', component: SiteEmployeesComponent },
-  { path: 'newsite', component: NewSiteComponent },
-  { path: 'siteeditor', component: SiteComponent},
-  { path: 'ingest/files', component: FileIngestComponent },
-  { path: 'team/siteeditor', component: TeamSiteEditorComponent},
-  { path: 'team/editor', component: TeamComponent },
-  { path: 'admin/teams', component: TeamListEditorComponent },
+  { path: 'team', 
+    children: [
+      {path: 'editor', component: TeamEditorComponent }
+    ]
+  },
   { path: 'admin/purge', component: DataPurgeComponent },
   { path: 'reports', component: ReportsComponent },
   { path: 'notifications', component: NotificationsComponent },
