@@ -23,52 +23,42 @@
                 class="error">Required</mat-error>
             </mat-form-field>
           </div>
-          <div class="flexlayout row center">
-            <div class="formField">
-              <mat-form-field class="fieldWidth">
-                <mat-label>First Name</mat-label>
-                <input matInput formControlName="first">
-                <mat-error *ngIf="this.employeeForm.get('first')?.hasError('required')"
-                  class="error">Required</mat-error>
-              </mat-form-field>
-            </div>
-            <div class="formField">
-              <mat-form-field class="fieldWidth">
-                <mat-label>Middle Name</mat-label>
-                <input matInput formControlName="middle">
-                <mat-hint>Optional</mat-hint>
-              </mat-form-field>
-            </div>
-            <div class="formField">
-              <mat-form-field class="fieldWidth">
-                <mat-label>Last Name</mat-label>
-                <input matInput formControlName="last">
-                <mat-error *ngIf="this.employeeForm.get('last')?.hasError('required')"
-                  class="error">Required</mat-error>
-              </mat-form-field>
-            </div>
+          <div class="flexlayout row center flexgap">
+            <mat-form-field class="fieldWidth">
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName="first">
+              <mat-error *ngIf="this.employeeForm.get('first')?.hasError('required')"
+                class="error">Required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="fieldWidth">
+              <mat-label>Middle Name</mat-label>
+              <input matInput formControlName="middle">
+              <mat-hint>Optional</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="fieldWidth">
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName="last">
+              <mat-error *ngIf="this.employeeForm.get('last')?.hasError('required')"
+                class="error">Required</mat-error>
+            </mat-form-field>
           </div>
-          <div class="flexlayout row center">
-            <div class="formFieldWide">
-              <mat-form-field class="fieldWidthWide">
-                <mat-label>New Password</mat-label>
-                <input matInput type="password" formControlName="password">
-                <mat-error *ngIf="this.employeeForm.get('newpassword')?.invalid"
-                  class="error">
-                  {{getPasswordError()}}
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div class="formFieldWide">
-              <mat-form-field class="fieldWidthWide">
-                <mat-label>Verify New Password</mat-label>
-                <input matInput type="password" formControlName="password2">
-                <mat-error *ngIf="this.employeeForm.get('password2')?.invalid"
-                  class="error">
-                  {{getVerifyError()}}
-                </mat-error>
-              </mat-form-field>
-            </div>
+          <div class="flexlayout row center flexgap">
+            <mat-form-field class="fieldWidthWide">
+              <mat-label>New Password</mat-label>
+              <input matInput type="password" formControlName="password">
+              <mat-error *ngIf="this.employeeForm.get('newpassword')?.invalid"
+                class="error">
+                {{getPasswordError()}}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="fieldWidthWide">
+              <mat-label>Verify New Password</mat-label>
+              <input matInput type="password" formControlName="password2">
+              <mat-error *ngIf="this.employeeForm.get('password2')?.invalid"
+                class="error">
+                {{getVerifyError()}}
+              </mat-error>
+            </mat-form-field>
           </div>
         </div>
       </mat-expansion-panel>
@@ -77,65 +67,49 @@
           <mat-panel-title style="color: white;">Company Information</mat-panel-title>
         </mat-expansion-panel-header>
         <div class="flexlayout column center" style="margin-top: 10px;">
-          <div class="flexlayout row center">
-            <div class="formFieldWide">
-              <mat-form-field class="fieldWidthWide">
-                <mat-label>Company</mat-label>
-                <mat-select formControlName="company">
-                  <mat-option *ngFor="let co of companies"
-                    [value]="co.id">{{co.name}}</mat-option>
-                </mat-select>
-                <mat-error *ngIf="this.employeeForm.get('company')?.hasError('required')"
+          <div class="flexlayout row topleft flexgap flexwrap">
+            <mat-form-field class="fieldWidth">
+              <mat-label>Company</mat-label>
+              <mat-select formControlName="company">
+                <mat-option *ngFor="let co of companies"
+                  [value]="co.id">{{co.name}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="this.employeeForm.get('company')?.hasError('required')"
+              class="error">Required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="fieldWidth">
+              <mat-label>Employee ID</mat-label>
+              <input matInput formControlName="employeeid">
+              <mat-hint>Company Employee ID</mat-hint>
+              <mat-error *ngIf="this.employeeForm.get('employeeid')?.hasError('required')"
                 class="error">Required</mat-error>
-              </mat-form-field>
-            </div>
-            <div class="formField">
-              <mat-form-field class="fieldWidth">
-                <mat-label>Employee ID</mat-label>
-                <input matInput formControlName="employeeid">
-                <mat-hint>Company Employee ID</mat-hint>
-                <mat-error *ngIf="this.employeeForm.get('employeeid')?.hasError('required')"
-                  class="error">Required</mat-error>
-              </mat-form-field>
-            </div>
-            <div class="formField">
-              <mat-form-field class="fieldWidth">
-                <mat-label>Alternate ID</mat-label>
-                <input matInput formControlName="alternateid">
-                <mat-hint>Optional</mat-hint>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="flexlayout row center">
-            <div class="formField">
-              <mat-form-field class="fieldWidth">
-                <mat-label>Job Title</mat-label>
-                <input matInput formControlName="jobtitle">
-                <mat-error *ngIf="this.employeeForm.get('jobtitle')?.hasError('required')"
-                  class="error">Required</mat-error>
-              </mat-form-field>
-            </div>
-            <div class="formField">
-              <mat-form-field class="fieldWidth">
-                <mat-label>Rank/Grade</mat-label>
-                <input matInput formControlName="rank">
-                <mat-hint>Optional</mat-hint>
-              </mat-form-field>
-            </div>
-            <div class="formField">
-              <mat-form-field class="fieldWidth">
-                <mat-label>Cost Center</mat-label>
-                <input matInput formControlName="costcenter">
-                <mat-hint>Optional</mat-hint>
-              </mat-form-field>
-            </div>
-            <div class="formField">
-              <mat-form-field class="fieldWidth">
-                <mat-label>Division</mat-label>
-                <input matInput formControlName="division">
-                <mat-hint>Optional</mat-hint>
-              </mat-form-field>
-            </div>
+            </mat-form-field>
+            <mat-form-field class="fieldWidth">
+              <mat-label>Alternate ID</mat-label>
+              <input matInput formControlName="alternateid">
+              <mat-hint>Optional</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="fieldWidth">
+              <mat-label>Job Title</mat-label>
+              <input matInput formControlName="jobtitle">
+              <mat-error *ngIf="this.employeeForm.get('jobtitle')?.hasError('required')"
+                class="error">Required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="fieldWidth">
+              <mat-label>Rank/Grade</mat-label>
+              <input matInput formControlName="rank">
+              <mat-hint>Optional</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="fieldWidth">
+              <mat-label>Cost Center</mat-label>
+              <input matInput formControlName="costcenter">
+              <mat-hint>Optional</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="fieldWidth">
+              <mat-label>Division</mat-label>
+              <input matInput formControlName="division">
+              <mat-hint>Optional</mat-hint>
+            </mat-form-field>
           </div>
         </div>
       </mat-expansion-panel>
@@ -159,28 +133,24 @@
           <mat-panel-title style="color: white;">Initial Assignment</mat-panel-title>
         </mat-expansion-panel-header>
         <div class="flexlayout column center">
-          <div class="flexlayout row center">
-            <div class="formField">
-              <mat-form-field class="fieldWidth">
-                <mat-label>Assignment Workcenter</mat-label>
-                <mat-select formControlName="workcenter">
-                  <mat-option *ngFor="let wkctr of workcenters"
-                    [value]="wkctr.id">{{wkctr.name.toUpperCase()}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="formField">
-              <mat-form-field class="fieldWidth">
-                <mat-label>Assignment Start</mat-label>
-                <input matInput [matDatepicker]="startpicker"
-                  formControlName="startdate">
-                <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
-                <mat-datepicker #startpicker></mat-datepicker>
-              </mat-form-field>
-            </div>
+          <div class="flexlayout row center flexgap">
+            <mat-form-field class="fieldWidth">
+              <mat-label>Assignment Workcenter</mat-label>
+              <mat-select formControlName="workcenter">
+                <mat-option *ngFor="let wkctr of workcenters"
+                  [value]="wkctr.id">{{wkctr.name.toUpperCase()}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="fieldWidth">
+              <mat-label>Assignment Start</mat-label>
+              <input matInput [matDatepicker]="startpicker"
+                formControlName="startdate">
+              <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
+              <mat-datepicker #startpicker></mat-datepicker>
+            </mat-form-field>
           </div>
           <app-site-employees-assignment-schedule 
-            [site]="site"
+            [site]="site" [width]="width - 100"
             (change)="changeAssignmentSchedule($event)"
             [schedule]="schedule">
           </app-site-employees-assignment-schedule>

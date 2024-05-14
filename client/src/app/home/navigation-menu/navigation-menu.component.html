@@ -53,7 +53,7 @@
       <a mat-list-item (click)="goToLink('/site/modview')"
       *ngIf="(this.authService.isScheduler || this.authService.isSiteLeader) && appState.isDesktop()"
       style="height: 20px;">Site Mod Time Review</a>
-      <a mat-list-item (click)="goToLink('/siteeditor')"
+      <a mat-list-item (click)="goToLink('/site/editor')"
       *ngIf="(this.authService.isScheduler || this.authService.isSiteLeader) && appState.isDesktop()"
       style="height: 20px;">Site Editor</a>
       <a mat-list-item (click)="goToLink('site/ingest')"

@@ -1,12 +1,14 @@
-<div class="cell" [style]="dayStyle">
+<div class="cell" [style]="cellStyle()">
   <form [formGroup]="dayForm">
     <mat-icon *ngIf="copy" class="copy"
       matTooltip="Copy Previous Workday"
       (click)="changeField('copy')">add_circle</mat-icon>
-    <div class="dayOfMonth weekday">{{getDisplayDate()}}</div>
-    <div class="code">
+    <div class="dayOfMonth weekday" [style]="dayOfWeekStyle()">
+      {{getDisplayDate()}}
+    </div>
+    <div class="code" [style]="inputStyle('code')">
       <select class="day-form-field" formControlName="code"
-      [style]="fontStyle" (change)="changeField('code')">
+      [style]="inputStyle('code')" (change)="changeField('code')">
         <option value=""></option>
         <ng-container *ngFor="let opt of workCodes">
           <option [value]="opt.id" class="options"
@@ -14,18 +16,18 @@
         </ng-container>
       </select>
     </div>
-    <div class="workcenter">
+    <div class="workcenter" [style]="inputStyle('workcenter')">
       <select class="day-form-field" formControlName="workcenter"
-      [style]="fontStyle" (change)="changeField('workcenter')">
+      [style]="inputStyle('workcenter')" (change)="changeField('workcenter')">
         <option value=""></option>
         <ng-container *ngFor="let opt of workcenters">
           <option [value]="opt.id" class="options">{{opt.name.toUpperCase()}}</option>
         </ng-container>
       </select>
     </div>
-    <div class="hours">
+    <div class="hours" [style]="inputStyle('hours')">
       <select class="day-form-field" formControlName="hours"
-      [style]="fontStyle" (change)="changeField('hours')">
+      [style]="inputStyle('hours')" (change)="changeField('hours')">
         <ng-container *ngFor="let opt of workHours">
           <option [value]="opt" class="options">{{opt}}</option>
         </ng-container>

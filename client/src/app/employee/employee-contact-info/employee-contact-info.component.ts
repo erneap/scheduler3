@@ -29,9 +29,9 @@ export class EmployeeContactInfoComponent {
   get employee(): Employee {
     return this._employee;
   }
+  @Input() width: number = 650;
   @Output() changed = new EventEmitter<Employee>();
-  contactTypes: ContactType[] = []
-  width: number = 650;
+  contactTypes: ContactType[] = [];
 
   constructor(
     protected teamService: TeamService,

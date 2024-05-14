@@ -63,6 +63,7 @@ export class SiteEmployeesAssignmentScheduleDayComponent {
   get copy(): boolean {
     return this._copy;
   }
+  @Input() width: number = 700;
   @Output() changedate = new EventEmitter<string>();
   workCodes: Workcode[] = [];
   workcenters: Workcenter[] = [];
@@ -144,5 +145,70 @@ export class SiteEmployeesAssignmentScheduleDayComponent {
       return this.usedate.getDate().toString(10);
     }
     return this.workday.id.toString(10);
+  }
+
+  dayOfWeekStyle(): string {
+    let ratio = this.width / 700;
+    if (ratio > 1.0) ratio = 1.0;
+    const fontSize = 1.2 * ratio;
+    let height = Math.floor(25 * ratio);
+    return `width: ${height}px;width: ${height}px;font-size: ${fontSize}rem;`;
+  }
+
+  cellStyle(): string {
+    let ratio = this.width / 700;
+    if (ratio > 1.0) ratio = 1.0;
+    const fontSize = 1.2 * ratio;
+    let height = Math.floor(100 * ratio);
+    let bkColor = 'ffffff';
+    let txColor = '000000';
+    let code = this.dayForm.value.code;
+    if (this.disabled) {
+      bkColor = '000000';
+      txColor = '000000';
+    } else {
+      this.workCodes.forEach(wc => {
+        if (wc.id.toLowerCase() === code.toLowerCase()) {
+          bkColor = wc.backcolor;
+          txColor = wc.textcolor;
+        }
+      });
+    }
+    return `height: ${height}px;width: ${height}px;font-size: ${fontSize}rem;`
+      + `background-color: #${bkColor};color: #${txColor};`;
+  }
+
+  inputStyle(field: string): string {
+    let bkColor = 'ffffff';
+    let txColor = '000000';
+    let ratio = this.width / 700;
+    const fontSize = 1.2 * ratio;
+    let top = 25;
+    let height = Math.floor(22 * ratio);
+    let code = this.dayForm.value.code;
+    if (this.disabled) {
+      bkColor = '000000';
+      txColor = '000000';
+    } else {
+      this.workCodes.forEach(wc => {
+        if (wc.id.toLowerCase() === code.toLowerCase()) {
+          bkColor = wc.backcolor;
+          txColor = wc.textcolor;
+        }
+      });
+    }
+    switch (field.toLowerCase()) {
+      case "code":
+        top = Math.floor(25 * ratio);
+        break;
+      case 'workcenter':
+        top = Math.floor(50 * ratio);
+        break;
+      case 'hours':
+        top = Math.floor(75 * ratio);
+        break;
+    }
+    return `top: ${top}px;height: ${height}px;font-size: ${fontSize}rem;`
+      + `background-color: #${bkColor};color: #${txColor};`
   }
 }

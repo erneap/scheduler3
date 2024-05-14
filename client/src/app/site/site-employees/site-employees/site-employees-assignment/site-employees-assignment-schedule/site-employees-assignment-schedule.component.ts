@@ -64,6 +64,21 @@ export class SiteEmployeesAssignmentScheduleComponent {
   get enddate(): Date | undefined {
     return this._endDate;
   }
+  private _width: number = 700;
+  @Input()
+  public set width(w: number) {
+    if (w > 700) {
+      w = 700;
+    } else if (w < 700) {
+      let dayWidth = Math.floor(w / 7);
+      w = dayWidth * 7;
+    }
+    console.log(w)
+    this._width = w;
+  }
+  get width(): number {
+    return this._width;
+  }
   @Output() change = new EventEmitter<string>();
 
   days: string[] = [];
@@ -108,6 +123,33 @@ export class SiteEmployeesAssignmentScheduleComponent {
     this.startid = 0;
     this.endid = this._schedule.workdays.length - 1;
     this.workweeks.sort((a,b) => a.compareTo(b));
+  }
+
+  weekdayStyle(day: number): string {
+    let ratio = this.width / 700;
+    if (ratio > 1.0) ratio = 1.0;
+    const fontSize = ratio * 1.2;
+    let bkColor = 'ffffff';
+    let txColor = '000000';
+    if (day % 7 === 0 || day % 7 === 6) {
+      bkColor = '00ffff';
+    }
+    const width = this.width / 7;
+    const height = Math.floor(25 * ratio);
+    return `width: ${width}px;height: ${height}px;font-size: ${fontSize}rem;`
+      + `background-color: #${bkColor};color: #${txColor};`;
+  }
+
+  headerStyle(part: string): string {
+    let ratio = this.width / 700;
+    if (ratio > 1.0) ratio = 1.0;
+    const fontSize = ratio * 1.2;
+    const height = Math.floor(48 * ratio);
+    let width = this.width / 7;
+    if (part === 'month') {
+      width = (width * 5) + 8;
+    }
+    return `width: ${width}px;height: ${height}px;font-size: ${fontSize}rem;`;
   }
 
   updateDate(data: string) {

@@ -7,8 +7,6 @@ import { TeamSiteEditorComponent } from './team-site-editor/team-site-editor.com
 import { SiteModule } from '../site/site.module';
 import { TeamCompanyComponent } from './team-company/team-company.component';
 import { TeamCompanyHolidaysComponent } from './team-company/team-company-holidays/team-company-holidays.component';
-import { TeamWorkcodesComponent } from './team-workcodes/team-workcodes.component';
-import { EditorComponent } from './editor/editor.component';
 import { NewTeamComponent } from './new-team/new-team.component';
 import { TeamComponent } from './team.component';
 import { TeamContactListComponent } from './team-contact-list/team-contact-list.component';
@@ -23,8 +21,6 @@ import { TeamEditorModule } from './team-editor/team-editor.module';
     TeamSiteEditorComponent,
     TeamCompanyComponent,
     TeamCompanyHolidaysComponent,
-    TeamWorkcodesComponent,
-    EditorComponent,
     NewTeamComponent,
     TeamComponent,
     TeamContactListComponent,
@@ -41,8 +37,7 @@ import { TeamEditorModule } from './team-editor/team-editor.module';
     TeamEditorModule
   ],
   exports: [
-    NewTeamComponent,
-    EditorComponent
+    NewTeamComponent
   ]
 })
 export class TeamModule { }

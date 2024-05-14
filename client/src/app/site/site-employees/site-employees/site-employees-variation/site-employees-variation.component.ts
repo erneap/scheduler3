@@ -52,6 +52,7 @@ export class SiteEmployeesVariationComponent {
   get site(): Site {
     return this._site;
   }
+  @Input() width: number = 700;
   @Output() changed = new EventEmitter<Employee>();
 
   variations: Variation[] = [];
@@ -83,6 +84,10 @@ export class SiteEmployeesVariationComponent {
     if (iSite) {
       this.site = iSite;
     }
+  }
+
+  formStyle(): string {
+    return `max-width: ${this.width}px;`;
   }
 
   setVariationLists() {

@@ -2,12 +2,9 @@
   position: absolute;
   top: 0px;
   right: 0px;
-  font-size: 1.2em;
   font-weight: bold;
   text-align: center;
   vertical-align: middle;
-  height: 25px;
-  width: 25px;
   padding: 0px;
   margin: 0px;
 }
@@ -43,28 +40,23 @@
 .cell {
   margin: 0px;
   padding: 0px;
-  height: 100px;
-  width: 100px;
   position: relative;
   border: solid 1px black;
 }
 
 .code {
   position: absolute;
-  top: 25px;
-  width: 99px;
+  width: 99%;
 }
 
 .workcenter {
   position: absolute;
-  top: 50px;
-  width: 99px;
+  width: 99%;
 }
 
 .hours {
   position: absolute;
-  top: 75px;
-  width: 99px;
+  width: 99%;
 }
 
 .day-form-field {

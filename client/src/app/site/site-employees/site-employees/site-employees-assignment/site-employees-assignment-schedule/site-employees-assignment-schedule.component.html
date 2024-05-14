@@ -1,6 +1,6 @@
 <div class="flexlayout column center">
   <div class="flexlayout row center">
-    <div class="movement">
+    <div class="movement" [style]="headerStyle('movement')">
       <button mat-icon-button color="warn"
         matTooltip="Delete this schedule"
         *ngIf="deletable"
@@ -8,8 +8,8 @@
         <mat-icon>delete</mat-icon>
       </button>
     </div>
-    <div class="month" >{{label}}</div>
-    <div class="movement">
+    <div class="month" [style]="headerStyle('month')">{{label}}</div>
+    <div class="movement" [style]="headerStyle('movement')">
       <form [formGroup]="scheduleForm">
       <select class="day-form-field" formControlName="days"
         (change)="changeDays()"
@@ -22,13 +22,13 @@
     </div>
   </div>
   <div class="flexlayout row center">
-    <div class="daycell weekend">SUN</div>
-    <div class="daycell weekday">MON</div>
-    <div class="daycell weekday">TUE</div>
-    <div class="daycell weekday">WED</div>
-    <div class="daycell weekday">THU</div>
-    <div class="daycell weekday">FRI</div>
-    <div class="daycell weekend">SAT</div>
+    <div class="daycell" [style]="weekdayStyle(0)">SUN</div>
+    <div class="daycell" [style]="weekdayStyle(1)">MON</div>
+    <div class="daycell" [style]="weekdayStyle(2)">TUE</div>
+    <div class="daycell" [style]="weekdayStyle(3)">WED</div>
+    <div class="daycell" [style]="weekdayStyle(4)">THU</div>
+    <div class="daycell" [style]="weekdayStyle(5)">FRI</div>
+    <div class="daycell" [style]="weekdayStyle(6)">SAT</div>
   </div>
   <ng-container *ngFor="let week of workweeks">
     <div class="flexlayout row center">
@@ -38,6 +38,7 @@
         [usedate]="getScheduleDate(wd.id)"
         [disabled]="isDisabled(wd.id)"
         [copy]="setCopy(wd.id)"
+        [width]="width"
         [workday]="wd" (changedate)="updateDate($event)">
       </app-site-employees-assignment-schedule-day>
     </div>

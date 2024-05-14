@@ -1,15 +1,6 @@
 <div class="flexlayout column topleft">
-  <div class="flexlayout row topleft">
-    <div class="headline">Variations</div>
-    <span class="flex-spacer"></span>
-    <button mat-icon-button color="accent"
-        *ngIf="this.variation && this.variation.id > 0"
-        matTooltip="Delete Current Variation"
-        (click)="deleteVariation()">
-        <mat-icon>delete</mat-icon>
-      </button>
-  </div>
-    <form class="flexlayout column topleft" [formGroup]="variationForm">
+  <form class="flexlayout column topleft" [formGroup]="variationForm">
+    <div class="flexlayout row topleft flexwrap">
       <mat-form-field class="formFieldWider">
         <mat-label>Selected Variation</mat-label>
         <mat-select (selectionChange)="selectVariation()" 
@@ -20,43 +11,51 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="fxLayout-row-center" style="align-items: flex-start;gap: 5px;">
-        <div class="formField">
-          <mat-form-field class="fieldWidth">
-            <mat-label>Start Date</mat-label>
-            <input matInput [matDatepicker]="startpicker"
-              formControlName="start" 
-              (dateChange)="updateVariation('start')">
-            <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
-            <mat-datepicker #startpicker></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="formField">
-          <mat-form-field class="fieldWidth">
-            <mat-label>End Date</mat-label>
-            <input matInput [matDatepicker]="endpicker"
-              formControlName="end" 
-              (dateChange)="updateVariation('end')">
-            <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
-            <mat-datepicker #endpicker></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="list" style="background-color: white;">
-          <mat-checkbox formControlName="mids" 
-            (change)="updateVariation('mids')">
-            MID Shift Rotation</mat-checkbox>
-          <mat-checkbox formControlName="dates" 
-            (change)="updateVariation('dates')">
-            Show Dates for Period</mat-checkbox>
-        </div>
+      <button mat-icon-button color="accent"
+          *ngIf="this.variation && this.variation.id > 0"
+          matTooltip="Delete Current Variation"
+          (click)="deleteVariation()">
+          <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <div class="flexlayout row topleft flexgap flexwrap">
+      <div class="formField">
+        <mat-form-field class="fieldWidth">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="startpicker"
+            formControlName="start" 
+            (dateChange)="updateVariation('start')">
+          <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
+          <mat-datepicker #startpicker></mat-datepicker>
+        </mat-form-field>
       </div>
-    </form>
+      <div class="formField">
+        <mat-form-field class="fieldWidth">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="endpicker"
+            formControlName="end" 
+            (dateChange)="updateVariation('end')">
+          <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
+          <mat-datepicker #endpicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="list" style="background-color: white;">
+        <mat-checkbox formControlName="mids" 
+          (change)="updateVariation('mids')">
+          MID Shift Rotation</mat-checkbox>
+        <mat-checkbox formControlName="dates" 
+          (change)="updateVariation('dates')">
+          Show Dates for Period</mat-checkbox>
+      </div>
+    </div>
+  </form>
     <div class="flexlayout row center">
       <app-site-employees-assignment-schedule 
         [schedule]="schedule"
         [site]="site"
         [startdate]="startDate"
         [enddate]="endDate"
+        [width]="width"
         (change)="updateSchedule($event)">
       </app-site-employees-assignment-schedule>
     </div>

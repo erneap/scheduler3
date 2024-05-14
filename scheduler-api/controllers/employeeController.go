@@ -609,6 +609,23 @@ func CreateEmployeeVariation(c *gin.Context) {
 		return
 	}
 
+	site, err := services.GetSite(emp.TeamID.Hex(), emp.SiteID)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			services.AddLogEntry(c, "scheduler", "ERROR", "PROBLEM",
+				fmt.Sprintf("%s GetEmployee Problem: %s", logmsg,
+					"Employee Not Found"))
+			c.JSON(http.StatusNotFound, web.EmployeeResponse{Employee: nil,
+				Exception: "Employee Not Found"})
+		} else {
+			services.AddLogEntry(c, "scheduler", "ERROR", "PROBLEM",
+				fmt.Sprintf("%s GetEmployee Problem: %s", logmsg, err.Error()))
+			c.JSON(http.StatusBadRequest, web.EmployeeResponse{Employee: nil,
+				Exception: err.Error()})
+		}
+		return
+	}
+
 	max := uint(0)
 	for _, vari := range emp.Variations {
 		if vari.ID > max {
@@ -616,6 +633,14 @@ func CreateEmployeeVariation(c *gin.Context) {
 		}
 	}
 	data.Variation.ID = max + 1
+
+	offset := time.Hour * time.Duration(site.UtcOffset)
+	start := data.Variation.StartDate.Add(offset)
+	data.Variation.StartDate = time.Date(start.Year(), start.Month(), start.Day(),
+		0, 0, 0, 0, time.UTC)
+	end := data.Variation.EndDate.Add(offset)
+	data.Variation.EndDate = time.Date(end.Year(), end.Month(), end.Day(), 0, 0,
+		0, 0, time.UTC)
 
 	emp.Variations = append(emp.Variations, data.Variation)
 	sort.Sort(employees.ByVariation(emp.Variations))

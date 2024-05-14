@@ -35,12 +35,12 @@ export class EmployeeSpecialtiesComponent {
     return this._employee;
   }
   @Input() height: number = 700;
+  @Input() width: number = 650;
   @Output() changed = new EventEmitter<Employee>();
   available: ListItem[] = [];
   specialties: ListItem[] = [];
   availableSelected: string[] = [];
-  specialtiesSelected: string[] = []
-  width: number = 650;
+  specialtiesSelected: string[] = [];
 
   constructor(
     protected teamService: TeamService,

@@ -1,7 +1,8 @@
 <div class="toplevel" [style]="viewStyle()">
   <div class="list">
-    <div [class]="itemClass('')">Add New Workcode</div>
-    <div *ngFor="let wc of team.workcodes" [class]="itemClass(wc.id)">
+    <div [class]="itemClass('')" (click)="onSelect('')">Add New Workcode</div>
+    <div *ngFor="let wc of team.workcodes" [class]="itemClass(wc.id)"
+      (click)="onSelect(wc.id)">
       <span [style]="spanStyle(wc)">{{wc.id}}</span> - {{wc.title}}
     </div>
   </div>
@@ -9,41 +10,82 @@
     <div class="formrow">
       <div class="formlabel">ID *</div>
       <div class="forminput" *ngIf="selected.id === ''">
-        <input matNativeControl formControlName="id" 
-          class="forminput">
+        <input formControlName="id">
       </div>
       <div class="forminput" *ngIf="selected.id !== ''">
-        <input matNativeControl formControlName="id" 
-          class="forminput" readonly="readonly">
+        <input formControlName="id" readonly="readonly">
+      </div>
+      <div class="formError">
+        {{checkIDError()}}
       </div>
     </div>
     <div class="formrow">
       <div class="formlabel">Title *</div>
       <div class="forminput">
-        <input matNativeControl formControlName="title" 
-          class="forminput">
+        <input formControlName="title" (blur)="onUpdate('title')">
+      </div>
+      <div class="formError">
+        <ng-container *ngIf="codeForm.controls['title'].hasError('required')">
+          * required
+        </ng-container>
       </div>
     </div>
     <div class="formrow">
+      <div class="formlabel">Is Leave Code</div>
+      <div class="forminput">
+        <input type="checkbox" formControlName="isleave" class="formNoInput"
+          (change)="onUpdate('isleave')">
+      </div>
+    </div>
+    <div class="formrow" *ngIf="codeForm.controls['isleave'].value">
       <div class="formlabel">Alternate ID</div>
       <div class="forminput">
-        <input matNativeControl formControlName="altcode" 
-          class="forminput">
+        <input formControlName="altcode" (blur)="onUpdate('altcode')">
       </div>
     </div>
-    <div class="formrow">
+    <div class="formrow" *ngIf="codeForm.controls['isleave'].value">
       <div class="formlabel">Search For</div>
       <div class="forminput">
-        <input matNativeControl formControlName="search" 
-          class="forminput">
+        <input formControlName="search" (blur)="onUpdate('search')">
+      </div>
+    </div>
+    <div class="formrow" *ngIf="!codeForm.controls['isleave'].value">
+      <div class="formlabel">Shift Start Hour</div>
+      <div class="forminput">
+        <input type="number" formControlName="start" (change)="onUpdate('start')"
+          min="0" max="23">
+      </div>
+    </div>
+    <div class="formrow" *ngIf="!codeForm.controls['isleave'].value">
+      <div class="formlabel">Shift/Premimum Code</div>
+      <div class="forminput">
+        <input formControlName="shiftCode" (blur)="onUpdate('shiftCode')">
       </div>
     </div>
     <div class="formrow">
-      <div class="formlabel">Shift Start Hour</div>
+      <div class="formlabel">Text Color</div>
       <div class="forminput">
-        <input matNativeControl type="number" formControlName="start" 
-          min="0" max="23" class="forminput">
+        <input formControlName="textcolor" [style]="setColors()"
+          (blur)="onUpdate('textcolor')">
       </div>
+    </div>
+    <div class="formrow">
+      <div class="formlabel">Background Color</div>
+      <div class="forminput">
+        <input formControlName="backcolor" [style]="setColors()"
+          (blur)="onUpdate('backcolor')">
+      </div>
+    </div>
+    <div class="formrow formfull flexgap">
+      <button mat-raised-button color="accent" *ngIf="selected.id === ''"
+        (click)="onAdd()">
+        Add
+      </button>
+      <button mat-raised-button color="warn" *ngIf="selected.id !== ''"
+        (click)="onDelete()">
+        Delete
+      </button>
+      <button mat-raised-button (click)="onClear()">Clear</button>
     </div>
   </form>
 </div>

@@ -51,7 +51,9 @@ const routes: Routes = [
         ]
       },
       { path: 'modview', component: SiteModReportViewComponent },
-      { path: 'ingest', component: SiteIngestComponent }
+      { path: 'ingest', component: SiteIngestComponent },
+      { path: 'editor', component: SiteComponent },
+      { path: '**', redirectTo: '/site/schedule/schedule'}
     ]
   },
   { path: 'team', 

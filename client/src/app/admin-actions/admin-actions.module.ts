@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TeamListEditorComponent } from './team-list-editor/team-list-editor.component';
 import { TeamModule } from '../team/team.module';
 import { DataPurgeComponent } from './data-purge/data-purge.component';
+import { TeamEditorModule } from '../team/team-editor/team-editor.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { DataPurgeComponent } from './data-purge/data-purge.component';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    TeamModule
+    TeamModule,
+    TeamEditorModule
   ]
 })
 export class AdminActionsModule { }

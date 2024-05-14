@@ -68,7 +68,7 @@
 }
 
 .formlabel {
-  width: 160px;
+  width: 200px;
   font-size: 10pt;
   margin: 0;
   padding: 0;
@@ -88,11 +88,23 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
+}
+
+.formNoInput {
+  width: 150px;
+  margin: 0;
+  margin-left: 5px;
+  padding: 0;
+  font-size: 14pt;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
   justify-content: flex-start;
 }
 
 .formfull {
-  width: 210px;
+  width: 350px;
   margin: 0;
   padding: 0;
 }
@@ -101,8 +113,18 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-  border: solid 1px black;
+  justify-content: center;
   margin: 0;
   padding: 0;
+}
+
+.formError {
+  width: 200px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  color: #ff8080;
+  font-size: .8rem;
+  margin-left: 2px;
 }
