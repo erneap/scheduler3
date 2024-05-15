@@ -16,7 +16,7 @@ export class CompanyHoliday implements ICompanyHoliday {
   active: boolean = true;
 
   constructor(hol?: ICompanyHoliday) {
-    this.id = (hol) ? hol.id : '';
+    this.id = (hol) ? hol.id : 'H';
     this.name = (hol) ? hol.name : '';
     this.sort = (hol) ? hol.sort : 0;
     this.actualdates = [];
@@ -83,7 +83,7 @@ export class ModPeriod implements IModPeriod {
   end: Date;
 
   constructor(mod?: IModPeriod) {
-    this.year = (mod) ? mod.year : (new Date()).getFullYear();
+    this.year = (mod) ? mod.year : 0;
     this.start = (mod) ? new Date(mod.start) : new Date(0);
     this.end = (mod) ? new Date(mod.end) : new Date(0);
   }

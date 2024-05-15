@@ -147,8 +147,8 @@ export class SiteEditorReportsForecastComponent {
 
   setReport() {
     let weekday = '5';
-    if (this.selected.periods && this.selected.periods.length > 0) {
-      const period = this.selected.periods[0];
+    if (this.selected.periods && this.selected.periods.length > 2) {
+      const period = this.selected.periods[2];
       if (period.periods && period.periods.length > 0) {
         weekday = `${period.periods[0].getDay()}`;
       }

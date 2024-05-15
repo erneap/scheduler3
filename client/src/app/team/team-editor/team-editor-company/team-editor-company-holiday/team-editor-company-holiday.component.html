@@ -1,1 +1,36 @@
-<p>team-editor-company-holiday works!</p>
+<div class="flexlayout column center">
+  <h3>Company Holidays Editor</h3>
+  <div class="flexlayout row topcenter">
+    <div class="list" [style]="listStyle()">
+      <div *ngFor="let item of holidays"
+      (click)="onSelect(item.id)"
+      [class]="itemClass(item.id)" [style]="itemStyle()"
+      >{{item.label}}</div>
+    </div>
+    <div class="layout-stretch sortdiv" [style]="sortStyle()">
+      <div class="layout-top movement" [style]="moveStyle()"
+        matTooltip="Change Display Order - Move Up"
+        (click)="onChangeSort('up')">
+        <mat-icon *ngIf="showSortUp">arrow_drop_up</mat-icon>
+      </div>
+      <div class="layout-bottom movement" [style]="moveStyle()"
+        matTooltip="Change Order - Move Down"
+        (click)="onChangeSort('down')">
+        <mat-icon *ngIf="showSortDown">arrow_drop_down</mat-icon>
+      </div>
+    </div>
+  </div>
+  <form [formGroup]="holidayForm" class="flexlayout column center"
+    [style]="formStyle()">
+    <div class="flexlayout row center goldback" style="width: 100%;">
+      <mat-radio-group formControlName="holiday" class="flexlayout row topleft">
+        <mat-radio-button value="H" color="primary">
+          Holiday
+        </mat-radio-button>
+        <mat-radio-button value="F" color="primary">
+          Floating
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </form>
+</div>

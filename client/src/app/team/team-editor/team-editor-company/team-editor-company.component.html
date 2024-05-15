@@ -1,1 +1,9 @@
-<p>team-editor-company works!</p>
+<div class="toplevel flexgap">
+  <div class="flexlayout column center" [style]="editorStyle()">
+    <h3>Company Editor</h3>
+  </div>
+  <app-team-editor-company-holiday [team]="team" [company]="selected"
+    [width]="columnWidth"></app-team-editor-company-holiday>
+  <app-team-editor-company-modtime [team]="team" [company]="selected"
+    [width]="columnWidth"></app-team-editor-company-modtime>
+</div>
