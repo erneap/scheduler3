@@ -3,7 +3,7 @@
   margin: 0;
   padding: 10px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
 }
@@ -52,20 +52,42 @@
   border: solid 1px white;
 }
 
-.formlabel {
-  width: 100px;
-  font-size: 10pt;
+.sortdiv {
+  border: solid 1px black;
+}
+
+.movement {
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  cursor: pointer;
+}
+
+.layout-top {
+  align-items: flex-start;
+}
+
+.layout-bottom {
+  align-items: flex-end;
+}
+
+.layout-left {
   justify-content: flex-start;
 }
 
-.datelabel {
-  width: 100px;
-  font-size: 1rem;
+.layout-stretch {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+}
+
+.formlabel {
   margin: 0;
   padding: 0;
   display: flex;
@@ -75,7 +97,6 @@
 }
 
 .forminput {
-  width: 125px;
   margin: 0;
   padding: 0;
   display: flex;

@@ -7,6 +7,7 @@ import { TeamEditorWorkcodeComponent } from './team-editor-workcode/team-editor-
 import { TeamEditorCompanyComponent } from './team-editor-company/team-editor-company.component';
 import { TeamEditorCompanyHolidayComponent } from './team-editor-company/team-editor-company-holiday/team-editor-company-holiday.component';
 import { TeamEditorCompanyModtimeComponent } from './team-editor-company/team-editor-company-modtime/team-editor-company-modtime.component';
+import { TeamEditorContacttypesComponent } from './team-editor-contacttypes/team-editor-contacttypes.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { TeamEditorCompanyModtimeComponent } from './team-editor-company/team-ed
     TeamEditorWorkcodeComponent,
     TeamEditorCompanyComponent,
     TeamEditorCompanyHolidayComponent,
-    TeamEditorCompanyModtimeComponent
+    TeamEditorCompanyModtimeComponent,
+    TeamEditorContacttypesComponent
   ],
   imports: [
     CommonModule,

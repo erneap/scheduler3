@@ -120,7 +120,7 @@ export class Company implements ICompany {
   constructor(com?: ICompany) {
     this.id = (com) ? com.id : '';
     this.name = (com) ? com.name : '';
-    this.ingest = (com) ? com.ingest : '';
+    this.ingest = (com) ? com.ingest : 'manual';
     this.ingestPwd = (com) ? com.ingestPwd : '';
     this.ingestPeriod = (com && com.ingestPeriod && com.ingestPeriod > 0) 
       ? com.ingestPeriod : 7;

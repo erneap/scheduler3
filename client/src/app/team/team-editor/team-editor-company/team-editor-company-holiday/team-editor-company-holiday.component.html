@@ -32,5 +32,60 @@
         </mat-radio-button>
       </mat-radio-group>
     </div>
+    <div class="formrow">
+      <div class="formlabel" [style]="labelStyle()">Name</div>
+      <div class="forminput" [style]="inputStyle()">
+        <input formControlName="name" class="forminput" [style]="inputStyle()"
+          (blur)="onUpdate('name')">
+      </div>
+    </div>
+    <div class="flexlayout column center" [style]="formStyle()"
+      *ngIf="holidayForm.controls['holiday'].value.toLowerCase() === 'h'">
+      <div class="flexlayout row center formfull" 
+        style="background-color: black;color: white;">
+        Current Reference Date(s)
+      </div>
+      <div class="flexlayout row topleft formfull flexwrap goldback">
+        <ng-container *ngIf="selected.actualdates.length > 0">
+          <ng-container *ngFor="let date of selected.actualdates">
+            <div class="datelabel" *ngIf="showDate(date)">
+              {{getDate(date)}}
+              <mat-icon class="deleteactual" matTooltip="Delete reference date"
+                (click)="onDeleteActual(getDate(date))">
+                close
+              </mat-icon>
+            </div>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="selected.actualdates.length <= 0">
+          No Reference Dates
+        </ng-container>
+      </div>
+      <div class="formrow">
+        <div class="formlabel" [style]="labelStyle()">New Ref Date</div>
+        <div class="forminput whiteBackground" [style]="inputStyle()">
+          <input matNativeControl formControlName="actual" 
+            [style]="dateStyle()"
+            [matDatepicker]="startpicker">
+          <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
+          <mat-datepicker #startpicker></mat-datepicker>
+          <mat-icon *ngIf="selected.sort > 0" class="icon"
+            matTooltip="Add new reference date" (click)="onUpdate('actual')">
+            add
+          </mat-icon>
+        </div>
+      </div>
+    </div>
+    <div class="flexlayout row center flexgap">
+      <button mat-raised-button *ngIf="selected.sort === 0 && holidayForm.valid"
+        color="accent" (click)="onAdd()">
+        Add
+      </button>
+      <button mat-raised-button *ngIf="selected.sort > 0" color="warn"
+        (click)="onDelete()">
+        Delete
+      </button>
+      <button mat-raised-button (click)="onClear()">Clear</button>
+    </div>
   </form>
 </div>
