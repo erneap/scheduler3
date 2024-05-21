@@ -35,6 +35,7 @@ export class SiteEditorWorkcenterComponent {
     return this._site;
   }
   @Input() width: number = 1048;
+  @Input() height: number = 1000;
   @Output() changed = new EventEmitter<Site>();
   workcenters: ListItem[] = [];
   selected: Workcenter;
@@ -66,6 +67,10 @@ export class SiteEditorWorkcenterComponent {
       id: ['', [Validators.required, Validators.pattern('^[a-z0-9\/\-]*$')]],
       name: ['', [Validators.required]]
     });
+  }
+
+  pageStyle(): string {
+    return `width: ${this.width}px;height: ${this.height}px;`;
   }
 
   setWorkcenterList() {

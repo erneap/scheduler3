@@ -23,9 +23,12 @@
         </app-team-editor-contacttypes>
       </mat-tab>
       <mat-tab label="Specialty Types">
+        <app-team-editor-specialtytypes [team]="team" [width]="width">
+        </app-team-editor-specialtytypes>
       </mat-tab>
       <mat-tab label="Sites">
-
+        <app-team-editor-site-editor [team]="team" [width]="width" 
+          [height]="height"></app-team-editor-site-editor>
       </mat-tab>
     </mat-tab-group>
   </div>

@@ -1104,7 +1104,7 @@ func (lr *LaborReport) CreateContractReport(
 						hours = emp.GetWorkedHoursForLabor(lCode.ChargeNumber,
 							lCode.Extension, first, last)
 						if !current {
-							if last.AddDate(0, 0, -1).After(lastWorkday) {
+							if last.After(lastWorkday) {
 								style = lr.Styles["forecast"]
 							}
 							hours += emp.GetForecastHours(lCode, first, last, compareCodes, lr.Offset)

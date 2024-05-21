@@ -25,7 +25,8 @@
       </app-site-editor-workcenter>
     </mat-tab>
     <mat-tab label="Report Editor">
-      <app-site-editor-reports [team]="team" [site]="site" [width]="width"
+      <app-site-editor-reports [team]="team" [site]="site" [width]="width - 20"
+        [height]="height - 100"
         (changed)="siteChanged($event)"></app-site-editor-reports>
     </mat-tab>
   </mat-tab-group>

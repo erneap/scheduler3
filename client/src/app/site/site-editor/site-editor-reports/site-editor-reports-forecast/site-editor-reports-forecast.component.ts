@@ -48,6 +48,7 @@ export class SiteEditorReportsForecastComponent {
     return this._team;
   }
   @Input() width: number = 790;
+  @Input() height: number = 700;
   @Output() changed = new EventEmitter<Site>();
   reports: ListItem[] = [];
   selected: ForecastReport;
@@ -81,6 +82,10 @@ export class SiteEditorReportsForecastComponent {
     })
   }
 
+  pageStyle(): string {
+    return `width: ${this.width}px;height: ${this.height}px;`
+  }
+
   dateString(dt: Date): string {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
       "Sep", "Oct", "Nov", "Dec" ];
@@ -98,6 +103,38 @@ export class SiteEditorReportsForecastComponent {
       return 'item selected';
     }
     return 'item';
+  }
+  
+  labelStyle(): string {
+    let ratio = Math.floor(this.width / 3) / 350;
+    if (ratio > 1.0) ratio = 1.0;
+    const fontSize = ratio;
+    const width = Math.floor(ratio * 150);
+    return `width: ${width}px;font-size: ${ratio}rem;`;
+  }
+
+  inputStyle(): string {
+    let ratio = Math.floor(this.width / 3) / 350;
+    if (ratio > 1.0) ratio = 1.0;
+    const fontSize = ratio;
+    const width = Math.floor(ratio * 200);
+    return `width: ${width}px;font-size: ${ratio}rem;`;
+  }
+
+  formInputStyle(): string {
+    let ratio = Math.floor(this.width / 3) / 350;
+    if (ratio > 1.0) ratio = 1.0;
+    const fontSize = ratio;
+    const width = Math.floor(ratio * 198);
+    return `width: ${width}px;font-size: ${ratio}rem;`;
+  }
+
+  fullStyle(): string {
+    let ratio = Math.floor(this.width / 3) / 350;
+    if (ratio > 1.0) ratio = 1.0;
+    const fontSize = ratio;
+    const width = Math.floor(ratio * 200) + Math.floor(ratio * 150) + 2;
+    return `width: ${width}px;font-size: ${ratio}rem;`;
   }
 
   getReports() {

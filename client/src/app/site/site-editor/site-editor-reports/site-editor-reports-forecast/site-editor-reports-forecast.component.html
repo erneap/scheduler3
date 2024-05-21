@@ -1,52 +1,56 @@
-<div class="flexlayout row topleft flexgap">
-  <form [formGroup]="reportForm" class="flexlayout column topleft flexgap">
+<div class="toplevel" [style]="pageStyle()">
+  <form [formGroup]="reportForm" class="flexlayout column topleft">
     <div class="list">
       <div *ngFor="let item of reports" [class]="setItemClass(item.id)"
         (click)="onSelect(item.id)">
         {{item.label}}
       </div>
     </div>
-    <mat-form-field class="input" appearance="fill">
-      <mat-label>Report Name</mat-label>
-      <input matInput formControlName="name" (blur)="onChange('name')">
-      <mat-error class="error" *ngIf="reportForm.controls['name'].hasError('required')">
-        Required
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="input" appearance="fill">
-      <mat-label>Associated Company</mat-label>
-      <mat-select formControlName="companyid" (selectionChange)="onChange('companyid')">
-        <mat-option *ngFor="let item of companylist" [value]="item.id">
-          {{item.label}}
-        </mat-option>
-      </mat-select>
-      <mat-error class="error" *ngIf="reportForm.controls['companyid'].hasError('required')">
-        Required
-      </mat-error>
-    </mat-form-field>
-    <div class="flexlayout row topleft flexgap">
-      <mat-form-field class="halfinput" appearance="fill">
-        <mat-label>Start Date</mat-label>
-        <input matInput formControlName="start" [matDatepicker]="startpicker"
+    <div class="formrow">
+      <div class="formlabel" [style]="labelStyle()">Report Name*</div>
+      <div class="forminput" [style]="inputStyle()">
+        <input matNativeControl formControlName="name" (blur)="onChange('name')"
+          class="inputf">
+      </div>
+    </div>
+    <div class="formrow">
+      <div class="formlabel" [style]="labelStyle()">Associated Company*</div>
+      <div class="forminput" [style]="inputStyle()">
+        <select matNativeControl (change)="onChange('companyid')" class="inputf"
+          formControlName="companyid">
+          <option *ngFor="let item of companylist" [value]="item.id">
+            {{item.label}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="formrow">
+      <div class="formlabel" [style]="labelStyle()">Start Date</div>
+      <div class="forminput" [style]="inputStyle()">
+        <input matNativeControl formControlName="start" 
+          style="border: none;width: 60%;"
+          [matDatepicker]="startpicker"
           (dateChange)="onChange('start')">
-        <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
         <mat-datepicker #startpicker></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field class="halfinput" appearance="fill">
-        <mat-label>End Date</mat-label>
-        <input matInput formControlName="end" [matDatepicker]="endpicker"
-          (dateChange)="onChange('end')">
-        <mat-hint>MM/DD/YYYY</mat-hint>
+      </div>
+    </div>
+    <div class="formrow">
+      <div class="formlabel" [style]="labelStyle()">End Date</div>
+      <div class="forminput" [style]="inputStyle()">
+        <input matNativeControl formControlName="end" 
+          style="border: none;width: 60%;"
+          [matDatepicker]="endpicker"
+          (dateChange)="onChange('start')">
         <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
         <mat-datepicker #endpicker></mat-datepicker>
-      </mat-form-field>
+      </div>
     </div>
     <div class="flexlayout column center">
       <div>Select Sub-Period Ending Day:</div>
       <mat-radio-group formControlName="period" color="accent"
         class="flexlayout row center flexwrap input"
-        style="background-color: white;"
+        style="background-color: white;margin: 0;padding: 0;"
         (change)="onChange('period')">
         <mat-radio-button value="0">Sunday</mat-radio-button>
         <mat-radio-button value="1">Monday</mat-radio-button>

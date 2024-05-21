@@ -14,6 +14,7 @@ export class SiteEditorReportsComponent {
   @Input() team: Team = new Team();
   @Input() site: Site = new Site();
   @Input() width: number = 1048;
+  @Input() height: number = 700;
   @Output() changed = new EventEmitter<Site>();
 
   constructor(
@@ -34,10 +35,11 @@ export class SiteEditorReportsComponent {
       width -= 250;
     }
     this.width = width;
+    let height = this.stateService.viewHeight - 150;
   }
 
   setViewStyle(): string {
-    return `width: ${this.width - 20}px;`;
+    return `width: ${this.width}px;`;
   }
 
   onChanged(site: Site) {

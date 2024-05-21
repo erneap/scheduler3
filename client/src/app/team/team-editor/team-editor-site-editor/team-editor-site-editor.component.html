@@ -1,0 +1,27 @@
+<div class="toplevel">
+  <h3>Site Editor</h3>
+  <div class="flexlayout row topleft flexgap">
+    <div class="list" [style]="listStyle()">
+      <div *ngFor="let item of sites" [class]="itemClass(item.id)"
+        (click)="onSelect(item.id)">
+        {{item.label}}
+      </div>
+    </div>
+    <app-team-editor-site-editor-new-site 
+      *ngIf="selected.id === 'new' || selected.id === ''"
+      [team]="team" [width]="width"></app-team-editor-site-editor-new-site>
+    <mat-tab-group backgroundColor="accent" color="primary" 
+      [style]="tabGroupStyle()" 
+      *ngIf="selected.id !== 'new' && selected.id !== ''">
+      <mat-tab label="Site Editor">
+        <app-site-editor [team]="team" [site]="selected" [width]="width - 200"
+          ></app-site-editor>
+      </mat-tab>
+      <mat-tab label="Site Employees">
+        <app-site-employees [team]="team" [site]="selected" 
+          [width]="width - 200" [height]="height - 95">
+        </app-site-employees>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="toplevel" [style]="pageStyle()">
+  <div class="list">
+    <div *ngFor="let item of employees" [class]="itemStyle(item.id)"
+      (click)="selectEmployee(item.id)">
+      {{item.label}}
+    </div>
+  </div>
+  <div class="activeonly">
+    <mat-checkbox [(ngModel)]="activeOnly"
+      (change)="setEmployees()">
+      <span style="color: white;">Show Active Only</span>
+    </mat-checkbox>
+  </div>
+  <div class="expiredItem expired">Password Expired</div>
+  <div class="lockedItem locked">Account Locked</div>
+  <div class="viewArea">
+    <app-site-new-employee-editor [site]="site" [width]="width - 250" 
+      *ngIf="selected.id === 'new'" (employeeChanged)="employeeChanged($event)">
+    </app-site-new-employee-editor>
+    <app-site-employees-editor *ngIf="selected.id !== 'new'" [site]="site"
+      (employeeChanged)="employeeChanged($event)" [width]="width - 250"
+      [employee]="selected"></app-site-employees-editor>
+  </div>
+</div>

@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Employee } from 'src/app/models/employees/employee';
 import { Site } from 'src/app/models/sites/site';
 import { Company } from 'src/app/models/teams/company';
-import { Team } from 'src/app/models/teams/team';
+import { ITeam, Team } from 'src/app/models/teams/team';
 import { IUser } from 'src/app/models/users/user';
 import { MustMatchValidator } from 'src/app/models/validators/must-match-validator.directive';
 import { PasswordStrengthValidator } from 'src/app/models/validators/password-strength-validator.directive';
@@ -15,21 +14,30 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-new-site',
-  templateUrl: './new-site.component.html',
-  styleUrls: ['./new-site.component.scss']
+  selector: 'app-team-editor-site-editor-new-site',
+  templateUrl: './team-editor-site-editor-new-site.component.html',
+  styleUrls: ['./team-editor-site-editor-new-site.component.scss']
 })
-export class NewSiteComponent {
-  @Input() team: Team = new Team();
+export class TeamEditorSiteEditorNewSiteComponent {
+  private _team: Team = new Team()
+  @Input() 
+  public set team(t: ITeam) {
+    this._team = new Team(t);
+    this.setCompanies();
+  }
+  get team(): Team {
+    return this._team;
+  }
   @Input() width: number = 1000;
   @Output() added = new EventEmitter<Site>();
-  site: Site = new Site();
-  employee: Employee = new Employee();
-  companies: Company[];
+  companies: Company[] = [];
   offsets: number[];
+  step: number = 0;
   siteForm: FormGroup;
   leadForm: FormGroup;
   schedulerForm: FormGroup;
+
+
 
   constructor(
     protected authService: AuthService,
@@ -61,22 +69,23 @@ export class NewSiteComponent {
       password: ['', [Validators.required, new PasswordStrengthValidator()]],
       password2: ['', [Validators.required, new MustMatchValidator()]]
     });
-    this.companies = [];
     const team = this.teamService.getTeam();
     if (team) {
       this.team = new Team(team);
-      if (team.companies) {
-        team.companies.forEach(co => {
-          this.companies.push(new Company(co))
-        });
-      }
     }
-    this.companies.sort((a,b) => a.compareTo(b));
     this.offsets = [];
     for (let i=-11.5; i <= 12.0; i += 0.5) {
       this.offsets.push(i);
     }
     this.offsets.sort((a,b) => a < b ? -1 : 1);
+  }
+
+  setCompanies() {
+    this.companies = [];
+    this.team.companies.forEach(co => {
+      this.companies.push(new Company(co));
+    });
+    this.companies.sort((a,b) => a.compareTo(b));
   }
   
   getPasswordError(): string {
@@ -135,7 +144,19 @@ export class NewSiteComponent {
     return answer;
   }
 
-  addSite() {
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
+  }
+
+  onAdd() {
     if (this.siteForm.valid && this.leadForm.valid) {
       const lead: IUser = {
         id: '',
@@ -162,48 +183,41 @@ export class NewSiteComponent {
           workgroups: [],
         }
       }
-      const iTeam = this.teamService.getTeam();
-      if (iTeam) {
-        this.authService.statusMessage = "Adding New Site";
-        this.dialogService.showSpinner();
-        this.siteService.AddSite(iTeam.id, this.siteForm.value.id,
-          this.siteForm.value.title, this.siteForm.value.mids, 
-          Number(this.siteForm.value.offset), lead, scheduler).subscribe({
-          next: (data: SiteResponse) => {
-            this.dialogService.closeSpinner();
-            if (data && data != null && data.site) {
-              this.site = new Site(data.site);
-              const site = this.siteService.getSite();
-              if (site && data.site.id === site.id) {
-                this.siteService.setSite(new Site(data.site));
-              }
-              this.teamService.setSelectedSite(new Site(data.site));
-              const iTeam = this.teamService.getTeam();
-              if (iTeam) {
-                const team = new Team(iTeam);
-                let found = false;
-                for (let i=0; i < team.sites.length && !found; i++) {
-                  if (team.sites[i].id === this.site.id) {
-                    found = true;
-                    team.sites[i] = new Site(this.site);
-                  }
-                }
-                if (!found) {
-                  team.sites.push(new Site(this.site));
-                  team.sites.sort((a,b) => a.compareTo(b));
-                }
-                this.teamService.setTeam(team);
-              }
-            }
-            this.added.emit(this.site);
-            this.authService.statusMessage = "Update complete"
-          },
-          error: (err: SiteResponse) => {
-            this.dialogService.closeSpinner();
-            this.authService.statusMessage = err.exception;
+      this.dialogService.showSpinner();
+      this.siteService.AddSite(this.team.id, this.siteForm.value.id,
+        this.siteForm.value.title, this.siteForm.value.mids, 
+        Number(this.siteForm.value.offset), lead, scheduler).subscribe({
+        next: (data: SiteResponse) => {
+          this.dialogService.closeSpinner();
+          if (data && data != null && data.site) {
+              this.added.emit(new Site(data.site));
           }
-        });
-      }
+        },
+        error: (err: SiteResponse) => {
+          this.dialogService.closeSpinner();
+          this.authService.statusMessage = err.exception;
+        }
+      });
     }
+  }
+
+  onClear() {
+    this.siteForm.controls['id'].setValue('');
+    this.siteForm.controls['title'].setValue('');
+    this.siteForm.controls['mids'].setValue(false);
+    this.siteForm.controls['offset'].setValue(0.0);
+    this.leadForm.controls['email'].setValue('');
+    this.leadForm.controls['first'].setValue('');
+    this.leadForm.controls['middle'].setValue('');
+    this.leadForm.controls['last'].setValue('');
+    this.leadForm.controls['password'].setValue('');
+    this.leadForm.controls['password2'].setValue('');
+    this.schedulerForm.controls['email'].setValue('');
+    this.schedulerForm.controls['first'].setValue('');
+    this.schedulerForm.controls['middle'].setValue('');
+    this.schedulerForm.controls['last'].setValue('');
+    this.schedulerForm.controls['password'].setValue('');
+    this.schedulerForm.controls['password2'].setValue('');
+    this.setStep(0);
   }
 }

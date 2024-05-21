@@ -1,12 +1,12 @@
 <mat-tab-group preserveContent="true" backgroundColor="warn" [style]="setViewStyle()">
   <mat-tab label="Forecast Report Editor">
     <app-site-editor-reports-forecast [team]="team" [site]="site" 
-      [width]="width" (changed)="onChanged($event)">
+      [width]="width" [height]="height" (changed)="onChanged($event)">
     </app-site-editor-reports-forecast>
   </mat-tab>
   <mat-tab label="CofS Report Editor">
     <app-site-editor-reports-cofs [team]="team" [site]="site" [width]="width"
-      (changed)="onChanged($event)">
+      (changed)="onChanged($event)" >
     </app-site-editor-reports-cofs>
   </mat-tab>
 </mat-tab-group>

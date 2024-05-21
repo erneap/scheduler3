@@ -26,6 +26,7 @@ export class SiteEditorComponent {
   }
   @Input() team: Team = new Team();
   @Input() width: number = 1048;
+  @Input() height: number = 1000;
   @Output() changed = new EventEmitter<Site>();
 
   siteform: FormGroup;
@@ -40,6 +41,7 @@ export class SiteEditorComponent {
   ) {
     this.width = this.stateService.viewWidth;
       - (this.stateService.showMenu ? 270 : 20);
+    this.height = this.stateService.viewHeight - 100;
     const isite = this.siteService.getSite();
     if (isite) {
       this._site = new Site(isite);
