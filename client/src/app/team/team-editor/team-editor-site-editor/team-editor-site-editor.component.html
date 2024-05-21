@@ -9,17 +9,19 @@
     </div>
     <app-team-editor-site-editor-new-site 
       *ngIf="selected.id === 'new' || selected.id === ''"
-      [team]="team" [width]="width"></app-team-editor-site-editor-new-site>
+      [team]="team" [width]="width" (added)="onSiteChange($event)">
+    </app-team-editor-site-editor-new-site>
     <mat-tab-group backgroundColor="accent" color="primary" 
       [style]="tabGroupStyle()" 
       *ngIf="selected.id !== 'new' && selected.id !== ''">
       <mat-tab label="Site Editor">
         <app-site-editor [team]="team" [site]="selected" [width]="width - 200"
-          ></app-site-editor>
+          (changed)="onSiteChange($event)"></app-site-editor>
       </mat-tab>
       <mat-tab label="Site Employees">
         <app-site-employees [team]="team" [site]="selected" 
-          [width]="width - 200" [height]="height - 95">
+          [width]="width - 200" [height]="height - 95" 
+          (siteChanged)="onSiteChange($event)">
         </app-site-employees>
       </mat-tab>
     </mat-tab-group>

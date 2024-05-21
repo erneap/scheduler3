@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DeletionConfirmationComponent } from 'src/app/generic/deletion-confirmation/deletion-confirmation.component';
@@ -18,6 +18,7 @@ export class TeamEditorWorkcodeComponent {
   @Input() width: number = 1200;
   @Input() height: number = 1200;
   @Input() team: Team = new Team();
+  @Output() changed = new EventEmitter<Team>();
   selected: Workcode = new Workcode();
   codeForm: FormGroup;
 
@@ -144,6 +145,7 @@ export class TeamEditorWorkcodeComponent {
             if (iTeam && iTeam.id === this.team.id) {
               this.teamService.setTeam(resp.team)
             }
+            this.changed.emit(this.team);
           }
         },
         error: (resp: SiteResponse) => {
@@ -191,8 +193,8 @@ export class TeamEditorWorkcodeComponent {
             if (iTeam && iTeam.id === this.team.id) {
               this.teamService.setTeam(this.team);
             }
+            this.changed.emit(this.team);
           }
-          this.authService.statusMessage = "Addition complete"
         },
         error: (err: SiteResponse) => {
           this.dialogService.closeSpinner();
@@ -223,6 +225,7 @@ export class TeamEditorWorkcodeComponent {
               if (iTeam && iTeam.id === this.team.id) {
                 this.teamService.setTeam(this.team);
               }
+              this.changed.emit(this.team);
             }
           },
           error: (err: SiteResponse) => {

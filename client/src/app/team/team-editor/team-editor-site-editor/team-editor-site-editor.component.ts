@@ -82,4 +82,15 @@ export class TeamEditorSiteEditorComponent {
       });
     }
   }
+
+  onSiteChange(site: Site) {
+    let found = false;
+    for (let i=0; i < this.team.sites.length && !found; i++) {
+      if (this.team.sites[i].id.toLowerCase() === site.id.toLowerCase()) {
+        found = true;
+        this.team.sites[i] = new Site(site);
+      }
+    }
+    this.changed.emit(this.team);
+  }
 }

@@ -3,7 +3,7 @@
     <form [formGroup]="teamForm">
       <mat-form-field appearance="fill">
         <mat-label>Team Name</mat-label>
-        <input matInput formControlName="name">
+        <input matInput formControlName="name" (blur)="updateTeam()">
       </mat-form-field>
     </form>
   </div>
@@ -12,23 +12,27 @@
       style="width:100%;">
       <mat-tab label="Work Codes">
         <app-team-editor-workcode [team]="team" [width]="width" 
-          [height]="height"></app-team-editor-workcode>
+          [height]="height" (changed)="onChange($event)"></app-team-editor-workcode>
       </mat-tab>
       <mat-tab label="Companies">
-        <app-team-editor-company [team]="team" [width]="width">
+        <app-team-editor-company [team]="team" [width]="width" 
+          (changed)="onChange($event)">
         </app-team-editor-company>
       </mat-tab>
       <mat-tab label="Contact Types">
-        <app-team-editor-contacttypes [team]="team" [width]="width">
+        <app-team-editor-contacttypes [team]="team" [width]="width"
+          (changed)="onChange($event)">
         </app-team-editor-contacttypes>
       </mat-tab>
       <mat-tab label="Specialty Types">
-        <app-team-editor-specialtytypes [team]="team" [width]="width">
+        <app-team-editor-specialtytypes [team]="team" [width]="width"
+          (changed)="onChange($event)">
         </app-team-editor-specialtytypes>
       </mat-tab>
       <mat-tab label="Sites">
         <app-team-editor-site-editor [team]="team" [width]="width" 
-          [height]="height"></app-team-editor-site-editor>
+          [height]="height" (changed)="onChange($event)">
+        </app-team-editor-site-editor>
       </mat-tab>
     </mat-tab-group>
   </div>
