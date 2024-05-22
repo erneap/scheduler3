@@ -1,0 +1,26 @@
+<div class="toplevel">
+  <form [formGroup]="logForm" class="formRow">
+    <mat-form-field appearance="fill">
+      <mat-label>View Log</mat-label>
+      <mat-select formControlName="portion" 
+        (selectionChange)="setLogEntries()">
+        <ng-container *ngFor="let portion of portions; let i = index">
+          <mat-option [value]="portion">{{portionTitles[i]}}</mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>View Year</mat-label>
+      <input matInput type="number" formControlName="year"
+        (change)="setLogEntries()">
+    </mat-form-field>
+    <button mat-fab color="accent" (click)="setLogEntries()"
+      matTooltip="Refresh the log">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </form>
+  <div class="chart">
+    <app-log-entry *ngFor="let entry of logEntries;let i = index" 
+      [entry]="entry" [nth]="i"></app-log-entry>
+  </div>
+</div>

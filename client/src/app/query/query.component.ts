@@ -5,8 +5,8 @@ import { QueryService } from '../services/query.service';
 import { IngestResponse } from '../models/web/siteWeb';
 import { DialogService } from '../services/dialog-service.service';
 import { AuthService } from '../services/auth.service';
-import { ContactType, SpecialtyType } from '../models/teams/contacttype';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Team } from '../models/teams/team';
 
 @Component({
   selector: 'app-query',
@@ -16,10 +16,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class QueryComponent {
   employees: Employee[] = [];
   selectedEmployee: Employee = new Employee();
-  selected: string = '';
-  contactTypes: ContactType[];
-  specialtyTypes: SpecialtyType[];
-  teamid: string = "";
+  team: Team;
   query: FormGroup;
 
   constructor(
@@ -29,19 +26,10 @@ export class QueryComponent {
     protected auth: AuthService,
     private fb: FormBuilder
   ) {
+    this.team = new Team();
     const team = this.teamService.getTeam();
-    this.contactTypes = [];
-    this.specialtyTypes = [];
     if (team) {
-      this.teamid = team.id;
-      team.contacttypes.forEach(ct => {
-        this.contactTypes.push(new ContactType(ct))
-      });
-      this.contactTypes.sort((a,b) => a.compareTo(b));
-      team.specialties.forEach(sp => {
-        this.specialtyTypes.push(new SpecialtyType(sp));
-      });
-      this.specialtyTypes.sort((a,b) => a.compareTo(b));
+      this.team = new Team(team);
     }
     this.query = this.fb.group({
       hours: 0,
@@ -50,8 +38,14 @@ export class QueryComponent {
     this.onStartSimple();
   }
 
+  itemClass(id: string): string {
+    if (this.selectedEmployee.id === id) {
+      return 'item selected';
+    }
+    return 'item';
+  }
+
   onSelect(id: string) {
-    this.selected = id;
     this.employees.forEach(emp => {
       if (emp.id === id) {
         this.selectedEmployee = new Employee(emp);
@@ -59,30 +53,10 @@ export class QueryComponent {
     });
   }
 
-  getButtonClass(id: string) {
-    if (this.selected === id) {
-      return "employee selected";
-    } else {
-      return "employee ";
-    }
-  }
-  
-  getListStyle(): string {
-    const screenHeight = window.innerHeight;
-    let listHeight = screenHeight - 130;
-    return `height: ${listHeight}px;`;
-  }
-  
-  getQueryStyle(): string {
-    const screenHeight = window.innerHeight;
-    let listHeight = screenHeight - 130;
-    return `width: 300px;height: ${listHeight}px;`;
-  }
-
   onStartSimple() {
     this.dialog.showSpinner();
     this.selectedEmployee = new Employee();
-    this.queryService.getBasic(this.teamid).subscribe({
+    this.queryService.getBasic(this.team.id).subscribe({
       next: (resp: IngestResponse) => {
         this.employees = [];
         resp.employees.forEach(emp => {
@@ -90,7 +64,6 @@ export class QueryComponent {
         });
         this.employees.sort((a,b) => a.compareTo(b));
         if (this.employees.length > 0) {
-          this.selected = this.employees[0].id;
           this.selectedEmployee = new Employee(this.employees[0]);
         }
         this.dialog.closeSpinner();
@@ -102,61 +75,10 @@ export class QueryComponent {
     });
   }
 
-  hasContact(contactID: number): boolean {
-    let answer = false;
-    this.selectedEmployee.contactinfo.forEach(ci => {
-      if (ci.typeid === contactID) {
-        answer = true;
-      }
-    })
-    return answer
-  }
-
-  contactLabel(contactID: number): string {
-    let answer = "";
-    this.contactTypes.forEach(ct => {
-      if (ct.id === contactID) {
-        answer = ct.name;
-      }
-    });
-    return answer;
-  }
-
-  contactValue(contactID: number): string {
-    let answer = "";
-    this.selectedEmployee.contactinfo.forEach(ci => {
-      if (ci.typeid === contactID) {
-        answer = ci.value;
-      }
-    })
-    return answer
-  }
-
-  hasSpecialty(specID: number): boolean {
-    let answer = false;
-    this.selectedEmployee.specialties.forEach(ci => {
-      if (ci.specialtyid === specID) {
-        answer = true;
-      }
-    })
-    return answer
-  }
-
-  specialtyLabel(specID: number): string {
-    let answer = "";
-    this.specialtyTypes.forEach(ct => {
-      if (ct.id === specID) {
-        answer = ct.name;
-      }
-    });
-    return answer;
-  }
-
   onComplexStart() {
     this.dialog.showSpinner();
-    this.selected = '';
     this.selectedEmployee = new Employee();
-    this.queryService.getQuery(this.teamid, this.query.value.hours, 
+    this.queryService.getQuery(this.team.id, this.query.value.hours, 
     this.query.value.specialties).subscribe({
       next: (resp: IngestResponse) => {
         this.employees = [];
@@ -165,7 +87,6 @@ export class QueryComponent {
         });
         this.employees.sort((a,b) => a.compareTo(b));
         if (this.employees.length > 0) {
-          this.selected = this.employees[0].id;
           this.selectedEmployee = new Employee(this.employees[0]);
         }
         this.dialog.closeSpinner();

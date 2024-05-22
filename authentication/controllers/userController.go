@@ -297,6 +297,17 @@ func StartPasswordReset(c *gin.Context) {
 		return
 	}
 
+	emp, err := services.GetEmployee(user.ID.Hex())
+	if err != nil {
+		msg := "GetEmployee Problem: " + err.Error()
+
+		services.AddLogEntry(c, "authenticate", "Debug", "StartPasswordReset", msg)
+		c.JSON(http.StatusNotFound,
+			users.ExceptionResponse{
+				Exception: err.Error()})
+		return
+	}
+
 	// get verification token
 	nToken := rand.Intn(999999)
 	sToken := fmt.Sprintf("%06d", nToken)
@@ -323,6 +334,17 @@ func StartPasswordReset(c *gin.Context) {
 
 	to := []string{
 		user.EmailAddress,
+	}
+	if len(emp.EmailAddresses) > 0 {
+		for _, address := range emp.EmailAddresses {
+			found := false
+			if strings.EqualFold(user.EmailAddress, address) {
+				found = true
+			}
+			if !found {
+				to = append(to, address)
+			}
+		}
 	}
 
 	subject := "Reset Password Token"

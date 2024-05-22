@@ -1,0 +1,23 @@
+<div class="toplevel">
+  <div class="label">Employee's Contact Information</div>
+  <div class="flexlayout row topleft" style="width: 100%;"
+    *ngFor="let item of contacts;let i = index">
+    <div [class]="itemClass(i)">
+      {{contactType(item.typeid)}}
+    </div>
+    <div [class]="itemClass(i)">
+      {{(item.value !== '') ? item.value : '&nbsp;'}}
+    </div>
+  </div>
+  <ng-container *ngIf="otherEmails.length > 0">
+    <div class="flexlayout row topleft" style="width: 100%;"
+      *ngFor="let item of otherEmails;let i = index">
+      <div [class]="emailClass(i)">
+        {{(i === 0) ? 'Other Email': '&nbsp;'}}
+      </div>
+      <div [class]="emailClass(i)">
+        {{item}}
+      </div>
+    </div>
+  </ng-container>
+</div>

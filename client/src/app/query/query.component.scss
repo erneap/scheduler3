@@ -1,35 +1,80 @@
-.app-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
+.toplevel {
   position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: #673ab7;
+  color: white;
+  border: solid 1px yellow;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.formDiv {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 90px;
+}
+
+.listDiv {
+  position: absolute;
+  top: 100px;
+  left: 0px;
+  bottom: 0px;
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   margin: 0;
   padding: 0;
-  top: 80;
-  bottom: 0;
-  left: 0;
-  right: 0;
+}
+
+.viewDiv {
+  position: absolute;
+  top: 100px;
+  left: 370px;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
 }
 
 .list {
-  text-align: center;
-  vertical-align: top;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   padding: 0;
   margin: 0;
-  width: 360px;
-  border: solid 1px white;
+  width: 100%;
+  height: 100%;
+  border: solid 1px black;
+  background-color: white;
   overflow-y: auto;
 }
 
-.employee {
+.item {
   display: flex;
-  width: 343px;
-  min-height: 30px !important;
+  flex-direction: row;
+  width: 99%;
+  min-height: 20px !important;
   justify-content: center;
   align-items: center;
-  font-size: 16pt;
+  font-size: 1rem;
   font-weight: bold;
+  border-bottom: solid 1px black;
+  color: black;
 }
 
 .selected {
@@ -38,14 +83,8 @@
   border: solid 1px white;
 }
 
-.employee:hover {
+.item:hover {
   background-color: lightblue;
-  color: black;
-  border: solid 1px black;
-}
-
-.active {
-  background-color: white;
   color: black;
   border: solid 1px black;
 }
@@ -56,52 +95,22 @@
   width: 100%;
   height: 25px;
   margin-top: 5px;
-  font-size: 14pt;
+  font-size: 1.2rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.item {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-bottom: solid 1px black;
-  background-color: white;
-  color: black;
-  font-size: 14pt;
-}
-
-.specialty {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  color: black;
-  font-size: 14pt;
-}
-
-.leftlabel {
+.informationDiv {
+  position: absolute;
+  top: 30px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  border: solid 1px white;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  width: 200px;
-  background-color: white;
-  color: black;
-  font-size: 14pt;
-}
-
-.rightData {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  width: 400px;
-  background-color: white;
-  color: black;
-  font-size: 14pt;
+  justify-content: flex-start;
 }

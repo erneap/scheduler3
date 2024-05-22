@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DataPurgeComponent } from './data-purge.component';
+import { AdminUsersToolComponent } from './admin-users-tool.component';
 
-describe('DataPurgeComponent', () => {
-  let component: DataPurgeComponent;
-  let fixture: ComponentFixture<DataPurgeComponent>;
+describe('AdminUsersToolComponent', () => {
+  let component: AdminUsersToolComponent;
+  let fixture: ComponentFixture<AdminUsersToolComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DataPurgeComponent ]
+      declarations: [ AdminUsersToolComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DataPurgeComponent);
+    fixture = TestBed.createComponent(AdminUsersToolComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

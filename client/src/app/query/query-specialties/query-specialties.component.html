@@ -1,0 +1,7 @@
+<div class="toplevel">
+  <div class="label">Employee's Specialties</div>
+  <div [class]="specialtyClass(i)"
+    *ngFor="let item of employee.specialties;let i = index">
+    {{specialtyLabel(item)}}
+  </div>
+</div>

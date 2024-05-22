@@ -2,14 +2,11 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './home/not-found/not-found.component';
-import { NewSiteComponent } from './site/new-site/new-site.component';
 import { SiteComponent } from './site/site.component';
-import { DataPurgeComponent } from './admin-actions/data-purge/data-purge.component';
 import { ReportsComponent } from './reports/reports.component';
 import { NotificationsComponent } from './employee/notifications/notifications.component';
 import { ForgotPasswordComponent } from './home/forgot-password/forgot-password.component';
 import { ForgotPasswordResetComponent } from './home/forgot-password-reset/forgot-password-reset.component';
-import { LogViewerComponent } from './log-viewer/log-viewer.component';
 import { QueryComponent } from './query/query.component';
 import { SiteModReportViewComponent } from './site/site-mod-report-view/site-mod-report-view.component';
 import { SiteScheduleComponent } from './site/site-schedule/site-schedule/site-schedule.component';
@@ -19,6 +16,8 @@ import { SiteScheduleMidsListComponent } from './site/site-schedule/site-schedul
 import { SiteEmployeesLeaveApprovalComponent } from './site/site-employees/site-employees-leave-approval/site-employees-leave-approval.component';
 import { SiteIngestComponent } from './site/site-ingest/site-ingest.component';
 import { TeamEditorComponent } from './team/team-editor/team-editor.component';
+import { AdminComponent } from './admin/admin.component';
+import { LogsComponent } from './logs/logs.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -58,10 +57,15 @@ const routes: Routes = [
       {path: 'editor', component: TeamEditorComponent }
     ]
   },
-  { path: 'admin/purge', component: DataPurgeComponent },
-  { path: 'reports', component: ReportsComponent },
+  { path: 'admin',
+    children: [
+      { path: 'reports', component: ReportsComponent },
+      { path: 'logs', component: LogsComponent },
+      { path: '**', component: AdminComponent } 
+    ]
+  },
+  
   { path: 'notifications', component: NotificationsComponent },
-  { path: 'logs', component: LogViewerComponent },
   { path: 'query', component: QueryComponent },
   { path: '**', component: NotFoundComponent}
 ];

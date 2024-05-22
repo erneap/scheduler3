@@ -59,22 +59,16 @@
       <a mat-list-item (click)="goToLink('site/ingest')"
       *ngIf="(authService.isScheduler || authService.isSiteLeader || authService.isCompanyLead) && appState.isDesktop()"
       style="height: 20px;">Timecard Ingest/Entry</a>
-      <a mat-list-item (click)="goToLink('/team/siteeditor')"
-      *ngIf="(this.authService.isAdmin || this.authService.isTeamLeader) && appState.isDesktop()"
-      style="height: 20px;">Team Sites Editor</a>
       <a mat-list-item (click)="goToLink('/team/editor')"
       *ngIf="(this.authService.isAdmin || this.authService.isTeamLeader) && appState.isDesktop()"
       style="height: 20px;">Team Editor</a>
-      <a mat-list-item (click)="goToLink('admin/teams')"
+      <a mat-list-item (click)="goToLink('admin')"
       *ngIf="this.authService.isAdmin && appState.isDesktop()"
-      style="height: 20px;">Teams Editor</a>
-      <a mat-list-item (click)="goToLink('admin/purge')"
-      *ngIf="this.authService.isAdmin && appState.isDesktop()"
-      style="height: 20px;">Data Purge</a>
-      <a mat-list-item (click)="goToLink('/reports')"
+      style="height: 20px;">Admin</a>
+      <a mat-list-item (click)="goToLink('/admin/reports')"
         *ngIf="(authService.isScheduler || authService.isSiteLeader || authService.isCompanyLead) && appState.isDesktop()"
         style="height: 20px;">Report Creator</a>
-      <a mat-list-item (click)="goToLink('/logs')" 
+      <a mat-list-item (click)="goToLink('/admin/logs')" 
         *ngIf="(authService.isScheduler || authService.isSiteLeader || authService.isCompanyLead) && appState.isDesktop()"
         style="height: 20px;">Log Viewer</a>
     </mat-nav-list>

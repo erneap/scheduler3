@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LogEntry } from '../models/logs/logentry';
 import { LogsService } from '../services/logs.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ILogResponse, LogResponse } from '../models/web/internalWeb';
 import { DialogService } from '../services/dialog-service.service';
 import { AuthService } from '../services/auth.service';
+import { ILogResponse, LogResponse } from '../models/web/internalWeb';
 
 @Component({
-  selector: 'app-log-viewer',
-  templateUrl: './log-viewer.component.html',
-  styleUrls: ['./log-viewer.component.scss']
+  selector: 'app-logs',
+  templateUrl: './logs.component.html',
+  styleUrls: ['./logs.component.scss']
 })
-export class LogViewerComponent {
-  logForm: FormGroup
+export class LogsComponent {
+  logForm: FormGroup;
   logEntries: LogEntry[] = [];
   portionTitles: string[] = new Array("Authentication", "Leave", 
     "Leave Requests", "Debug");
@@ -56,13 +56,5 @@ export class LogViewerComponent {
         this.authService.statusMessage = err.exception;
       }
     });
-  }
-  
-  getListStyle(): string {
-    const screenHeight = window.innerHeight;
-    const screenWidth = window.innerWidth
-    let listHeight = screenHeight - 350;
-    let listWidth = screenWidth - 500;
-    return `height: ${listHeight}px;width: ${listWidth}px;`;
   }
 }

@@ -1,0 +1,12 @@
+<form [formGroup]="purgeForm" class="flexlayout row topleft flexgap">
+  <mat-form-field appearance="outline">
+    <mat-label>Purge Before Date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="purgedate">
+    <mat-datepicker-toggle matIconSuffix [for]="picker">
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <button mat-raised-button color="warn" (click)="onPurge()">
+    Purge Data
+  </button>
+</form>

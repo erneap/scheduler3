@@ -1,50 +1,47 @@
-.row {
+.main {
   display: flex;
+  flex: 1 0 auto;
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 5px;
 }
 
 .date {
-  font-size: 12pt;
-  font-weight: bold;
-  width: 175px;
-  height: 100%;
   display: flex;
+  flex: 17 17 153px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  font-size: 12pt;
+  font-weight: bold;
 }
 
 .category {
-  font-size: 12pt;
-  font-weight: bold;
-  width: 125px;
-  height: 100%;
   display: flex;
+  flex: 12 12 108px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  font-size: 12pt;
+  font-weight: bold;
 }
 
 .title {
-  font-size: 12pt;
-  font-weight: bold;
-  width: 150px;
-  height: 100%;
   display: flex;
+  flex: 15 15 135px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  font-size: 12pt;
+  font-weight: bold;
 }
 
 .message {
-  font-size: 12pt;
-  font-weight: bold;
-  height: 100%;
   display: flex;
+  flex: 56 56 504px;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  font-size: 12pt;
+  font-weight: bold;
 }

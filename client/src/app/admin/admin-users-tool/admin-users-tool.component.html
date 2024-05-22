@@ -1,0 +1,49 @@
+<div class="main">
+  <div class="title">
+    <h4>Account List</h4>
+  </div>
+  <div class="list">
+    <div *ngFor="let user of userList" [class]="userClass(user)"
+      (click)="onSelect(user.id)">
+      {{user.getFullName()}}
+    </div>
+  </div>
+  <div class="editor">
+    <form [formGroup]="userForm" class="flexlayout row topleft">
+      <div class="flexlayout column topleft flexgap">
+        <mat-form-field appearance="fill">
+          <mat-label>Permissions</mat-label>
+          <mat-select formControlName="perms" multiple
+            (selectionChange)="changePermission()">
+            <mat-option *ngFor="let perm of permissions;let i=index"
+              [value]="perm">{{permNames[i]}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="userForm.controls['perms'].invalid" class="error">
+            Required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>New Password</mat-label>
+          <input matInput type="password" formControlName="password">
+          <mat-error *ngIf="userForm.controls['password'].invalid" class="error">
+            Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="flexlayout column topleft flexstretch" style="gap: 10px;">
+        <button mat-raised-button color="accent" (click)="onUnlock()"
+          [disabled]="!selectedUser.isLocked()">
+          Unlock
+        </button>
+        <button mat-raised-button (click)="onAdd5Days()"
+          [disabled]="!selectedUser.isExpired()">
+          Unlock for 5 days
+        </button>
+        <button mat-raised-button color="warn" (click)="changePassword()"
+          [disabled]="userForm.controls['password'].invalid">
+          Change
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

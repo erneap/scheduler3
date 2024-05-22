@@ -75,4 +75,9 @@ export class User implements IUser {
     }
     return false;
   }
+
+  isExpired(): boolean {
+    const now = new Date();
+    return this.id !== '' && (this.passwordExpires.getTime() < now.getTime());
+  }
 }

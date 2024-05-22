@@ -63,4 +63,13 @@ export class AppStateService {
     }
     console.log(`Inner: ${window.innerWidth} - View: ${this.viewWidth}`);
   }
+
+  setShowMenu(state: boolean) {
+    this.showMenu = state;
+    this.viewWidth = window.innerWidth;
+    if (this.showMenu && !this.isMobile()) {
+      this.viewWidth -= 250;
+    }
+    console.log(`Inner: ${window.innerWidth} - View: ${this.viewWidth}`);
+  }
 }

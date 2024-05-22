@@ -1186,13 +1186,13 @@ func UpdateEmployeeLeaveRequest(c *gin.Context) {
 	}
 
 	if msg != "" {
-		fmt.Println(msg)
-		fmt.Println(req.ApprovedBy)
 		if strings.Contains(strings.ToLower(msg), "approved") ||
 			strings.Contains(strings.ToLower(msg), "unapproved") {
 			err = svcs.CreateMessage(emp.ID.Hex(), data.Value, msg)
 			if err != nil {
-				fmt.Println(err.Error())
+				services.AddLogEntry(c, "leaverequest", "Error", "PROBLEM",
+					fmt.Sprintf("%s Updating LeaveRequest Problem: %s",
+						logmsg, err.Error()))
 			}
 			to := []string{emp.User.EmailAddress}
 			if len(emp.EmailAddresses) > 0 {
@@ -1205,9 +1205,13 @@ func UpdateEmployeeLeaveRequest(c *gin.Context) {
 			subj := "Leave Request Approved"
 			err = svcs.SendMail(to, subj, msg)
 			if err != nil {
-				fmt.Println(err.Error())
+				services.AddLogEntry(c, "leaverequest", "Error", "PROBLEM",
+					fmt.Sprintf("%s Updating LeaveRequest Problem: %s",
+						logmsg, err.Error()))
 			} else {
-				fmt.Println("Email Message Sent")
+				services.AddLogEntry(c, "leaverequest", "Info", "PROBLEM",
+					fmt.Sprintf("%s Updating LeaveRequest Problem: %s",
+						logmsg, "Email msg sent"))
 			}
 			if req.ApprovedBy != "" {
 				logentry := fmt.Sprintf("Leave Request for %s was approved.<br>",

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LogViewerComponent } from './log-viewer.component';
+import { QueryContactsComponent } from './query-contacts.component';
 
-describe('LogViewerComponent', () => {
-  let component: LogViewerComponent;
-  let fixture: ComponentFixture<LogViewerComponent>;
+describe('QueryContactsComponent', () => {
+  let component: QueryContactsComponent;
+  let fixture: ComponentFixture<QueryContactsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LogViewerComponent ]
+      declarations: [ QueryContactsComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LogViewerComponent);
+    fixture = TestBed.createComponent(QueryContactsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

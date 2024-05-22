@@ -73,7 +73,6 @@ export class SiteEmployeesAssignmentScheduleComponent {
       let dayWidth = Math.floor(w / 7);
       w = dayWidth * 7;
     }
-    console.log(w)
     this._width = w;
   }
   get width(): number {

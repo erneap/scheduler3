@@ -15,6 +15,7 @@ export class LogEntryComponent {
   get entry(): LogEntry {
     return this._entry;
   }
+  @Input() nth: number = 0;
 
   constructor() {}
 
@@ -38,5 +39,12 @@ export class LogEntryComponent {
     }
     answer += `${this.entry.entrydate.getMinutes()}Z`;
     return answer;
+  }
+
+  cellStyle(): string {
+    if (this.nth % 2 === 0) {
+      return 'background-color: #c5b1e7;color: black;';
+    }
+    return 'background-color: white;color: black;';
   }
 }

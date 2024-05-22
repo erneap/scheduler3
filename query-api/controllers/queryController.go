@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/erneap/go-models/employees"
 	"github.com/erneap/scheduler2/queryApi/models/web"
 	"github.com/erneap/scheduler2/queryApi/services"
 	"github.com/gin-gonic/gin"
@@ -52,6 +53,7 @@ func BasicQuery(c *gin.Context) {
 	}
 
 	answer := &web.IngestResponse{}
+	answer.Employees = make([]employees.Employee, 0)
 	for _, emp := range emps {
 		// find the site information for the employee and the time at site to
 		// determine the date at the site.
@@ -65,7 +67,7 @@ func BasicQuery(c *gin.Context) {
 					ds.Day(), 0, 0, 0, 0, time.UTC)
 			}
 		}
-		wd := emp.GetWorkday(dateAtSite, now)
+		wd := emp.GetWorkday(dateAtSite, now.AddDate(0, 0, -1))
 		if wd != nil {
 			for _, wc := range team.Workcodes {
 				if !wc.IsLeave && strings.EqualFold(wc.Id, wd.Code) {
@@ -85,6 +87,7 @@ func BasicQuery(c *gin.Context) {
 			}
 		}
 	}
+	fmt.Printf("Answer: %d\n", len(answer.Employees))
 	c.JSON(http.StatusOK, answer)
 }
 
@@ -146,7 +149,7 @@ func ComplexQuery(c *gin.Context) {
 					ds.Day(), 0, 0, 0, 0, time.UTC)
 			}
 		}
-		wd := emp.GetWorkday(dateAtSite, now)
+		wd := emp.GetWorkday(dateAtSite, now.AddDate(0, 0, -1))
 		if wd != nil {
 			for _, wc := range team.Workcodes {
 				if !wc.IsLeave && strings.EqualFold(wc.Id, wd.Code) {
