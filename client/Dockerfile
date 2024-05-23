@@ -11,4 +11,4 @@ RUN mkdir -p /usr/share/nginx/html/scheduler
 ADD . /data/reports
 COPY --from=build /app/dist/scheduler-client /usr/share/nginx/html/scheduler/
 COPY --from=build /app/scheduler.conf /etc/nginx/conf.d/scheduler.conf
-EXPOSE 8083
+EXPOSE 8705

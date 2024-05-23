@@ -58,12 +58,16 @@ export class AppComponent {
     } else {
       this.getInitialData(user.id);
     }
-    this.stateService.showMenu = !this.stateService.isMobile();
     this.width = this.stateService.viewWidth;
-    if (this.stateService.showMenu) {
-      this.width = this.width - 250;
+    if (!this.authService.isAuthenticated) {
+      this.stateService.showMenu = false;
+    } else {
+      this.stateService.showMenu = !this.stateService.isMobile();
+      if (this.stateService.showMenu) {
+        this.width = this.width - 250;
+      }
+      this.isMobile = this.stateService.isMobile() || this.stateService.isTablet();
     }
-    this.isMobile = this.stateService.isMobile() || this.stateService.isTablet();
   }
 
   logout() {
@@ -72,6 +76,7 @@ export class AppComponent {
     this.authService.setWebLabel('','', this.stateService.viewState);
     this.msgService.clearMessages();
     this.siteService.stopAutoUpdate();
+    this.stateService.showMenu = false;
     this.authService.logout();
   }
 

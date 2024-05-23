@@ -234,5 +234,5 @@ func main() {
 	}
 
 	// listen on port 6002
-	router.Run(":6002")
+	router.Run(":7002")
 }

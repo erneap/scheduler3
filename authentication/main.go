@@ -47,5 +47,5 @@ func main() {
 	}
 
 	// listen on port 6000
-	router.Run(":6000")
+	router.Run(":7004")
 }

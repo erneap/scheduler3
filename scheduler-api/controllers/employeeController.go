@@ -1187,7 +1187,8 @@ func UpdateEmployeeLeaveRequest(c *gin.Context) {
 
 	if msg != "" {
 		if strings.Contains(strings.ToLower(msg), "approved") ||
-			strings.Contains(strings.ToLower(msg), "unapproved") {
+			strings.Contains(strings.ToLower(msg), "unapproved") ||
+			strings.Contains(strings.ToLower(msg), "changed") {
 			err = svcs.CreateMessage(emp.ID.Hex(), data.Value, msg)
 			if err != nil {
 				services.AddLogEntry(c, "leaverequest", "Error", "PROBLEM",
@@ -1299,6 +1300,24 @@ func DeleteEmployeeLeaveRequest(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, web.EmployeeResponse{Employee: nil,
 			Exception: err.Error()})
 		return
+	}
+	if msg != "" {
+
+		to := []string{emp.User.EmailAddress}
+		if len(emp.EmailAddresses) > 0 {
+			for _, email := range emp.EmailAddresses {
+				if !strings.EqualFold(emp.User.EmailAddress, email) {
+					to = append(to, email)
+				}
+			}
+		}
+		subj := "Leave Request Approved"
+		err = svcs.SendMail(to, subj, msg)
+		if err != nil {
+			services.AddLogEntry(c, "leaverequest", "Error", "PROBLEM",
+				fmt.Sprintf("%s Updating LeaveRequest Problem: %s",
+					logmsg, err.Error()))
+		}
 	}
 
 	err = services.UpdateEmployee(emp)

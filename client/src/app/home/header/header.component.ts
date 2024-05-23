@@ -44,6 +44,7 @@ export class HeaderComponent {
     this.msgService.clearMessages();
     this.empService.clearRenewal();
     this.siteService.stopAutoUpdate();
+    this.appState.showMenu = false;
     this.authService.logout();
   }
 

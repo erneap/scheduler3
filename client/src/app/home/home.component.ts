@@ -104,6 +104,7 @@ export class HomeComponent {
         }
         if (!data.exception || data.exception === '') {
           this.authService.isAuthenticated = true;
+          this.stateService.showMenu = this.stateService.isDesktop();
           this.authService.startTokenRenewal();
           this.msgService.startAlerts();
           this.authService.statusMessage = "User Login Complete";
