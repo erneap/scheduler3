@@ -42,6 +42,6 @@ COPY --from=builder /go/bin/query-api /go/bin/query-api
 
 USER scheduler:scheduler
 
-EXPOSE 6002
+EXPOSE 7003
 
 ENTRYPOINT [ "/go/bin/query-api" ]

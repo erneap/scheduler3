@@ -7,8 +7,8 @@ RUN npm run build
 
 ### Stage 2: Run ###
 FROM nginx:1.25.3-alpine3.18
-RUN mkdir -p /usr/share/nginx/html/scheduler
+RUN mkdir -p /usr/share/nginx/html/scheduler3
 ADD . /data/reports
-COPY --from=build /app/dist/scheduler-client /usr/share/nginx/html/scheduler/
+COPY --from=build /app/dist/scheduler-client /usr/share/nginx/html/scheduler3/
 COPY --from=build /app/scheduler.conf /etc/nginx/conf.d/scheduler.conf
-EXPOSE 8705
+EXPOSE 8087

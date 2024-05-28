@@ -44,6 +44,6 @@ COPY --from=builder /go/bin/authentication-api /go/bin/authentication-api
 
 USER scheduler:scheduler
 
-EXPOSE 6002
+EXPOSE 7004
 
 ENTRYPOINT [ "/go/bin/authentication-api" ]

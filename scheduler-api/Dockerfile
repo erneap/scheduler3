@@ -44,6 +44,6 @@ COPY --from=builder /go/bin/scheduler-api /go/bin/scheduler-api
 
 USER scheduler:scheduler
 
-EXPOSE 6002
+EXPOSE 7002
 
 ENTRYPOINT [ "/go/bin/scheduler-api" ]

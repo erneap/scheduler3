@@ -1187,8 +1187,7 @@ func UpdateEmployeeLeaveRequest(c *gin.Context) {
 
 	if msg != "" {
 		if strings.Contains(strings.ToLower(msg), "approved") ||
-			strings.Contains(strings.ToLower(msg), "unapproved") ||
-			strings.Contains(strings.ToLower(msg), "changed") {
+			strings.Contains(strings.ToLower(msg), "unapproved") {
 			err = svcs.CreateMessage(emp.ID.Hex(), data.Value, msg)
 			if err != nil {
 				services.AddLogEntry(c, "leaverequest", "Error", "PROBLEM",
@@ -1247,6 +1246,9 @@ func UpdateEmployeeLeaveRequest(c *gin.Context) {
 				services.AddLogEntry(c, "leaverequest", "SUCCESS", "Submitted",
 					fmt.Sprintf("Leave Request submitted for period: %s - %s",
 						req.StartDate.Format("01/02/06"), req.EndDate.Format("01/02/06")))
+			} else {
+				services.AddLogEntry(c, "leaverequest", "SUCCESS", "Changed",
+					fmt.Sprintf("Leave Request changed: %s", msg))
 			}
 			if len(to) > 0 {
 				err = svcs.SendMail(to, "Leave Request Submitted", msg)
