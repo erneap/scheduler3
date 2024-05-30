@@ -259,8 +259,8 @@ export class SiteEditorReportsForecastLaborComponent {
           value = this.laborForm.controls[field].value;
           break;
       }
-      const chgNo = this.laborForm.value.chargeNumber;
-      const ext = this.laborForm.value.extension;
+      const chgNo = this.selected.chargeNumber;
+      const ext = this.selected.extension;
 
      if (value !== '') {
         this.dialogService.showSpinner();

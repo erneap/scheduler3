@@ -1049,7 +1049,12 @@ func UpdateSiteLaborCode(c *gin.Context) {
 					data.ChargeNumber, data.Extension, data.Field)
 				if strings.EqualFold(lCode.ChargeNumber, data.ChargeNumber) &&
 					strings.EqualFold(lCode.Extension, data.Extension) {
+					fmt.Println(data.Field)
 					switch strings.ToLower(data.Field) {
+					case "chargenumber":
+						lCode.ChargeNumber = data.Value
+					case "extension":
+						lCode.Extension = data.Value
 					case "clin":
 						lCode.CLIN = data.Value
 					case "slin":

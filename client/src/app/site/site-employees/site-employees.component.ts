@@ -139,7 +139,7 @@ export class SiteEmployeesComponent {
   }
 
   employeeChanged(emp: Employee) {
-    if (this.site.employees) {
+   if (this.site.employees) {
       let found = false;
       for (let i=0; i < this.site.employees.length && !found; i++) {
         if (this.site.employees[i].id === emp.id) {
@@ -161,6 +161,7 @@ export class SiteEmployeesComponent {
     if (iSite && iSite.id === this.site.id) {
       this.siteService.setSite(this.site);
     }
+    this.setEmployees();
     this.siteChanged.emit(this.site);
   }
 

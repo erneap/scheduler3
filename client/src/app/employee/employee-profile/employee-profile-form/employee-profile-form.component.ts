@@ -378,4 +378,35 @@ export class EmployeeProfileFormComponent {
       });
     }
   }
+
+  showUnlock(): boolean {
+    const user = this.employee.user;
+    if (user) {
+      if ((this.authService.hasRole('scheduler') 
+        || this.authService.hasRole('teamleader'))
+        && user.isLocked()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  unlock() {
+    this.dialogService.showSpinner();
+    this.empService.updateEmployee(this.employee.id, 'unlock', '').subscribe({
+      next: (data: EmployeeResponse) => {
+        this.dialogService.closeSpinner();
+        if (data && data !== null && data.employee) {
+          this.employee = data.employee;
+          this.empService.replaceEmployee(this.employee);
+          this.authService.statusMessage = "Account unlocked";
+        }
+        this.changed.emit(new Employee(this.employee));
+      },
+      error: (err: EmployeeResponse) => {
+        this.dialogService.closeSpinner();
+        this.authService.statusMessage = err.exception;
+      }
+    })
+  }
 }

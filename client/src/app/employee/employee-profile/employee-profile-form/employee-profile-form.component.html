@@ -54,6 +54,11 @@
         </div>
       </div>
     </ng-container>
+    <div *ngIf="showUnlock()" class="flexlayout row center">
+      <button mat-raised-button color="accent" (click)="unlock()">
+        Unlock
+      </button>
+    </div>
     <div class="flexlayout row center flexwrap" *ngIf="formError !== ''">
       <span class="error">{{formError}}</span>
     </div>
