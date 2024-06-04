@@ -76,6 +76,9 @@ export class NotificationsComponent {
         tmsgs.push(new Notification(msg));
       });
       this.messages = tmsgs;
+      if (this.messages.length <= 0) {
+        this.router.navigate(['/employee/schedule']);
+      }
     }
     this.allChecked = this.messages.every(m => m.checked);
     this.anyChecked = this.messages.filter(m => m.checked).length > 0;
@@ -103,6 +106,9 @@ export class NotificationsComponent {
               this.msgService.setMessages(this.messages);
             } else {
               this.msgService.clearMessages();
+            }
+            if (this.messages.length <= 0) {
+              this.router.navigate(['/employee/schedule'])
             }
             this.authService.statusMessage = "Acknowledgement Complete";
           } else if (data && data.exception && data.exception !== '') {
@@ -179,7 +185,7 @@ export class NotificationsComponent {
           this.msgService.setMessages(this.messages);
           this.msgService.showAlerts = (this.messages.length > 0);
           this.authService.statusMessage = "Acknowledgement Complete";
-          this.router.navigateByUrl('/siteleaveapprover');
+          this.router.navigateByUrl('//site/employees/leaveapprover');
         },
         error: (err: NotificationResponse) => {
           this.dialogService.closeSpinner();

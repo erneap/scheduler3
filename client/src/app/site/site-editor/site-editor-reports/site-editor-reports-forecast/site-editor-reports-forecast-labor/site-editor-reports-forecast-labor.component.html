@@ -125,10 +125,13 @@
     </div>
     <div class="formrow">
       <button mat-raised-button color="accent"
-      *ngIf="laborForm.valid && selected.chargeNumber === 'new'"
-      (click)="onAddLaborCode()">Add</button>
-      <button mat-raised-button color="warn"
+        *ngIf="laborForm.valid && selected.chargeNumber === 'new'"
+        (click)="onAddLaborCode()">Add</button>
+      <button mat-raised-button
         (click)="onSelectLaborCode('new-new')">Clear</button>
+      <button mat-raised-button color="warn"
+        *ngIf="selected.chargeNumber !== 'new'"
+        (click)="onDeleteLaborCode()">Delete</button>
     </div>
   </form>
 </div>

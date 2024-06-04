@@ -1142,6 +1142,22 @@ func DeleteSiteLaborCode(c *gin.Context) {
 		}
 	}
 
+	for r, rpt := range site.CofSReports {
+		for s, section := range rpt.Sections {
+			found := -1
+			for i := 0; i < len(section.LaborCodes) && found < 0; i++ {
+				if strings.EqualFold(section.LaborCodes[i].ChargeNumber, chgNo) &&
+					strings.EqualFold(section.LaborCodes[i].Extension, ext) {
+					found = i
+					section.LaborCodes = append(section.LaborCodes[:i],
+						section.LaborCodes[i+1:]...)
+				}
+			}
+			rpt.Sections[s] = section
+		}
+		site.CofSReports[r] = rpt
+	}
+
 	if err = services.UpdateSite(teamID, *site); err != nil {
 		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
 			fmt.Sprintf("%s UpdateSite: %s", logmsg, err.Error()))

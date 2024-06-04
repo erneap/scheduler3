@@ -68,6 +68,8 @@
       <button mat-raised-button color="warn"
         *ngIf="this.reportForm.valid && this.selected.id <= 0"
         (click)="onClear()">Clear</button>
+      <button mat-raised-button color="warn"
+        *ngIf="selected.id > 0" (click)="onDeleteReport()">Delete</button>
     </div>
   </form>
   <app-site-editor-reports-forecast-period *ngIf="selected.id > 0"

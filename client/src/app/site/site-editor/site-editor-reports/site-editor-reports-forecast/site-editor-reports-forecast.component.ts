@@ -208,9 +208,10 @@ export class SiteEditorReportsForecastComponent {
         } else {
           outputValue = value;
         }
+        console.log(`Field: ${field} - Value: ${value}`)
         this.dialogService.showSpinner();
         this.siteService.updateForecastReport(this.team.id, this.site.id, 
-          Number(this.selected), field, outputValue).subscribe({
+          Number(this.selected.id), field, outputValue).subscribe({
           next: (data: SiteResponse) => {
             this.dialogService.closeSpinner();
             if (data && data != null && data.site) {

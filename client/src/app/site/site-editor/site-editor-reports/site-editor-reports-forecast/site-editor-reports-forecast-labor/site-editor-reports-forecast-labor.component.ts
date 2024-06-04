@@ -120,7 +120,7 @@ export class SiteEditorReportsForecastLaborComponent {
         first = this.report.laborCodes[0];
       }
       this.laborForm.controls['extension'].setValue('');
-      if (first) {
+      if (first && this.selected.chargeNumber === 'new') {
         this.laborForm.controls['chargenumber'].setValue(first.chargeNumber);
         this.laborForm.controls['clin'].setValue(first.clin);
         this.laborForm.controls['slin'].setValue(first.slin);
