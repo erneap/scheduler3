@@ -210,13 +210,22 @@ func AddUser(c *gin.Context) {
 
 	user := svcs.CreateUser(data.EmailAddress, data.FirstName,
 		data.MiddleName, data.LastName, data.Password)
-	switch strings.ToLower(data.Application) {
-	case "metrics":
-		user.Workgroups = append(user.Workgroups, "metrics-geoint")
-	case "scheduler":
-		user.Workgroups = append(user.Workgroups, "scheduler-employee")
-	default:
-		user.Workgroups = append(user.Workgroups, "default-employee")
+	if len(data.Permissions) <= 0 {
+		switch strings.ToLower(data.Application) {
+		case "metrics":
+			user.Workgroups = append(user.Workgroups, "metrics-geoint")
+		case "scheduler":
+			user.Workgroups = append(user.Workgroups, "scheduler-employee")
+		default:
+			user.Workgroups = append(user.Workgroups, "default-employee")
+		}
+	} else {
+		for _, perm := range data.Permissions {
+			if !strings.Contains(perm, strings.ToLower(data.Application)) {
+				perm = strings.ToLower(data.Application) + "-" + strings.ToLower(perm)
+			}
+			user.Workgroups = append(user.Workgroups, perm)
+		}
 	}
 	err := svcs.UpdateUser(*user)
 	if err != nil {
@@ -243,9 +252,17 @@ func DeleteUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, users.ExceptionResponse{Exception: msg})
 		return
 	}
+	usrs, err := svcs.GetUsers()
+	if err != nil {
+		msg := "GetUsers Problem: " + err.Error()
+
+		services.AddLogEntry(c, "authenticate", "Debug", "GetUsers", msg)
+		c.JSON(http.StatusBadRequest, users.ExceptionResponse{Exception: msg})
+		return
+	}
 	services.AddLogEntry(c, "authenticate", "DELETE", "DeleteUser",
 		fmt.Sprintf("User Deleted: %s", id))
-	c.Status(http.StatusOK)
+	c.JSON(http.StatusOK, users.UsersResponse{Users: usrs, Exception: ""})
 }
 
 func GetUser(c *gin.Context) {
