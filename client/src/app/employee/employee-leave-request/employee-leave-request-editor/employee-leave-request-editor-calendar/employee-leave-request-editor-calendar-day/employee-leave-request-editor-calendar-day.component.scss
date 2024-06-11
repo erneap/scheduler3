@@ -1,0 +1,33 @@
+.dayOfMonth {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: black;
+  border: solid 1px black;
+}
+
+.day {
+  position: relative;
+  border: solid 1px black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+select {
+  border: none;
+  text-align: center;
+}
+
+input {
+  border: none;
+  text-align: center;
+}

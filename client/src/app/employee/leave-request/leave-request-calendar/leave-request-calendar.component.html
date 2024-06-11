@@ -1,5 +1,5 @@
-<div class="fxLayout-column-center">
-  <div class="fxLayout-row-center">
+<div class="flexlayout column center">
+  <div class="flexlayout row center">
     <div class="daycell weekend" [style]="getDateStyles()">SUN</div>
     <div class="daycell weekday" [style]="getDateStyles()">MON</div>
     <div class="daycell weekday" [style]="getDateStyles()">TUE</div>
@@ -9,7 +9,7 @@
     <div class="daycell weekend" [style]="getDateStyles()">SAT</div>
   </div>
   <ng-container *ngFor="let week of calendar.leaveGroups">
-    <div class="fxLayout-row-center">
+    <div class="flexlayout row center">
       <app-leave-request-calendar-day *ngFor="let lv of week.leaves"
         [leave]="lv" [startDate]="startdate" [leavecodes]="leaveCodes"
         [endDate]="enddate" (changed)="processChange($event)"

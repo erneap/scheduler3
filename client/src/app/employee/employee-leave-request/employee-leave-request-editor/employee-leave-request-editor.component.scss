@@ -1,0 +1,17 @@
+.toplevel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.label {
+  width: 90px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: solid 1px white;
+  text-align: center;
+}

@@ -219,4 +219,14 @@ export class LeaveRequestCalendarDayComponent {
     this.changed.emit(data);
     this.setLeave();
   }
+
+  optionStyle(code: string): string {
+    let answer = 'background-color: white;color: black;';
+    this.leavecodes.forEach(cd => {
+      if (cd.id.toLowerCase() === code.toLowerCase()) {
+        answer = `background-color: #${cd.backcolor};color: #${cd.textcolor};`;
+      }
+    });
+    return answer;
+  }
 }

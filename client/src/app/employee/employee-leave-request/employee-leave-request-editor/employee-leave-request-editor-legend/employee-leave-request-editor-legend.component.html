@@ -1,0 +1,5 @@
+<div class="flexlayout row center flexwrap" [style]="displayStyle()">
+  <div class="legend" *ngFor="let wc of leavecodes" [style]="codeStyle(wc)">
+    {{wc.title}}
+  </div>
+</div>

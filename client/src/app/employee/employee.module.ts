@@ -30,6 +30,7 @@ import { EmployeeContactInfoComponent } from './employee-contact-info/employee-c
 import { EmployeeContactInfoItemComponent } from './employee-contact-info/employee-contact-info-item/employee-contact-info-item.component';
 import { EmployeeSpecialtiesComponent } from './employee-specialties/employee-specialties.component';
 import { LeaveRequestMidDenialDialogComponent } from './leave-request/leave-request-mid-denial-dialog/leave-request-mid-denial-dialog.component';
+import { EmployeeLeaveRequestModule } from './employee-leave-request/employee-leave-request.module';
 @NgModule({
   declarations: [
     EmployeeScheduleComponent,
@@ -65,7 +66,8 @@ import { LeaveRequestMidDenialDialogComponent } from './leave-request/leave-requ
     EmployeeRoutingModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    EmployeeLeaveRequestModule
   ],
   exports: [
     PtoHolidayChartComponent,

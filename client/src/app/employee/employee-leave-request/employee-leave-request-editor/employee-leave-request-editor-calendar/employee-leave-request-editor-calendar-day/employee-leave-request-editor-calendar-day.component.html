@@ -1,0 +1,17 @@
+<div class="day" [style]="dayStyle()">
+  <div class="dayOfMonth" [style]="dayOfWeekStyle()">
+    {{leaveday.leavedate.getDate()}}
+  </div>
+  <form [formGroup]="dayForm" class="flexlayout column center">
+    <select matNativeControl formControlName="code" [style]="getCodeStyle()"
+      (change)="changeCode()">
+      <option value=""></option>
+      <option *ngFor="let lc of leavecodes" [style]="optionStyle(lc.id)"
+        [value]="lc.id">
+        {{lc.id.toUpperCase()}}
+      </option>
+    </select>
+    <input matNativeControl formControlName="hours" 
+      [style]="getHoursStyle()" (blur)="changeCode()">
+  </form>
+</div>

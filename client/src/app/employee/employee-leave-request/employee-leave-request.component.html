@@ -1,0 +1,15 @@
+<div class="toplevel">
+  <h2>Leave Request Editor</h2>
+  <div class="list">
+    <div *ngFor="let item of requests" [class]="itemClass(item.id)"
+      (click)="onSelect(item.id)">
+      {{item.label}}
+    </div>
+  </div>
+  <div class="view">
+    <app-employee-leave-request-editor [employee]="employee" 
+      [request]="selected" [width]="width" [height]="height"
+      (changed)="onChange($event)">
+    </app-employee-leave-request-editor>
+  </div>
+</div>

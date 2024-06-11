@@ -4,7 +4,8 @@
     <select formControlName="code" [style]="getCodeStyle()"
       (change)="changeCode()">
       <option value=""></option>
-      <option *ngFor="let lc of leavecodes" [value]="lc.id">
+      <option *ngFor="let lc of leavecodes" [value]="lc.id" 
+        [style]="optionStyle(lc.id)">
         {{lc.id}}
       </option>
     </select>

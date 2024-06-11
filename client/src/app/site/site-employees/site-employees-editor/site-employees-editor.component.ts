@@ -66,6 +66,7 @@ export class SiteEmployeesEditorComponent {
     if (iEmp && iEmp.id === emp.id) {
       this.empService.setEmployee(emp);
     }
+    this.employee = emp;
     this.employeeChanged.emit(emp);
   }
 

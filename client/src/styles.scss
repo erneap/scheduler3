@@ -64,7 +64,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     flex-wrap: no-wrap;
 }
 
-.fxLayout-column-center {
+.flexlayout column center {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -88,7 +88,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 0;
 }
 
-.fxLayout-row-center {
+.flexlayout row center {
     display: flex;
     flex-direction: row;
     justify-content: center;

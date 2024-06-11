@@ -7,6 +7,7 @@ import { LeaveRequestComponent } from "./leave-request/leave-request.component";
 import { PtoHolidayComponent } from "./pto-holiday/pto-holiday.component";
 import { EmployeeContactInfoComponent } from "./employee-contact-info/employee-contact-info.component";
 import { EmployeeSpecialtiesComponent } from "./employee-specialties/employee-specialties.component";
+import { EmployeeLeaveRequestComponent } from "./employee-leave-request/employee-leave-request.component";
 
 const routes: Routes = [
   {
@@ -17,7 +18,7 @@ const routes: Routes = [
       { path: 'profile', component: EmployeeProfileComponent },
       { path: 'schedule', component: EmployeeScheduleComponent },
       { path: 'ptoholidays', component: PtoHolidayComponent },
-      { path: 'leaverequest', component: LeaveRequestComponent},
+      { path: 'leaverequest', component: EmployeeLeaveRequestComponent},
       { path: "contacts", component: EmployeeContactInfoComponent },
       { path: "specialties", component: EmployeeSpecialtiesComponent },
       { path: '**', component: EmployeeScheduleComponent },

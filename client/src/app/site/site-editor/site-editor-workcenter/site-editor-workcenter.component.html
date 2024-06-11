@@ -52,7 +52,7 @@
         <mat-error *ngIf="wcForm.controls['id'].hasError('required')"
           class="error">Required</mat-error>
       </mat-form-field>
-      <div class="fxLayout-row-center">
+      <div class="flexlayout row center">
         <button mat-raised-button color="warn" style="margin-left: 10px;"
           *ngIf="selected.id === 'new'"
           (click)="onClearClick()">Clear</button>

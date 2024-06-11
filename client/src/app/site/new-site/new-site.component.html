@@ -1,7 +1,7 @@
-<div class="fxLayout fxLayout-column-center">
+<div class="fxLayout flexlayout column center">
   <mat-card style="background-color: #673ab7; color: white;">
       <mat-card-header>
-        <div class="fxLayout-row-center">
+        <div class="flexlayout row center">
           <div class="headline">New Site Editor</div>
           <span class="flex-spacer"></span>
           <button mat-icon-button
@@ -10,15 +10,15 @@
           </button>
         </div>
       </mat-card-header>
-      <mat-card-content class="fxLayout-column-center">
+      <mat-card-content class="flexlayout column center">
           <mat-accordion>
             <mat-expansion-panel expanded="true" style="background-color: lightblue;">
               <mat-expansion-panel-header style="background-color: #3691b0;">
                 <mat-panel-title style="color: white;">Site Basic Information</mat-panel-title>
               </mat-expansion-panel-header>
-              <div class="fxLayout-column-center" style="margin-top: 10px;">
+              <div class="flexlayout column center" style="margin-top: 10px;">
                 <form [formGroup]="siteForm">
-                  <div class="fxLayout-row-center">
+                  <div class="flexlayout row center">
                     <mat-form-field class="formField">
                       <mat-label>Identifier</mat-label>
                       <input matInput formControlName="id">
@@ -38,7 +38,7 @@
                         >Use MIDS Rotations</mat-checkbox>
                     </div>
                   </div>
-                  <div class="fxLayout-row-center">
+                  <div class="flexlayout row center">
                     <mat-form-field class="formField">
                       <mat-label>UTC (Zulu) Offset</mat-label>
                       <mat-select formControlName="offset">
@@ -60,9 +60,9 @@
                   Site Lead Information
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <div class="fxLayout-column-center" style="margin-top: 10px;">
+              <div class="flexlayout column center" style="margin-top: 10px;">
                 <form [formGroup]="leadForm">
-                  <div class="fxLayout-row-center">
+                  <div class="flexlayout row center">
                     <mat-form-field>
                       <mat-label>E-mail Address</mat-label>
                       <input matInput formControlName="email">
@@ -72,7 +72,7 @@
                         class="error">Must be in Email Format</mat-error>
                     </mat-form-field>
                   </div>
-                  <div class="fxLayout-row-center">
+                  <div class="flexlayout row center">
                     <div class="formField">
                       <mat-form-field class="fieldWidth">
                         <mat-label>First Name</mat-label>
@@ -97,7 +97,7 @@
                       </mat-form-field>
                     </div>
                   </div>
-                  <div class="fxLayout-row-center">
+                  <div class="flexlayout row center">
                     <div class="formFieldWide">
                       <mat-form-field class="fieldWidthWide">
                         <mat-label>New Password</mat-label>
@@ -128,9 +128,9 @@
                   Site Scheduler Information (Optional)
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <div class="fxLayout-column-center" style="margin-top: 10px;">
+              <div class="flexlayout column center" style="margin-top: 10px;">
                 <form [formGroup]="schedulerForm">
-                  <div class="fxLayout-row-center">
+                  <div class="flexlayout row center">
                     <mat-form-field>
                       <mat-label>E-mail Address</mat-label>
                       <input matInput formControlName="email">
@@ -138,7 +138,7 @@
                         class="error">Required</mat-error>
                     </mat-form-field>
                   </div>
-                  <div class="fxLayout-row-center">
+                  <div class="flexlayout row center">
                     <div class="formField">
                       <mat-form-field class="fieldWidth">
                         <mat-label>First Name</mat-label>
@@ -163,7 +163,7 @@
                       </mat-form-field>
                     </div>
                   </div>
-                  <div class="fxLayout-row-center">
+                  <div class="flexlayout row center">
                     <div class="formFieldWide">
                       <mat-form-field class="fieldWidthWide">
                         <mat-label>New Password</mat-label>
@@ -189,7 +189,7 @@
               </div>
             </mat-expansion-panel>
           </mat-accordion>
-          <div class="fxLayout-row-center" style="padding: 5px 0 5px 0;">
+          <div class="flexlayout row center" style="padding: 5px 0 5px 0;">
             <button mat-raised-button color="accent"
               *ngIf="this.siteForm.valid && this.leadForm.valid"
               matTooltip="Add Site" (click)="addSite()"
