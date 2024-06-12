@@ -1,4 +1,4 @@
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -36,45 +36,37 @@ import { AdminModule } from './admin/admin.module';
 import { LogsModule } from './logs/logs.module';
 import { QueryModule } from './query/query.module';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    WaitDialogComponent,
-    PasswordExpireDialogComponent,
-    NavigationMenuComponent,
-    NotFoundComponent,
-    DeletionConfirmationComponent,
-    ForgotPasswordComponent,
-    ForgotPasswordResetComponent,
-    PtoHolidayBelowDialogComponent,
-    HeaderComponent,
-    StatusbarComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    MaterialModule,
-    FormsModule,
-    ReactiveFormsModule,
-    EmployeeModule,
-    SiteModule,
-    GenericModule,
-    TeamModule,
-    ReportsModule,
-    AdminModule,
-    LogsModule,
-    QueryModule
-  ],
-  exports: [
-    DeletionConfirmationComponent
-  ],
-  providers: [AuthService, DialogService, EmployeeService, SiteService, 
-    TeamService, LogsService, QueryService, interceptorProviders,
-    AppStateService, AdminService,
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HomeComponent,
+        WaitDialogComponent,
+        PasswordExpireDialogComponent,
+        NavigationMenuComponent,
+        NotFoundComponent,
+        DeletionConfirmationComponent,
+        ForgotPasswordComponent,
+        ForgotPasswordResetComponent,
+        PtoHolidayBelowDialogComponent,
+        HeaderComponent,
+        StatusbarComponent
+    ],
+    exports: [
+        DeletionConfirmationComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        MaterialModule,
+        FormsModule,
+        ReactiveFormsModule,
+        EmployeeModule,
+        SiteModule,
+        GenericModule,
+        TeamModule,
+        ReportsModule,
+        AdminModule,
+        LogsModule,
+        QueryModule], providers: [AuthService, DialogService, EmployeeService, SiteService,
+        TeamService, LogsService, QueryService, interceptorProviders,
+        AppStateService, AdminService, provideHttpClient(withInterceptorsFromDi()),] })
 export class AppModule { }
