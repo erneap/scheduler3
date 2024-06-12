@@ -99,6 +99,8 @@ export class EmployeeScheduleMonthComponent {
       } else {
         this.setWorkweeks(emp);
       }
+    } else {
+      this.authService.statusMessage = 'No employee for schedule';
     }
 
     if (emp && emp.work) {

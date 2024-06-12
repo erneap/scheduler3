@@ -73,6 +73,9 @@
             "development": {
               "proxyConfig": "proxy.conf.json",
               "buildTarget": "scheduler-client:build:development"
+            },
+            "options": {
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

@@ -30,7 +30,6 @@ export class AuthHttpInterceptor implements HttpInterceptor {
                             redirectUrl: this.router.routerState.snapshot.url },
                     })
                 }
-                console.log(err);
                 if (err.error.token || (err.error.token === '' 
                     && err.error.exception !== '')) {
                     const error: AuthenticationResponse = {

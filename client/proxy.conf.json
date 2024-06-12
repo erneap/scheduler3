@@ -1,15 +1,15 @@
 {
-    "/api/v2/scheduler/*": {
+    "/api/v2/scheduler/**": {
         "target": "http://localhost:7002/",
         "secure": false,
         "logLevel": "debug"
     },
-    "/api/v2/authentication/*": {
+    "/api/v2/authentication/**": {
         "target": "http://localhost:7004/",
         "secure": false,
         "logLevel": "debug"
     },
-    "/api/v2/query/*": {
+    "/api/v2/query/**": {
         "target": "http://localhost:7003/",
         "secure": false,
         "logLevel": "debug"

@@ -53,7 +53,8 @@ import { QueryModule } from './query/query.module';
     exports: [
         DeletionConfirmationComponent
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    bootstrap: [AppComponent], 
+    imports: [BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
         MaterialModule,
@@ -66,7 +67,11 @@ import { QueryModule } from './query/query.module';
         ReportsModule,
         AdminModule,
         LogsModule,
-        QueryModule], providers: [AuthService, DialogService, EmployeeService, SiteService,
+        QueryModule], 
+    providers: [AuthService, DialogService, EmployeeService, SiteService,
         TeamService, LogsService, QueryService, interceptorProviders,
-        AppStateService, AdminService, provideHttpClient(withInterceptorsFromDi()),] })
+        AppStateService, AdminService, 
+        provideHttpClient(withInterceptorsFromDi()),
+    ] 
+})
 export class AppModule { }
