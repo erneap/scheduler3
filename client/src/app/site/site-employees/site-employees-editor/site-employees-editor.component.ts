@@ -46,7 +46,7 @@ export class SiteEmployeesEditorComponent {
     protected appState: AppStateService,
     protected dialog: MatDialog
   ) {
-    this.height = this.appState.viewHeight - 300;
+    this.height = this.appState.viewHeight - 220;
     const iSite = this.siteService.getSite();
     if (iSite) {
       this.site = new Site(iSite);
@@ -96,5 +96,9 @@ export class SiteEmployeesEditorComponent {
         }
       });
     }
+  }
+
+  positionStyle(): string {
+    return `width: ${this.width - 70}px;height: ${this.height}px;`;
   }
 }

@@ -31,9 +31,15 @@
         </app-site-employees-leave-balance>
       </mat-tab>
       <mat-tab label="Leave Requests">
-        <app-leave-request-form [employee]="employee" 
+        <div class="position" [style]="positionStyle()">
+          <app-employee-leave-request [employee]="employee" 
+            [height]="height" [width]="width - 90" 
+            (changed)="changeEmployee($event)">
+          </app-employee-leave-request>
+        </div>
+        <!--<app-leave-request-form [employee]="employee" 
           (changed)="changeEmployee($event)"
-          [width]="width - 70"></app-leave-request-form>
+          [width]="width - 70"></app-leave-request-form>-->
       </mat-tab>
     </mat-tab-group>
   </mat-tab>

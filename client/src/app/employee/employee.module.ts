@@ -14,23 +14,16 @@ import { HolidayCellDisplayComponent } from './pto-holiday/holiday/holiday-cell/
 import { PtoComponent } from './pto-holiday/pto/pto.component';
 import { PtoMonthComponent } from './pto-holiday/pto/pto-month/pto-month.component';
 import { PtoMonthDatesDisplayComponent } from './pto-holiday/pto/pto-month/pto-month-dates-display/pto-month-dates-display.component';
-import { LeaveRequestComponent } from './leave-request/leave-request.component';
-import { LeaveRequestCalendarComponent } from './leave-request/leave-request-calendar/leave-request-calendar.component';
-import { LeaveRequestCalendarDayComponent } from './leave-request/leave-request-calendar-day/leave-request-calendar-day.component';
-import { DeleteLeaveRequestDialogComponent } from './leave-request/delete-leave-request-dialog/delete-leave-request-dialog.component';
 import { PtoHolidayChartComponent } from './pto-holiday/pto-holiday-chart/pto-holiday-chart.component';
 import { EmployeeProfileComponent } from './employee-profile/employee-profile.component';
 import { EmployeeProfileFormComponent } from './employee-profile/employee-profile-form/employee-profile-form.component';
-import { LeaveRequestFormComponent } from './leave-request/leave-request-form/leave-request-form.component';
-import { LeaveRequestEditorComponent } from './leave-request/leave-request-editor/leave-request-editor.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { NotificationsMessageComponent } from './notifications/notifications-message/notifications-message.component';
-import { LeaveUnapproveDialogComponent } from './leave-request/leave-request-editor/leave-unapprove-dialog/leave-unapprove-dialog.component';
 import { EmployeeContactInfoComponent } from './employee-contact-info/employee-contact-info.component';
 import { EmployeeContactInfoItemComponent } from './employee-contact-info/employee-contact-info-item/employee-contact-info-item.component';
 import { EmployeeSpecialtiesComponent } from './employee-specialties/employee-specialties.component';
-import { LeaveRequestMidDenialDialogComponent } from './leave-request/leave-request-mid-denial-dialog/leave-request-mid-denial-dialog.component';
 import { EmployeeLeaveRequestModule } from './employee-leave-request/employee-leave-request.module';
+
 @NgModule({
   declarations: [
     EmployeeScheduleComponent,
@@ -44,22 +37,14 @@ import { EmployeeLeaveRequestModule } from './employee-leave-request/employee-le
     PtoComponent,
     PtoMonthComponent,
     PtoMonthDatesDisplayComponent,
-    LeaveRequestComponent,
-    LeaveRequestCalendarComponent,
-    LeaveRequestCalendarDayComponent,
-    DeleteLeaveRequestDialogComponent,
     PtoHolidayChartComponent,
     EmployeeProfileComponent,
     EmployeeProfileFormComponent,
-    LeaveRequestFormComponent,
-    LeaveRequestEditorComponent,
     NotificationsComponent,
     NotificationsMessageComponent,
-    LeaveUnapproveDialogComponent,
     EmployeeContactInfoComponent,
     EmployeeContactInfoItemComponent,
-    EmployeeSpecialtiesComponent,
-    LeaveRequestMidDenialDialogComponent
+    EmployeeSpecialtiesComponent
   ],
   imports: [
     CommonModule,
@@ -72,8 +57,6 @@ import { EmployeeLeaveRequestModule } from './employee-leave-request/employee-le
   exports: [
     PtoHolidayChartComponent,
     EmployeeProfileFormComponent,
-    LeaveRequestFormComponent,
-    LeaveRequestEditorComponent,
     EmployeeContactInfoComponent,
     EmployeeContactInfoItemComponent,
     EmployeeSpecialtiesComponent

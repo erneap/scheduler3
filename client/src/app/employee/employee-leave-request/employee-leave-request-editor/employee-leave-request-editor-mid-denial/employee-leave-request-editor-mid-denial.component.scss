@@ -1,0 +1,50 @@
+.main {
+  position: absolute;
+  background-color: pink;
+  color: black;
+  height: 100%;
+  width: 100%;
+}
+
+.title {
+  position: absolute;
+  top: 0px;
+  height: 35px;
+  left: 0px;
+  right: 0px;
+  font-size: 14pt;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+  color: white;
+}
+
+.body {
+  position: absolute;
+  top: 35px;
+  left: 0px;
+  right: 0px;
+  bottom: 35px;
+  font-size: 11pt;
+  margin: 5px;
+  font-weight: normal;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  position: absolute;
+  bottom: 0px;
+  height: 35px;
+  left: 0px;
+  right: 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

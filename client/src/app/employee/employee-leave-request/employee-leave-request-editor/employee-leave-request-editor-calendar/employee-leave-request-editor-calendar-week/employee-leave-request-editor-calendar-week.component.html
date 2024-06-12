@@ -1,4 +1,4 @@
-<div class="flexlayout row center" style="border: solid 1px yellow;">
+<div class="flexlayout row center">
   <app-employee-leave-request-editor-calendar-day *ngFor="let day of weekdays"
     [leaveday]="day" [leavecodes]="leavecodes" [show]="showDay(day.leavedate)"
     [width]="width" (changed)="dayChanged($event)">

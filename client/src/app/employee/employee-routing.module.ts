@@ -3,7 +3,6 @@ import { Routes, RouterModule } from "@angular/router";
 import { EmployeeHomeComponent } from "./employee-home/employee-home.component";
 import { EmployeeProfileComponent } from "./employee-profile/employee-profile.component";
 import { EmployeeScheduleComponent } from "./employee-schedule/employee-schedule.component";
-import { LeaveRequestComponent } from "./leave-request/leave-request.component";
 import { PtoHolidayComponent } from "./pto-holiday/pto-holiday.component";
 import { EmployeeContactInfoComponent } from "./employee-contact-info/employee-contact-info.component";
 import { EmployeeSpecialtiesComponent } from "./employee-specialties/employee-specialties.component";

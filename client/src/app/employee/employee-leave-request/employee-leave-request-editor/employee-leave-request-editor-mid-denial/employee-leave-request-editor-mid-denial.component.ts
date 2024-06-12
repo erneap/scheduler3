@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-employee-leave-request-editor-mid-denial',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./employee-leave-request-editor-mid-denial.component.scss']
 })
 export class EmployeeLeaveRequestEditorMidDenialComponent {
-
+  constructor(
+    public dialogRef: MatDialogRef<EmployeeLeaveRequestEditorMidDenialComponent>
+  ) { }
 }

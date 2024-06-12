@@ -1,15 +1,36 @@
 <div class="toplevel">
   <h2>Leave Request Editor</h2>
-  <div class="list">
-    <div *ngFor="let item of requests" [class]="itemClass(item.id)"
-      (click)="onSelect(item.id)">
-      {{item.label}}
+  <ng-container *ngIf="!appState.isMobile()">
+    <div class="list">
+      <div *ngFor="let item of requests" [class]="itemClass(item.id)"
+        (click)="onSelect(item.id)">
+        {{item.label}}
+      </div>
     </div>
-  </div>
-  <div class="view">
-    <app-employee-leave-request-editor [employee]="employee" 
-      [request]="selected" [width]="width" [height]="height"
-      (changed)="onChange($event)">
-    </app-employee-leave-request-editor>
-  </div>
+    <div class="view">
+      <app-employee-leave-request-editor [employee]="employee" 
+        [request]="selected" [width]="width - 270" [height]="height"
+        (changed)="onChange($event)">
+      </app-employee-leave-request-editor>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="appState.isMobile()">
+    <form [formGroup]="requestForm">
+      <mat-form-field appearance="fill" style="width: 95%;">
+        <mat-label>Selected Request</mat-label>
+        <mat-select formControlName="request"
+          (selectionChange)="onSelectMobile()">
+          <mat-option *ngFor="let item of requests" [value]="item.id">
+            {{item.label}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+    <div class="mobileview">
+      <app-employee-leave-request-editor [employee]="employee" 
+        [request]="selected" [width]="width - 20" [height]="height - 70"
+        (changed)="onChange($event)">
+      </app-employee-leave-request-editor>
+    </div>
+  </ng-container>
 </div>

@@ -21,6 +21,7 @@ import { SiteEmployeesLeaveApprovalComponent } from './site-employees-leave-appr
 import { SiteEmployeesLeaveApprovalAvailabilityComponent } from './site-employees-leave-approval/site-employees-leave-approval-availability/site-employees-leave-approval-availability.component';
 import { SiteEmployeesLeaveApprovalAvailabilityDayComponent } from './site-employees-leave-approval/site-employees-leave-approval-availability-day/site-employees-leave-approval-availability-day.component';
 import { SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent } from './site-employees-leave-approval/site-employees-leave-approval-availability-day-shift/site-employees-leave-approval-availability-day-shift.component';
+import { EmployeeLeaveRequestModule } from 'src/app/employee/employee-leave-request/employee-leave-request.module';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent } from './site-
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    EmployeeModule
+    EmployeeModule,
+    EmployeeLeaveRequestModule
   ],
   exports: [
     SiteEmployeesLeaveApprovalComponent,

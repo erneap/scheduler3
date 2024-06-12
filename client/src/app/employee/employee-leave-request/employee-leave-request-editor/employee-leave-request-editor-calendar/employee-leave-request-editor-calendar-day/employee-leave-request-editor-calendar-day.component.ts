@@ -49,18 +49,20 @@ export class EmployeeLeaveRequestEditorCalendarDayComponent {
     const width = Math.floor(100 * ratio);
     let answer = `height: ${width}px;width: ${width}px;`;
     if (!this.show) {
-      answer += 'background-color: #000000;color: #000000;';
+      answer += 'background-color: #000000;color: #000000;border: solid '
+        + '1px #000000;';
     } else {
       let found = false;
       this.leavecodes.forEach(lc => {
         if (lc.id.toLowerCase() === this.leaveday.code.toLowerCase()) {
           found = true;
           answer += `background-color: #${lc.backcolor};`
-            + `color: #${lc.textcolor};`;
+            + `color: #${lc.textcolor};border: solid 1px #${lc.textcolor};`;
         }
       });
       if (!found) {
-        answer += `background-color: #ffffff;color: #000000;`;
+        answer += `background-color: #ffffff;color: #000000;`
+          + 'border: solid 1px #000000;';
       }
     }
     return answer;
@@ -71,6 +73,10 @@ export class EmployeeLeaveRequestEditorCalendarDayComponent {
     if (ratio > 1.0) ratio = 1.0;
     const fontSize = 1.2 * ratio;
     const width = Math.floor(25 * ratio);
+    if (!this.show) {
+      return `width: ${width}px;height: ${width}px;font-size: ${fontSize}rem;`
+        + 'background-color: #000000;color: #000000;'
+    }
     return `width: ${width}px;height: ${width}px;font-size: ${fontSize}rem;`;
   }
 

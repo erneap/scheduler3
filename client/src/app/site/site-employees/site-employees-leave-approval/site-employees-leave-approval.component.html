@@ -7,9 +7,11 @@
     </div>
   </div>
   <div class="request">
-    <app-leave-request-editor [employee]="requestEmployee" [request]="request"
-      [width]="requestWidth" (changed)="employeeChanged($event)">
-    </app-leave-request-editor>
+    <app-employee-leave-request-editor [employee]="requestEmployee"
+      [request]="request" [width]="requestWidth" 
+      [height]="stateService.viewHeight - 70"
+      (changed)="employeeChanged($event)">
+    </app-employee-leave-request-editor>
   </div>
   <div class="available">
     <div class="availableLabel">

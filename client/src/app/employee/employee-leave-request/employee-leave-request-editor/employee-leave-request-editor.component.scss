@@ -1,8 +1,36 @@
 .toplevel {
-  position: relative;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin: 0;
+  padding: 0;
+}
+
+.editor {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 100px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.legend {
+  position: absolute;
+  height: 99px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
   margin: 0;
   padding: 0;
@@ -14,4 +42,19 @@
   font-weight: bold;
   border: solid 1px white;
   text-align: center;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: solid 1px white;
+}
+
+.icon {
+  cursor: pointer;
 }

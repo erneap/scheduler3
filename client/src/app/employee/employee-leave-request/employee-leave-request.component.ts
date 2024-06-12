@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ListItem } from 'src/app/generic/button-list/listitem';
 import { Employee, IEmployee } from 'src/app/models/employees/employee';
 import { LeaveRequest } from 'src/app/models/employees/leave';
@@ -19,6 +20,18 @@ export class EmployeeLeaveRequestComponent {
   public set employee(emp: IEmployee) {
     this._employee = new Employee(emp);
     this.setRequests();
+    if (this.selected) {
+      let found = false;
+      this._employee.requests.forEach(req => {
+        if (this.selected && this.selected.id === req.id) {
+          found = true;
+          this.selected = new LeaveRequest(req);
+        }
+      });
+      if (!found) {
+        this.selected = undefined;
+      }
+    }
   }
   get employee(): Employee {
     return this._employee;
@@ -29,19 +42,23 @@ export class EmployeeLeaveRequestComponent {
 
   selected: LeaveRequest | undefined;
   requests: ListItem[] = [];
+  requestForm: FormGroup;
 
   constructor(
     protected authService: AuthService,
     protected empService: EmployeeService,
     protected appState: AppStateService,
-    protected dialogService: DialogService
+    protected dialogService: DialogService,
+    private fb: FormBuilder
   ) {
+    this.requestForm = this.fb.group({
+      request: '',
+    });
     const iEmp = this.empService.getEmployee();
     if (iEmp) {
       this.employee = new Employee(iEmp);
     }
-    this.width = this.appState.viewWidth - 270;
-    if (this.width > 700) this.width = 700;
+    this.width = this.appState.viewWidth;
     this.height = this.appState.viewHeight - 70;
   }
 
@@ -73,7 +90,55 @@ export class EmployeeLeaveRequestComponent {
     return 'item';
   }
 
+  mobileListStyle(): string {
+    let height = 20 * this.requests.length;
+    if (height > 60) height = 60;
+    return `height: ${height}px;`;
+  }
+
   onSelect(id: string) {
+    if (id === 'new' || id === '') {
+      let now = new Date();
+      now = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 
+        0, 0, 0, 0))
+      this.dialogService.showSpinner();
+      this.empService.addNewLeaveRequest(this.employee.id, now, now, 'V')
+      .subscribe({
+        next: (data: EmployeeResponse) => {
+          this.dialogService.closeSpinner();
+          if (data && data !== null) {
+            if (data.employee) {
+              this.employee = data.employee;
+              if (this.employee.requests) {
+                this.employee.requests.forEach(req => {
+                  if (req.startdate.getFullYear() === now.getFullYear() 
+                    && req.startdate.getMonth() === now.getMonth()
+                    && req.startdate.getDate() === now.getDate()
+                    && req.primarycode === 'V') {
+                    this.selected = new LeaveRequest(req);
+                  }
+                });
+              }
+            }
+          }
+          this.changed.emit(new Employee(this.employee));
+        },
+        error: (err: EmployeeResponse) => {
+          this.dialogService.closeSpinner();
+          this.authService.statusMessage = err.exception;
+        }
+      });
+    } else {
+      this.employee.requests.forEach(req => {
+        if (req.id === id) {
+          this.selected = new LeaveRequest(req);
+        }
+      });
+    }
+  }
+
+  onSelectMobile() {
+    const id = this.requestForm.value.request;
     if (id === 'new' || id === '') {
       let now = new Date();
       now = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 

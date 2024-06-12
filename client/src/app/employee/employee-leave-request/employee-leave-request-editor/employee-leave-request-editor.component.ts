@@ -14,6 +14,7 @@ import { TeamService } from 'src/app/services/team.service';
 import { EmployeeLeaveRequestEditorUnapproveComponent } from './employee-leave-request-editor-unapprove/employee-leave-request-editor-unapprove.component';
 import { EmployeeResponse } from 'src/app/models/web/employeeWeb';
 import { EmployeeLeaveRequestEditorMidDenialComponent } from './employee-leave-request-editor-mid-denial/employee-leave-request-editor-mid-denial.component';
+import { DeletionConfirmationComponent } from 'src/app/generic/deletion-confirmation/deletion-confirmation.component';
 
 @Component({
   selector: 'app-employee-leave-request-editor',
@@ -31,8 +32,23 @@ export class EmployeeLeaveRequestEditorComponent {
     return this._request;
   }
   @Input() approver: boolean = false;
-  @Input() width: number = 700;
-  @Input() height: number = 800;
+  private _width: number = 700;
+  @Input()
+  public set width(w: number) {
+    this._width = w;
+    if (this._width > 700) this._width = 700;
+  }
+  get width(): number {
+    return this._width;
+  }
+  private _height: number = 800;
+  @Input()
+  public set height(h: number) {
+    this._height = h;
+  }
+  get height(): number {
+    return this._height;
+  }
   @Input() employee: Employee = new Employee();
   @Output() changed = new EventEmitter<Employee>();
 
@@ -83,6 +99,8 @@ export class EmployeeLeaveRequestEditorComponent {
       this.editorForm.controls['start'].enable();
       this.editorForm.controls['end'].enable();
       this.editorForm.controls['primarycode'].enable();
+      this.editorForm.controls['comment'].setValue('');
+      this.editorForm.controls['comment'].enable();
       
       this.draft = (this.request.status.toLowerCase() === 'draft')
       const tEmp = this.authService.getUser();
@@ -109,14 +127,64 @@ export class EmployeeLeaveRequestEditorComponent {
       this.editorForm.controls['start'].disable();
       this.editorForm.controls['end'].disable();
       this.editorForm.controls['primarycode'].disable();
+      this.editorForm.controls['comment'].setValue('');
+      this.editorForm.controls['comment'].disable();
     }
   }
 
-  commentStyle(): string {
+  inputStyle(element: string): string {
+    let ratio = this.width / 700;
+    if (ratio > 1.0) ratio = 1.0;
+    let width = 700;
+    let fontSize = ratio;
+    switch (element.toLowerCase()) {
+      case "comment":
+        width = Math.floor(400 * ratio);
+        break;
+      case "buttons":
+        width = Math.floor(50 * ratio);
+        break;
+      case "button":
+        return `font-size: ${ratio * 1.6}rem;`;
+      default:
+        width = Math.floor(200 * ratio);
+        break;
+    }
+    return `width: ${width}px;font-size: ${ratio}rem;`;
+  }
+
+  commentsStyle(): string {
     let ratio = this.width / 700;
     if (ratio > 1.0) ratio = 1.0;
     const width = Math.floor(700 * ratio);
-    return `width: ${width}px;font-size: ${ratio}rem;`;
+    const fontSize = 0.9 * ratio;
+    let height = Math.floor(20 * ratio) * this.request.comments.length;
+    const availHeight = this.height - (this.viewHeight() + 200);
+    if (height > availHeight) {
+      height = availHeight - 10;
+    }
+    return `width: ${width}px;height: ${height}px;font-size: ${fontSize}rem;`;
+  }
+
+  datetimeString(dt: Date): string {
+    let answer = '';
+    if (dt.getMonth() < 9) {
+      answer += '0';
+    }
+    answer += `${dt.getMonth() + 1}/`;
+    if (dt.getDate() < 10) {
+      answer += '0';
+    }
+    answer += `${dt.getDate()}/${dt.getFullYear()} `;
+    if (dt.getHours() < 10) {
+      answer += '0';
+    }
+    answer += `${dt.getHours()}:`;
+    if (dt.getMinutes() < 10) {
+      answer += '0';
+    }
+    answer += `${dt.getMinutes()}Z`;
+    return answer;
   }
 
   processChange(field: string) {
@@ -156,6 +224,9 @@ export class EmployeeLeaveRequestEditorComponent {
           break;
         case "code":
           value = this.editorForm.value.primarycode;
+          break;
+        case "comment":
+          value = this.editorForm.value.comment;
           break;
       }
       if (conflict > this.maxMids) {
@@ -201,11 +272,51 @@ export class EmployeeLeaveRequestEditorComponent {
   }
 
   deleteRequest() {
+    const dialogRef = this.dialog.open(DeletionConfirmationComponent, {
+      width: '250px',
+      data: {
+        title: 'Confirm Leave Request Deletion',
+        message: 'Are you sure you want to delete this leave request?'
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.toLowerCase() === 'yes' && this.request) {
+        this.dialogService.showSpinner();
+        const reqid = this.request.id;
+        this.clearRequest();
+        if (reqid) {
+          this.request = undefined;
+          this.empService.deleteLeaveRequest(this.employee.id, reqid)
+          .subscribe({
+            next: (data: EmployeeResponse) => {
+              this.dialogService.closeSpinner();
+              if (data && data !== null) {
+                if (data.employee) {
+                  this.employee = new Employee(data.employee);
+                  this.employee.requests.forEach(req => {
+                    if (this.request && this.request.id === req.id) {
+                      this.request = new LeaveRequest(req)
+                    }
+                  });
+                }
+                this.setCurrent();
+              }
+              this.changed.emit(new Employee(this.employee));
+            },
+            error: (err: EmployeeResponse) => {
+              this.dialogService.closeSpinner();
+              this.authService.statusMessage = err.exception;
+            }
+          });
+        }
+      }
+    });
   }
 
   clearRequest() {
-
+    this.request = undefined;
+    this.setCurrent();
   }
 
   getCurrentLeaveRequestDate(): string {
@@ -425,14 +536,14 @@ export class EmployeeLeaveRequestEditorComponent {
   }
 
   viewHeight(): number {
-    let answer = this.height - 500;
+    let answer = this.height - 350;
     let days = Math.floor((this.request.enddate.getTime() 
       - this.request.startdate.getTime()) / (24 * 3600000)) + 1;
     let ratio = this.width / 700;
-    let weeks = Math.floor(days / 7) + 1;
+    let weeks = Math.ceil(days / 7);
     if (ratio > 1.0) ratio = 1.0;
     const cellWidth = Math.floor(100 * ratio);
-    const calendarHeight = ((cellWidth + 2) * weeks) + 20;
+    const calendarHeight = ((cellWidth + 2) * weeks);
     if (calendarHeight < answer) {
       answer = calendarHeight;
     }
