@@ -68,11 +68,11 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "scheduler-client:build:production"
+              "browserTarget": "scheduler-client:build:production"
             },
             "development": {
-              "proxyConfig": "proxy.conf.json",
-              "buildTarget": "scheduler-client:build:development"
+              "browserTarget": "scheduler-client:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
@@ -80,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "scheduler-client:build"
+            "browserTarget": "scheduler-client:build"
           }
         },
         "test": {
