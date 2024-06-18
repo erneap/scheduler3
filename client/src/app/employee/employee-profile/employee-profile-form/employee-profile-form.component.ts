@@ -383,6 +383,7 @@ export class EmployeeProfileFormComponent {
     const user = this.employee.user;
     if (user) {
       if ((this.authService.hasRole('scheduler') 
+        || this.authService.hasRole('siteleader')
         || this.authService.hasRole('teamleader'))
         && user.isLocked()) {
         return true;

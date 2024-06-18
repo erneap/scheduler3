@@ -15,11 +15,22 @@ import { EmployeeLeaveRequestEditorUnapproveComponent } from './employee-leave-r
 import { EmployeeResponse } from 'src/app/models/web/employeeWeb';
 import { EmployeeLeaveRequestEditorMidDenialComponent } from './employee-leave-request-editor-mid-denial/employee-leave-request-editor-mid-denial.component';
 import { DeletionConfirmationComponent } from 'src/app/generic/deletion-confirmation/deletion-confirmation.component';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
   selector: 'app-employee-leave-request-editor',
   templateUrl: './employee-leave-request-editor.component.html',
-  styleUrls: ['./employee-leave-request-editor.component.scss']
+  styleUrls: ['./employee-leave-request-editor.component.scss'],
+  providers: [
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true}},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+  ]
 })
 export class EmployeeLeaveRequestEditorComponent {
   private _request: LeaveRequest = new LeaveRequest();

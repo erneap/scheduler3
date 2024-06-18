@@ -1,0 +1,26 @@
+<div class="toplevel">
+  <div class="namesSection">
+    <div class="row">
+      <div class="nameLabel">NAME</div>
+      <div class="flexlayout column center">
+        <div class="expand" matTooltip="Expand/Contract All" (click)="setExpandAll()">
+          {{expandAllText}}
+        </div>
+        <div class="balanceLabel">BAL</div>
+      </div>
+    </div>
+    <div class="row" *ngFor="let emp of employees;let i = index">
+      <div [class]="getDataClass('name', i)" [style]="dataStyle('name')">
+        {{emp.name.getLastFirst()}}
+      </div>
+      <div [class]="getDataClass('bal', i)" [style]="dataStyle('bal')">
+        {{getTotalValue(emp)}}
+      </div>
+    </div>
+  </div>
+  <div class="monthsSection" [style]="viewStyle()">
+    <app-site-mod-report-view-chart-month *ngFor="let month of months"
+      [month]="month" [employees]="employees" (changed)="onChange($event)">
+    </app-site-mod-report-view-chart-month>
+  </div>
+</div>

@@ -5,18 +5,20 @@ import { SiteComponent } from './site.component';
 import { NewSiteComponent } from './new-site/new-site.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SiteModReportViewComponent } from './site-mod-report-view/site-mod-report-view.component';
-import { SiteModReportViewEmployeeComponent } from './site-mod-report-view/site-mod-report-view-employee/site-mod-report-view-employee.component';
 import { SiteScheduleModule } from './site-schedule/site-schedule.module';
 import { SiteEmployeesModule } from './site-employees/site-employees.module';
 import { SiteEditorModule } from './site-editor/site-editor.module';
 import { SiteIngestModule } from './site-ingest/site-ingest.module';
+import { SiteModReportViewChartComponent } from './site-mod-report-view/site-mod-report-view-chart/site-mod-report-view-chart.component';
+import { SiteModReportViewChartMonthComponent } from './site-mod-report-view/site-mod-report-view-chart/site-mod-report-view-chart-month/site-mod-report-view-chart-month.component';
 
 @NgModule({
   declarations: [
     SiteComponent,
     NewSiteComponent,
     SiteModReportViewComponent,
-    SiteModReportViewEmployeeComponent
+    SiteModReportViewChartComponent,
+    SiteModReportViewChartMonthComponent
   ],
   imports: [
     CommonModule,

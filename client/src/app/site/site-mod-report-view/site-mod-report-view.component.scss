@@ -1,14 +1,14 @@
 .toplevel {
   position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
   background-color: #673ab7;
   color: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
 }
 
@@ -65,4 +65,12 @@
 .prdbkg {
   background-color: darkgray;
   color: white;
+}
+
+.chartView {
+  position: absolute;
+  top: 60px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
 }
