@@ -37,6 +37,8 @@ export class SiteEmployeesLeaveComponent {
   get employee(): Employee {
     return this._employee;
   }
+  @Input() height: number = 800;
+  @Input() width: number = 800;
   @Output() changed = new EventEmitter<Employee>();
 
   year: number;

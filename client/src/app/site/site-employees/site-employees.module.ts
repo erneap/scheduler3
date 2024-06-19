@@ -10,7 +10,6 @@ import { SiteEmployeesAssignmentScheduleComponent } from './site-employees-assig
 import { SiteEmployeesAssignmentScheduleDayComponent } from './site-employees-assignment/site-employees-assignment-schedule-day/site-employees-assignment-schedule-day.component';
 import { EmployeeModule } from 'src/app/employee/employee.module';
 import { SiteEmployeesLeaveComponent } from './site-employees-leave/site-employees-leave.component';
-import { SiteEmployeesLeaveRowComponent } from './site-employees-leave/site-employees-leave-row/site-employees-leave-row.component';
 import { SiteEmployeesLeaveBalanceComponent } from './site-employees-leave-balance/site-employees-leave-balance.component';
 import { SiteEmployeesLeaveBalanceDialogComponent } from './site-employees-leave-balance/site-employees-leave-balance-dialog/site-employees-leave-balance-dialog.component';
 import { SiteEmployeesLeaveBalanceYearComponent } from './site-employees-leave-balance/site-employees-leave-balance-year/site-employees-leave-balance-year.component';
@@ -22,6 +21,8 @@ import { SiteEmployeesLeaveApprovalAvailabilityComponent } from './site-employee
 import { SiteEmployeesLeaveApprovalAvailabilityDayComponent } from './site-employees-leave-approval/site-employees-leave-approval-availability-day/site-employees-leave-approval-availability-day.component';
 import { SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent } from './site-employees-leave-approval/site-employees-leave-approval-availability-day-shift/site-employees-leave-approval-availability-day-shift.component';
 import { EmployeeLeaveRequestModule } from 'src/app/employee/employee-leave-request/employee-leave-request.module';
+import { SiteEmployeesLeaveChartComponent } from './site-employees-leave/site-employees-leave-chart/site-employees-leave-chart.component';
+import { SiteEmployeesLeaveChartRowComponent } from './site-employees-leave/site-employees-leave-chart/site-employees-leave-chart-row/site-employees-leave-chart-row.component';
 
 
 @NgModule({
@@ -33,7 +34,6 @@ import { EmployeeLeaveRequestModule } from 'src/app/employee/employee-leave-requ
     SiteEmployeesAssignmentScheduleComponent,
     SiteEmployeesAssignmentScheduleDayComponent,
     SiteEmployeesLeaveComponent,
-    SiteEmployeesLeaveRowComponent,
     SiteEmployeesLeaveBalanceComponent,
     SiteEmployeesLeaveBalanceDialogComponent,
     SiteEmployeesLeaveBalanceYearComponent,
@@ -43,7 +43,9 @@ import { EmployeeLeaveRequestModule } from 'src/app/employee/employee-leave-requ
     SiteEmployeesLeaveApprovalComponent,
     SiteEmployeesLeaveApprovalAvailabilityComponent,
     SiteEmployeesLeaveApprovalAvailabilityDayComponent,
-    SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent
+    SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent,
+    SiteEmployeesLeaveChartComponent,
+    SiteEmployeesLeaveChartRowComponent
   ],
   imports: [
     CommonModule,

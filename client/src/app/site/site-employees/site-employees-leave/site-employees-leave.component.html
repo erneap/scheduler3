@@ -79,18 +79,8 @@
       </button>
     </div>
   </form>
-  <div class="flexlayout row center">
-    <div class="delete">&nbsp;</div>
-    <div class="date">Leave Date</div>
-    <div class="code">Leave Type</div>
-    <div class="hours">Hours</div>
-    <div class="status">Status</div>
-  </div>
-  <div class="leavebox">
-    <div class="flexlayout column center">
-      <app-site-employees-leave-row *ngFor="let ld of leaveDays"
-      [leaveday]="ld" [employee]="employee"
-      (changed)="updateEmployee($event)"></app-site-employees-leave-row>
-    </div>
-  </div>
+  <app-site-employees-leave-chart [employee]="employee" [width]="width"
+    [height]="height - 173" [leavecodes]="leaveCodes" [year]="year"
+    (changed)="updateEmployee($event)">
+  </app-site-employees-leave-chart>
 </div>

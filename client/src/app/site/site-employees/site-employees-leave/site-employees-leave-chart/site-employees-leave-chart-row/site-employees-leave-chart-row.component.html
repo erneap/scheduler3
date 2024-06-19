@@ -1,0 +1,41 @@
+<ng-container *ngIf="leave">
+  <form [formGroup]="leaveForm" class="flexlayout row topleft">
+    <div class="delete" [style]="fieldStyle('delete')">
+      <mat-icon class="deleteIcon">delete</mat-icon>
+    </div>
+    <div class="date" [style]="fieldStyle('date')">
+      <input matNativeControl formControlName="date" class="form-field"
+        (blur)="onUpdate('date')">
+    </div>
+    <div class="code" [style]="fieldStyle('code')">
+      <select formControlName="code" class="form-field"
+        (change)="onUpdate('code')">
+        <option *ngFor="let wc of leavecodes" [value]="wc.id">
+          {{wc.id.toUpperCase()}}
+        </option>
+      </select>
+    </div>
+    <div class="hours" [style]="fieldStyle('hours')">
+      <input matNativeControl type="number" formControlName="hours" step="0.1"
+        class="form-field" (blur)="onUpdate('hours')">
+    </div>
+    <div class="status" [style]="fieldStyle('status')">
+      <select formControlName="status" class="form-field"
+        (change)="onUpdate('status')">
+        <option style="color: black;" value="REQUESTED">Requested</option>
+        <option style="color: black;" value="APPROVED">Approved</option>
+        <option style="color: black;" value="ACTUAL">Actual</option>
+      </select>
+    </div>
+  </form>
+</ng-container>
+<ng-container *ngIf="!leave">
+  <div class="flexlayout row topleft">
+    <div class="delete" [style]="fieldStyle('delete')">&nbsp;</div>
+    <div class="date" [style]="fieldStyle('date')">Leave Date</div>
+    <div class="code" [style]="fieldStyle('code')">Leave Type</div>
+    <div class="hours" [style]="fieldStyle('hours')">Hours</div>
+    <div class="status" [style]="fieldStyle('status')">Status</div>
+  </div>
+</ng-container>
+

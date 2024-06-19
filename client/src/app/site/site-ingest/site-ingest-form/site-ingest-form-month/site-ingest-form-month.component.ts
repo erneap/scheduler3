@@ -104,6 +104,8 @@ export class SiteIngestFormMonthComponent {
           this.monthShown.getMonth(), 1, 0, 0, 0, 0));
       }
     }
+    this.dateForm.controls['month'].setValue(`${this.monthShown.getMonth()}`);
+    this.dateForm.controls['year'].setValue(this.monthShown.getFullYear());
     this.monthChanged.emit(new Date(this.monthShown));
     this.setEmployees();
     this.setMonth();

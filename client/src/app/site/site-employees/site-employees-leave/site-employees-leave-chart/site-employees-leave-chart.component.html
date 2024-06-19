@@ -1,0 +1,10 @@
+<div class="flexlayout column topleft">
+  <app-site-employees-leave-chart-row [width]="width">
+  </app-site-employees-leave-chart-row>
+  <div class="view" [style]="viewStyle()">
+    <app-site-employees-leave-chart-row *ngFor="let lv of leaves"
+      [employee]="employee" [leave]="lv" [width]="width" 
+      [leavecodes]="leavecodes"
+      (changed)="onChange($event)"></app-site-employees-leave-chart-row>
+  </div>
+</div>

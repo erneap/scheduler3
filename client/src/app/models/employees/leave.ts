@@ -127,13 +127,13 @@ export class LeaveRequest implements ILeaveRequest {
   comments: LeaveRequestComment[];
 
   constructor(lr?: ILeaveRequest) {
-    this.id = (lr) ? lr.id : '';
+    this.id = (lr) ? lr.id : 'new';
     this.employeeid = (lr) ? lr.employeeid : '';
     this.requestDate = (lr) ? new Date(lr.requestDate) : new Date();
     this.primarycode = (lr) ? lr.primarycode : 'V';
     this.startdate = (lr) ? new Date(lr.startdate) : new Date();
     this.enddate = (lr) ? new Date(lr.enddate) : new Date();
-    this.status = (lr) ? lr.status : 'REQUESTED';
+    this.status = (lr) ? lr.status : 'DRAFT';
     this.approvedby = (lr) ? lr.approvedby : '';
     this.approvalDate = (lr) ? new Date(lr.approvalDate) : new Date(0);
     this.requesteddays = [];

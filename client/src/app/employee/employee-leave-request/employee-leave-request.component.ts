@@ -77,13 +77,18 @@ export class EmployeeLeaveRequestComponent {
     });
   }
 
+  showEditor(): boolean {
+    return (this.selected !== undefined && this.selected.id !== 'new');
+  }
+
   getDateString(date: Date): string {
     return `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
   }
 
   itemClass(id: string): string {
     if (this.selected) {
-      if ((id === 'new' && this.selected.id === '') || (id === this.selected.id)) { 
+      if ((id === 'new' && (this.selected.id === '' 
+          || this.selected.id === 'new')) || (id === this.selected.id)) { 
         return 'item selected';
       }
     }

@@ -1,0 +1,9 @@
+.view {
+  background-color: transparent;
+  border: solid 1px white;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}

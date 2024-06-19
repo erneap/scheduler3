@@ -23,6 +23,7 @@
       </mat-tab>
       <mat-tab label="Leaves">
         <app-site-employees-leave [employee]="employee"
+        [width]="width" [height]="height"
         (changed)="changeEmployee($event)"></app-site-employees-leave>
       </mat-tab>
       <mat-tab label="Leave Balances">

@@ -74,24 +74,8 @@ export class SiteEmployeesLeaveBalanceComponent {
             this.authService.statusMessage = 'Leave balance created';
             if (data && data !== null) {
               if (data.employee) {
-                const site = this.siteService.getSite();
-                if (site && site.employees) {
-                  let found = false;
-                  for (let e=0; e < site.employees.length && !found; e++) {
-                    if (site.employees[e].id === data.employee.id) {
-                      found = true;
-                      site.employees[e] = new Employee(data.employee);
-                    }
-                  }
-                  this.siteService.setSite(site);
-                }
-                this.siteService.setSelectedEmployee(new Employee(data.employee));
-                const tEmp = this.empService.getEmployee();
-                if (tEmp) {
-                  if (tEmp.id === data.employee.id) {
-                    this.empService.setEmployee(new Employee(data.employee));
-                  }
-                }
+                this.employee = data.employee;
+                this.changed.emit(this.employee);
               }
             }
           },
