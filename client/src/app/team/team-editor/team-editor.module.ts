@@ -14,6 +14,7 @@ import { SiteModule } from 'src/app/site/site.module';
 import { TeamEditorSiteEditorNewSiteComponent } from './team-editor-site-editor/team-editor-site-editor-new-site/team-editor-site-editor-new-site.component';
 import { SiteEditorModule } from 'src/app/site/site-editor/site-editor.module';
 import { SiteEmployeesModule } from 'src/app/site/site-employees/site-employees.module';
+import { TeamEditorSitesComponent } from './team-editor-sites/team-editor-sites.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SiteEmployeesModule } from 'src/app/site/site-employees/site-employees.
     TeamEditorContacttypesComponent,
     TeamEditorSpecialtytypesComponent,
     TeamEditorSiteEditorComponent,
-    TeamEditorSiteEditorNewSiteComponent
+    TeamEditorSiteEditorNewSiteComponent,
+    TeamEditorSitesComponent
   ],
   imports: [
     CommonModule,

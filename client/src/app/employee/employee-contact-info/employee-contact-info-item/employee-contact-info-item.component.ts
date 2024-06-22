@@ -52,9 +52,10 @@ export class EmployeeContactInfoItemComponent {
   }
 
   contactStyle(): string {
-    let cWidth = this.width / 2;
-    const ratio = this.width / 650;
-    return `width: ${cWidth}px;font-size: ${ratio * 1.2}em;`
+    let ratio = this.width / 650;
+    if (ratio > 1.0) ratio = 1.0;
+    const cWidth = Math.floor(325 * ratio);
+    return `width: ${cWidth}px;font-size: ${ratio * 1.2}rem;`
   }
 
   setContactType() {

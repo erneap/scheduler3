@@ -85,37 +85,43 @@ export class EmployeeSpecialtiesComponent {
   }
 
   labelStyle(): string {
-    const ratio = this.width / 650;
-    let lWidth = Math.floor(352 * ratio);
-    let fontSize = Math.floor(18 * ratio);
-    return `width: ${lWidth}px;font-size: ${fontSize}pt;`;
+    let ratio = this.width / 650;
+    if (ratio > 1.0) ratio = 1.0
+    const lWidth = Math.floor(352 * ratio);
+    const fontSize = 1.3 * ratio;
+    return `width: ${lWidth}px;font-size: ${fontSize}rem;`;
   }
 
   listStyle(): string {
-    const ratio = this.width / 650;
+    let ratio = this.width / 650;
+    if (ratio > 1.0) ratio = 1.0;
     let lWidth = Math.floor(300 * ratio);
-    return `width: ${lWidth}px;height: ${this.height - 70}px;`;
+    let height = Math.floor((this.height - 150) * ratio);
+    return `width: ${lWidth}px;height: ${height}px;`;
   }
 
   itemStyle(): string {
-    const ratio = this.width / 650;
+    let ratio = this.width / 650;
+    if (ratio > 1.0) ratio = 1.0;
     let lWidth = Math.floor(283 * ratio);
     let lHeight = Math.floor(30 * ratio)
-    let fontSize = Math.floor(14 * ratio);
-    return `width: ${lWidth}px;font-size: ${fontSize}pt;`
+    let fontSize = 1.1 * ratio;
+    return `width: ${lWidth}px;font-size: ${fontSize}rem;`
       + `min-height: ${lHeight} !important`;
   }
 
   moveStyle(): string {
-    const ratio = this.width / 650;
+    let ratio = this.width / 650;
+    if (ratio > 1.0) ratio = 1.0;
     let lWidth = Math.floor(50 * ratio);
     let gap = Math.floor(20 * ratio);
     return `width: ${lWidth}px;gap: ${gap}px;`
-      + `height: ${this.height - 70}px;`;
+      + `height: ${this.height - 150}px;`;
   }
 
   iconStyle(): string {
-    const ratio = this.width / 650;
+    let ratio = this.width / 650;
+    if (ratio > 1.0) ratio = 1.0;
     let lWidth = Math.floor(30 * ratio);
     let fontSize = Math.floor(30 * ratio);
     return `width: ${lWidth}px;height: ${lWidth}px;font-size: ${fontSize}pt;`;

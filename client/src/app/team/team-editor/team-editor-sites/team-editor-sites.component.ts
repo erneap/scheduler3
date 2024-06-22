@@ -9,11 +9,11 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-team-editor-site-editor',
-  templateUrl: './team-editor-site-editor.component.html',
-  styleUrls: ['./team-editor-site-editor.component.scss']
+  selector: 'app-team-editor-sites',
+  templateUrl: './team-editor-sites.component.html',
+  styleUrl: './team-editor-sites.component.scss'
 })
-export class TeamEditorSiteEditorComponent {
+export class TeamEditorSitesComponent {
   private _team: Team = new Team();
   @Input()
   public set team(t: ITeam) {
@@ -54,6 +54,10 @@ export class TeamEditorSiteEditorComponent {
     });
   }
 
+  viewStyle(): string {
+    return `width: ${this.width}px;height: ${this.height}px;`;
+  }
+
   itemClass(id: string): string {
     if ((id.toLowerCase() === 'new' && (this.selected.id.toLowerCase() === '' 
       || this.selected.id.toLowerCase() === 'new')) 
@@ -88,10 +92,5 @@ export class TeamEditorSiteEditorComponent {
       }
     }
     this.changed.emit(this.team);
-  }
-
-  topLevelHeight(): string {
-    console.log(this.height);
-    return `${this.height}px;`;
   }
 }

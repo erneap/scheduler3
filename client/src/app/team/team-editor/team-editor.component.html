@@ -30,9 +30,12 @@
         </app-team-editor-specialtytypes>
       </mat-tab>
       <mat-tab label="Sites">
-        <app-team-editor-site-editor [team]="team" [width]="width" 
+        <!--<app-team-editor-site-editor [team]="team" [width]="width" 
           [height]="height" (changed)="onChange($event)">
-        </app-team-editor-site-editor>
+        </app-team-editor-site-editor>-->
+        <app-team-editor-sites [team]="team" [width]="width"
+          [height]="height" (changed)="onChange($event)">
+        </app-team-editor-sites>
       </mat-tab>
     </mat-tab-group>
   </div>

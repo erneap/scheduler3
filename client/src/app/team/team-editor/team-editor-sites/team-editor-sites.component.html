@@ -1,11 +1,11 @@
-<div class="toplevel">
+<div class="toplevel" [style]="viewStyle()">
   <div class="list">
     <div *ngFor="let item of sites" [class]="itemClass(item.id)"
       (click)="onSelect(item.id)">
       {{item.label}}
     </div>
   </div>
-  <!--<div class="view">
+  <div class="view">
     <app-team-editor-site-editor-new-site 
       *ngIf="selected.id === 'new' || selected.id === ''"
       [team]="team" [width]="width" (added)="onSiteChange($event)">
@@ -15,15 +15,15 @@
       *ngIf="selected.id !== 'new' && selected.id !== ''">
       <mat-tab label="Site Editor">
         <app-site-editor [team]="team" [site]="selected" [width]="width - 200"
+          [height]="height - 97"
           (changed)="onSiteChange($event)"></app-site-editor>
       </mat-tab>
       <mat-tab label="Site Employees">
         <app-site-employees [team]="team" [site]="selected" 
-          [width]="width - 200" [height]="height - 95" 
+          [width]="width - 200" [height]="height-45" 
           (siteChanged)="onSiteChange($event)">
         </app-site-employees>
       </mat-tab>
     </mat-tab-group>
-    View
-  </div>-->
+  </div>
 </div>

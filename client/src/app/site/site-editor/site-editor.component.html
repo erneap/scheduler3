@@ -21,12 +21,12 @@
   <mat-tab-group preserveContent="true" backgroundColor="accent" [style]="setViewStyle()">
     <mat-tab label="Workcenter Editor">
       <app-site-editor-workcenter [teamid]="team.id" [site]="site" 
-        [width]="width" [height]="height - 100" (changed)="siteChanged($event)">
+        [width]="width - 5" [height]="height - 105" (changed)="siteChanged($event)">
       </app-site-editor-workcenter>
     </mat-tab>
     <mat-tab label="Report Editor">
-      <app-site-editor-reports [team]="team" [site]="site" [width]="width - 20"
-        [height]="height - 100"
+      <app-site-editor-reports [team]="team" [site]="site" [width]="width - 25"
+        [height]="height - 105"
         (changed)="siteChanged($event)"></app-site-editor-reports>
     </mat-tab>
   </mat-tab-group>
