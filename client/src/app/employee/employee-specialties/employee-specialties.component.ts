@@ -68,6 +68,7 @@ export class EmployeeSpecialtiesComponent {
     } else {
       this.width = 650;
     }
+    this.height = this.appState.viewHeight - 200;
   }
 
   viewClass(): string {
