@@ -35,6 +35,8 @@ export class SiteEmployeesAssignmentComponent {
   @Input()
   public set employee(iEmp: IEmployee) {
     this._employee = new Employee(iEmp);
+    this._employee.assignments.sort((a,b) => b.compareTo(a));
+    this.assignment = new Assignment(this._employee.assignments[0]);
     this.setAssignments();
   }
   get employee(): Employee {

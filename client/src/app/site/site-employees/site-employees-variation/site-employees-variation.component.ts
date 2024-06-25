@@ -32,13 +32,20 @@ export class SiteEmployeesVariationComponent {
   @Input()
   public set employee(iEmp: IEmployee) {
     this._employee = new Employee(iEmp);
+    this.variation = new Variation();
+    this.variation.schedule.setScheduleDays(7);
     this.setVariationLists();
     if (!this.variation || this.variation.id === 0) {
-      this.variation = new Variation();
-      this.variation.schedule.setScheduleDays(7);
-      this.startDate = undefined;
-      this.schedule = new Schedule(this.variation.schedule);
-      this.setVariation();
+      if (this.variations.length > 0) {
+        this.variation = new Variation(this.variations[0]);
+        this.setVariation();
+      } else {
+        this.variation = new Variation();
+        this.variation.schedule.setScheduleDays(7);
+        this.startDate = undefined;
+        this.schedule = new Schedule(this.variation.schedule);
+        this.setVariation();
+      }
     }
   }
   get employee(): Employee {
@@ -145,6 +152,7 @@ export class SiteEmployeesVariationComponent {
   }
 
   setVariation() {
+    this.variationForm.controls['variation'].setValue(this.variation.id);
     this.variationForm.controls['start'].setValue(this.variation.startdate);
     this.variationForm.controls['end'].setValue(this.variation.enddate);
     this.variationForm.controls['mids'].setValue(this.variation.mids);
