@@ -5,7 +5,6 @@ import { MaterialModule } from '../material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeScheduleDayComponent } from './employee-schedule/employee-schedule-day/employee-schedule-day.component';
 import { EmployeeScheduleMonthComponent } from './employee-schedule/employee-schedule-month/employee-schedule-month.component';
-import { EmployeeHomeComponent } from './employee-home/employee-home.component';
 import { EmployeeProfileComponent } from './employee-profile/employee-profile.component';
 import { EmployeeProfileFormComponent } from './employee-profile/employee-profile-form/employee-profile-form.component';
 import { NotificationsComponent } from './notifications/notifications.component';
@@ -23,7 +22,6 @@ import { EmployeePTOHolidaysChartComponent } from './employee-ptoholidays/employ
     EmployeeScheduleComponent,
     EmployeeScheduleDayComponent,
     EmployeeScheduleMonthComponent,
-    EmployeeHomeComponent,
     EmployeeProfileComponent,
     EmployeeProfileFormComponent,
     NotificationsComponent,
