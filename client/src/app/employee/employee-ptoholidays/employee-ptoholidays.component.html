@@ -1,0 +1,13 @@
+<div class="toplevel">
+  <mat-card [style]="cardClass()">
+      <mat-card-header style="text-align: center;">
+          <mat-card-title>
+              <div class="mat-headline">Employee's PTO/Holidays</div>
+              </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="flexlayout column center">
+        <app-employee-ptoholidays-chart [width]="width">
+        </app-employee-ptoholidays-chart>
+      </mat-card-content>
+  </mat-card>
+</div>

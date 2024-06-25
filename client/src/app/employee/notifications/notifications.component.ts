@@ -110,9 +110,11 @@ export class NotificationsComponent {
             if (this.messages.length <= 0) {
               this.router.navigate(['/employee/schedule'])
             }
-            this.authService.statusMessage = "Acknowledgement Complete";
+            this.authService.statusMessage = `${this.messages.length}`;
           } else if (data && data.exception && data.exception !== '') {
             this.authService.statusMessage = data.exception;
+          } else {
+            this.router.navigate(['/employee/schedule']);
           }
           this.msgService.showAlerts = (this.messages.length > 0);
         },

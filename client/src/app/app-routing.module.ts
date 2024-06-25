@@ -18,6 +18,12 @@ import { SiteIngestComponent } from './site/site-ingest/site-ingest.component';
 import { TeamEditorComponent } from './team/team-editor/team-editor.component';
 import { AdminComponent } from './admin/admin.component';
 import { LogsComponent } from './logs/logs.component';
+import { EmployeeProfileComponent } from './employee/employee-profile/employee-profile.component';
+import { EmployeeScheduleComponent } from './employee/employee-schedule/employee-schedule.component';
+import { EmployeePtoholidaysComponent } from './employee/employee-ptoholidays/employee-ptoholidays.component';
+import { EmployeeLeaveRequestComponent } from './employee/employee-leave-request/employee-leave-request.component';
+import { EmployeeContactInfoComponent } from './employee/employee-contact-info/employee-contact-info.component';
+import { EmployeeSpecialtiesComponent } from './employee/employee-specialties/employee-specialties.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -25,8 +31,16 @@ const routes: Routes = [
   { path: 'reset/start', component: ForgotPasswordComponent },
   { path: 'reset/finish', component: ForgotPasswordResetComponent },
   { path: 'employee', 
-    loadChildren: () => import('./employee/employee.module')
-      .then(m => m.EmployeeModule) 
+    children: [
+      { path: '', redirectTo: '/employee/schedule', pathMatch: 'full'},
+      { path: 'profile', component: EmployeeProfileComponent },
+      { path: 'schedule', component: EmployeeScheduleComponent },
+      { path: 'ptoholidays', component: EmployeePtoholidaysComponent },
+      { path: 'leaverequest', component: EmployeeLeaveRequestComponent },
+      { path: "contacts", component: EmployeeContactInfoComponent },
+      { path: "specialties", component: EmployeeSpecialtiesComponent },
+      { path: '**', component: EmployeeScheduleComponent },
+    ]
   },
   { path: 'site', 
     children: [

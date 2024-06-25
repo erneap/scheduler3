@@ -1,0 +1,26 @@
+<div class="flexlayout column center">
+  <div class="label" [style]="getLabelStyle()">Holidays</div>
+  <div class="flexlayout row center">
+    <div class="code" [style]="getCodeStyle()">&nbsp;</div>
+    <div class="referenceDate" [style]="getReferenceStyle()">Ref Date</div>
+    <div class="dates" [style]="getDatesStyle()">
+      Date Taken <span style="color: #3399ff;">(Projected)</span>
+    </div>
+    <div class="actual" [style]="getHoursStyle()">Hours</div>
+  </div>
+  <app-employee-ptoholidays-chart-holidays-cell *ngFor="let hol of holidays" 
+    [year]="year" [holiday]="hol" [activecell]="isActive(hol)" [width]="width">
+  </app-employee-ptoholidays-chart-holidays-cell>
+  <div class="flexlayout row center">
+    <div class="code bottomlabel" [style]="getCodeStyle()">&nbsp;</div>
+    <div class="daysleft bottomlabel" [style]="getTotalsStyle()">Days Left</div>
+    <div class="hoursleft bottomlabel" [style]="getTotalsStyle()">Hours Left</div>
+    <div class="hourstaken bottomlabel" [style]="getTotalsStyle()">Hours Taken</div>
+  </div>
+  <div class="flexlayout row center">
+    <div class="code" [style]="getCodeStyle()">&nbsp;</div>
+    <div class="daysleftData" [style]="getTotalsStyle()">{{getHolidaysRemaining()}}</div>
+    <div class="hoursleftData" [style]="getTotalsStyle()">{{getHolidaysHoursRemaining()}}</div>
+    <div class="hourstakenData" [style]="getTotalsStyle()">{{getHolidayHoursTaken()}}</div>
+  </div>
+</div>
