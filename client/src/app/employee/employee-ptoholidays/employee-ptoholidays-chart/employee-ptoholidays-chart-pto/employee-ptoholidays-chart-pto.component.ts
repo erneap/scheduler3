@@ -11,7 +11,7 @@ import { SiteService } from 'src/app/services/site.service';
   styleUrl: './employee-ptoholidays-chart-pto.component.scss'
 })
 export class EmployeePTOHolidaysChartPTOComponent {
-  private _year: number = (new Date()).getFullYear();
+  private _year: number = (new Date()).getUTCFullYear();
   private _employee: Employee | undefined;
   @Input()
   public set year(yr: number) {
@@ -106,32 +106,29 @@ export class EmployeePTOHolidaysChartPTOComponent {
         emp.leaves.sort((a,b) => a.compareTo(b));
         emp.leaves.forEach(lv => {
           if (lv.code.toLowerCase() !== 'h' 
-          && lv.leavedate.getFullYear() === this.year) {
+          && lv.leavedate.getUTCFullYear() === this.year) {
             // first get the leave month for to display in:
             this.leaveMonths.forEach(lm => {
-              if (lm.month.getMonth() === lv.leavedate.getMonth()) {
+              if (lm.month.getUTCMonth() === lv.leavedate.getUTCMonth()) {
                 if (lm.leaveGroups.length > 0) {
-                  const lg = lm.leaveGroups[lm.leaveGroups.length - 1];
-                  lg.leaves.sort((a,b) => a.compareTo(b));
-                  const ld = lg.leaves[lg.leaves.length - 1];
-                  if (ld.code.toLowerCase() === lv.code.toLowerCase() 
-                    && ld.status.toLowerCase() === lv.status.toLowerCase() 
-                    && lv.leavedate.getDate() === ld.leavedate.getDate() + 1
-                    && lv.hours >= 8.0 && ld.hours >= 8.0) 
-                  {
-                    lg.addLeave(lv);
-                    lm.leaveGroups[lm.leaveGroups.length - 1] = lg;
-                  } else {
+                  let added = false;
+                  for (let g = 0; g < lm.leaveGroups.length && !added; g++) {
+                    const lg = lm.leaveGroups[g];
+                    if (lg.addToThisGroup(lv)) {
+                      lg.addLeave(lv);
+                      lm.leaveGroups[g] = lg;
+                      added = true;
+                    }
+                  }
+                  if (!added) {
                     const lg = new LeaveGroup();
                     lg.addLeave(lv);
                     lm.leaveGroups.push(lg);
-                    lm.leaveGroups.sort((a,b) => a.compareTo(b));
                   }
                 } else {
                   const lg = new LeaveGroup();
                   lg.addLeave(lv);
                   lm.leaveGroups.push(lg);
-                  lm.leaveGroups.sort((a,b) => a.compareTo(b));
                 }
               } 
             });
@@ -145,6 +142,7 @@ export class EmployeePTOHolidaysChartPTOComponent {
             }
           }
         });
+        this.leaveMonths
       }
 
       this.annual = 0.0;
@@ -169,7 +167,7 @@ export class EmployeePTOHolidaysChartPTOComponent {
           let total = lastBalance + lastCarry;
           emp.leaves.forEach(lv => {
             if (lv.code.toLowerCase() === 'v' 
-              && lv.leavedate.getFullYear() === lastYear) {
+              && lv.leavedate.getUTCFullYear() === lastYear) {
               total -= lv.hours;
             }
           });
@@ -185,7 +183,7 @@ export class EmployeePTOHolidaysChartPTOComponent {
     }
   }
 
-  getMonthStyle(): string {
+  getUTCMonthStyle(): string {
     let ratio = this.width / 455;
     if (ratio > 1.0) { ratio = 1.0; }
     const width = Math.floor(65 * ratio);
@@ -194,7 +192,7 @@ export class EmployeePTOHolidaysChartPTOComponent {
     return `width: ${width}px;height: ${height}px;font-size:${fontSize}rem;`;
   }
 
-  getDatesStyle(): string {
+  getUTCDatesStyle(): string {
     let ratio = this.width / 455;
     if (ratio > 1.0) { ratio = 1.0; }
     const width = Math.floor(260 * ratio);

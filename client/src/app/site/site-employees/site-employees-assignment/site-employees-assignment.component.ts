@@ -102,8 +102,8 @@ export class SiteEmployeesAssignmentComponent {
   setLaborCodes() {
     this.laborcodes = [];
     const now = new Date()
-    const start = new Date(now.getFullYear(), 0, 1);
-    const end = new Date(now.getFullYear() + 1, 11, 31);
+    const start = new Date(now.getUTCFullYear(), 0, 1);
+    const end = new Date(now.getUTCFullYear() + 1, 11, 31);
     if (this.site && this.site.forecasts) {
       this.site.forecasts.forEach(f => {
         if (f.endDate.getTime() >= start.getTime() && f.startDate.getTime() <= end.getTime()) {
@@ -213,24 +213,24 @@ export class SiteEmployeesAssignmentComponent {
     });
   }
 
-  getDateString(date: Date) {
-    if (date.getFullYear() !== 9999) {
-      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  getUTCDateString(date: Date) {
+    if (date.getUTCFullYear() !== 9999) {
+      return `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
     }
     return '';
   }
 
   getYearFirstDate(date: Date): string {
     date = new Date(date);
-    let answer =  `${date.getFullYear()}-`;
-    if (date.getMonth() + 1 < 10) {
+    let answer =  `${date.getUTCFullYear()}-`;
+    if (date.getUTCMonth() + 1 < 10) {
       answer += '0';
     }
-    answer += `${date.getMonth() + 1}-`;
-    if (date.getDate() < 10) {
+    answer += `${date.getUTCMonth() + 1}-`;
+    if (date.getUTCDate() < 10) {
       answer += '0';
     }
-    answer += `${date.getDate()}`;
+    answer += `${date.getUTCDate()}`;
     return answer;
   }
 
@@ -400,8 +400,8 @@ export class SiteEmployeesAssignmentComponent {
   addAssignment() {
     const wkctr = this.asgmtForm.value.workcenter;
     let start = new Date(this.asgmtForm.value.startdate);
-    start = new Date(Date.UTC(start.getFullYear(), start.getMonth(), 
-      start.getDate(), 0, 0, 0, 0))
+    start = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), 
+      start.getUTCDate(), 0, 0, 0, 0))
     let siteID = '';
     let empID = this.employee.id;
     const site = this.siteService.getSite();

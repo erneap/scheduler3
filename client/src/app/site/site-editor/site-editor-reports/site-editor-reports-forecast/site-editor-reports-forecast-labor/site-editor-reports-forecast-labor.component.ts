@@ -179,17 +179,17 @@ export class SiteEditorReportsForecastLaborComponent {
     return "width: 99%;background-color: white;";
   }
  
-  getDateString(date: Date): string {
+  getUTCDateString(date: Date): string {
     date = new Date(date);
-    let answer = `${date.getFullYear()}-`;
-    if (date.getMonth() < 9) {
+    let answer = `${date.getUTCFullYear()}-`;
+    if (date.getUTCMonth() < 9) {
       answer += '0';
     }
-    answer += `${date.getMonth() + 1}-`;
-    if (date.getDate() < 10) {
+    answer += `${date.getUTCMonth() + 1}-`;
+    if (date.getUTCDate() < 10) {
       answer += '0';
     }
-    answer += `${date.getDate()}`;
+    answer += `${date.getUTCDate()}`;
     return answer;
   }
 
@@ -206,8 +206,8 @@ export class SiteEditorReportsForecastLaborComponent {
       this.laborForm.value.slin, this.laborForm.value.wbs, 
       this.laborForm.value.location, mins,
       this.laborForm.value.hoursPerEmployee, this.laborForm.value.notAssignedName,
-      this.laborForm.value.exercise, this.getDateString(startDate), 
-      this.getDateString(endDate)).subscribe({
+      this.laborForm.value.exercise, this.getUTCDateString(startDate), 
+      this.getUTCDateString(endDate)).subscribe({
       next: (data: SiteResponse) => {
         this.dialogService.closeSpinner();
         if (data && data != null && data.site) {
@@ -253,7 +253,7 @@ export class SiteEditorReportsForecastLaborComponent {
         case "startdate":
         case "enddate":
           const tdate: Date = this.laborForm.controls[field].value
-          value = this.getDateString(tdate);
+          value = this.getUTCDateString(tdate);
           break;
         default:
           value = this.laborForm.controls[field].value;

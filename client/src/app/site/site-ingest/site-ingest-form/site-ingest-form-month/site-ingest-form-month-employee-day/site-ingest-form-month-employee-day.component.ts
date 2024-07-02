@@ -55,7 +55,7 @@ export class SiteIngestFormMonthEmployeeDayComponent {
     if (this.employee.id !== '') {
       return this.employee.getIngestValue(this.date);
     }
-    return `${this.date.getDate()}`;
+    return `${this.date.getUTCDate()}`;
   }
 
   dayStyle(): string {
@@ -69,7 +69,7 @@ export class SiteIngestFormMonthEmployeeDayComponent {
     let bkColor: string = "ffffff";
     let txColor: string = "000000";
     if (this.employee.id === '') {
-      if (this.date.getDay() === 0 || this.date.getDay() === 6) {
+      if (this.date.getUTCDay() === 0 || this.date.getUTCDay() === 6) {
         bkColor = "99ccff";
       }
     } else {
@@ -80,7 +80,7 @@ export class SiteIngestFormMonthEmployeeDayComponent {
         }
       });
       if (bkColor === 'ffffff') {
-        if (this.date.getDay() === 0 || this.date.getDay() === 6) {
+        if (this.date.getUTCDay() === 0 || this.date.getUTCDay() === 6) {
           if (this.employee.even) {
             bkColor = '3399ff';
           } else {
@@ -110,7 +110,7 @@ export class SiteIngestFormMonthEmployeeDayComponent {
     let bkColor: string = "ffffff";
     let txColor: string = "000000";
     if (this.employee.id === '') {
-      if (this.date.getDay() === 0 || this.date.getDay() === 6) {
+      if (this.date.getUTCDay() === 0 || this.date.getUTCDay() === 6) {
         bkColor = "99ccff";
       }
     } else {
@@ -121,7 +121,7 @@ export class SiteIngestFormMonthEmployeeDayComponent {
         }
       });
       if (bkColor === 'ffffff') {
-        if (this.date.getDay() === 0 || this.date.getDay() === 6) {
+        if (this.date.getUTCDay() === 0 || this.date.getUTCDay() === 6) {
           if (this.employee.even) {
             bkColor = '3399ff';
           } else {

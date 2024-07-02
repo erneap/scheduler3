@@ -28,7 +28,7 @@ export class LogsComponent {
     const now = new Date();
     this.logForm = this.fb.group({
       portion: ['leaverequest', [Validators.required]],
-      year: [now.getFullYear(), [Validators.required]],
+      year: [now.getUTCFullYear(), [Validators.required]],
     });
     this.setLogEntries();
   }

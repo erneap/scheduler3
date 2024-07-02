@@ -1,13 +1,13 @@
 <div class="column">
-  <div class="row label month" [style]="getMonthStyle()" (click)="expandMonth()">
-    {{getMonth()}}
+  <div class="row label month" [style]="getUTCMonthStyle()" (click)="expandMonth()">
+    {{getUTCMonth()}}
   </div>
   <div class="row">
     <div class="label month" style="width: 50px">Total</div>
     <ng-container *ngIf="month.expand">
       <div class="label week" *ngFor="let week of month.weeks"
         style="width: 50px;">
-        {{week.end.getMonth() + 1}}/{{week.end.getDate()}}
+        {{week.end.getUTCMonth() + 1}}/{{week.end.getUTCDate()}}
       </div>
     </ng-container>
   </div>

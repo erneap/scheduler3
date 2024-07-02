@@ -263,8 +263,8 @@ export class NewSiteEmployeesEditorComponent {
     this.employee.assignments[0].site = this.site.id;  
     this.employee.assignments[0].workcenter = this.employeeForm.value.workcenter;
     const start:Date = new Date(this.employeeForm.value.startdate);
-    this.employee.assignments[0].startDate = new Date(Date.UTC(start.getFullYear(),
-      start.getMonth(), start.getDate()));
+    this.employee.assignments[0].startDate = new Date(Date.UTC(start.getUTCFullYear(),
+      start.getUTCMonth(), start.getUTCDate()));
     this.employee.assignments[0].endDate = new Date(Date.UTC(9999, 11, 30));
     this.employee.assignments[0].schedules[0] = this.schedule;
     if (this.employee.assignments[0].laborcodes.length === 0) {
@@ -273,7 +273,7 @@ export class NewSiteEmployeesEditorComponent {
       this.employee.assignments[0].laborcodes[0] = laborcode;
     }
     const balance = new AnnualLeave({
-      year: (new Date()).getFullYear(),
+      year: (new Date()).getUTCFullYear(),
       annual: 120.0,
       carryover: 0.0
     });

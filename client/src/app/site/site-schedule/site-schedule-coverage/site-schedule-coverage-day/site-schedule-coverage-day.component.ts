@@ -96,14 +96,14 @@ export class SiteScheduleCoverageDayComponent {
     const weekdays = new Array("Su", "Mo", "Tu", "We", "Th", "Fr", "Sa");
     if (this.viewtype === 'label' || this.viewtype === 'day' ) {
       if (this.viewtype === 'label') {
-        return `${this.date.getDate()}`;
+        return `${this.date.getUTCDate()}`;
       } 
-      return weekdays[this.date.getDay()];
+      return weekdays[this.date.getUTCDay()];
     }
     return `${this.coverage}`;
   }
 
-  getDateStyle(): string {
+  getUTCDateStyle(): string {
     const ratio = this.width / 25;
     const fontSize = (this.width <= 15) ? 9 : Math.floor(12 * ratio);
     let bkColor: string = "ffffff";
@@ -113,7 +113,7 @@ export class SiteScheduleCoverageDayComponent {
       bkColor = "ff8080";
     }
     if (bkColor === 'ffffff') {
-      if (this.date.getDay() === 0 || this.date.getDay() === 6) {
+      if (this.date.getUTCDay() === 0 || this.date.getUTCDay() === 6) {
         if (this.viewtype === 'even') {
           bkColor = '3399ff';
         } else {

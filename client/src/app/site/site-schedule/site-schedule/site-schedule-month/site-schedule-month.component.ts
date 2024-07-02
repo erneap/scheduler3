@@ -48,10 +48,11 @@ export class SiteScheduleMonthComponent {
     private fb: FormBuilder
   ) {
     this.month = new Date();
-    this.month = new Date(this.month.getFullYear(), this.month.getMonth(), 1);
+    this.month = new Date(Date.UTC(this.month.getUTCFullYear(), 
+      this.month.getUTCMonth(), 1));
     this.monthForm = this.fb.group({
-      month: this.month.getMonth(),
-      year: this.month.getFullYear(),
+      month: this.month.getUTCMonth(),
+      year: this.month.getUTCFullYear(),
     })
     this.expanded = this.siteService.getExpanded();
     const iSite = this.siteService.getSite();
@@ -73,9 +74,9 @@ export class SiteScheduleMonthComponent {
   }
 
   setStyles(): void {
-    let end = new Date(this.month.getFullYear(), this.month.getMonth() + 1, 1);
+    let end = new Date(this.month.getUTCFullYear(), this.month.getUTCMonth() + 1, 1);
     end = new Date(end.getTime() - (24 * 3600000));
-    let maxWidth = (end.getDate() * 27) + 252 + 40;
+    let maxWidth = (end.getUTCDate() * 27) + 252 + 40;
     let width = (this.appState.viewWidth < maxWidth) 
       ? this.appState.viewWidth - 20 : maxWidth;
     const ratio = width / (maxWidth - 40);
@@ -143,7 +144,7 @@ export class SiteScheduleMonthComponent {
     return true;
   }
 
-  getDateStyle(dt: Date): string {
+  getUTCDateStyle(dt: Date): string {
     if (dt.getUTCDay() === 0 || dt.getUTCDay() === 6) {
       return 'background-color: cyan;color: black;';
     }
@@ -153,23 +154,23 @@ export class SiteScheduleMonthComponent {
   changeMonth(direction: string, period: string) {
     if (direction.toLowerCase() === 'up') {
       if (period.toLowerCase() === 'month') {
-        this.month = new Date(this.month.getFullYear(), 
-          this.month.getMonth() + 1, 1);
+        this.month = new Date(Date.UTC(this.month.getUTCFullYear(), 
+          this.month.getUTCMonth() + 1, 1));
       } else if (period.toLowerCase() === 'year') {
-        this.month = new Date(this.month.getFullYear() + 1, 
-        this.month.getMonth(), 1);
+        this.month = new Date(Date.UTC(this.month.getUTCFullYear() + 1, 
+        this.month.getUTCMonth(), 1));
       }
     } else {
       if (period.toLowerCase() === 'month') {
-        this.month = new Date(this.month.getFullYear(), 
-          this.month.getMonth() - 1, 1);
+        this.month = new Date(Date.UTC(this.month.getUTCFullYear(), 
+          this.month.getUTCMonth() - 1, 1));
       } else if (period.toLowerCase() === 'year') {
-        this.month = new Date(this.month.getFullYear() - 1, 
-        this.month.getMonth(), 1);
+        this.month = new Date(Date.UTC(this.month.getUTCFullYear() - 1, 
+        this.month.getUTCMonth(), 1));
       }
     }
-    this.monthForm.controls["month"].setValue(this.month.getMonth());
-    this.monthForm.controls["year"].setValue(this.month.getFullYear());
+    this.monthForm.controls["month"].setValue(this.month.getUTCMonth());
+    this.monthForm.controls["year"].setValue(this.month.getUTCFullYear());
     this.setStyles();
   }
 

@@ -55,14 +55,14 @@ export class SiteEmployeesLeaveApprovalComponent {
     this.setRequests();
   }
 
-  getDateString(dt: Date): string {
-    return `${dt.getMonth() + 1}/${dt.getDate()}/${dt.getFullYear()}`;
+  getUTCDateString(dt: Date): string {
+    return `${dt.getUTCMonth() + 1}/${dt.getUTCDate()}/${dt.getUTCFullYear()}`;
   }
 
   setRequests() {
     this.requests = [];
     let now = new Date();
-    now = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+    now = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
     const iUser = this.authService.getUser();
     if (iUser && this.site.employees) {
       this.site.employees.forEach(emp => {
@@ -74,8 +74,8 @@ export class SiteEmployeesLeaveApprovalComponent {
               && req.status.toLowerCase() === 'requested') {
                 let id = `${emp.id}|${req.id}`;
                 let label = `${emp.name.last}: `
-                  + `${this.getDateString(req.startdate)} - `
-                  + `${this.getDateString(req.enddate)} (`
+                  + `${this.getUTCDateString(req.startdate)} - `
+                  + `${this.getUTCDateString(req.enddate)} (`
                   + `${req.primarycode.toUpperCase()})`;
                 this.requests.push(new ListItem(id, label));
               }
@@ -107,8 +107,10 @@ export class SiteEmployeesLeaveApprovalComponent {
                 this.requestEmployee = new Employee(emp);
                 this.request = new LeaveRequest(req);
                 let testDate = new Date(this.request.startdate);
+                const endDate = new Date(this.request.startdate.getTime() 
+                  + (7 * 24 * 3600000));
                 while (this.workcenter === '' 
-                  && testDate.getTime() <= this.request.enddate.getTime()) {
+                  && testDate.getTime() <= endDate.getTime()) {
                   const wd = this.requestEmployee.getWorkdayWOLeaves(
                     this.site.id, testDate);
                   this.workcenter = wd.workcenter;

@@ -65,12 +65,12 @@ export class SiteIngestFormMonthComponent {
     private fb: FormBuilder
   ) {
     const now = new Date();
-    this.monthShown = new Date(Date.UTC(now.getFullYear(), now.getMonth(),
+    this.monthShown = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(),
       1, 0, 0, 0, 0));
       this.monthChanged.emit(new Date(this.monthShown));
     this.dateForm = this.fb.group({
-      month: `${now.getMonth()}`,
-      year: now.getFullYear(),
+      month: `${now.getUTCMonth()}`,
+      year: now.getUTCFullYear(),
     });
     this.setEmployees();
     this.setMonth();
@@ -88,24 +88,24 @@ export class SiteIngestFormMonthComponent {
   changeMonth(size: string, direction: string) {
     if (size.toLowerCase() === 'month') {
       if (direction.toLowerCase() === 'up' || direction.toLowerCase() === 'add') {
-        this.monthShown = new Date(Date.UTC(this.monthShown.getFullYear(),
-          this.monthShown.getMonth() + 1, 1, 0, 0, 0, 0));
+        this.monthShown = new Date(Date.UTC(this.monthShown.getUTCFullYear(),
+          this.monthShown.getUTCMonth() + 1, 1, 0, 0, 0, 0));
       } else {
-        this.monthShown = new Date(Date.UTC(this.monthShown.getFullYear(),
-          this.monthShown.getMonth() - 1, 1, 0, 0, 0, 0));
+        this.monthShown = new Date(Date.UTC(this.monthShown.getUTCFullYear(),
+          this.monthShown.getUTCMonth() - 1, 1, 0, 0, 0, 0));
       }
     } else {
       // other value is year
       if (direction.toLowerCase() === 'up' || direction.toLowerCase() === 'add') {
-        this.monthShown = new Date(Date.UTC(this.monthShown.getFullYear() + 1,
-          this.monthShown.getMonth(), 1, 0, 0, 0, 0));
+        this.monthShown = new Date(Date.UTC(this.monthShown.getUTCFullYear() + 1,
+          this.monthShown.getUTCMonth(), 1, 0, 0, 0, 0));
       } else {
-        this.monthShown = new Date(Date.UTC(this.monthShown.getFullYear() - 1,
-          this.monthShown.getMonth(), 1, 0, 0, 0, 0));
+        this.monthShown = new Date(Date.UTC(this.monthShown.getUTCFullYear() - 1,
+          this.monthShown.getUTCMonth(), 1, 0, 0, 0, 0));
       }
     }
-    this.dateForm.controls['month'].setValue(`${this.monthShown.getMonth()}`);
-    this.dateForm.controls['year'].setValue(this.monthShown.getFullYear());
+    this.dateForm.controls['month'].setValue(`${this.monthShown.getUTCMonth()}`);
+    this.dateForm.controls['year'].setValue(this.monthShown.getUTCFullYear());
     this.monthChanged.emit(new Date(this.monthShown));
     this.setEmployees();
     this.setMonth();
@@ -150,7 +150,7 @@ export class SiteIngestFormMonthComponent {
   setMonth() {
     this.dates = [];
     let start = new Date(this.monthShown);
-    const end = new Date(Date.UTC(start.getFullYear(), start.getMonth() + 1, 1, 
+    const end = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + 1, 1, 
       0, 0, 0, 0));
     while (start.getTime() < end.getTime()) {
       this.dates.push(new Date(start));
@@ -204,8 +204,8 @@ export class SiteIngestFormMonthComponent {
     this.employees = [];
     let count = 0;
     if (this.site.employees) {
-      const end = new Date(Date.UTC(this.monthShown.getFullYear(), 
-        this.monthShown.getMonth() + 1, 1, 0, 0, 0, 0));
+      const end = new Date(Date.UTC(this.monthShown.getUTCFullYear(), 
+        this.monthShown.getUTCMonth() + 1, 1, 0, 0, 0, 0));
       this.site.employees.forEach(emp => {
         if (emp.companyinfo.company.toLowerCase() 
           === this.company.id.toLowerCase()) {

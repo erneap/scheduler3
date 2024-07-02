@@ -63,11 +63,11 @@ export class SiteModReportViewChartComponent {
         });
       }
     }
-    while (this.start.getDay() !== 6) {
+    while (this.start.getUTCDay() !== 6) {
       this.start = new Date(this.start.getTime() - (24 * 3600000));
     }
     let start = new Date(this.start);
-    while (start.getDay() != 5) {
+    while (start.getUTCDay() != 5) {
       start = new Date(start.getTime() + (24 * 3600000));
     }
     this.months = [];
@@ -75,11 +75,11 @@ export class SiteModReportViewChartComponent {
     while (start.getTime() <= this.end.getTime() 
       && start.getTime() <= now.getTime()) {
       if (!period || period.month.getTime() < this.start.getTime() 
-        || period.month.getMonth() !== start.getMonth()) {
+        || period.month.getUTCMonth() !== start.getUTCMonth()) {
         period = new MonthPeriod();
         period.month = new Date(start);
-        period.expand = (start.getMonth() === now.getMonth() 
-          && start.getFullYear() === now.getFullYear());
+        period.expand = (start.getUTCMonth() === now.getUTCMonth() 
+          && start.getUTCFullYear() === now.getUTCFullYear());
         this.months.push(period);
       }
       const week = new WeekPeriod();
@@ -113,10 +113,10 @@ export class SiteModReportViewChartComponent {
     return answer;
   }
 
-  getMonth(date: Date): string {
+  getUTCMonth(date: Date): string {
     date = new Date(date);
-    let answer = `${date.getMonth() + 1}/`;
-    const year = `${date.getFullYear()}`;
+    let answer = `${date.getUTCMonth() + 1}/`;
+    const year = `${date.getUTCFullYear()}`;
     answer += year.substring(2);
     return answer;
   }
@@ -145,8 +145,8 @@ export class SiteModReportViewChartComponent {
     } else {
       const now = new Date();
       this.months.forEach(month => {
-        if (now.getFullYear() === month.month.getFullYear() 
-          && now.getMonth() === month.month.getMonth()) {
+        if (now.getUTCFullYear() === month.month.getUTCFullYear() 
+          && now.getUTCMonth() === month.month.getUTCMonth()) {
           month.expand = true;
         } else {
           month.expand = false;

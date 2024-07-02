@@ -61,6 +61,13 @@ export class LeaveDay implements ILeaveDay {
     }
     return -1;
   }
+
+  useLeave(date: Date): boolean {
+    const lv = new Date(date);
+    return (lv.getUTCFullYear() === this.leavedate.getUTCFullYear()
+      && lv.getUTCMonth() === this.leavedate.getUTCMonth()
+      && lv.getUTCDate() === this.leavedate.getUTCDate());
+  }
 }
 
 export interface ILeaveRequestComment {
@@ -84,17 +91,17 @@ export class LeaveRequestComment implements ILeaveRequestComment {
     return -1;
   }
 
-  getDate(): string {
+  getUTCDate(): string {
     const months: string[] = new Array("Jan", "Feb", "Mar",
       "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
       "Dec");
     let answer = '';
-    if (this.commentdate.getDate() < 9) {
+    if (this.commentdate.getUTCDate() < 9) {
       answer += "0";
     }
-    answer += `${this.commentdate.getDate()} ` 
-      + `${months[this.commentdate.getMonth()]} `
-      + `${this.commentdate.getFullYear()}`;
+    answer += `${this.commentdate.getUTCDate()} ` 
+      + `${months[this.commentdate.getUTCMonth()]} `
+      + `${this.commentdate.getUTCFullYear()}`;
     return answer;
   }
 }
@@ -214,20 +221,37 @@ export class LeaveGroup {
 
   getLastDate(): number {
     if (this.leaves.length > 0) {
-      return this.leaves[this.leaves.length - 1].leavedate.getDate();
+      this.leaves.sort((a,b) => a.compareTo(b));
+      return this.leaves[this.leaves.length - 1].leavedate.getUTCDate();
     }
     return 0;
   }
 
   getFirstDate(): number {
     if (this.leaves.length > 0) {
-      return this.leaves[0].leavedate.getDate();
+      this.leaves.sort((a,b) => a.compareTo(b));
+      return this.leaves[0].leavedate.getUTCDate();
     }
     return 0;
   }
 
   addLeave(lv: ILeaveDay) {
     this.leaves.push(new LeaveDay(lv));
+  }
+
+  addToThisGroup(olv: ILeaveDay): boolean {
+    const lv = new LeaveDay(olv);
+    let add = false;
+    for (let i=0; i < this.leaves.length && !add; i++) {
+      const ld = this.leaves[i];
+      if (ld.code.toLowerCase() === lv.code.toLowerCase() 
+        && ld.status.toLowerCase() === lv.status.toLowerCase() 
+        && lv.leavedate.getUTCDate() === ld.leavedate.getUTCDate() + 1
+        && lv.hours >= 8.0 && ld.hours >= 8.0) {
+        add = true;
+      }
+    }
+    return add;
   }
 
   compareTo(other?: LeaveGroup): number {

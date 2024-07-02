@@ -13,15 +13,15 @@ export class AdminService {
   ) { }
 
   purgeData(date: Date): Observable<TeamsResponse> {
-    let sDate = `${date.getFullYear()}`;
-    if (date.getMonth() < 9) {
+    let sDate = `${date.getUTCFullYear()}`;
+    if (date.getUTCMonth() < 9) {
       sDate += "0";
     }
-    sDate += `${date.getMonth() + 1}`;
-    if (date.getDate() < 10) {
+    sDate += `${date.getUTCMonth() + 1}`;
+    if (date.getUTCDate() < 10) {
       sDate += '0';
     }
-    sDate += `${date.getDate()}`;
+    sDate += `${date.getUTCDate()}`;
     const url = `/scheduler/api/v2/admin/purge/${sDate}`;
     return this.http.delete<TeamsResponse>(url);
   }

@@ -80,7 +80,7 @@ export class SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent {
     this.coverage = 0;
     this.minimums = 0;
     if (this.viewtype.toLowerCase() === 'day') {
-      this.coverage = this.date.getDate();
+      this.coverage = this.date.getUTCDate();
       return;
     }
     else if (this.site.id !== '' && this.workcenterid !== '' 
@@ -157,7 +157,7 @@ export class SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent {
     let bkColor = "ffffff";
     let txColor = '000000';
     if (this.viewtype.toLowerCase() === 'day') {
-      if (this.date.getDay() === 0 || this.date.getDay() === 6) {
+      if (this.date.getUTCDay() === 0 || this.date.getUTCDay() === 6) {
         bkColor = '0000ff';
         txColor = 'ffffff';
       } else {
@@ -169,7 +169,7 @@ export class SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent {
         bkColor = 'ff8080';
         txColor = '000000';
       } else {
-        if (this.date.getDay() === 0 || this.date.getDay() === 6) {
+        if (this.date.getUTCDay() === 0 || this.date.getUTCDay() === 6) {
           if (this.viewtype === 'even') {
             bkColor = '3399ff';
           } else {

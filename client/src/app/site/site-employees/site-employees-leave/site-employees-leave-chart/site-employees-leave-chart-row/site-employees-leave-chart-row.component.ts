@@ -58,14 +58,14 @@ export class SiteEmployeesLeaveChartRowComponent {
 
   dateString(dt: Date): string {
     let value = '';
-    if (dt.getMonth() < 9) {
+    if (dt.getUTCMonth() < 9) {
       value += '0';
     }
-    value += `${dt.getMonth() + 1}/`;
-    if (dt.getDate() < 10) {
+    value += `${dt.getUTCMonth() + 1}/`;
+    if (dt.getUTCDate() < 10) {
       value += '0';
     }
-    value += `${dt.getDate()}/${dt.getFullYear()}`;
+    value += `${dt.getUTCDate()}/${dt.getUTCFullYear()}`;
     return value;
   }
 

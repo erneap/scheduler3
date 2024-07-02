@@ -19,7 +19,8 @@ export class WorkWeek {
     if (date) {
       wDay.date = new Date(date);
     }
-    const id = wDay.id % 7;
+    const id = (wDay.date) ? wDay.date.getUTCDay() : wDay.id;
+    wDay.id = id;
     this.week[id] = wDay;
     this.week = this.week.sort((a,b) => a.compareTo(b));
   }

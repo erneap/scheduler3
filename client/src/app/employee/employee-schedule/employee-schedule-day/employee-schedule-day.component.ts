@@ -36,13 +36,13 @@ export class EmployeeScheduleDayComponent {
     protected teamService: TeamService,
   ) { }
 
-  getDateClass() : string {
+  getUTCDateClass() : string {
     const today = new Date();
     let classes = 'dayOfMonth ';
     if (this.workday && this.workday.date) {
-      if (today.getFullYear() === this.workday.date.getUTCFullYear() 
-        && today.getMonth() === this.workday.date.getUTCMonth()
-        && today.getDate() === this.workday.date.getUTCDate()) {
+      if (today.getUTCFullYear() === this.workday.date.getUTCFullYear() 
+        && today.getUTCMonth() === this.workday.date.getUTCMonth()
+        && today.getUTCDate() === this.workday.date.getUTCDate()) {
         classes += "today";
       } else if (this.workday.date.getUTCDay() === 0 
         || this.workday.date.getUTCDay() === 6) {
@@ -56,7 +56,7 @@ export class EmployeeScheduleDayComponent {
     return classes;
   }
 
-  getDateStyles(): string {
+  getUTCDateStyles(): string {
     if (this.width > 100) {
       this.width = 100;
     }
@@ -83,14 +83,14 @@ export class EmployeeScheduleDayComponent {
             bkColor = wc.backcolor;
             txColor = wc.textcolor;
             if (wc.backcolor.toLowerCase() === 'ffffff' 
-              && this.workday.date?.getMonth() !== this.month.getMonth())  {
+              && this.workday.date?.getUTCMonth() !== this.month.getUTCMonth())  {
               bkColor = 'C0C0C0';
               txColor = '000000';
             }
           }
         }
       }
-    } else if (this.workday?.date?.getMonth() !== this.month.getMonth()) {
+    } else if (this.workday?.date?.getUTCMonth() !== this.month.getUTCMonth()) {
       bkColor = 'C0C0C0';
       txColor = '000000';
     } else {

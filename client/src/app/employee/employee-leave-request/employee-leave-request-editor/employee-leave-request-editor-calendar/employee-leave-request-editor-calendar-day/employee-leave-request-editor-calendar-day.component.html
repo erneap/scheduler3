@@ -1,6 +1,6 @@
 <div class="day" [style]="dayStyle()">
   <div class="dayOfMonth" [style]="dayOfWeekStyle()">
-    {{leaveday.leavedate.getDate()}}
+    {{leaveday.leavedate.getUTCDate()}}
   </div>
   <form [formGroup]="dayForm" class="flexlayout column center">
     <select matNativeControl formControlName="code" [style]="getCodeStyle()"

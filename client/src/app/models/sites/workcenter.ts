@@ -166,11 +166,11 @@ export class Workcenter implements IWorkcenter {
     if (!found) {
       if (!month) {
         month = new Date();
-        month = new Date(Date.UTC(month.getFullYear(), month.getMonth(), 1));
+        month = new Date(Date.UTC(month.getUTCFullYear(), month.getUTCMonth(), 1));
       }
       const shiftMap = new Map<string, number>();
-      let start = new Date(Date.UTC(month.getFullYear(), month.getMonth(), 1));
-      while (start.getMonth() === month.getMonth()) {
+      let start = new Date(Date.UTC(month.getUTCFullYear(), month.getUTCMonth(), 1));
+      while (start.getUTCMonth() === month.getUTCMonth()) {
         const wd = emp.getWorkdayWOLeaves(emp.site, start);
         if (this.shifts && this.shifts.length > 0) {
           this.shifts.forEach(sft => {

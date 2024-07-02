@@ -45,10 +45,10 @@ export class SiteScheduleCoverageWorkcenterComponent {
 
   setMonth() {
     this.monthDays = [];
-    let start = new Date(Date.UTC(this.month.getFullYear(), 
-      this.month.getMonth(), 1));
-    const end = new Date(Date.UTC(this.month.getFullYear(), 
-      this.month.getMonth() + 1, 1));
+    let start = new Date(Date.UTC(this.month.getUTCFullYear(), 
+      this.month.getUTCMonth(), 1));
+    const end = new Date(Date.UTC(this.month.getUTCFullYear(), 
+      this.month.getUTCMonth() + 1, 1));
     while (start.getTime() < end.getTime()) {
       this.monthDays.push(new Date(start));
       start = new Date(start.getTime() + (24 * 3600000));

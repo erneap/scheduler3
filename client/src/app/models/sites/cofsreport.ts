@@ -120,12 +120,12 @@ export class CofSReport implements ICofSReport {
   }
 
   reportPeriod(): string {
-    const start = `${this.startdate.getMonth() + 1}/`
-      + `${this.startdate.getDate()}/`
-      + `${this.startdate.getFullYear()}`;
-    const end = `${this.enddate.getMonth() + 1}/`
-      + `${this.enddate.getDate()}/`
-      + `${this.enddate.getFullYear()}`;
+    const start = `${this.startdate.getUTCMonth() + 1}/`
+      + `${this.startdate.getUTCDate()}/`
+      + `${this.startdate.getUTCFullYear()}`;
+    const end = `${this.enddate.getUTCMonth() + 1}/`
+      + `${this.enddate.getUTCDate()}/`
+      + `${this.enddate.getUTCFullYear()}`;
     return start + " - " + end;
   }
 }

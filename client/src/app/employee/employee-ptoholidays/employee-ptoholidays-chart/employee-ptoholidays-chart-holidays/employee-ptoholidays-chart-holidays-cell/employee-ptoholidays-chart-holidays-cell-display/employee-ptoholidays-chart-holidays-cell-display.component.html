@@ -1,11 +1,11 @@
 <ng-container *ngIf="holiday.hours < 8.0">
   <span [style]="spanStyle">
-    {{getDateDisplay()}}<sup>({{holiday.hours.toFixed(1)}})</sup>
+    {{getUTCDateDisplay()}}<sup>({{holiday.hours.toFixed(1)}})</sup>
   </span>
 </ng-container>
 <ng-container *ngIf="holiday.hours == 8.0">
   <span [style]="spanStyle">
-    {{getDateDisplay()}}
+    {{getUTCDateDisplay()}}
   </span>
 </ng-container>
 <ng-container *ngIf="comma">

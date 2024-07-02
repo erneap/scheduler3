@@ -14,7 +14,7 @@
             (click)="onAllCheckedClick()"
             ></mat-checkbox>
           </div>
-          <div class="date" [style]="getDateWidth()">DATE</div>
+          <div class="date" [style]="getUTCDateWidth()">DATE</div>
           <div class="message" [style]="getMsgWidth()">Message/Notice</div>
         </div>
         <app-notifications-message *ngFor="let msg of messages;let i = index"

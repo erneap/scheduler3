@@ -10,7 +10,7 @@ import { AppStateService } from 'src/app/services/app-state.service';
 })
 export class EmployeePTOHolidaysChartHolidaysCellComponent {
   private _holiday: CompanyHoliday = new CompanyHoliday(); 
-  private _year: number = (new Date()).getFullYear();
+  private _year: number = (new Date()).getUTCFullYear();
   @Input()
   public set holiday(hol: CompanyHoliday ) {
     this._holiday = hol;
@@ -80,8 +80,8 @@ export class EmployeePTOHolidaysChartHolidaysCellComponent {
     const months: string[] = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
     this.holiday.actualdates.forEach(dt => {
-      if (dt.getFullYear() === this.year) {
-        this.referenceDate = `${dt.getDate()} ${months[dt.getMonth()]}`;
+      if (dt.getUTCFullYear() === this.year) {
+        this.referenceDate = `${dt.getUTCDate()} ${months[dt.getUTCMonth()]}`;
       }
     })
   }
@@ -108,7 +108,7 @@ export class EmployeePTOHolidaysChartHolidaysCellComponent {
     return `width: ${width}px;height: ${height}px;font-size:${fontSize}rem;`;
   }
 
-  getDatesStyle(): string {
+  getUTCDatesStyle(): string {
     let ratio = this.width / 455;
     if (ratio > 1.0) { ratio = 1.0; }
     const width = Math.floor(249 * ratio);

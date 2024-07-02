@@ -1,7 +1,7 @@
 <div class="flexlayout row center" [style]="cellBackground">
   <div class="code" [style]="getCodeStyle()">{{getHolidayID()}}</div>
   <div class="referenceDate" [style]="getReferenceStyle()">{{referenceDate}}</div>
-  <div class="dates" [style]="getDatesStyle()">
+  <div class="dates" [style]="getUTCDatesStyle()">
     <app-employee-ptoholidays-chart-holidays-cell-display 
       *ngFor="let day of holiday.leaveDays" [holiday]="day">
     </app-employee-ptoholidays-chart-holidays-cell-display>

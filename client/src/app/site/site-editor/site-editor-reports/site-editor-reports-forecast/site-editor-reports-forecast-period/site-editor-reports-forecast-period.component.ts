@@ -77,7 +77,7 @@ export class SiteEditorReportsForecastPeriodComponent {
     if (this.report.periods) {
       this.report.periods.sort((a,b) => a.compareTo(b));
       this.report.periods.forEach(prd => {
-        const id = `${prd.month.getMonth() + 1}/${prd.month.getFullYear()}`;
+        const id = `${prd.month.getUTCMonth() + 1}/${prd.month.getUTCFullYear()}`;
         this.periodMap.set(id, prd);
         let label = '';
         if (prd.periods) {
@@ -85,7 +85,7 @@ export class SiteEditorReportsForecastPeriodComponent {
             if (label !== '') {
               label += ",";
             }
-            label += `${prds.getMonth() + 1}/${prds.getDate()}`;
+            label += `${prds.getUTCMonth() + 1}/${prds.getUTCDate()}`;
           });
         }
         label = `${id} - ${label}`;
@@ -98,32 +98,32 @@ export class SiteEditorReportsForecastPeriodComponent {
     this.selected = id;
   }
 
-  getDateString(date: Date): string {
-    let answer = `${date.getFullYear()}-`;
-    if (date.getMonth() < 9) {
+  getUTCDateString(date: Date): string {
+    let answer = `${date.getUTCFullYear()}-`;
+    if (date.getUTCMonth() < 9) {
       answer += '0';
     }
-    answer += `${date.getMonth() + 1}-`;
-    if (date.getDate() < 10) {
+    answer += `${date.getUTCMonth() + 1}-`;
+    if (date.getUTCDate() < 10) {
       answer += '0';
     }
-    answer += `${date.getDate()}`;
+    answer += `${date.getUTCDate()}`;
     return answer;
   }
 
   onMovePeriod(direction: string) {
     const frmPrd = this.periodMap.get(this.selected);
     if (frmPrd) {
-      const fromMonth = this.getDateString(frmPrd.month);
-      let toMonth = this.getDateString(frmPrd.month);
+      const fromMonth = this.getUTCDateString(frmPrd.month);
+      let toMonth = this.getUTCDateString(frmPrd.month);
       if (direction.toLowerCase().substring(0,1) === 'b') {
-        const month = new Date(Date.UTC(frmPrd.month.getFullYear(), 
-          frmPrd.month.getMonth() - 1, 1));
-        toMonth = this.getDateString(month);
+        const month = new Date(Date.UTC(frmPrd.month.getUTCFullYear(), 
+          frmPrd.month.getUTCMonth() - 1, 1));
+        toMonth = this.getUTCDateString(month);
       } else {
-        const month = new Date(Date.UTC(frmPrd.month.getFullYear(), 
-          frmPrd.month.getMonth() + 1, 1));
-        toMonth = this.getDateString(month);
+        const month = new Date(Date.UTC(frmPrd.month.getUTCFullYear(), 
+          frmPrd.month.getUTCMonth() + 1, 1));
+        toMonth = this.getUTCDateString(month);
       }
       this.authService.statusMessage = "Moving weeks between periods"
       this.dialogService.showSpinner();
@@ -155,7 +155,7 @@ export class SiteEditorReportsForecastPeriodComponent {
     const newdate = new Date(this.periodForm.value.newdate);
     this.dialogService.showSpinner();
     this.siteService.updateForecastReport(this.teamid, this.site.id, 
-      this.report.id, 'addperiod', this.getDateString(newdate)).subscribe({
+      this.report.id, 'addperiod', this.getUTCDateString(newdate)).subscribe({
       next: (data: SiteResponse) => {
         this.dialogService.closeSpinner();
         if (data && data != null && data.site) {

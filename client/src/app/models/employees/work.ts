@@ -26,9 +26,9 @@ export class Work implements IWork {
 
   compareTo(other?: Work): number {
     if (other) {
-      if (this.dateWorked.getFullYear() === other.dateWorked.getFullYear()
-        && this.dateWorked.getMonth() === other.dateWorked.getMonth()
-        && this.dateWorked.getDate() === other.dateWorked.getDate()) {
+      if (this.dateWorked.getUTCFullYear() === other.dateWorked.getUTCFullYear()
+        && this.dateWorked.getUTCMonth() === other.dateWorked.getUTCMonth()
+        && this.dateWorked.getUTCDate() === other.dateWorked.getUTCDate()) {
         if (this.chargeNumber === other.chargeNumber) {
           return (this.extension < other.extension) ? -1 : 1;
         }

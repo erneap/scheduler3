@@ -179,14 +179,14 @@ export class EmployeeLeaveRequestEditorComponent {
 
   datetimeString(dt: Date): string {
     let answer = '';
-    if (dt.getMonth() < 9) {
+    if (dt.getUTCMonth() < 9) {
       answer += '0';
     }
-    answer += `${dt.getMonth() + 1}/`;
-    if (dt.getDate() < 10) {
+    answer += `${dt.getUTCMonth() + 1}/`;
+    if (dt.getUTCDate() < 10) {
       answer += '0';
     }
-    answer += `${dt.getDate()}/${dt.getFullYear()} `;
+    answer += `${dt.getUTCDate()}/${dt.getUTCFullYear()} `;
     if (dt.getHours() < 10) {
       answer += '0';
     }
@@ -332,9 +332,9 @@ export class EmployeeLeaveRequestEditorComponent {
 
   getCurrentLeaveRequestDate(): string {
     if (this.request) {
-      return `${this.request.requestDate.getMonth() + 1}/`
-        + `${this.request.requestDate.getDate()}/`
-        + `${this.request.requestDate.getFullYear()}`;
+      return `${this.request.requestDate.getUTCMonth() + 1}/`
+        + `${this.request.requestDate.getUTCDate()}/`
+        + `${this.request.requestDate.getUTCFullYear()}`;
     }
     return 'NEW';
   }
@@ -357,9 +357,9 @@ export class EmployeeLeaveRequestEditorComponent {
 
   getApprovedDate(): string {
     if (this.request && this.request.approvedby !== '') {
-      return `${this.request.approvalDate.getMonth() + 1}/`
-        + `${this.request.approvalDate.getDate()}/`
-        + `${this.request.approvalDate.getFullYear()}`;
+      return `${this.request.approvalDate.getUTCMonth() + 1}/`
+        + `${this.request.approvalDate.getUTCDate()}/`
+        + `${this.request.approvalDate.getUTCFullYear()}`;
     }
     return '-';
   }
@@ -390,12 +390,12 @@ export class EmployeeLeaveRequestEditorComponent {
                 this.employee = new Employee(data.employee);
                 if (this.employee.requests) {
                   this.employee.requests.forEach(req => {
-                    if (req.startdate.getFullYear() === start.getFullYear()
-                      && req.startdate.getMonth() === start.getMonth()
-                      && req.startdate.getDate() === start.getDate()
-                      && req.enddate.getFullYear() === end.getFullYear()
-                      && req.enddate.getMonth() === end.getMonth()
-                      && req.enddate.getDate() === end.getDate()) {
+                    if (req.startdate.getUTCFullYear() === start.getUTCFullYear()
+                      && req.startdate.getUTCMonth() === start.getUTCMonth()
+                      && req.startdate.getUTCDate() === start.getUTCDate()
+                      && req.enddate.getUTCFullYear() === end.getUTCFullYear()
+                      && req.enddate.getUTCMonth() === end.getUTCMonth()
+                      && req.enddate.getUTCDate() === end.getUTCDate()) {
                         this.request = new LeaveRequest(req);
                       }
                   });

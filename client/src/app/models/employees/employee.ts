@@ -190,14 +190,14 @@ export class Employee implements IEmployee {
 
   isActive(): boolean {
     let now = new Date();
-    now = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+    now = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
     const atSite = this.atSite(this.site, now, now);
 
     return atSite;
   }
 
   activeOnDate(month: Date): boolean {
-    let end = new Date(Date.UTC(month.getFullYear(), month.getMonth() + 1, -1))
+    let end = new Date(Date.UTC(month.getUTCFullYear(), month.getUTCMonth() + 1, -1))
     return this.atSite(this.site, month, end);
   }
 
@@ -209,9 +209,9 @@ export class Employee implements IEmployee {
     let work = 0.0;
     if (this.work && this.work.length > 0) {
       this.work.forEach(wk => {
-        if (wk.dateWorked.getFullYear() === date.getFullYear() 
-          && wk.dateWorked.getMonth() === date.getMonth()
-          && wk.dateWorked.getDate() === date.getDate()
+        if (wk.dateWorked.getUTCFullYear() === date.getUTCFullYear() 
+          && wk.dateWorked.getUTCMonth() === date.getUTCMonth()
+          && wk.dateWorked.getUTCDate() === date.getUTCDate()
           && !wk.modtime) {
           work += wk.hours;
         }
@@ -227,9 +227,9 @@ export class Employee implements IEmployee {
     let codeHours: number = 0.0;
     if (this.leaves && this.leaves.length > 0) {
       this.leaves.forEach(lv => {
-        if (lv.leavedate.getFullYear() === date.getFullYear()
-        && lv.leavedate.getMonth() === date.getMonth()
-        && lv.leavedate.getDate() === date.getDate()
+        if (lv.leavedate.getUTCFullYear() === date.getUTCFullYear()
+        && lv.leavedate.getUTCMonth() === date.getUTCMonth()
+        && lv.leavedate.getUTCDate() === date.getUTCDate()
         && (lv.hours > codeHours || code === '')) {
           code = lv.code;
           codeHours = lv.hours;
@@ -296,9 +296,9 @@ export class Employee implements IEmployee {
     this.variations.sort((a,b) => a.compareTo(b));
     if (this.work) {
       this.work.forEach(wk => {
-        if (date.getFullYear() === wk.dateWorked.getFullYear() 
-        && date.getMonth() === wk.dateWorked.getMonth() 
-        && date.getDate() === wk.dateWorked.getDate() && !wk.modtime) {
+        if (date.getUTCFullYear() === wk.dateWorked.getUTCFullYear() 
+        && date.getUTCMonth() === wk.dateWorked.getUTCMonth() 
+        && date.getUTCDate() === wk.dateWorked.getUTCDate() && !wk.modtime) {
           actualHours += wk.hours;
         }
       });
@@ -344,9 +344,9 @@ export class Employee implements IEmployee {
       answer.hours = 0;
       answer.workcenter = '';
       this.leaves.forEach(lv => {
-        if (lv.leavedate.getFullYear() === date.getFullYear()
-        && lv.leavedate.getMonth() === date.getMonth()
-        && lv.leavedate.getDate() === date.getDate()
+        if (lv.leavedate.getUTCFullYear() === date.getUTCFullYear()
+        && lv.leavedate.getUTCMonth() === date.getUTCMonth()
+        && lv.leavedate.getUTCDate() === date.getUTCDate()
         && lv.hours > answer.hours
         && lv.status.toLowerCase() === 'actual') {
           answer.code = lv.code;
@@ -356,9 +356,9 @@ export class Employee implements IEmployee {
       });
     } else {
       this.leaves.forEach(lv => {
-        if (lv.leavedate.getFullYear() === date.getFullYear()
-          && lv.leavedate.getMonth() === date.getMonth()
-          && lv.leavedate.getDate() === date.getDate()) {
+        if (lv.leavedate.getUTCFullYear() === date.getUTCFullYear()
+          && lv.leavedate.getUTCMonth() === date.getUTCMonth()
+          && lv.leavedate.getUTCDate() === date.getUTCDate()) {
             if (lv.hours > (stdHours/2) || 
             (actualHours === 0.0 && date.getTime() <= lastWork.getTime())) {
             answer.code= lv.code;
@@ -408,7 +408,7 @@ export class Employee implements IEmployee {
     let found = false;
     if (this.work) {
       for (let i=0; i < this.work.length && !found; i++) {
-        if (this.work[i].dateWorked.getFullYear() === year) {
+        if (this.work[i].dateWorked.getUTCFullYear() === year) {
           found = true;
         }
       }

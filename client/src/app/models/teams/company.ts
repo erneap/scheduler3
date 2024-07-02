@@ -44,7 +44,7 @@ export class CompanyHoliday implements ICompanyHoliday {
     let answer: Date | undefined;
     if (this.actualdates) {
       this.actualdates.forEach(dt => {
-        if (dt.getFullYear() === year) {
+        if (dt.getUTCFullYear() === year) {
           answer = dt;
         }
       });

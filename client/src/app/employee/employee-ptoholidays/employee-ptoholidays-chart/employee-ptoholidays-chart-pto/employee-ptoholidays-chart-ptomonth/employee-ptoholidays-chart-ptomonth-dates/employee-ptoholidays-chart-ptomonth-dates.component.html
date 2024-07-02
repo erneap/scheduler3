@@ -1,10 +1,10 @@
 <ng-container *ngIf="leaves.length > 1">
   <span [style]="displayStyle" [matTooltip]="tooltip">
-    {{leaves[0].leavedate.getDate()}}-{{leaves[leaves.length - 1].leavedate.getDate()}}
+    {{leaves[0].leavedate.getUTCDate()}}-{{leaves[leaves.length - 1].leavedate.getUTCDate()}}
   </span>
 </ng-container>
 <ng-container *ngIf="leaves.length === 1">
   <span [style]="displayStyle" [matTooltip]="tooltip">
-    {{leaves[0].leavedate.getDate()}}<sup *ngIf="showHours">({{getHours()}})</sup>
+    {{leaves[0].leavedate.getUTCDate()}}<sup *ngIf="showHours">({{getHours()}})</sup>
   </span>
 </ng-container>

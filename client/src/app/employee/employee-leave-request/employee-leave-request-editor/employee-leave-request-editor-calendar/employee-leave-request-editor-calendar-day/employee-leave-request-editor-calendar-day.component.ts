@@ -129,11 +129,11 @@ export class EmployeeLeaveRequestEditorCalendarDayComponent {
   changeCode() {
     this.leaveday.code = this.dayForm.value.code;
     this.leaveday.hours = Number(this.dayForm.value.hours);
-    let data: string = `${this.leaveday.leavedate.getFullYear()}-`
-      + ((this.leaveday.leavedate.getMonth() < 9) ? '0' : '') 
-      + `${this.leaveday.leavedate.getMonth() + 1}-`
-      + ((this.leaveday.leavedate.getDate() < 10) ? '0' : '') 
-      + `${this.leaveday.leavedate.getDate()}`
+    let data: string = `${this.leaveday.leavedate.getUTCFullYear()}-`
+      + ((this.leaveday.leavedate.getUTCMonth() < 9) ? '0' : '') 
+      + `${this.leaveday.leavedate.getUTCMonth() + 1}-`
+      + ((this.leaveday.leavedate.getUTCDate() < 10) ? '0' : '') 
+      + `${this.leaveday.leavedate.getUTCDate()}`
       + `|${this.leaveday.code}|${this.leaveday.hours}`;
     this.changed.emit(data);
     this.setLeave();

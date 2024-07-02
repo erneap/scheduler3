@@ -27,8 +27,8 @@ export class ReportCertOfServiceComponent {
   ){
     const now = new Date()
     this.reportForm = this.fb.group({
-      year: [now.getFullYear(), [Validators.required]],
-      month: [now.getMonth() + 1, [Validators.required]],
+      year: [now.getUTCFullYear(), [Validators.required]],
+      month: [now.getUTCMonth() + 1, [Validators.required]],
     });
   }
 

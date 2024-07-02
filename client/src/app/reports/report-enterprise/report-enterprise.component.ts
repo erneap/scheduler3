@@ -23,7 +23,7 @@ export class ReportEnterpriseComponent {
     private fb: FormBuilder
   ){
     this.reportForm = this.fb.group({
-      year: (new Date()).getFullYear(),
+      year: (new Date()).getUTCFullYear(),
     });
   }
 

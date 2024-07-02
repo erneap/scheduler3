@@ -1,12 +1,12 @@
 <div class="flexlayout column center">
   <div class="label" [style]="getLabelStyle()">Leaves</div>
   <div class="flexlayout row center">
-    <div class="code" [style]="getMonthStyle()">Month</div>
-    <div class="dates" [style]="getDatesStyle()">
+    <div class="code" [style]="getUTCMonthStyle()">Month</div>
+    <div class="dates" [style]="getUTCDatesStyle()">
       Dates Taken <span style="color: #3399ff;">(Projected)</span>
     </div>
-    <div class="actual" [style]="getMonthStyle()">Taken</div>
-    <div class="requested" [style]="getMonthStyle()">Project</div>
+    <div class="actual" [style]="getUTCMonthStyle()">Taken</div>
+    <div class="requested" [style]="getUTCMonthStyle()">Project</div>
   </div>
   <app-employee-ptoholidays-chart-ptomonth *ngFor="let lm of leaveMonths" 
     [leaveMonth]="lm" [width]="width">

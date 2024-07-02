@@ -67,11 +67,11 @@ export class EmployeeLeaveRequestComponent {
     this.requests.push(new ListItem('new', 'Add New Request'));
     this.employee.requests.sort((a,b) => a.compareTo(b));
     let now = new Date();
-    now = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+    now = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
     this.employee.requests.forEach(req => {
       if (req.enddate.getTime() >= now.getTime()) {
-        const label = this.getDateString(req.startdate) + " - "
-          + this.getDateString(req.enddate);
+        const label = this.getUTCDateString(req.startdate) + " - "
+          + this.getUTCDateString(req.enddate);
         this.requests.push(new ListItem(req.id, label));
       }
     });
@@ -81,7 +81,7 @@ export class EmployeeLeaveRequestComponent {
     return (this.selected !== undefined && this.selected.id !== 'new');
   }
 
-  getDateString(date: Date): string {
+  getUTCDateString(date: Date): string {
     return `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
   }
 
@@ -104,7 +104,7 @@ export class EmployeeLeaveRequestComponent {
   onSelect(id: string) {
     if (id === 'new' || id === '') {
       let now = new Date();
-      now = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 
+      now = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 
         0, 0, 0, 0))
       this.dialogService.showSpinner();
       this.empService.addNewLeaveRequest(this.employee.id, now, now, 'V')
@@ -116,9 +116,9 @@ export class EmployeeLeaveRequestComponent {
               this.employee = data.employee;
               if (this.employee.requests) {
                 this.employee.requests.forEach(req => {
-                  if (req.startdate.getFullYear() === now.getFullYear() 
-                    && req.startdate.getMonth() === now.getMonth()
-                    && req.startdate.getDate() === now.getDate()
+                  if (req.startdate.getUTCFullYear() === now.getUTCFullYear() 
+                    && req.startdate.getUTCMonth() === now.getUTCMonth()
+                    && req.startdate.getUTCDate() === now.getUTCDate()
                     && req.primarycode === 'V') {
                     this.selected = new LeaveRequest(req);
                   }
@@ -146,7 +146,7 @@ export class EmployeeLeaveRequestComponent {
     const id = this.requestForm.value.request;
     if (id === 'new' || id === '') {
       let now = new Date();
-      now = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 
+      now = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 
         0, 0, 0, 0))
       this.dialogService.showSpinner();
       this.empService.addNewLeaveRequest(this.employee.id, now, now, 'V')
@@ -158,9 +158,9 @@ export class EmployeeLeaveRequestComponent {
               this.employee = data.employee;
               if (this.employee.requests) {
                 this.employee.requests.forEach(req => {
-                  if (req.startdate.getFullYear() === now.getFullYear() 
-                    && req.startdate.getMonth() === now.getMonth()
-                    && req.startdate.getDate() === now.getDate()
+                  if (req.startdate.getUTCFullYear() === now.getUTCFullYear() 
+                    && req.startdate.getUTCMonth() === now.getUTCMonth()
+                    && req.startdate.getUTCDate() === now.getUTCDate()
                     && req.primarycode === 'V') {
                     this.selected = new LeaveRequest(req);
                   }

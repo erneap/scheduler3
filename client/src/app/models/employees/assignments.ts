@@ -185,9 +185,9 @@ export class Assignment implements IAssignment {
     if (date.getTime() <= this.endDate.getTime() 
       && date.getTime() >= this.startDate.getTime()
       && this.site.toLowerCase() === site.toLowerCase()) {
-      let start = new Date(Date.UTC(this.startDate.getFullYear(), 
-        this.startDate.getMonth(), this.startDate.getDate()));
-      while (start.getUTCDay() != 0) {
+      let start = new Date(Date.UTC(this.startDate.getUTCFullYear(), 
+        this.startDate.getUTCMonth(), this.startDate.getUTCDate()));
+      while (start.getUTCDay() !== 0) {
         start = new Date(start.getTime() - (24 * 3600000));
       }
       let dateDays = Math.floor(date.getTime() / (24 * 3600000));
@@ -262,8 +262,8 @@ export class Variation implements IVariation {
   }
 
   getWorkday(site: string, date: Date): Workday | undefined {
-    const tdate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), 
-      date.getDate()));
+    const tdate = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 
+      date.getUTCDate()));
     if (this.useVariation(site, date)) {
       let start = new Date(this.startdate);
       while (start.getUTCDay() !== 0) {

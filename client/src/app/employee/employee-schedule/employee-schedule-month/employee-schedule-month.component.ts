@@ -43,7 +43,8 @@ export class EmployeeScheduleMonthComponent {
     protected appState: AppStateService
   ) {
     this.month = new Date();
-    this.month = new Date(this.month.getFullYear(), this.month.getMonth(), 1);
+    this.month = new Date(Date.UTC(this.month.getUTCFullYear(), 
+      this.month.getUTCMonth(), 1));
     if (this.appState.viewWidth < this.width) {
       const cWidth = Math.floor((this.appState.viewWidth - 14) / 7);
       this.width = (cWidth * 7) + 14;
@@ -56,29 +57,29 @@ export class EmployeeScheduleMonthComponent {
   }
 
   setMonth() {
-    this.monthLabel = `${this.months[this.month.getMonth()]} `
-      + `${this.month.getFullYear()}`;
+    this.monthLabel = `${this.months[this.month.getUTCMonth()]} `
+      + `${this.month.getUTCFullYear()}`;
     
     // calculate the display's start and end date, where start date is always
     // the sunday before the 1st of the month and end date is the saturday after
     // the end of the month.
-    this.startDate = new Date(Date.UTC(this.month.getFullYear(), 
-      this.month.getMonth(), 1, 0, 0, 0));
+    this.startDate = new Date(Date.UTC(this.month.getUTCFullYear(), 
+      this.month.getUTCMonth(), 1, 0, 0, 0));
     while (this.startDate.getUTCDay() !== 0) {
       this.startDate = new Date(this.startDate.getTime() - (24 * 3600000));
     }
-    this.endDate = new Date(Date.UTC(this.month.getFullYear(), 
-      this.month.getMonth() + 1, 1, 0, 0, 0));
+    this.endDate = new Date(Date.UTC(this.month.getUTCFullYear(), 
+      this.month.getUTCMonth() + 1, 1, 0, 0, 0));
     while (this.endDate.getUTCDay() !== 0) {
       this.endDate = new Date(this.endDate.getTime() + (24 * 3600000));
     }
     
     const emp = this.employeeService.getEmployee();
     if (emp) {
-      if (!emp.hasWorkForYear(this.month.getFullYear())) {
+      if (!emp.hasWorkForYear(this.month.getUTCFullYear())) {
         this.dialogService.showSpinner();
         this.employeeService.retrieveEmployeeWork(emp.id, 
-          this.month.getFullYear()).subscribe({
+          this.month.getUTCFullYear()).subscribe({
           next: resp => {
             this.dialogService.closeSpinner();
             if (resp && resp.id !== '') {
@@ -131,7 +132,7 @@ export class EmployeeScheduleMonthComponent {
         } else if (wd.id === 0) {
           wd.id = start.getUTCDay();
         }
-        wd.date = new Date(start.getTime());
+        wd.date = new Date(start);
         workweek.setWorkday(wd, start);
       } else {
         const wd = new Workday();
@@ -145,19 +146,19 @@ export class EmployeeScheduleMonthComponent {
   changeMonth(direction: string, period: string) {
     if (direction.toLowerCase() === 'up') {
       if (period.toLowerCase() === 'month') {
-        this.month = new Date(this.month.getFullYear(), 
-          this.month.getMonth() + 1, 1);
+        this.month = new Date(Date.UTC(this.month.getUTCFullYear(), 
+          this.month.getUTCMonth() + 1, 1));
       } else if (period.toLowerCase() === 'year') {
-        this.month = new Date(this.month.getFullYear() + 1, 
-        this.month.getMonth(), 1);
+        this.month = new Date(Date.UTC(this.month.getUTCFullYear() + 1, 
+        this.month.getUTCMonth(), 1));
       }
     } else {
       if (period.toLowerCase() === 'month') {
-        this.month = new Date(this.month.getFullYear(), 
-          this.month.getMonth() - 1, 1);
+        this.month = new Date(Date.UTC(this.month.getUTCFullYear(), 
+          this.month.getUTCMonth() - 1, 1));
       } else if (period.toLowerCase() === 'year') {
-        this.month = new Date(this.month.getFullYear() - 1, 
-        this.month.getMonth(), 1);
+        this.month = new Date(Date.UTC(this.month.getUTCFullYear() - 1, 
+        this.month.getUTCMonth(), 1));
       }
     }
     this.setMonth();
@@ -168,14 +169,14 @@ export class EmployeeScheduleMonthComponent {
     return `width: ${this.getCellWidth()}px;font-size: ${1.3 * ratio}em;`;
   }
 
-  getMonthStyle(): string {
+  getUTCMonthStyle(): string {
     const ratio = this.width / 714;
     let cWidth = this.getCellWidth();
     const mWidth = this.width - (4 * (cWidth + 2));
     return `width: ${mWidth}px;font-size: ${1.3 * ratio}em;`
   }
 
-  getDayStyle(): string {
+  getUTCDayStyle(): string {
     const ratio = this.width / 714;
     return `width: ${this.getCellWidth()}px;font-size: ${1.2 * ratio}em;`;
   }

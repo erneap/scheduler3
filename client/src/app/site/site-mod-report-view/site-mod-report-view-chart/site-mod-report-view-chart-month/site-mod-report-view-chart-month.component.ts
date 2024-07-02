@@ -30,7 +30,7 @@ export class SiteModReportViewChartMonthComponent {
   }
   @Output() changed = new EventEmitter<string>();
 
-  getMonthStyle(): string {
+  getUTCMonthStyle(): string {
     let width = 50;
     if (this.month.expand) {
       width += 52 * this.month.weeks.length;
@@ -38,9 +38,9 @@ export class SiteModReportViewChartMonthComponent {
     return `width: ${width}px;`;
   }
 
-  getMonth(): string {
-    const year = `${this.month.month.getFullYear()}`;
-    return `${this.month.month.getMonth() + 1}/${year.substring(2)}`;
+  getUTCMonth(): string {
+    const year = `${this.month.month.getUTCFullYear()}`;
+    return `${this.month.month.getUTCMonth() + 1}/${year.substring(2)}`;
   }
 
   getStyle(field: string, i: number): string {

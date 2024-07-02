@@ -43,9 +43,9 @@ export class ReportModTimeComponent {
     const iSite = this.siteService.getSite();
     if (iTeam && iSite && this.reportForm.valid) {
       const year = new Date(this.reportForm.value.year);
-      const period = `${year.getFullYear()}|`
-        + `${year.getMonth() + 1}|`
-        + `${year.getDate()}`;
+      const period = `${year.getUTCFullYear()}|`
+        + `${year.getUTCMonth() + 1}|`
+        + `${year.getUTCDate()}`;
       const request: ReportRequest = {
         reportType: 'modtime',
         period: period,

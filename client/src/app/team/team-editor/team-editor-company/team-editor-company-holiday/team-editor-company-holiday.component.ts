@@ -172,20 +172,20 @@ export class TeamEditorCompanyHolidayComponent {
 
   showDate(date: Date): boolean {
     let now = new Date();
-    now = new Date(Date.UTC(now.getFullYear(), 0, 1, 0, 0, 0, 0));
+    now = new Date(Date.UTC(now.getUTCFullYear(), 0, 1, 0, 0, 0, 0));
     return (date.getTime() >= now.getTime());
   }
 
-  getDate(dt: Date): string {
-    let answer = `${dt.getFullYear()}-`;
-    if (dt.getMonth() < 9) {
+  getUTCDate(dt: Date): string {
+    let answer = `${dt.getUTCFullYear()}-`;
+    if (dt.getUTCMonth() < 9) {
       answer += '0';
     }
-    answer += `${dt.getMonth() + 1}-`;
-    if (dt.getDate() < 10) {
+    answer += `${dt.getUTCMonth() + 1}-`;
+    if (dt.getUTCDate() < 10) {
       answer += '0';
     }
-    answer += `${dt.getDate()}`;
+    answer += `${dt.getUTCDate()}`;
     return answer;
   }
 
@@ -292,7 +292,7 @@ export class TeamEditorCompanyHolidayComponent {
 
     this.dialogService.showSpinner();
     this.teamService.addTeamCompanyHoliday(this.team.id, this.company.id, 
-      holType, name, this.getDate(actual)).subscribe({
+      holType, name, this.getUTCDate(actual)).subscribe({
       next: (data: SiteResponse) => {
         this.dialogService.closeSpinner();
         if (data && data != null && data.team) {
@@ -331,7 +331,7 @@ export class TeamEditorCompanyHolidayComponent {
       } else if (field.toLowerCase() === 'actual') {
         field = 'addactual';
         const tValue = new Date(this.holidayForm.controls['actual'].value);
-        value = this.getDate(tValue);
+        value = this.getUTCDate(tValue);
       }
       if (value !== '') {
         this.dialogService.showSpinner();

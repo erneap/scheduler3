@@ -13,7 +13,7 @@ import { TeamService } from 'src/app/services/team.service';
   styleUrl: './employee-ptoholidays-chart-holidays.component.scss'
 })
 export class EmployeePTOHolidaysChartHolidaysComponent {
-  private _year: number = (new Date()).getFullYear();
+  private _year: number = (new Date()).getUTCFullYear();
   private _employee: Employee | undefined;
   @Input() 
   public set year(yr: number) {
@@ -101,7 +101,7 @@ export class EmployeePTOHolidaysChartHolidaysComponent {
         }
       });
       emp.leaves.forEach(lv => {
-        if (lv.leavedate.getFullYear() === this.year 
+        if (lv.leavedate.getUTCFullYear() === this.year 
           && lv.code.toLowerCase() === 'h') {
           if (lv.hours === 8.0) {
             let found = false;
@@ -219,7 +219,7 @@ export class EmployeePTOHolidaysChartHolidaysComponent {
     return `width: ${width}px;height: ${height}px;font-size:${fontSize}rem;`;
   }
 
-  getDatesStyle(): string {
+  getUTCDatesStyle(): string {
     let ratio = this.width / 455;
     if (ratio > 1.0) { ratio = 1.0; }
     const width = Math.floor(249 * ratio);

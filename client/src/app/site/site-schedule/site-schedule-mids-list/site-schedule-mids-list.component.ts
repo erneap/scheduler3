@@ -16,7 +16,7 @@ export class SiteScheduleMidsListComponent {
   constructor(
     protected siteService: SiteService
   ) { 
-    this.year = (new Date()).getFullYear();
+    this.year = (new Date()).getUTCFullYear();
     this.setMidsList();
   }
 
@@ -47,7 +47,7 @@ export class SiteScheduleMidsListComponent {
   dateString(date: Date): string {
     const months: string[] = new Array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
-    return `${date.getDate()}-${months[date.getMonth()]}-${date.getFullYear()}`;
+    return `${date.getUTCDate()}-${months[date.getUTCMonth()]}-${date.getUTCFullYear()}`;
   }
 
   updateYear(direction: string) {

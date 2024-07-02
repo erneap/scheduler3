@@ -49,7 +49,7 @@ export class TeamEditorCompanyModtimeComponent {
   ) {
     const now = new Date();
     this.modForm = this.fb.group({
-      year: [now.getFullYear(), [Validators.required]],
+      year: [now.getUTCFullYear(), [Validators.required]],
       start: [now, [Validators.required]],
       end: [now, [Validators.required]],
     });
@@ -64,7 +64,7 @@ export class TeamEditorCompanyModtimeComponent {
       this.company.modperiods.forEach(mp => {
         const label = `${mp.year}`;
         this.modtimes.push(new ListItem(label, label));
-        if (now.getFullYear() === mp.year) {
+        if (now.getUTCFullYear() === mp.year) {
           this.selected = new ModPeriod(mp);
           this.setModPeriod();
         }
@@ -138,15 +138,15 @@ export class TeamEditorCompanyModtimeComponent {
   }
 
   dateString(value: Date): string {
-      let chg = `${value.getFullYear()}-`
-      if (value.getMonth() < 9) {
+      let chg = `${value.getUTCFullYear()}-`
+      if (value.getUTCMonth() < 9) {
         chg += "0";
       }
-      chg += `${value.getMonth() + 1}-`;
-      if (value.getDate() < 10) {
+      chg += `${value.getUTCMonth() + 1}-`;
+      if (value.getUTCDate() < 10) {
         chg += "0";
       }
-      chg += `${value.getDate()}`;
+      chg += `${value.getUTCDate()}`;
       return chg;
   }
 
@@ -161,11 +161,11 @@ export class TeamEditorCompanyModtimeComponent {
       const value = new Date(this.modForm.controls[field].value);
       this.error = '';
       if ((field.toLowerCase() === 'start' 
-        && (value.getFullYear() < this.selected.year - 1 
-        || value.getFullYear() > this.selected.year)) 
+        && (value.getUTCFullYear() < this.selected.year - 1 
+        || value.getUTCFullYear() > this.selected.year)) 
         || (field.toLowerCase() === 'end'
-        && (value.getFullYear() < this.selected.year
-        || value.getFullYear() > this.selected.year + 1))) {
+        && (value.getUTCFullYear() < this.selected.year
+        || value.getUTCFullYear() > this.selected.year + 1))) {
         this.error = 'must be within year +/- one year';
       } 
       if (this.error === '') {

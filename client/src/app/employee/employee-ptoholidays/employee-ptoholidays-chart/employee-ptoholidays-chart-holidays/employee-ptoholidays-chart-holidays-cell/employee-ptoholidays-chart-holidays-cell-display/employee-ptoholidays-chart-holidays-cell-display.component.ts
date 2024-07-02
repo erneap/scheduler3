@@ -29,9 +29,10 @@ export class EmployeePTOHolidaysChartHolidaysCellDisplayComponent {
     }
   }
 
-  getDateDisplay(): string {
+  getUTCDateDisplay(): string {
     const months: string[] = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
-    return `${this.holiday.leavedate.getDate()}-${months[this.holiday.leavedate.getMonth()]}`;
+    return `${this.holiday.leavedate.getUTCDate()}-`
+      + `${months[this.holiday.leavedate.getUTCMonth()]}`;
   }
 }

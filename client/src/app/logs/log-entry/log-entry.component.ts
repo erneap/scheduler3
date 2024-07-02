@@ -21,15 +21,15 @@ export class LogEntryComponent {
 
   dateTime(): string {
     let answer = "";
-    if (this.entry.entrydate.getMonth() < 9) {
+    if (this.entry.entrydate.getUTCMonth() < 9) {
       answer += "0";
     }
-    answer += `${this.entry.entrydate.getMonth() + 1}/`;
-    if (this.entry.entrydate.getDate() < 10) {
+    answer += `${this.entry.entrydate.getUTCMonth() + 1}/`;
+    if (this.entry.entrydate.getUTCDate() < 10) {
       answer += "0";
     }
-    answer += `${this.entry.entrydate.getDate()}`
-      + `/${this.entry.entrydate.getFullYear()} `;
+    answer += `${this.entry.entrydate.getUTCDate()}`
+      + `/${this.entry.entrydate.getUTCFullYear()} `;
     if (this.entry.entrydate.getHours() < 10) {
       answer += "0";
     }

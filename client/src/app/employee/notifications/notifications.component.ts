@@ -197,7 +197,7 @@ export class NotificationsComponent {
     }
   }
 
-  getDateWidth(): string {
+  getUTCDateWidth(): string {
     let ratio = this.stateService.viewWidth / 714;
     if (ratio > 1.0) { ratio = 1.0; }
     const width = Math.floor(155 * ratio);

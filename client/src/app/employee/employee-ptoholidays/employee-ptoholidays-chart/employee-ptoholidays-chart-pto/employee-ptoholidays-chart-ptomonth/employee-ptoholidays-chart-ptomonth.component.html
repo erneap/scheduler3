@@ -1,15 +1,15 @@
 <div class="flexlayout row center">
-  <div class="month" [style]="getMonthStyle()">
-    {{months[leaveMonth.month.getMonth()]}}</div>
-  <div [class]="getStyle('dates')" [style]="getDatesStyle()">
+  <div class="month" [style]="getUTCMonthStyle()">
+    {{months[leaveMonth.month.getUTCMonth()]}}</div>
+  <div [class]="getStyle('dates')" [style]="getUTCDatesStyle()">
     <ng-container *ngFor="let lvs of leaveMonth.leaveGroups; index as i">
       <app-employee-ptoholidays-chart-ptomonth-dates [leaves]="lvs.leaves">
       </app-employee-ptoholidays-chart-ptomonth-dates>
       <ng-container *ngIf="i < (leaveMonth.leaveGroups.length - 1)">, </ng-container>
     </ng-container>
   </div>
-  <div [class]="getStyle('actual')" [style]="getMonthStyle()">
+  <div [class]="getStyle('actual')" [style]="getUTCMonthStyle()">
     {{getActualHours()}}</div>
-  <div [class]="getStyle('requested')" [style]="getMonthStyle()">
+  <div [class]="getStyle('requested')" [style]="getUTCMonthStyle()">
     {{getProjectedHours()}}</div>
 </div>

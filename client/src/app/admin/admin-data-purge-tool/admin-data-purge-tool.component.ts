@@ -23,7 +23,7 @@ export class AdminDataPurgeToolComponent {
     private fb: FormBuilder
   ) {
     let pd = new Date();
-    pd = new Date(Date.UTC(pd.getFullYear()-1, 0, 1));
+    pd = new Date(Date.UTC(pd.getUTCFullYear()-1, 0, 1));
     this.purgeForm = this.fb.group({
       purgedate: [pd, [Validators.required]],
     })
@@ -32,7 +32,7 @@ export class AdminDataPurgeToolComponent {
   onPurge() {
     const purgeDate = new Date(this.purgeForm.value.purgedate);
     let pd = new Date();
-    pd = new Date(Date.UTC(pd.getFullYear()-1, 0, 1));
+    pd = new Date(Date.UTC(pd.getUTCFullYear()-1, 0, 1));
     if (purgeDate.getTime() <= pd.getTime()) {
       const dialogRef = this.dialog.open(DeletionConfirmationComponent, {
         data: {title: 'Confirm Data Purge',

@@ -201,11 +201,11 @@ export class SiteEditorReportsCofsComponent {
   addReport() {
     if (this.reportForm.valid) {
       let sDate = new Date(this.reportForm.value.start);
-      sDate = new Date(Date.UTC(sDate.getFullYear(), sDate.getMonth(), 
-        sDate.getDate(), 0, 0, 0, 0));
+      sDate = new Date(Date.UTC(sDate.getUTCFullYear(), sDate.getUTCMonth(), 
+        sDate.getUTCDate(), 0, 0, 0, 0));
       let eDate = new Date(this.reportForm.value.end);
-      eDate = new Date(Date.UTC(eDate.getFullYear(), eDate.getMonth(), 
-        eDate.getDate(), 0, 0, 0, 0));
+      eDate = new Date(Date.UTC(eDate.getUTCFullYear(), eDate.getUTCMonth(), 
+        eDate.getUTCDate(), 0, 0, 0, 0));
       this.dialogService.showSpinner();
       this.siteService.createCofSReport(this.team.id, this.site.id,
       this.reportForm.value.name, this.reportForm.value.short, 
@@ -240,14 +240,14 @@ export class SiteEditorReportsCofsComponent {
       let sValue = '';
       if (field.toLowerCase() === 'start' || field.toLowerCase() === 'end') {
         const tDate = new Date(this.reportForm.controls[field].value);
-        if (tDate.getMonth() < 9) {
+        if (tDate.getUTCMonth() < 9) {
           sValue = '0';
         }
-        sValue += `${tDate.getMonth() + 1}/`;
-        if (tDate.getDate() < 10) {
+        sValue += `${tDate.getUTCMonth() + 1}/`;
+        if (tDate.getUTCDate() < 10) {
           sValue += '0';
         }
-        sValue += `${tDate.getDate()}/${tDate.getFullYear()}`;
+        sValue += `${tDate.getUTCDate()}/${tDate.getUTCFullYear()}`;
       } else {
         sValue = this.reportForm.controls[field].value;
       }
@@ -275,8 +275,8 @@ export class SiteEditorReportsCofsComponent {
       });
     } else if (field.toLowerCase() === 'start') {
       let sDate = new Date(this.reportForm.value.start);
-      sDate = new Date(Date.UTC(sDate.getFullYear(), sDate.getMonth(), 
-        sDate.getDate(), 0, 0, 0, 0));
+      sDate = new Date(Date.UTC(sDate.getUTCFullYear(), sDate.getUTCMonth(), 
+        sDate.getUTCDate(), 0, 0, 0, 0));
       this.reportForm.controls['end'].setValue(sDate);
     }
   }

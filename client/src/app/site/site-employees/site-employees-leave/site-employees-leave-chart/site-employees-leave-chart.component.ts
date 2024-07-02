@@ -18,7 +18,7 @@ export class SiteEmployeesLeaveChartComponent {
   get employee(): Employee {
     return this._employee;
   }
-  private _year: number = (new Date()).getFullYear();
+  private _year: number = (new Date()).getUTCFullYear();
   @Input() 
   public set year(y: number) {
     this._year = y;
@@ -36,7 +36,7 @@ export class SiteEmployeesLeaveChartComponent {
   setLeaves() {
     this.leaves = [];
     this.employee.leaves.forEach(lv => {
-      if (lv.leavedate.getFullYear() === this.year) {
+      if (lv.leavedate.getUTCFullYear() === this.year) {
         this.leaves.push(new LeaveDay(lv));
       }
     });

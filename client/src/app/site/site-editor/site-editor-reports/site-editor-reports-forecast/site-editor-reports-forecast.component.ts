@@ -90,10 +90,10 @@ export class SiteEditorReportsForecastComponent {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
       "Sep", "Oct", "Nov", "Dec" ];
     let answer = '';
-    if (dt.getDate() < 10) {
+    if (dt.getUTCDate() < 10) {
       answer = '0';
     }
-    answer += `${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}`;
+    answer += `${dt.getUTCDate()} ${months[dt.getUTCMonth()]} ${dt.getUTCFullYear()}`;
     return answer;
   }
 
@@ -187,7 +187,7 @@ export class SiteEditorReportsForecastComponent {
     if (this.selected.periods && this.selected.periods.length > 2) {
       const period = this.selected.periods[2];
       if (period.periods && period.periods.length > 0) {
-        weekday = `${period.periods[0].getDay()}`;
+        weekday = `${period.periods[0].getUTCDay()}`;
       }
     }
     this.reportForm.controls['name'].setValue(this.selected.name);
@@ -204,7 +204,7 @@ export class SiteEditorReportsForecastComponent {
       if (value !== null) {
         let outputValue = '';
         if (field === 'start' || field === 'end') {
-          outputValue = this.getDateString(value);
+          outputValue = this.getUTCDateString(value);
         } else {
           outputValue = value;
         }
@@ -228,16 +228,16 @@ export class SiteEditorReportsForecastComponent {
     }
   }
 
-  getDateString(date: Date): string {
-    let answer = `${date.getFullYear()}-`;
-    if (date.getMonth() < 9) {
+  getUTCDateString(date: Date): string {
+    let answer = `${date.getUTCFullYear()}-`;
+    if (date.getUTCMonth() < 9) {
       answer += '0';
     }
-    answer += `${date.getMonth() + 1}-`;
-    if (date.getDate() < 10) {
+    answer += `${date.getUTCMonth() + 1}-`;
+    if (date.getUTCDate() < 10) {
       answer += '0';
     }
-    answer += `${date.getDate()}`;
+    answer += `${date.getUTCDate()}`;
     return answer;
   }
 
@@ -272,9 +272,9 @@ export class SiteEditorReportsForecastComponent {
               this.site.forecasts.sort((a,b) => a.compareTo(b));
               this.site.forecasts.forEach(rpt => {
                 if (rpt.name === name 
-                  && rpt.startDate.getFullYear() === start.getFullYear()
-                  && rpt.startDate.getMonth() === start.getMonth()
-                  && rpt.startDate.getDate() === start.getDate()) {
+                  && rpt.startDate.getUTCFullYear() === start.getUTCFullYear()
+                  && rpt.startDate.getUTCMonth() === start.getUTCMonth()
+                  && rpt.startDate.getUTCDate() === start.getUTCDate()) {
                   this.selected = new ForecastReport(rpt);
                 }
               })

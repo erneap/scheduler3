@@ -142,7 +142,7 @@ export class HomeComponent {
           this.employeeService.setEmployee(data.employee)
           emp = new Employee(data.employee);
           emp.leaves.forEach(lv => {
-            if (lv.leavedate.getFullYear() === now.getFullYear()) {
+            if (lv.leavedate.getUTCFullYear() === now.getUTCFullYear()) {
               switch (lv.code.toLowerCase()) {
                 case "v":
                   ptoHours += lv.hours;
@@ -154,7 +154,7 @@ export class HomeComponent {
             }
           });
           emp.balance.forEach(bal => {
-            if (bal.year === now.getFullYear()) {
+            if (bal.year === now.getUTCFullYear()) {
               leaveBalance = bal.annual + bal.carryover;
             }
           });

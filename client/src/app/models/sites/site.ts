@@ -84,7 +84,7 @@ export class Site implements ISite {
       this.employees.forEach(emp => {
         if (emp.work) {
           emp.work.forEach(wk => {
-            if (wk.dateWorked.getFullYear() === year) {
+            if (wk.dateWorked.getUTCFullYear() === year) {
               found = true;
             }
           });

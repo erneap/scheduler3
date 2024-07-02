@@ -49,9 +49,9 @@
         <ng-container *ngIf="selected.actualdates.length > 0">
           <ng-container *ngFor="let date of selected.actualdates">
             <div class="datelabel" *ngIf="showDate(date)">
-              {{getDate(date)}}
+              {{getUTCDate(date)}}
               <mat-icon class="deleteactual" matTooltip="Delete reference date"
-                (click)="onDeleteActual(getDate(date))">
+                (click)="onDeleteActual(getUTCDate(date))">
                 close
               </mat-icon>
             </div>

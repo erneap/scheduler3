@@ -142,7 +142,7 @@ export class SiteEmployeesAssignmentScheduleDayComponent {
 
   getDisplayDate(): string {
     if (this.usedate) {
-      return this.usedate.getDate().toString(10);
+      return this.usedate.getUTCDate().toString(10);
     }
     return this.workday.id.toString(10);
   }

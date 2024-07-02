@@ -47,21 +47,22 @@ export class EmployeeLeaveRequestEditorCalendarComponent {
   setWorkweeks() {
     this.weeks = [];
     let start = new Date(this.request.startdate);
-    start = new Date(Date.UTC(start.getFullYear(), start.getMonth(), 
-      start.getDate(), 0, 0, 0, 0));
-    while (start.getDay() !== 0) {
+    start = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), 
+      start.getUTCDate(), 0, 0, 0, 0));
+    while (start.getUTCDay() !== 0) {
       start = new Date(start.getTime() - (24 * 3600000));
     }
     let end = new Date(this.request.enddate);
-    end = new Date(Date.UTC(end.getFullYear(), end.getMonth(), end.getDate(), 
+    end = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), 
+      end.getUTCDate(), 
       0, 0, 0, 0));
-    while (end.getDay() !== 6) {
+    while (end.getUTCDay() !== 6) {
       end = new Date(end.getTime() + (24 * 3600000));
     }
     let week: LeaveWeek | undefined;
     while (start.getTime() <= end.getTime()) {
       let found = false;
-      if (!week || start.getDay() === 0) {
+      if (!week || start.getUTCDay() === 0) {
         if (week) {
           this.weeks.push(week);
         }
@@ -70,7 +71,7 @@ export class EmployeeLeaveRequestEditorCalendarComponent {
         week.days = [];
       }
       this.request.requesteddays.forEach(lv => {
-        if (lv.leavedate.getTime() === start.getTime()) {
+        if (lv.useLeave(start)) {
           found = true;
           if (week) {
             week.days.push(new LeaveDay(lv));

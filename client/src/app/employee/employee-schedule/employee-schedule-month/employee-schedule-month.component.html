@@ -4,20 +4,20 @@
       (click)="changeMonth('down', 'year')">&lt;&lt;</div>
     <div class="movement"  [style]="getMoveStyle()"
     (click)="changeMonth('down', 'month')">&lt;</div>
-    <div class="month" [style]="getMonthStyle()">{{monthLabel}}</div>
+    <div class="month" [style]="getUTCMonthStyle()">{{monthLabel}}</div>
     <div class="movement"  [style]="getMoveStyle()"
     (click)="changeMonth('up', 'month')">&gt;</div>
     <div class="movement"  [style]="getMoveStyle()"
     (click)="changeMonth('up', 'year')">&gt;&gt;</div>
   </div>
   <div class="flexlayout row center">
-    <div class="daycell weekend" [style]="getDayStyle()">SUN</div>
-    <div class="daycell weekday" [style]="getDayStyle()">MON</div>
-    <div class="daycell weekday" [style]="getDayStyle()">TUE</div>
-    <div class="daycell weekday" [style]="getDayStyle()">WED</div>
-    <div class="daycell weekday" [style]="getDayStyle()">THU</div>
-    <div class="daycell weekday" [style]="getDayStyle()">FRI</div>
-    <div class="daycell weekend" [style]="getDayStyle()">SAT</div>
+    <div class="daycell weekend" [style]="getUTCDayStyle()">SUN</div>
+    <div class="daycell weekday" [style]="getUTCDayStyle()">MON</div>
+    <div class="daycell weekday" [style]="getUTCDayStyle()">TUE</div>
+    <div class="daycell weekday" [style]="getUTCDayStyle()">WED</div>
+    <div class="daycell weekday" [style]="getUTCDayStyle()">THU</div>
+    <div class="daycell weekday" [style]="getUTCDayStyle()">FRI</div>
+    <div class="daycell weekend" [style]="getUTCDayStyle()">SAT</div>
   </div>
   <ng-container *ngFor="let week of workweeks">
     <div class="flexlayout row center">
