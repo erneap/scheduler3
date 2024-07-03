@@ -29,6 +29,7 @@ export class LogsComponent {
     this.logForm = this.fb.group({
       portion: ['leaverequest', [Validators.required]],
       year: [now.getUTCFullYear(), [Validators.required]],
+      filter: '',
     });
     this.setLogEntries();
   }
@@ -38,8 +39,12 @@ export class LogsComponent {
     this.authService.statusMessage = "Processing leave request";
     const portion = this.logForm.value.portion;
     const year = this.logForm.value.year;
+    let filter = this.logForm.value.filter;
+    if (filter === '') {
+      filter = undefined;
+    }
       
-    this.logService.getLogEntries(portion, year).subscribe({
+    this.logService.getLogEntries(portion, year, filter).subscribe({
       next: (idata: ILogResponse) => {
         const data: LogResponse = new LogResponse(idata);
         this.dialogService.closeSpinner();

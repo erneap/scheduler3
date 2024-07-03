@@ -95,6 +95,12 @@ export interface AddLogEntry {
   message: string;
 }
 
+export interface LogRequest {
+  portion: string;
+  year: number;
+  filter?: string[];
+}
+
 export interface ILogResponse {
   entries: ILogEntry[];
   exception: string;

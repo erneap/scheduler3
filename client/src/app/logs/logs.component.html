@@ -14,6 +14,11 @@
       <input matInput type="number" formControlName="year"
         (change)="setLogEntries()">
     </mat-form-field>
+    <mat-form-field appearance="fill" style="width: 50%;">
+      <mat-label>View Filter</mat-label>
+      <input matInput formControlName="filter" (blur)="setLogEntries()">
+      <mat-hint>(comma separated values)</mat-hint>
+    </mat-form-field>
     <button mat-fab color="accent" (click)="setLogEntries()"
       matTooltip="Refresh the log">
       <mat-icon>refresh</mat-icon>

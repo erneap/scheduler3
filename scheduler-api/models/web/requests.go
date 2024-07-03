@@ -327,3 +327,9 @@ type QueryRequest struct {
 	NextHours   int    `json:"hours"`
 	Specialties []int  `json:"specialties"`
 }
+
+type LogRequest struct {
+	Portion string   `json:"portion"`
+	Year    int      `json:"year"`
+	Filter  []string `json:"filter,omitempty"`
+}

@@ -230,6 +230,7 @@ func main() {
 		{
 			logs.GET("/:portion/:year", controllers.GetLogEntries)
 			logs.POST("/", controllers.AddLogEntry)
+			logs.PUT("/", controllers.GetLogEntriesWithFilter)
 		}
 	}
 
