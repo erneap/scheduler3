@@ -11,6 +11,7 @@ export class WorkWeek {
       const wd: Workday = new Workday();
       wd.date = new Date();
       wd.id = i;
+      this.week.push(wd);
     }
   }
 

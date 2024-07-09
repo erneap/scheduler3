@@ -117,7 +117,7 @@ export class SiteEmployeesAssignmentScheduleComponent {
         this.workweeks.push(workweek);
       }
       let date = new Date(2023, 0, i + 1);
-      workweek.setWorkday(this.schedule.workdays[i], date);
+      workweek.setWorkday(this.schedule.workdays[i], undefined);
     }
     this.startid = 0;
     this.endid = this._schedule.workdays.length - 1;
