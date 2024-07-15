@@ -1,6 +1,6 @@
 <ng-container *ngIf="leave">
   <form [formGroup]="leaveForm" class="flexlayout row topleft">
-    <div class="delete" [style]="fieldStyle('delete')">
+    <div class="delete" [style]="fieldStyle('delete')" (click)="onDelete()">
       <mat-icon class="deleteIcon">delete</mat-icon>
     </div>
     <div class="date" [style]="fieldStyle('date')">
