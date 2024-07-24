@@ -423,7 +423,6 @@ export class EmployeeLeaveRequestEditorComponent {
   checkForMidShift(startDate: Date, endDate: Date): number {
     let answer = 0;
     const site = this.siteService.getSite();
-    console.log(site);
     if (site && !site.showMids) {
       const now = new Date();
       if (!this.employee) {

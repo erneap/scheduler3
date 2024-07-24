@@ -10,6 +10,7 @@ import (
 
 	"github.com/erneap/go-models/converters"
 	"github.com/erneap/go-models/employees"
+	"github.com/erneap/go-models/labor"
 	"github.com/erneap/go-models/notifications"
 	"github.com/erneap/go-models/svcs"
 	"github.com/erneap/go-models/users"
@@ -1174,15 +1175,41 @@ func UpdateEmployeeLeaveRequest(c *gin.Context) {
 		offset = site.UtcOffset
 	}
 
-	msg, req, err := emp.UpdateLeaveRequest(data.OptionalID, data.Field,
-		data.Value, offset)
-	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s Updating LeaveRequest Problem: %s",
-				logmsg, err.Error()))
-		c.JSON(http.StatusBadRequest, web.EmployeeResponse{Employee: nil,
-			Exception: err.Error()})
-		return
+	var msg string
+	var req *employees.LeaveRequest
+	if strings.ToLower(data.Field) != "approve" {
+		msg, req, err = emp.UpdateLeaveRequest(data.OptionalID, data.Field,
+			data.Value, offset)
+		if err != nil {
+			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Updating LeaveRequest Problem: %s",
+					logmsg, err.Error()))
+			c.JSON(http.StatusBadRequest, web.EmployeeResponse{Employee: nil,
+				Exception: err.Error()})
+			return
+		}
+	} else {
+		leavecodes := make([]labor.Workcode, 0)
+		team, err := services.GetTeam(emp.TeamID.Hex())
+		if err != nil {
+			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Retrieving Team Problem: %s", logmsg, err.Error()))
+		}
+		for _, wc := range team.Workcodes {
+			if wc.IsLeave {
+				leavecodes = append(leavecodes, wc)
+			}
+		}
+		msg, req, err = emp.ApproveLeaveRequest(data.OptionalID, data.Field,
+			data.Value, offset, leavecodes)
+		if err != nil {
+			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Approving LeaveRequest Problem: %s",
+					logmsg, err.Error()))
+			c.JSON(http.StatusBadRequest, web.EmployeeResponse{Employee: nil,
+				Exception: err.Error()})
+			return
+		}
 	}
 
 	if msg != "" {

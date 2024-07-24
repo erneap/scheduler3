@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/erneap/go-models/employees"
+	"github.com/erneap/go-models/labor"
 	"github.com/erneap/go-models/svcs"
 	"github.com/erneap/go-models/teams"
 	"github.com/erneap/scheduler2/schedulerApi/models/web"
@@ -254,7 +255,7 @@ func CreateWorkcode(c *gin.Context) {
 		}
 	}
 	if !found {
-		wCode := teams.Workcode{
+		wCode := labor.Workcode{
 			Id:        data.Id,
 			Title:     data.Title,
 			StartTime: data.StartTime,
@@ -266,7 +267,7 @@ func CreateWorkcode(c *gin.Context) {
 			TextColor: data.TextColor,
 		}
 		team.Workcodes = append(team.Workcodes, wCode)
-		sort.Sort(teams.ByWorkcode(team.Workcodes))
+		sort.Sort(labor.ByWorkcode(team.Workcodes))
 	}
 
 	if err = services.UpdateTeam(team); err != nil {
@@ -334,7 +335,7 @@ func UpdateTeamWorkcode(c *gin.Context) {
 				wCode.BackColor = colors[1]
 			}
 			team.Workcodes[w] = wCode
-			sort.Sort(teams.ByWorkcode(team.Workcodes))
+			sort.Sort(labor.ByWorkcode(team.Workcodes))
 		}
 	}
 

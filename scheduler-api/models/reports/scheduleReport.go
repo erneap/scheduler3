@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/erneap/go-models/employees"
+	"github.com/erneap/go-models/labor"
 	"github.com/erneap/go-models/sites"
-	"github.com/erneap/go-models/teams"
 	"github.com/erneap/scheduler2/schedulerApi/services"
 	"github.com/xuri/excelize/v2"
 )
@@ -499,7 +499,7 @@ func (sr *ScheduleReport) CreateLegendSheet() error {
 		return err
 	}
 
-	sort.Sort(teams.ByWorkcode(team.Workcodes))
+	sort.Sort(labor.ByWorkcode(team.Workcodes))
 	row := 0
 	for _, wc := range team.Workcodes {
 		if !strings.EqualFold(wc.BackColor, "ffffff") {

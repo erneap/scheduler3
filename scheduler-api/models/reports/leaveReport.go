@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/erneap/go-models/employees"
+	"github.com/erneap/go-models/labor"
 	"github.com/erneap/go-models/teams"
 	"github.com/erneap/scheduler2/schedulerApi/services"
 	"github.com/xuri/excelize/v2"
@@ -119,7 +120,7 @@ type LeaveReport struct {
 	CompanyID string
 	BHolidays bool
 	Holidays  []LeaveMonth
-	Workcodes map[string]teams.Workcode
+	Workcodes map[string]labor.Workcode
 	Styles    map[string]int
 	Employees []employees.Employee
 	Offset    float64
@@ -127,7 +128,7 @@ type LeaveReport struct {
 
 func (lr *LeaveReport) Create() error {
 	lr.Styles = make(map[string]int)
-	lr.Workcodes = make(map[string]teams.Workcode)
+	lr.Workcodes = make(map[string]labor.Workcode)
 	lr.Report = excelize.NewFile()
 
 	// get employees with assignments for the site that are assigned
@@ -1447,7 +1448,7 @@ func (lr *LeaveReport) CreateFullMonthlyReference() error {
 	row := 2
 	col := 2
 	workcodes := maps.Values(lr.Workcodes)
-	sort.Sort(teams.ByWorkcode(workcodes))
+	sort.Sort(labor.ByWorkcode(workcodes))
 	for _, v := range workcodes {
 		style = lr.Styles[v.Id]
 		lr.Report.SetCellStyle(sheetName, GetCellID(col, row),
@@ -1533,7 +1534,7 @@ func (lr *LeaveReport) CreateMinumimMonthlyReference() error {
 	row := 2
 	col := 2
 	workcodes := maps.Values(lr.Workcodes)
-	sort.Sort(teams.ByWorkcode(workcodes))
+	sort.Sort(labor.ByWorkcode(workcodes))
 	for _, v := range workcodes {
 		style = lr.Styles[v.Id]
 		lr.Report.SetCellStyle(sheetName, GetCellID(col, row),

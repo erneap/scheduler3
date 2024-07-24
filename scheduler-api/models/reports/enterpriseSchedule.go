@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/erneap/go-models/employees"
+	"github.com/erneap/go-models/labor"
 	"github.com/erneap/go-models/sites"
-	"github.com/erneap/go-models/teams"
 	"github.com/erneap/scheduler2/schedulerApi/services"
 	"github.com/xuri/excelize/v2"
 )
@@ -20,7 +20,7 @@ type EnterpriseSchedule struct {
 	TeamID      string
 	SiteID      string
 	Workcenters []sites.Workcenter
-	Workcodes   map[string]teams.Workcode
+	Workcodes   map[string]labor.Workcode
 	Styles      map[string]int
 	Employees   []employees.Employee
 	LastWorked  time.Time
@@ -28,7 +28,7 @@ type EnterpriseSchedule struct {
 
 func (sr *EnterpriseSchedule) Create() error {
 	sr.Styles = make(map[string]int)
-	sr.Workcodes = make(map[string]teams.Workcode)
+	sr.Workcodes = make(map[string]labor.Workcode)
 	sr.Report = excelize.NewFile()
 	sr.Date = time.Now().UTC()
 	sr.LastWorked = time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC)

@@ -10,6 +10,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeLeaveRequestEditorUnapproveComponent } from './employee-leave-request-editor/employee-leave-request-editor-unapprove/employee-leave-request-editor-unapprove.component';
 import { EmployeeLeaveRequestEditorLegendComponent } from './employee-leave-request-editor/employee-leave-request-editor-legend/employee-leave-request-editor-legend.component';
 import { EmployeeLeaveRequestEditorMidDenialComponent } from './employee-leave-request-editor/employee-leave-request-editor-mid-denial/employee-leave-request-editor-mid-denial.component';
+import { EmployeeLeaveRequestEditorModtimeCalendarComponent } from './employee-leave-request-editor/employee-leave-request-editor-modtime-calendar/employee-leave-request-editor-modtime-calendar.component';
+import { EmployeeLeaveRequestEditorModtimeCalendarWeekComponent } from './employee-leave-request-editor/employee-leave-request-editor-modtime-calendar/employee-leave-request-editor-modtime-calendar-week/employee-leave-request-editor-modtime-calendar-week.component';
+import { EmployeeLeaveRequestEditorModtimeCalendarWeekDayComponent } from './employee-leave-request-editor/employee-leave-request-editor-modtime-calendar/employee-leave-request-editor-modtime-calendar-week/employee-leave-request-editor-modtime-calendar-week-day/employee-leave-request-editor-modtime-calendar-week-day.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { EmployeeLeaveRequestEditorMidDenialComponent } from './employee-leave-r
     EmployeeLeaveRequestEditorCalendarDayComponent,
     EmployeeLeaveRequestEditorUnapproveComponent,
     EmployeeLeaveRequestEditorLegendComponent,
-    EmployeeLeaveRequestEditorMidDenialComponent
+    EmployeeLeaveRequestEditorMidDenialComponent,
+    EmployeeLeaveRequestEditorModtimeCalendarComponent,
+    EmployeeLeaveRequestEditorModtimeCalendarWeekComponent,
+    EmployeeLeaveRequestEditorModtimeCalendarWeekDayComponent
   ],
   imports: [
     CommonModule,

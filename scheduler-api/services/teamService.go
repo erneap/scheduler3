@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/erneap/go-models/config"
+	"github.com/erneap/go-models/labor"
 	"github.com/erneap/go-models/teams"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -59,7 +60,7 @@ func CreateTeam(name string, useCodes bool) *teams.Team {
 			}
 
 			for _, wc := range initialTeam.Workcodes {
-				nwc := teams.Workcode{
+				nwc := labor.Workcode{
 					Id:        wc.Id,
 					Title:     wc.Title,
 					StartTime: wc.StartTime,

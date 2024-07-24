@@ -10,7 +10,6 @@ import (
 	"github.com/erneap/go-models/employees"
 	"github.com/erneap/go-models/labor"
 	"github.com/erneap/go-models/sites"
-	"github.com/erneap/go-models/teams"
 	"github.com/erneap/scheduler2/schedulerApi/services"
 	"github.com/xuri/excelize/v2"
 	"golang.org/x/exp/maps"
@@ -23,7 +22,7 @@ type LaborReport struct {
 	SiteID            string
 	CompanyID         string
 	ForecastReports   []sites.ForecastReport
-	Workcodes         map[string]teams.Workcode
+	Workcodes         map[string]labor.Workcode
 	Styles            map[string]int
 	ConditionalStyles map[string]int
 	Employees         []employees.Employee
@@ -39,7 +38,7 @@ func (lr *LaborReport) Create() error {
 	lr.StatsRow = 3
 	lr.Styles = make(map[string]int)
 	lr.ConditionalStyles = make(map[string]int)
-	lr.Workcodes = make(map[string]teams.Workcode)
+	lr.Workcodes = make(map[string]labor.Workcode)
 	lr.Report = excelize.NewFile()
 
 	// Get list of forecast reports for the team/site

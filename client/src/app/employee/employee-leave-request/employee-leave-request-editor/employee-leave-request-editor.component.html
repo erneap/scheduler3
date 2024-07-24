@@ -25,6 +25,7 @@
             <mat-option *ngFor="let wc of leavecodes" [value]="wc.id">
               {{wc.title}}
             </mat-option>
+            <mat-option value="mod">Mod Time</mat-option>
           </mat-select>
         </mat-form-field>
         <div class="flexlayout column center" [style]="inputStyle('buttons')">
@@ -168,10 +169,15 @@
       </ng-container>
     </ng-container>
     <app-employee-leave-request-editor-calendar 
-      *ngIf="request && request.id !== ''" [request]="request" 
-      [leavecodes]="leavecodes" [width]="width" [height]="viewHeight()" 
-      (changed)="onDayChange($event)">
+      *ngIf="request && request.id !== '' && request.primarycode !== 'mod'" 
+      [request]="request" [leavecodes]="leavecodes" [width]="width" 
+      [height]="viewHeight()" (changed)="onDayChange($event)">
     </app-employee-leave-request-editor-calendar>
+    <app-employee-leave-request-editor-modtime-calendar
+      *ngIf="request && request.id !== '' && request.primarycode === 'mod'"
+      [request]="request" [width]="width" 
+      [height]="viewHeight()" (changed)="onDayChange($event)">
+    </app-employee-leave-request-editor-modtime-calendar>
   </div>
   <div class="legend">
     <app-employee-leave-request-editor-legend 

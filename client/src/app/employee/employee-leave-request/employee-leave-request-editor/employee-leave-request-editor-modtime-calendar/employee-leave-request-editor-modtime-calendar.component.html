@@ -1,0 +1,15 @@
+<div class="toplevel">
+  <div class="flexlayout row center">
+    <div class="daylabel" *ngFor="let day of daysOfWeek" [style]="dayLabelStyle()">
+      {{day}}
+    </div>
+  </div>
+  <div class="view" [style]="viewStyle()">
+    <app-employee-leave-request-editor-modtime-calendar-week 
+    *ngFor="let week of weeks"
+    [weekdays]="week.days" [width]="width" [workcodes]="workcodes" 
+    [start]="request.startdate" [end]="request.enddate" 
+    (changed)="onChange($event)" [workcenters]="workcenters">
+    </app-employee-leave-request-editor-modtime-calendar-week>
+  </div>
+</div>

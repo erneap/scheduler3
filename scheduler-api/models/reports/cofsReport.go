@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/erneap/go-models/employees"
+	"github.com/erneap/go-models/labor"
 	"github.com/erneap/go-models/sites"
 	"github.com/erneap/go-models/teams"
 	"github.com/erneap/scheduler2/schedulerApi/services"
@@ -19,7 +20,7 @@ type ReportCofS struct {
 	Date          time.Time
 	TeamID        string
 	Companies     map[string]teams.Company
-	LeaveCodes    map[string]teams.Workcode
+	LeaveCodes    map[string]labor.Workcode
 	ExerciseCodes []employees.EmployeeLaborCode
 	SiteID        string
 	Site          sites.Site
@@ -46,7 +47,7 @@ func (cr *ReportCofS) Create() error {
 	// next get the list of companies associated with this
 	// the team
 	cr.Companies = make(map[string]teams.Company)
-	cr.LeaveCodes = make(map[string]teams.Workcode)
+	cr.LeaveCodes = make(map[string]labor.Workcode)
 	team, err := services.GetTeam(cr.TeamID)
 	if err != nil {
 		return err
