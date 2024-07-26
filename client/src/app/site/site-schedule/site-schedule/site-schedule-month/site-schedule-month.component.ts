@@ -224,7 +224,7 @@ export class SiteScheduleMonthComponent {
   selectMonth() {
     let iMonth = Number(this.monthForm.value.month);
     let iYear = Number(this.monthForm.value.year);
-    this.month = new Date(iYear, iMonth, 1);
+    this.month = new Date(Date.UTC(iYear, iMonth, 1));
     this.setStyles();
   }
 }
