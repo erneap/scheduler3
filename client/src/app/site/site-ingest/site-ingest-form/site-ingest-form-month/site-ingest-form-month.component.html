@@ -11,13 +11,14 @@
     <div class="month" [style]="monthStyle()">
       <form [formGroup]="dateForm" class="flexlayout row center">
         <select matNativeControl formControlName="month" 
-          (change)="selectMonth()" class="input">
-          <option *ngFor="let month of months;let i = index" [value]="i">
+          (change)="selectMonth()" class="monthSelect">
+          <option *ngFor="let month of months;let i = index" [value]="i"
+            class="monthSelectOption">
             {{month}}
           </option>
         </select>
         <input matNativeControl type="number" formControlName="year" 
-          class="input"
+          class="yearSelect"
           (change)="selectMonth()">
       </form>
     </div>

@@ -87,3 +87,26 @@
 .overflowx {
   overflow-x: scroll;
 }
+
+.monthSelect {
+  text-align: center;
+  font-size: 14pt;
+  background-color: transparent;
+  color: white;
+  border: none;
+  width: 120px;
+}
+
+.monthSelectOption {
+  background-color: #673ab7;
+  color: white;
+}
+
+.yearSelect {
+  text-align: center;
+  font-size: 14pt;
+  background-color: transparent;
+  color: white;
+  border: none;
+  width: 80px;
+}
