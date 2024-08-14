@@ -1045,8 +1045,9 @@ func (lr *LeaveReport) CreateLeaveListing() error {
 		endAsgmt := emp.Assignments[len(emp.Assignments)-1]
 		// clear months
 		for m, month := range months {
+			startMonth := month.Month.AddDate(0, 1, 0)
 			month.Periods = month.Periods[:0]
-			month.Disable = startAsgmt.StartDate.After(*month.Month) ||
+			month.Disable = startAsgmt.StartDate.After(startMonth) ||
 				endAsgmt.EndDate.Before(*month.Month)
 			months[m] = month
 		}
@@ -1077,7 +1078,7 @@ func (lr *LeaveReport) CreateLeaveListing() error {
 					bFound := false
 					for h, hol := range lr.Holidays {
 						if !bFound {
-							if hol.GetHours() < 8.0 {
+							if hol.GetHours() < 8.0 && !hol.Disable {
 								if hol.GetHours()+lv.Hours <= 8.0 {
 									bFound = true
 									prd := LeavePeriod{
