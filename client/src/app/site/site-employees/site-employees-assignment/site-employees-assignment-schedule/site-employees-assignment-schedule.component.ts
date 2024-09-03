@@ -200,7 +200,8 @@ export class SiteEmployeesAssignmentScheduleComponent {
   setCopy(id: number): boolean {
     let answer: boolean = false;
     const current = this.schedule.workdays[id];
-    if (current.hours === 0.0 || current.workcenter === '' || current.code === '') {
+    if (current && (current.hours === 0.0 || current.workcenter === '' 
+      || current.code === '')) {
       id--;
       while (!answer && id >= 0) {
         const wd = this.schedule.workdays[id];
