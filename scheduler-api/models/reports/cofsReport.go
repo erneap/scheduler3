@@ -17,18 +17,17 @@ import (
 )
 
 type ReportCofS struct {
-	Date          time.Time
-	TeamID        string
-	Companies     map[string]teams.Company
-	LeaveCodes    map[string]labor.Workcode
-	ExerciseCodes []employees.EmployeeLaborCode
-	SiteID        string
-	Site          sites.Site
-	Writer        *zip.Writer
-	Buffer        *bytes.Buffer
-	StartDate     time.Time
-	EndDate       time.Time
-	Remarks       []string
+	Date       time.Time
+	TeamID     string
+	Companies  map[string]teams.Company
+	LeaveCodes map[string]labor.Workcode
+	SiteID     string
+	Site       sites.Site
+	Writer     *zip.Writer
+	Buffer     *bytes.Buffer
+	StartDate  time.Time
+	EndDate    time.Time
+	Remarks    []string
 }
 
 // //////////////////////////////////////////////////////////
@@ -78,20 +77,6 @@ func (cr *ReportCofS) Create() error {
 		1, 0, 0, 0, 0, time.UTC)
 	cr.EndDate = cr.StartDate.AddDate(0, 1, 0)
 
-	// get any exercise codes in period
-	for _, frct := range cr.Site.ForecastReports {
-		for _, flc := range frct.LaborCodes {
-			if flc.Exercise && cr.StartDate.Before(flc.EndDate) &&
-				cr.EndDate.After(flc.StartDate) {
-				elc := employees.EmployeeLaborCode{
-					ChargeNumber: flc.ChargeNumber,
-					Extension:    flc.Extension,
-				}
-				cr.ExerciseCodes = append(cr.ExerciseCodes, elc)
-			}
-		}
-	}
-
 	// create zip file in a memory buffer to allow the file
 	// to be added to it.
 	cr.Buffer = new(bytes.Buffer)
@@ -100,11 +85,7 @@ func (cr *ReportCofS) Create() error {
 	for _, cofs := range site.CofSReports {
 		if !(cr.EndDate.Before(cofs.StartDate) || cr.StartDate.After(cofs.EndDate)) {
 			// create this CofS Report as it is in the date range
-			if len(cofs.Companies) > 0 && len(cofs.Sections) <= 0 {
-				err = cr.CreateCofSXML(&cofs)
-			} else if len(cofs.Sections) > 0 {
-				err = cr.CreateCofSXMLSections(&cofs)
-			}
+			err = cr.CreateCofSXMLSections(&cofs)
 			if err != nil {
 				return err
 			}
@@ -112,111 +93,6 @@ func (cr *ReportCofS) Create() error {
 	}
 
 	err = cr.Writer.Close()
-
-	return err
-}
-
-func (cr *ReportCofS) CreateCofSXML(rpt *sites.CofSReport) error {
-	// this xml file will have the filename of the report's
-	// shortname + date create + .xml
-	filename := rpt.ShortName + "-" +
-		cr.Date.Format("20060102") + ".xml"
-	var sb strings.Builder
-	cr.Remarks = cr.Remarks[:0]
-
-	// xml header information added first
-	sb.WriteString("<?xml version=\"1.0\" encoding=\"UTF-8\"" +
-		" standalone=\"yes\" ?>")
-	sb.WriteString("<fields xmlns:xsi=\"http://www.w3.org/2001/" +
-		"XMLSchema-instance\">")
-	sb.WriteString("<Month-Year>" + cr.Date.Format("Jan-2006") +
-		"</Month-Year>")
-	sb.WriteString("<Month-Year1>" + cr.Date.Format("Jan-2006") +
-		"</Month-Year1>")
-	sb.WriteString("<Unit>" + rpt.AssociatedUnit + "</Unit>")
-	sb.WriteString("<Unit1>" + rpt.AssociatedUnit + "</Unit1>")
-
-	sort.Sort(sites.ByCofSCompany(rpt.Companies))
-
-	for c, co := range rpt.Companies {
-		if company, ok := cr.Companies[co.ID]; ok {
-			sb.WriteString(fmt.Sprintf("<Company%d>%s</Company%d>",
-				c+1, company.Name, c+1))
-			count := 0
-			for _, emp := range cr.Site.Employees {
-				if emp.IsActive(cr.StartDate) ||
-					emp.IsActive(cr.EndDate.AddDate(0, 0, -1)) {
-					hours := 0.0
-					bPrimary := false
-					for _, lc := range co.LaborCodes {
-						hours += emp.GetWorkedHoursForLabor(
-							lc.ChargeNumber, lc.Extension, cr.StartDate,
-							cr.EndDate)
-						if emp.IsPrimaryCode(cr.StartDate, lc.ChargeNumber, lc.Extension) ||
-							emp.IsPrimaryCode(cr.EndDate, lc.ChargeNumber, lc.Extension) {
-							bPrimary = true
-						}
-					}
-
-					if hours > 0.0 || bPrimary {
-						var laborCodes []employees.EmployeeLaborCode
-						for _, lc := range co.LaborCodes {
-							elc := &employees.EmployeeLaborCode{
-								ChargeNumber: lc.ChargeNumber,
-								Extension:    lc.Extension,
-							}
-							laborCodes = append(laborCodes, *elc)
-						}
-						count++
-						empString := cr.CreateEmployeeData(count, c+1, emp,
-							laborCodes, company.Name, false)
-						sb.WriteString(empString)
-					}
-				}
-			}
-		}
-		if co.AddExercises && len(cr.ExerciseCodes) > 0 {
-			count := 0
-			for _, emp := range cr.Site.Employees {
-				if emp.IsActive(cr.StartDate) ||
-					emp.IsActive(cr.EndDate.AddDate(0, 0, -1)) {
-					hours := 0.0
-					for _, lc := range cr.ExerciseCodes {
-						hours += emp.GetWorkedHoursForLabor(
-							lc.ChargeNumber, lc.Extension, cr.StartDate,
-							cr.EndDate)
-					}
-
-					if hours > 0.0 {
-						count++
-						empString := cr.CreateEmployeeData(count, c+2, emp,
-							cr.ExerciseCodes, "", true)
-						sb.WriteString(empString)
-					}
-				}
-			}
-		}
-	}
-
-	if len(cr.Remarks) > 0 {
-		sb.WriteString("<REMARKS>")
-		for r, rmk := range cr.Remarks {
-			if r > 0 {
-				sb.WriteString("\n")
-			}
-			sb.WriteString(rmk)
-		}
-		sb.WriteString("</REMARKS>")
-	}
-
-	sb.WriteString("</fields>")
-
-	content := []byte(sb.String())
-	zipFile, err := cr.Writer.Create(filename)
-	if err != nil {
-		return err
-	}
-	_, err = zipFile.Write(content)
 
 	return err
 }
@@ -335,28 +211,24 @@ func (cr *ReportCofS) CreateEmployeeData(count, coCount int,
 		label := fmt.Sprintf("Section%dRow%d_%02d", coCount,
 			count, current.Day())
 		for _, lc := range labor {
-			lcExercise := false
-			for _, ec := range cr.ExerciseCodes {
-				if strings.EqualFold(lc.ChargeNumber, ec.ChargeNumber) &&
-					strings.EqualFold(lc.Extension, ec.Extension) {
-					lcExercise = true
-				}
-			}
-			if !lcExercise || bExercise {
-				hours += emp.GetWorkedHoursForLabor(lc.ChargeNumber,
-					lc.Extension, current, current.AddDate(0, 0, 1))
-			}
+			hours += emp.GetWorkedHoursForLabor(lc.ChargeNumber,
+				lc.Extension, current, current.AddDate(0, 0, 1))
 		}
 		if hours > 0.0 {
-			hours = (math.Floor(hours * 10)) / 10.0
-			total += hours
 			iHours := int(math.Floor(hours * 10))
-			cHours := int(math.Floor(hours) * 10)
-			if cHours == iHours {
+			icHours := int(math.Floor(hours) * 10)
+			tHours := int(math.Floor(hours * 100))
+			tcHours := int(math.Floor(hours*10) * 10)
+			hours = (math.Floor(hours * 100)) / 100.0
+			total += hours
+			if icHours == iHours {
 				esb.WriteString(fmt.Sprintf("<%s>%.0f</%s>", label,
 					hours, label))
-			} else {
+			} else if tHours == tcHours {
 				esb.WriteString(fmt.Sprintf("<%s>%.1f</%s>", label,
+					hours, label))
+			} else {
+				esb.WriteString(fmt.Sprintf("<%s>%.2f</%s>", label,
 					hours, label))
 			}
 			if hours > 12.0 {
