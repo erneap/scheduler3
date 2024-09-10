@@ -1,3 +1,4 @@
 scheduler-api/.env
 query-api/.env
 authentication/.env
+.DS_Store
