@@ -960,8 +960,10 @@ func (lr *LaborReport) CreateContractReport(
 	lr.Report.SetCellValue(sheetName, "K4", "Cost Center")
 	lr.Report.SetCellValue(sheetName, "L4", "Comments/Remarks")
 
+	// set period for the report sheet
 	column := 12
 	for _, period := range fr.Periods {
+		// For each monthly period it will consist of a month summary and weekly periods
 		style = lr.Styles["periods"]
 		cellID := GetCellID(column, 1)
 		lr.Report.SetCellStyle(sheetName, cellID, cellID,
@@ -999,6 +1001,7 @@ func (lr *LaborReport) CreateContractReport(
 		}
 		column += len(period.Periods) + 1
 	}
+	// add column for totals
 	style = lr.Styles["monthsumlbl"]
 	cellID := GetCellID(column, 4)
 	lr.Report.SetCellStyle(sheetName, cellID, cellID, style)
@@ -1019,6 +1022,8 @@ func (lr *LaborReport) CreateContractReport(
 		sort.Sort(employees.ByEmployees(lr.Employees))
 	}
 
+	// create a list of leave/work codes for comparison help determine working or
+	// not working criteria
 	row := 4
 	var compareCodes []employees.EmployeeCompareCode
 	for _, wc := range maps.Values(lr.Workcodes) {
@@ -1028,7 +1033,12 @@ func (lr *LaborReport) CreateContractReport(
 		}
 		compareCodes = append(compareCodes, *cc)
 	}
+
+	// step through labor codes for report
 	for _, lCode := range fr.LaborCodes {
+
+		// step thorugh the employees to see if they worked or are forecast to use
+		// the labor code
 		for _, emp := range lr.Employees {
 			actual := emp.GetWorkedHoursForLabor(
 				lCode.ChargeNumber, lCode.Extension, fr.StartDate,
@@ -1037,7 +1047,7 @@ func (lr *LaborReport) CreateContractReport(
 				fr.EndDate.AddDate(0, 0, 1),
 				compareCodes, lr.Offset)
 			if actual > 0.0 || forecast > 0.0 {
-				// show employee for this labor code
+				// show employee for this labor code, if either actual or forecast > 0
 				row++
 				style = lr.Styles["peoplectr"]
 				lStyle := lr.Styles["peopleleft"]
@@ -1070,6 +1080,8 @@ func (lr *LaborReport) CreateContractReport(
 					emp.CompanyInfo.CostCenter)
 				column = 11
 				var sumlist = []string{}
+
+				// create columns for employee for this labor code (either worked or forecast)
 				for _, period := range fr.Periods {
 					column++
 					style = lr.Styles["sum"]
@@ -1149,6 +1161,8 @@ func (lr *LaborReport) CreateContractReport(
 				lr.Report.SetCellFormula(sheetName, cellID, formula)
 			}
 		}
+
+		// create statistics page data but only for actual data sheets
 		if current {
 			days := math.Ceil(lCode.EndDate.Sub(lCode.StartDate).Hours() / 24.0)
 			daysToNow := math.Ceil(lr.EndWork.Sub(lCode.StartDate).Hours() / 24.0)
