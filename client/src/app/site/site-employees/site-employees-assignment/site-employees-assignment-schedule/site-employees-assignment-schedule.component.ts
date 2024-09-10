@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { WorkWeek } from 'src/app/employee/employee-schedule/employee-schedule.model';
 import { DeletionConfirmationComponent } from 'src/app/generic/deletion-confirmation/deletion-confirmation.component';
-import { ISchedule, Schedule } from 'src/app/models/employees/assignments';
+import { ISchedule, Schedule, Workday } from 'src/app/models/employees/assignments';
 import { ISite, Site } from 'src/app/models/sites/site';
 
 @Component({
@@ -41,6 +41,7 @@ export class SiteEmployeesAssignmentScheduleComponent {
       this._startDate = undefined;
       this.startid = 0;
     }
+    this.setSchedule();
   }
   get startdate(): Date | undefined {
     return this._startDate;
@@ -60,6 +61,7 @@ export class SiteEmployeesAssignmentScheduleComponent {
     } else {
       this._endDate = undefined;
     }
+    this.setSchedule();
   }
   get enddate(): Date | undefined {
     return this._endDate;
@@ -78,6 +80,7 @@ export class SiteEmployeesAssignmentScheduleComponent {
   get width(): number {
     return this._width;
   }
+  @Input() showdates: boolean = false;
   @Output() change = new EventEmitter<string>();
 
   days: string[] = [];
@@ -105,22 +108,74 @@ export class SiteEmployeesAssignmentScheduleComponent {
   setSchedule() {
     this.label = `SCHEDULE ${this.schedule.id}`;
     this.deletable = (this.schedule.id > 0);
-    this.scheduleForm.controls['days'].setValue(`${this.schedule.workdays.length}`)
+    let start = new Date(Date.UTC(2023, 0, 1));
+    if (this.startdate) {
+      start = new Date(this.startdate);
+    }
+    while (start.getUTCDay() !== 0) {
+      start = new Date(start.getTime() - (24 * 3600000));
+    }
+    let end = new Date(Date.UTC(2023, 0, 1));
+    if (this.enddate) {
+      end = new Date(this.enddate);
+    }
+    while (end.getUTCDay() !== 6) {
+      end = new Date(end.getTime() + (24 * 3600000));
+    }
+    let days = Math.floor((end.getTime() - start.getTime()) / (24 * 3600000));
+    while (days % 7 !== 0) {
+      days++;
+    }
+    let weeks = Math.floor(days / 7);
+    if (this.schedule.workdays.length % 7 !== 0) {
+      weeks++;
+    }
+    this.scheduleForm.controls['days'].setValue(`${days}`)
     this.workweeks = [];
+    for (let i=0; i < weeks; i++) {
+      this.workweeks.push(new WorkWeek(i));
+    }
     this.schedule.workdays.sort((a,b) => a.compareTo(b));
-    var workweek: WorkWeek | undefined;
-    let count = -1;
-    for (let i=0; i < this.schedule.workdays.length; i++) {
-      if (!workweek || (i % 7) === 0) {
-        count++;
-        workweek = new WorkWeek(count);
-        this.workweeks.push(workweek);
+    for (let i=0; i < days; i++) {
+      let week = Math.floor(i / 7);
+      const workweek = this.workweeks[week];
+      let date = new Date(start.getTime() + (i * 24 * 3600000));
+      if (this.startdate) {
+        // calculate the position in the array from the startdate
+        const iDays = Math.floor((date.getTime() - this.startdate.getTime()) / (24 * 3600000));
+        const wd = this.schedule.workdays[iDays];
+        wd.id = i;
+        wd.date = new Date(date);
+        workweek.setWorkday(wd);
+      } else {
+        if (i < this.schedule.workdays.length) {
+          const wd = this.schedule.workdays[i];
+          wd.date = new Date(date);
+          workweek.setWorkday(wd);
+        } else {
+          const wd = new Workday();
+          wd.id = i;
+          wd.date = new Date(date);
+          workweek.setWorkday(wd);
+        }
       }
-      let date = new Date(2023, 0, i + 1);
-      workweek.setWorkday(this.schedule.workdays[i], undefined);
     }
     this.startid = 0;
-    this.endid = this._schedule.workdays.length - 1;
+    this.endid = this.startid + (this.schedule.workdays.length - 1);
+    if (this.showdates) {
+      this.workweeks.forEach(wk => {
+        wk.week.forEach(day => {
+          if (day.date) {
+            if (this.startdate && day.date.getTime() === this.startdate.getTime()) {
+              this.startid = day.id;
+            }
+            if (this.enddate && day.date.getTime() === this.enddate.getTime()) {
+              this.endid = day.id;
+            }
+          }
+        })
+      });
+    }
     this.workweeks.sort((a,b) => a.compareTo(b));
   }
 

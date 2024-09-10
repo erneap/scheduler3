@@ -4,7 +4,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAda
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeletionConfirmationComponent } from 'src/app/generic/deletion-confirmation/deletion-confirmation.component';
-import { Schedule, Variation } from 'src/app/models/employees/assignments';
+import { Schedule, Variation, Workday } from 'src/app/models/employees/assignments';
 import { Employee, IEmployee } from 'src/app/models/employees/employee';
 import { ISite, Site } from 'src/app/models/sites/site';
 import { ChangeAssignmentRequest, EmployeeResponse } from 'src/app/models/web/employeeWeb';

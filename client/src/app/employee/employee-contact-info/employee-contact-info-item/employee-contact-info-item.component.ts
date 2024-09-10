@@ -71,7 +71,6 @@ export class EmployeeContactInfoItemComponent {
   updateContactType() {
     let value = this.form.value.itemValue;
     this.dialogService.showSpinner();
-    console.log(value);
     
     this.empService.updateEmployeeContact(this.employee.id, 
     this.contacttype.id, this.contactid, value).subscribe({

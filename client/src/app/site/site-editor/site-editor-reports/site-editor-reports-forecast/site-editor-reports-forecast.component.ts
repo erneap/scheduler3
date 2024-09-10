@@ -208,7 +208,6 @@ export class SiteEditorReportsForecastComponent {
         } else {
           outputValue = value;
         }
-        console.log(`Field: ${field} - Value: ${value}`)
         this.dialogService.showSpinner();
         this.siteService.updateForecastReport(this.team.id, this.site.id, 
           Number(this.selected.id), field, outputValue).subscribe({

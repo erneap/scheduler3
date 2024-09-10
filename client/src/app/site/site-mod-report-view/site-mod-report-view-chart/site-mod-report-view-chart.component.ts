@@ -135,7 +135,6 @@ export class SiteModReportViewChartComponent {
 
   setExpandAll() {
     const tMonths: MonthPeriod[] = []
-    console.log(this.expandAllText);
     if (this.expandAllText.toLowerCase() === '+') {
       this.months.forEach(month => {
         month.expand = true;

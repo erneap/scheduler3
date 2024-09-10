@@ -91,7 +91,6 @@ export class TeamEditorSiteEditorComponent {
   }
 
   topLevelHeight(): string {
-    console.log(this.height);
     return `${this.height}px;`;
   }
 }

@@ -1,7 +1,7 @@
 import { IWorkday, Workday } from "src/app/models/employees/assignments";
 
 export class WorkWeek {
-  private week: Workday[];
+  public week: Workday[];
   public id: number = 0
 
   constructor(id: number) {
@@ -20,17 +20,21 @@ export class WorkWeek {
     if (date) {
       wDay.date = new Date(date);
     }
-    const id = (wDay.date) ? wDay.date.getUTCDay() : wDay.id;
-    wDay.id = id;
-    this.week[id] = wDay;
-    this.week = this.week.sort((a,b) => a.compareTo(b));
+    let day = 0;
+    if (wDay.date) {
+      day = wDay.date.getUTCDay();
+    } else {
+      day = wDay.id % 7;
+    }
+    this.week[day] = wDay;
   }
 
   getWorkday(id: number): Workday {
-    return this.week[id];
+    return this.week[id % 7];
   }
 
   getWorkdays(): Workday[] {
+    this.week.sort((a,b) => a.compareTo(b));
     return this.week;
   }
 

@@ -89,7 +89,6 @@ export class SiteEditorWorkcenterShiftComponent {
       }
       this.teamid = iteam.id;
     }
-    console.log(this.workcodes.length);
   }
 
   setShifts() {

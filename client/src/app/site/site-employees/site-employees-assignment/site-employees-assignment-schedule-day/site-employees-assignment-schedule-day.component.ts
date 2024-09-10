@@ -34,18 +34,7 @@ export class SiteEmployeesAssignmentScheduleDayComponent {
   get site(): Site {
     return this._site;
   }
-  private _useDate: Date | undefined;
-  @Input()
-  public set usedate(tDate: Date | undefined) {
-    if (tDate) {
-      this._useDate = new Date(tDate);
-    } else {
-      this._useDate = undefined;
-    }
-  }
-  get usedate(): Date | undefined {
-    return this._useDate;
-  }
+  @Input() showdates: boolean = false;
   private _disabled: boolean = false;
   @Input() 
   public set disabled(bval: boolean) {
@@ -141,8 +130,8 @@ export class SiteEmployeesAssignmentScheduleDayComponent {
   }
 
   getDisplayDate(): string {
-    if (this.usedate) {
-      return this.usedate.getUTCDate().toString(10);
+    if (this.showdates && this.workday.date) {
+      return this.workday.date.getUTCDate().toString(10);
     }
     return this.workday.id.toString(10);
   }

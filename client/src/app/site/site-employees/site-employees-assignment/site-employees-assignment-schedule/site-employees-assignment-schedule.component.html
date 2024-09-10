@@ -35,7 +35,7 @@
       <app-site-employees-assignment-schedule-day 
         *ngFor="let wd of week.getWorkdays()"
         [site]="site"
-        [usedate]="getScheduleDate(wd.id)"
+        [showdates]="showdates"
         [disabled]="isDisabled(wd.id)"
         [copy]="setCopy(wd.id)"
         [width]="width"
