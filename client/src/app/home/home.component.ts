@@ -182,10 +182,10 @@ export class HomeComponent {
         }
         let ptoPct = 0.0;
         if (leaveBalance > 0.0) {
-          ptoPct = (ptoHours / leaveBalance ) * 100.0;
+          ptoPct = leaveBalance - ptoHours;
         }
         if ((holPct > 0.0 && holPct < 80.0) 
-          || (ptoPct > 0.0 && ptoPct < 80.0)) {
+          || (ptoPct > 40.0)) {
             const dialogRef = this.dialog.open(PtoHolidayBelowDialogComponent, {
               width: '400px',
               data: { 

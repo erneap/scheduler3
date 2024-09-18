@@ -10,10 +10,10 @@
     </div>
     <div class="flexlayout column center" *ngIf="showPTO"
       style="margin-top: 5px;">
-      <div>You are below 80% of scheduled PTO</div>
+      <div>You are above 40 hours of unscheduled PTO</div>
       <div class="highlight">
         {{data.ptoHours}} hours of {{data.totalPTO}} hours
-        = {{ptoPercent.toFixed(1)}}%
+        = {{ptoPercent.toFixed(1)}} hours
       </div>
     </div>
     <p>Please schedule necessary PTO/Holidays!</p>

@@ -20,8 +20,8 @@ export class PtoHolidayBelowDialogComponent {
       this.showHolidays = (this.holidayPercent < 80.0);
     }
     if (data.totalPTO > 0.0) {
-      this.ptoPercent = (data.ptoHours / data.totalPTO) * 100.0;
-      this.showPTO = (this.ptoPercent < 80.0);
+      this.ptoPercent = data.totalPTO - data.ptoHours;
+      this.showPTO = this.ptoPercent > 40.0;
     }
   }
 
