@@ -217,18 +217,13 @@ func (cr *ReportCofS) CreateEmployeeData(count, coCount int,
 		if hours > 0.0 {
 			iHours := int(math.Floor(hours * 10))
 			icHours := int(math.Floor(hours) * 10)
-			tHours := int(math.Floor(hours * 100))
-			tcHours := int(math.Floor(hours*10) * 10)
 			hours = (math.Floor(hours * 100)) / 100.0
 			total += hours
 			if icHours == iHours {
 				esb.WriteString(fmt.Sprintf("<%s>%.0f</%s>", label,
 					hours, label))
-			} else if tHours == tcHours {
-				esb.WriteString(fmt.Sprintf("<%s>%.1f</%s>", label,
-					hours, label))
 			} else {
-				esb.WriteString(fmt.Sprintf("<%s>%.2f</%s>", label,
+				esb.WriteString(fmt.Sprintf("<%s>%.1f</%s>", label,
 					hours, label))
 			}
 			if hours > 12.0 {
