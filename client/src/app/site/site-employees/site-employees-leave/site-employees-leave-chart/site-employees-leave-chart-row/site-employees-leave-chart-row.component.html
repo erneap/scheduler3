@@ -10,7 +10,8 @@
     <div class="code" [style]="fieldStyle('code')">
       <select formControlName="code" class="form-field"
         (change)="onUpdate('code')">
-        <option *ngFor="let wc of leavecodes" [value]="wc.id">
+        <option *ngFor="let wc of leavecodes" [value]="wc.id" 
+          style="color: black;background-color: white;">
           {{wc.id.toUpperCase()}}
         </option>
       </select>
