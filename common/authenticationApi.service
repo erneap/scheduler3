@@ -1,0 +1,15 @@
+[Unit]
+Description=Authentication API Service
+Wants=network.target
+#After=syslog.target network-online.target
+
+[Service]
+Type=simple
+#Restart=on-failure
+#RestartSec=10
+EnvironmentFile=/usr/local/etc/schedulerEnv
+ExecStart=/usr/local/bin/authentication
+#KillMode=process
+
+[Install]
+WantedBy=multi-user.target
