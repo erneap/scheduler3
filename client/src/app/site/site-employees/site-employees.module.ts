@@ -23,6 +23,8 @@ import { SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent } from './site-
 import { EmployeeLeaveRequestModule } from 'src/app/employee/employee-leave-request/employee-leave-request.module';
 import { SiteEmployeesLeaveChartComponent } from './site-employees-leave/site-employees-leave-chart/site-employees-leave-chart.component';
 import { SiteEmployeesLeaveChartRowComponent } from './site-employees-leave/site-employees-leave-chart/site-employees-leave-chart-row/site-employees-leave-chart-row.component';
+import { SiteEmployeesVariationCalendarComponent } from './site-employees-variation/site-employees-variation-calendar/site-employees-variation-calendar.component';
+import { SiteEmployeesVariationCalendarDayComponent } from './site-employees-variation/site-employees-variation-calendar/site-employees-variation-calendar-day/site-employees-variation-calendar-day.component';
 
 
 @NgModule({
@@ -45,7 +47,9 @@ import { SiteEmployeesLeaveChartRowComponent } from './site-employees-leave/site
     SiteEmployeesLeaveApprovalAvailabilityDayComponent,
     SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent,
     SiteEmployeesLeaveChartComponent,
-    SiteEmployeesLeaveChartRowComponent
+    SiteEmployeesLeaveChartRowComponent,
+    SiteEmployeesVariationCalendarComponent,
+    SiteEmployeesVariationCalendarDayComponent
   ],
   imports: [
     CommonModule,

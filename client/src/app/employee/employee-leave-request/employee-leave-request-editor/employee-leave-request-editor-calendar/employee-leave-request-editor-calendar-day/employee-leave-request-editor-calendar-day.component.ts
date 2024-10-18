@@ -48,7 +48,7 @@ export class EmployeeLeaveRequestEditorCalendarDayComponent {
     if (ratio > 1.0) ratio = 1.0;
     const width = Math.floor(100 * ratio);
     let answer = `height: ${width}px;width: ${width}px;`;
-    if (!this.show) {
+    if (this.leaveday.disable) {
       answer += 'background-color: #000000;color: #000000;border: solid '
         + '1px #000000;';
     } else {
@@ -73,7 +73,7 @@ export class EmployeeLeaveRequestEditorCalendarDayComponent {
     if (ratio > 1.0) ratio = 1.0;
     const fontSize = 1.2 * ratio;
     const width = Math.floor(25 * ratio);
-    if (!this.show) {
+    if (this.leaveday.disable) {
       return `width: ${width}px;height: ${width}px;font-size: ${fontSize}rem;`
         + 'background-color: #000000;color: #000000;'
     }
@@ -85,7 +85,7 @@ export class EmployeeLeaveRequestEditorCalendarDayComponent {
     if (ratio > 1.0) ratio = 1.0;
     let bkColor = 'ffffff';
     let txColor = '000000';
-    if (!this.show) {
+    if (this.leaveday.disable) {
       bkColor = '000000';
       txColor = '000000';
     } else if (this.leaveday && this.leaveday.code !== "") {
@@ -105,7 +105,7 @@ export class EmployeeLeaveRequestEditorCalendarDayComponent {
     if (ratio > 1.0) ratio = 1.0;
     let bkColor = 'ffffff';
     let txColor = '000000';
-    if (!this.show) {
+    if (this.leaveday.disable) {
       bkColor = '000000';
       txColor = '000000';
     } else if (this.leaveday && this.leaveday.code !== "") {
@@ -135,8 +135,10 @@ export class EmployeeLeaveRequestEditorCalendarDayComponent {
       + ((this.leaveday.leavedate.getUTCDate() < 10) ? '0' : '') 
       + `${this.leaveday.leavedate.getUTCDate()}`
       + `|${this.leaveday.code}|${this.leaveday.hours}`;
-    this.changed.emit(data);
-    this.setLeave();
+    if (!this.leaveday.disable) {
+      this.changed.emit(data);
+      this.setLeave();
+    }
   }
 
   optionStyle(code: string): string {

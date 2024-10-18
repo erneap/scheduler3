@@ -6,6 +6,7 @@ export interface IWorkday {
   code: string;
   hours: number;
   date?: Date;
+  disable?: boolean;
 }
 
 export class Workday implements IWorkday {
@@ -14,6 +15,7 @@ export class Workday implements IWorkday {
   code: string;
   hours: number;
   date?: Date;
+  disable?: boolean;
 
   constructor(wd?: IWorkday) {
     this.id = (wd) ? wd.id : 0;
@@ -21,6 +23,7 @@ export class Workday implements IWorkday {
     this.code = (wd) ? wd.code : '';
     this.hours = (wd) ? wd.hours : 0.0;
     this.date = (wd && wd.date) ? new Date(wd.date) : undefined;
+    this.disable = (wd) ? wd.disable : false;
   }
 
   compareTo(other?: IWorkday): number {

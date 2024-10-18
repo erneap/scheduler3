@@ -1,0 +1,52 @@
+.daycell {
+    margin: 0px;
+    padding: 0px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: solid 1px black;
+  }
+  
+  .movement {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    padding: 0px;
+    background-color: darkblue;
+    color: white;
+    font-size: 16pt;
+    font-weight: bold;
+    width: 100px;
+    height: 48px;
+    border: solid 1px darkblue;
+  }
+  
+  .month {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    padding: 0px;
+    background-color: darkblue;
+    color: white;
+    font-size: 16pt;
+    font-weight: bold;
+    width: 508px;
+    height: 48px;
+    border: solid 1px darkblue;
+  }
+  
+  .week {
+    position: relative;
+  }
+  
+  .day-form-field {
+    font-size: 1.2em;
+    width: 99% !important;
+    background-color: transparent;
+    text-align: center;
+    border: none;
+  }

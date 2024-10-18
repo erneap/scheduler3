@@ -50,15 +50,12 @@
     </div>
   </form>
     <div class="flexlayout row center">
-      <app-site-employees-assignment-schedule 
-        [schedule]="schedule"
+      <app-site-employees-variation-calendar
+        [variation]="variation"
         [site]="site"
-        [showdates]="variation.schedule.showdates"
-        [startdate]="startDate"
-        [enddate]="endDate"
         [width]="width"
         (change)="updateSchedule($event)">
-      </app-site-employees-assignment-schedule>
+      </app-site-employees-variation-calendar>
     </div>
     <div class="flexlayout row center">
       <button mat-raised-button color="accent" 

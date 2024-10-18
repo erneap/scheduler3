@@ -81,6 +81,8 @@ export class EmployeeLeaveRequestEditorCalendarComponent {
       if (!found) {
         const lv = new LeaveDay();
         lv.leavedate = new Date(start);
+        lv.disable = !(start.getTime() >= this.request.startdate.getTime() 
+          && start.getTime() <= this.request.enddate.getTime())
         week.days.push(lv);
       }
       start = new Date(start.getTime() + (24 * 3600000));
