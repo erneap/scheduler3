@@ -131,6 +131,8 @@ export class EmployeeScheduleMonthComponent {
           wd.id = start.getUTCDay();
         } else if (wd.id === 0) {
           wd.id = start.getUTCDay();
+        } else if (wd.id > 6) {
+          wd.id = wd.id % 7;
         }
         wd.date = new Date(start);
         workweek.setWorkday(wd, start);

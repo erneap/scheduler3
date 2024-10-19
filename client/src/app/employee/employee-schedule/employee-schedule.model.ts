@@ -26,7 +26,8 @@ export class WorkWeek {
     } else {
       day = wDay.id % 7;
     }
-    this.week[day] = wDay;
+    this.week[day] =new Workday(wDay);
+    this.week.sort((a,b) => a.compareTo(b))
   }
 
   getWorkday(id: number): Workday {

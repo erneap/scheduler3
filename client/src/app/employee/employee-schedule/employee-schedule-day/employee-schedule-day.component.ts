@@ -17,7 +17,7 @@ export class EmployeeScheduleDayComponent {
     if (!wd) {
       wd = new Workday();
     }
-    this._workday = wd;
+    this._workday = new Workday(wd);
   }
   get workday(): Workday {
     return this._workday;
@@ -125,5 +125,13 @@ export class EmployeeScheduleDayComponent {
     const fontSize = (this.width / 100);
     const height = (this.width / 100) * 25;
     return `height: ${height}px;font-size: ${fontSize}em;`;
+  }
+
+  getDisplayDate(): string {
+    if (this.workday.date) {
+      return `${this.workday.date.getUTCDate()}`;
+    } else {
+      return '0';
+    }
   }
 }

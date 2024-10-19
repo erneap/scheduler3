@@ -174,6 +174,7 @@ export class EmployeeProfileFormComponent {
   }
 
   setPassword() {
+    console.log(this.profileForm.valid);
     if (this.profileForm.valid) {
       let id = "";
       if (this.employee && this.employee.id !== "") {

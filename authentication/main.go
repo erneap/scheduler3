@@ -34,7 +34,7 @@ func main() {
 			user.GET("/:userid", svcs.CheckRoleList("authentication", adminRoles),
 				controllers.GetUser)
 			user.POST("/", svcs.CheckRoleList("authentication", adminRoles), controllers.AddUser)
-			user.PUT("/", svcs.CheckRoleList("authentication", adminRoles), controllers.UpdateUser)
+			user.PUT("/", svcs.CheckJWT("authentication"), controllers.UpdateUser)
 			user.DELETE("/:userid", svcs.CheckRoleList("authentication", adminRoles),
 				controllers.DeleteUser)
 		}
