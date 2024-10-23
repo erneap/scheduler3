@@ -211,11 +211,6 @@ func main() {
 			admin.DELETE("/purge/:purge", controllers.Purge)
 		}
 
-		reports := api.Group("/reports", svcs.CheckJWT("scheduler"))
-		{
-			reports.POST("/", controllers.CreateReport)
-		}
-
 		notes := api.Group("/messages", svcs.CheckJWT("scheduler"))
 		{
 			notes.GET("/", controllers.GetAllMessages)

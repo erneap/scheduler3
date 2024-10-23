@@ -3,8 +3,14 @@ package models
 import (
 	"time"
 
+	"github.com/erneap/go-models/general"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+
+type ReportTypeList struct {
+	ReportTypes []general.ReportType `json:"reporttypes"`
+	Exception   string               `json:"exception"`
+}
 
 type ReportItem struct {
 	ID            primitive.ObjectID `json:"id"`
