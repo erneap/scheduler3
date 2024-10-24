@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AddLogEntry, ILogResponse, LogRequest } from '../models/web/internalWeb';
+import { AppList, ILogList } from '../models/logs/applist';
 
 @Injectable({
   providedIn: 'root'
@@ -12,31 +13,16 @@ export class LogsService {
     protected httpClient: HttpClient,
   ) { }
 
-  getLogEntries(portion: string, year: number, filter?: string):
-    Observable<ILogResponse> {
-    let url = `/api/v2/scheduler/logs/${portion}/${year}`;
-    if (filter && filter !== '') {
-      const filters = filter.split(',')
-      let data: LogRequest = {
-        portion: portion,
-        year: year,
-        filter: filters,
-      };
-      url = '/api/v2/scheduler/logs/';
-      return this.httpClient.put<ILogResponse>(url, data);
-    }
-    return this.httpClient.get<ILogResponse>(url);
+  getLogs(): Observable<AppList> {
+    let url = `/api/v2/general/logs/apps`;
+      
+    return this.httpClient.get<AppList>(url);
   }
 
-  addLogEntry(portion: string, category: string, title: string, 
-    message: string): Observable<ILogResponse> {
-    const data: AddLogEntry = {
-      portion: portion,
-      category: category,
-      title: title,
-      message: message,
-    }
-    const url = '/api/v2/scheduler/logs';
-    return this.httpClient.post<ILogResponse>(url, data);
+  getLogEntries(portion: string, year: number, filter?: string):
+    Observable<ILogList> {
+    let url = `/api/v2/general/logs/app/${portion}/${year}-01-01/${year}-12-31`;
+    console.log(url);
+    return this.httpClient.get<ILogList>(url);
   }
 }

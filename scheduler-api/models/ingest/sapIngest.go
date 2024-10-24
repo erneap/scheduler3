@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/erneap/go-models/converters"
-	"github.com/erneap/scheduler2/schedulerApi/services"
+	"github.com/erneap/go-models/svcs"
 	"github.com/xuri/excelize/v2"
 )
 
@@ -45,7 +45,7 @@ func (s *SAPIngest) ProcessFile(file *multipart.FileHeader) ([]ExcelRow,
 
 	columns := make(map[string]int)
 
-	team, _ := services.GetTeam(s.TeamID)
+	team, _ := svcs.GetTeam(s.TeamID)
 
 	rows, err := f.GetRows(sheetName)
 	if err != nil {

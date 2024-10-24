@@ -5,7 +5,7 @@ import (
 
 	"github.com/erneap/go-models/config"
 	"github.com/erneap/go-models/svcs"
-	"github.com/erneap/scheduler2/schedulerApi/controllers"
+	"github.com/erneap/scheduler3/scheduler-api/controllers"
 	"github.com/gin-gonic/gin"
 )
 

@@ -13,5 +13,10 @@
         "target": "http://localhost:7003/",
         "secure": false,
         "logLevel": "debug"
+    },
+    "/api/v2/general/**": {
+        "target": "http://localhost:7005/",
+        "secure": false,
+        "logLevel": "debug"
     }
 }

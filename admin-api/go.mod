@@ -1,4 +1,4 @@
-module github.com/erneap/scheduler2/schedulerApi
+module github.com/erneap/scheduler3/scheduler-api
 
 go 1.21.5
 

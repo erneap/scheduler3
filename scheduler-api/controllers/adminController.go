@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/erneap/scheduler2/schedulerApi/models/web"
-	"github.com/erneap/scheduler2/schedulerApi/services"
+	"github.com/erneap/go-models/svcs"
+	"github.com/erneap/scheduler3/scheduler-api/models/web"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,18 +16,18 @@ func Purge(c *gin.Context) {
 
 	purgeDate, err := time.Parse(format, sDate)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "ERROR", "PROBLEM",
-			fmt.Sprintf("Purge Date Parsing Problem: %s", err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Purge Problem", "",
+			fmt.Sprintf("Purge Date Parsing Problem: %s", err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.TeamsResponse{Teams: nil, Exception: err.Error()})
 		return
 	}
 
 	// purge employee work records prior to purge date.
-	workrecords, err := services.GetEmployeeWorkForPurge(purgeDate)
+	workrecords, err := svcs.GetEmployeeWorkForPurge(purgeDate)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "ERROR", "PROBLEM",
-			fmt.Sprintf("Get Work Records Problem: %s", err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetWork Problem", "",
+			fmt.Sprintf("Get Work Records Problem: %s", err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.TeamsResponse{Teams: nil, Exception: err.Error()})
 		return
@@ -36,30 +36,30 @@ func Purge(c *gin.Context) {
 	for _, rec := range workrecords {
 		rec.Purge(purgeDate)
 		if len(rec.Work) > 0 {
-			services.UpdateEmployeeWork(&rec)
+			svcs.UpdateEmployeeWork(&rec)
 		} else {
-			services.DeleteEmployeeWork(rec.EmployeeID.Hex(), rec.Year)
+			svcs.DeleteEmployeeWork(rec.EmployeeID.Hex(), rec.Year)
 		}
 	}
 
 	// purge employee's leave balance records,variations and leave before purge
 	// date, plus check to see if employee quit before the purge date.
-	employees, _ := services.GetAllEmployees()
+	employees, _ := svcs.GetAllEmployees()
 	for _, emp := range employees {
 		bQuit := emp.PurgeOldData(purgeDate)
 		if bQuit {
-			services.DeleteEmployee(emp.ID.Hex())
+			svcs.DeleteEmployee(emp.ID.Hex())
 		} else {
-			services.UpdateEmployee(&emp)
+			svcs.UpdateEmployee(&emp)
 		}
 	}
 
 	// update teams of holiday dates before the purge date.
-	teams, _ := services.GetTeams()
+	teams, _ := svcs.GetTeams()
 	for t, tm := range teams {
 		tm.PurgeOldData(purgeDate)
 		teams[t] = tm
-		services.UpdateTeam(&tm)
+		svcs.UpdateTeam(&tm)
 	}
 
 	c.JSON(http.StatusOK, web.TeamsResponse{Teams: teams, Exception: ""})

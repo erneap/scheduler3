@@ -7,7 +7,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/erneap/authentication/services"
 	"github.com/erneap/go-models/svcs"
 	"github.com/erneap/go-models/users"
 	"github.com/gin-gonic/gin"
@@ -18,8 +17,8 @@ func Login(c *gin.Context) {
 	var data users.AuthenticationRequest
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "authenticate", "Debug", "Login",
-			fmt.Sprintf("Data Binding: %s", err.Error()))
+		svcs.CreateDBLogEntry("authenticate", "DEBUG", "Login Error", "",
+			fmt.Sprintf("Data Binding: %s", err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			users.AuthenticationResponse{Token: "", Exception: "Trouble with request"})
 		return
@@ -28,8 +27,8 @@ func Login(c *gin.Context) {
 	user, err := svcs.GetUserByEMail(data.EmailAddress)
 	if err != nil {
 		msg := "Email Address/Password mismatch"
-		services.AddLogEntry(c, "authenticate", "ERROR", "Login",
-			fmt.Sprintf("User Not Found: %s", data.EmailAddress))
+		svcs.CreateDBLogEntry("authenticate", "DEBUG", "Login Error", "",
+			fmt.Sprintf("User Not Found: %s", data.EmailAddress), c)
 		c.JSON(http.StatusNotFound,
 			users.AuthenticationResponse{Token: "",
 				Exception: msg})
@@ -38,8 +37,8 @@ func Login(c *gin.Context) {
 
 	if err := user.Authenticate(data.Password); err != nil {
 		svcs.UpdateUser(*user)
-		services.AddLogEntry(c, "authenticate", "UNAUTHORIZED", "Login",
-			fmt.Sprintf("Password Mismatch: %s", data.EmailAddress))
+		svcs.CreateDBLogEntry("authenticate", "UNAUTHORIZED", "Login", "",
+			fmt.Sprintf("Password Mismatch: %s", data.EmailAddress), c)
 		c.JSON(http.StatusUnauthorized,
 			users.AuthenticationResponse{
 				Token: "", Exception: err.Error()})
@@ -47,8 +46,8 @@ func Login(c *gin.Context) {
 	}
 	err = svcs.UpdateUser(*user)
 	if err != nil {
-		services.AddLogEntry(c, "authenticate", "ERROR", "Login",
-			fmt.Sprintf("User Update Problem: %s", err.Error()))
+		svcs.CreateDBLogEntry("authenticate", "ERROR", "Login", "",
+			fmt.Sprintf("User Update Problem: %s", err.Error()), c)
 		c.JSON(http.StatusNotFound,
 			users.AuthenticationResponse{
 				Token: "", Exception: "Problem Updating Database"})
@@ -59,8 +58,8 @@ func Login(c *gin.Context) {
 	tokenstring, err := svcs.CreateToken(user.ID, user.EmailAddress)
 	if err != nil {
 		msg := "CreateToken Problem: " + err.Error()
-		services.AddLogEntry(c, "authenticate", "ERROR", "Login",
-			fmt.Sprintf("Create Token Problem: %s", err.Error()))
+		svcs.CreateDBLogEntry("authenticate", "ERROR", "Login", "",
+			fmt.Sprintf("Create Token Problem: %s", err.Error()), c)
 		c.JSON(http.StatusNotFound,
 			users.AuthenticationResponse{Token: "",
 				Exception: msg})
@@ -69,7 +68,7 @@ func Login(c *gin.Context) {
 
 	msg := fmt.Sprintf("User Login: %s logged into %s at %s", user.GetLastFirst(),
 		data.Application, time.Now().Format("01/02/06 15:04"))
-	services.AddLogEntry(c, "authenticate", "SUCCESS", "Login", msg)
+	svcs.CreateDBLogEntry("authenticate", "SUCCESS", "Login", "", msg, c)
 
 	c.JSON(http.StatusOK, users.AuthenticationResponse{
 		Token:     tokenstring,
@@ -82,8 +81,8 @@ func RenewToken(c *gin.Context) {
 	tokenString := c.GetHeader("Authorization")
 	claims, err := svcs.ValidateToken(tokenString)
 	if err != nil {
-		services.AddLogEntry(c, "authenticate", "ERROR", "Login",
-			fmt.Sprintf("Renew Token Problem: %s", err.Error()))
+		svcs.CreateDBLogEntry("authenticate", "ERROR", "Login", "",
+			fmt.Sprintf("Renew Token Problem: %s", err.Error()), c)
 		c.JSON(http.StatusBadRequest, users.AuthenticationResponse{
 			Token:     "",
 			Exception: err.Error(),
@@ -108,14 +107,14 @@ func Logout(c *gin.Context) {
 	user, err := svcs.GetUserByID(id)
 	if err != nil {
 		msg := "GetUserByEmail Problem: " + err.Error()
-		services.AddLogEntry(c, "authenticate", "ERROR", "Logout", msg)
+		svcs.CreateDBLogEntry("authenticate", "ERROR", "Logout", "", msg, c)
 		c.JSON(http.StatusNotFound, users.ExceptionResponse{Exception: err.Error()})
 		return
 	}
 
 	msg := fmt.Sprintf("User Logout: %s logged out of %s at %s", user.GetLastFirst(),
 		app, time.Now().Format("01/02/06 15:04"))
-	services.AddLogEntry(c, "authenticate", "LOGOUT", "Login", msg)
+	svcs.CreateDBLogEntry("authenticate", "LOGOUT", "Login", "", msg, c)
 	c.Status(http.StatusOK)
 }
 
@@ -123,8 +122,8 @@ func UpdateUser(c *gin.Context) {
 	var data users.UpdateRequest
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "authenticate", "DEBUG", "UpdateUser",
-			fmt.Sprintf("Data Binding: %s", err.Error()))
+		svcs.CreateDBLogEntry("authenticate", "DEBUG", "UpdateUser", "",
+			fmt.Sprintf("Data Binding: %s", err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			users.UserResponse{User: users.User{}, Exception: "Trouble with request"})
 		return
@@ -133,7 +132,7 @@ func UpdateUser(c *gin.Context) {
 	user, err := svcs.GetUserByID(data.ID)
 	if err != nil {
 		msg := "GetUserByID Problem: " + err.Error()
-		services.AddLogEntry(c, "authenticate", "DEBUG", "UpdateUser", msg)
+		svcs.CreateDBLogEntry("authenticate", "DEBUG", "UpdateUser", "", msg, c)
 		c.JSON(http.StatusNotFound, users.ExceptionResponse{Exception: msg})
 		return
 	}
@@ -182,17 +181,17 @@ func UpdateUser(c *gin.Context) {
 	err = svcs.UpdateUser(*user)
 	if err != nil {
 		msg := "UpdateUser Problem: " + err.Error()
-		services.AddLogEntry(c, "authenticate", "Debug", "UpdateUser", msg)
+		svcs.CreateDBLogEntry("authenticate", "Debug", "UpdateUser", "", msg, c)
 		c.JSON(http.StatusBadRequest, users.ExceptionResponse{Exception: msg})
 		return
 	}
 
 	if strings.EqualFold(data.Field, "password") {
-		services.AddLogEntry(c, "authenticate", "UPDATE", "UpdateUser",
-			fmt.Sprintf("Update: %s = %s", data.Field, "XXXXXXXX"))
+		svcs.CreateDBLogEntry("authenticate", "UPDATE", "UpdateUser", "",
+			fmt.Sprintf("Update: %s = %s", data.Field, "XXXXXXXX"), c)
 	} else {
-		services.AddLogEntry(c, "authenticate", "UPDATE", "UpdateUser",
-			fmt.Sprintf("Update: %s = %s", data.Field, data.Value))
+		svcs.CreateDBLogEntry("authenticate", "UPDATE", "UpdateUser", "",
+			fmt.Sprintf("Update: %s = %s", data.Field, data.Value), c)
 	}
 	c.JSON(http.StatusOK, users.UserResponse{User: *user, Exception: ""})
 }
@@ -201,8 +200,8 @@ func AddUser(c *gin.Context) {
 	var data users.AddUserRequest
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "authenticate", "Debug", "AddUser",
-			fmt.Sprintf("Data Binding Problem: %s", err.Error()))
+		svcs.CreateDBLogEntry("authenticate", "Debug", "AddUser", "",
+			fmt.Sprintf("Data Binding Problem: %s", err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			users.UserResponse{User: users.User{}, Exception: "Trouble with request"})
 		return
@@ -229,15 +228,15 @@ func AddUser(c *gin.Context) {
 	}
 	err := svcs.UpdateUser(*user)
 	if err != nil {
-		services.AddLogEntry(c, "authenticate", "Debug", "AddUser",
-			fmt.Sprintf("UserUser Problem: %s", err.Error()))
+		svcs.CreateDBLogEntry("authenticate", "Debug", "AddUser", "",
+			fmt.Sprintf("UserUser Problem: %s", err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			users.UserResponse{User: users.User{}, Exception: "Trouble with request"})
 		return
 	}
 
-	services.AddLogEntry(c, "authenticate", "CREATE", "AddUser",
-		fmt.Sprintf("User Created: %s", data.EmailAddress))
+	svcs.CreateDBLogEntry("authenticate", "CREATE", "AddUser", "",
+		fmt.Sprintf("User Created: %s", data.EmailAddress), c)
 	c.JSON(http.StatusOK, users.UserResponse{User: *user, Exception: ""})
 }
 
@@ -248,7 +247,7 @@ func DeleteUser(c *gin.Context) {
 	if err != nil {
 		msg := "DeleteUser Problem: " + err.Error()
 
-		services.AddLogEntry(c, "authenticate", "Debug", "DeleteUser", msg)
+		svcs.CreateDBLogEntry("authenticate", "Debug", "DeleteUser", "", msg, c)
 		c.JSON(http.StatusBadRequest, users.ExceptionResponse{Exception: msg})
 		return
 	}
@@ -256,12 +255,12 @@ func DeleteUser(c *gin.Context) {
 	if err != nil {
 		msg := "GetUsers Problem: " + err.Error()
 
-		services.AddLogEntry(c, "authenticate", "Debug", "GetUsers", msg)
+		svcs.CreateDBLogEntry("authenticate", "Debug", "GetUsers", "", msg, c)
 		c.JSON(http.StatusBadRequest, users.ExceptionResponse{Exception: msg})
 		return
 	}
-	services.AddLogEntry(c, "authenticate", "DELETE", "DeleteUser",
-		fmt.Sprintf("User Deleted: %s", id))
+	svcs.CreateDBLogEntry("authenticate", "DELETE", "DeleteUser", "",
+		fmt.Sprintf("User Deleted: %s", id), c)
 	c.JSON(http.StatusOK, users.UsersResponse{Users: usrs, Exception: ""})
 }
 
@@ -272,7 +271,7 @@ func GetUser(c *gin.Context) {
 	if err != nil {
 		msg := "GetUser Problem: " + err.Error()
 
-		services.AddLogEntry(c, "authenticate", "Debug", "GetUser", msg)
+		svcs.CreateDBLogEntry("authenticate", "Debug", "GetUser", "", msg, c)
 		c.JSON(http.StatusBadRequest, users.ExceptionResponse{Exception: msg})
 		return
 	}
@@ -285,7 +284,7 @@ func GetUsers(c *gin.Context) {
 	if err != nil {
 		msg := "GetUsers Problem: " + err.Error()
 
-		services.AddLogEntry(c, "authenticate", "Debug", "GetUsers", msg)
+		svcs.CreateDBLogEntry("authenticate", "Debug", "GetUsers", "", msg, c)
 		c.JSON(http.StatusBadRequest, users.ExceptionResponse{Exception: msg})
 		return
 	}
@@ -296,8 +295,8 @@ func StartPasswordReset(c *gin.Context) {
 	var data users.AuthenticationRequest
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "authenticate", "Debug", "StartPasswordReset",
-			fmt.Sprintf("Data Binding Problem: %s", err.Error()))
+		svcs.CreateDBLogEntry("authenticate", "Debug", "StartPasswordReset", "",
+			fmt.Sprintf("Data Binding Problem: %s", err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			users.ExceptionResponse{Exception: "Trouble with request"})
 		return
@@ -307,18 +306,18 @@ func StartPasswordReset(c *gin.Context) {
 	if err != nil {
 		msg := "GetUserByEmail Problem: " + err.Error()
 
-		services.AddLogEntry(c, "authenticate", "Debug", "StartPasswordReset", msg)
+		svcs.CreateDBLogEntry("authenticate", "Debug", "StartPasswordReset", "", msg, c)
 		c.JSON(http.StatusNotFound,
 			users.ExceptionResponse{
 				Exception: "No User for Email Address"})
 		return
 	}
 
-	emp, err := services.GetEmployee(user.ID.Hex())
+	emp, err := svcs.GetEmployee(user.ID.Hex())
 	if err != nil {
 		msg := "GetEmployee Problem: " + err.Error()
 
-		services.AddLogEntry(c, "authenticate", "Debug", "StartPasswordReset", msg)
+		svcs.CreateDBLogEntry("authenticate", "Debug", "StartPasswordReset", "", msg, c)
 		c.JSON(http.StatusNotFound,
 			users.ExceptionResponse{
 				Exception: err.Error()})
@@ -336,8 +335,8 @@ func StartPasswordReset(c *gin.Context) {
 
 	err = svcs.UpdateUser(*user)
 	if err != nil {
-		services.AddLogEntry(c, "authenticate", "Debug", "StartPasswordReset",
-			fmt.Sprintf("StartPasswordReset: UpdateUser: %s", err.Error()))
+		svcs.CreateDBLogEntry("authenticate", "Debug", "StartPasswordReset", "",
+			fmt.Sprintf("StartPasswordReset: UpdateUser: %s", err.Error()), c)
 		c.JSON(http.StatusNotFound,
 			users.ExceptionResponse{
 				Exception: "Problem Updating User: " + err.Error()})
@@ -369,7 +368,7 @@ func StartPasswordReset(c *gin.Context) {
 	err = svcs.SendMail(to, subject, message)
 	if err != nil {
 		msg := "StartPasswordReset: SendMail: " + err.Error()
-		services.AddLogEntry(c, "authenticate", "Debug", "StartPasswordReset", msg)
+		svcs.CreateDBLogEntry("authenticate", "Debug", "StartPasswordReset", "", msg, c)
 		c.JSON(http.StatusBadRequest, users.ExceptionResponse{Exception: msg})
 		return
 	}
@@ -380,8 +379,8 @@ func PasswordReset(c *gin.Context) {
 	var data users.PasswordResetRequest
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "authenticate", "Debug", "PasswordReset",
-			fmt.Sprintf("Data Binding Problem: %s", err.Error()))
+		svcs.CreateDBLogEntry("authenticate", "Debug", "PasswordReset", "",
+			fmt.Sprintf("Data Binding Problem: %s", err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			users.AuthenticationResponse{
 				Token: "", Exception: "Trouble with request"})
@@ -391,7 +390,7 @@ func PasswordReset(c *gin.Context) {
 	user, err := svcs.GetUserByEMail(data.EmailAddress)
 	if err != nil {
 		msg := "PasswordReset: GetUserByEmail Problem: " + err.Error()
-		services.AddLogEntry(c, "authenticate", "Debug", "PasswordReset", msg)
+		svcs.CreateDBLogEntry("authenticate", "Debug", "PasswordReset", "", msg, c)
 		c.JSON(http.StatusNotFound,
 			users.ExceptionResponse{Exception: msg})
 		return
@@ -399,14 +398,14 @@ func PasswordReset(c *gin.Context) {
 
 	if !strings.EqualFold(user.ResetToken, data.Token) {
 		msg := "PasswordReset: Bad Reset Token"
-		services.AddLogEntry(c, "authenticate", "Debug", "PasswordReset", msg)
+		svcs.CreateDBLogEntry("authenticate", "Debug", "PasswordReset", "", msg, c)
 		c.JSON(http.StatusBadRequest, users.ExceptionResponse{Exception: msg})
 		return
 	}
 
 	if user.ResetTokenExp.Before(time.Now().UTC()) {
 		msg := "PasswordReset: Reset Token Expired"
-		services.AddLogEntry(c, "authenticate", "Debug", "PasswordReset", msg)
+		svcs.CreateDBLogEntry("authenticate", "Debug", "PasswordReset", "", msg, c)
 		c.JSON(http.StatusBadRequest, users.ExceptionResponse{Exception: msg})
 		return
 	}
@@ -418,8 +417,8 @@ func PasswordReset(c *gin.Context) {
 
 	err = svcs.UpdateUser(*user)
 	if err != nil {
-		services.AddLogEntry(c, "authenticate", "Debug", "PasswordReset",
-			fmt.Sprintf("Update User Problem: %s", err.Error()))
+		svcs.CreateDBLogEntry("authenticate", "Debug", "PasswordReset", "",
+			fmt.Sprintf("Update User Problem: %s", err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			users.AuthenticationResponse{
 				Token: "", Exception: "PasswordReset: Problem Updating Database"})
@@ -430,7 +429,7 @@ func PasswordReset(c *gin.Context) {
 	tokenstring, err := svcs.CreateToken(user.ID, user.EmailAddress)
 	if err != nil {
 		msg := "PasswordReset: CreateToken Problem: " + err.Error()
-		services.AddLogEntry(c, "authenticate", "Debug", "PasswordReset", msg)
+		svcs.CreateDBLogEntry("authenticate", "Debug", "PasswordReset", "", msg, c)
 		c.JSON(http.StatusNotFound,
 			users.AuthenticationResponse{Token: "",
 				Exception: msg})
@@ -438,7 +437,7 @@ func PasswordReset(c *gin.Context) {
 	}
 	msg := fmt.Sprintf("User Login: %s logged into %s at %s", user.GetLastFirst(),
 		data.Application, time.Now().Format("01/02/06 15:04"))
-	services.AddLogEntry(c, "authenticate", "SUCCESS", "PasswordReset", msg)
+	svcs.CreateDBLogEntry("authenticate", "SUCCESS", "PasswordReset", "", msg, c)
 
 	c.JSON(http.StatusOK, users.AuthenticationResponse{
 		Token:     tokenstring,

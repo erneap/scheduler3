@@ -12,9 +12,9 @@ import (
 	"github.com/erneap/go-models/employees"
 	"github.com/erneap/go-models/notifications"
 	"github.com/erneap/go-models/sites"
-	"github.com/erneap/scheduler2/schedulerApi/models/ingest"
-	"github.com/erneap/scheduler2/schedulerApi/models/web"
-	"github.com/erneap/scheduler2/schedulerApi/services"
+	"github.com/erneap/go-models/svcs"
+	"github.com/erneap/scheduler3/scheduler-api/models/ingest"
+	"github.com/erneap/scheduler3/scheduler-api/models/web"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -34,15 +34,15 @@ func GetIngestEmployees(c *gin.Context) {
 	companyEmployees, err := getEmployeesAfterIngest(teamid, siteid, companyid,
 		year, year)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetEmployeesAfterIngest: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "Error", "GetEmployees Problem", "",
+			fmt.Sprintf("%s GetEmployeesAfterIngest: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.IngestResponse{Exception: err.Error()})
 	}
 
-	team, err := services.GetTeam(teamid)
+	team, err := svcs.GetTeam(teamid)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetTeam: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "Error", "GetTeam Problem", "",
+			fmt.Sprintf("%s GetTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.IngestResponse{Exception: err.Error()})
 		return
 	}
@@ -65,7 +65,7 @@ func getEmployeesAfterIngest(team, site, company string, startyear uint,
 	endyear uint) ([]employees.Employee, error) {
 	var companyEmployees []employees.Employee
 
-	empls, err := services.GetEmployees(team, site)
+	empls, err := svcs.GetEmployees(team, site)
 	if err != nil {
 		return companyEmployees, err
 	}
@@ -74,12 +74,12 @@ func getEmployeesAfterIngest(team, site, company string, startyear uint,
 		if emp.CompanyInfo.Company == company {
 			emp.Work = emp.Work[:0]
 			// get work for current and previous years
-			work, err := services.GetEmployeeWork(emp.ID.Hex(), startyear)
+			work, err := svcs.GetEmployeeWork(emp.ID.Hex(), startyear)
 			if err == nil && len(work.Work) > 0 {
 				emp.Work = append(emp.Work, work.Work...)
 			}
 			if endyear != startyear {
-				work, err := services.GetEmployeeWork(emp.ID.Hex(), endyear)
+				work, err := svcs.GetEmployeeWork(emp.ID.Hex(), endyear)
 				if err == nil && len(work.Work) > 0 {
 					emp.Work = append(emp.Work, work.Work...)
 				}
@@ -100,10 +100,10 @@ func IngestFiles(c *gin.Context) {
 	companyid := form.Value["company"][0]
 	logmsg := "IngestController: IngestFiles:"
 
-	team, err := services.GetTeam(teamid)
+	team, err := svcs.GetTeam(teamid)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetTeam: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "Error", "GetTeam Problem", "",
+			fmt.Sprintf("%s GetTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.IngestResponse{Exception: "Team not found"})
 		return
 	}
@@ -141,10 +141,10 @@ func IngestFiles(c *gin.Context) {
 	}
 
 	files := form.File["file"]
-	empls, err := services.GetEmployees(teamid, siteid)
+	empls, err := svcs.GetEmployees(teamid, siteid)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetEmployees: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "Error", "GetEmployees Problem", "",
+			fmt.Sprintf("%s GetEmployees: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, notifications.Message{Message: err.Error()})
 		return
 	}
@@ -225,19 +225,19 @@ func IngestFiles(c *gin.Context) {
 						(emp.CompanyInfo.EmployeeID == id ||
 							emp.CompanyInfo.AlternateID == id) {
 						emp.RemoveLeaves(start, end)
-						services.UpdateEmployee(&emp)
+						svcs.UpdateEmployee(&emp)
 						empls[i] = emp
 
-						work, err := services.GetEmployeeWork(emp.ID.Hex(), uint(start.Year()))
+						work, err := svcs.GetEmployeeWork(emp.ID.Hex(), uint(start.Year()))
 						if err == nil {
 							work.RemoveWork(start, end)
-							services.UpdateEmployeeWork(work)
+							svcs.UpdateEmployeeWork(work)
 						}
 						if start.Year() != end.Year() {
-							work, err := services.GetEmployeeWork(emp.ID.Hex(), uint(end.Year()))
+							work, err := svcs.GetEmployeeWork(emp.ID.Hex(), uint(end.Year()))
 							if err == nil {
 								work.RemoveWork(start, end)
-								services.UpdateEmployeeWork(work)
+								svcs.UpdateEmployeeWork(work)
 							}
 						}
 					}
@@ -268,10 +268,10 @@ func IngestFiles(c *gin.Context) {
 							}
 							emp.Leaves = append(emp.Leaves, lv)
 							empls[i] = emp
-							err := services.UpdateEmployee(&emp)
+							err := svcs.UpdateEmployee(&emp)
 							if err != nil {
-								services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-									fmt.Sprintf("%s UpdateEmployee (SAP): %s", logmsg, err.Error()))
+								svcs.CreateDBLogEntry("SchedulerAPI", "Error", "UpdateEmployee Problem",
+									"", fmt.Sprintf("%s UpdateEmployee (SAP): %s", logmsg, err.Error()), c)
 							}
 						} else {
 							// work object, so get work record object for employee and year, then
@@ -287,7 +287,7 @@ func IngestFiles(c *gin.Context) {
 							if rec.Modified {
 								wr.Hours = wr.Hours * -1.0
 							}
-							workrec, err := services.GetEmployeeWork(emp.ID.Hex(),
+							workrec, err := svcs.GetEmployeeWork(emp.ID.Hex(),
 								uint(rec.Date.Year()))
 							if err != nil {
 								workrec = &employees.EmployeeWorkRecord{
@@ -296,10 +296,10 @@ func IngestFiles(c *gin.Context) {
 									Year:       uint(rec.Date.Year()),
 								}
 								workrec.Work = append(workrec.Work, wr)
-								services.CreateEmployeeWork(workrec)
+								svcs.CreateEmployeeWork(workrec)
 							} else {
 								workrec.Work = append(workrec.Work, wr)
-								services.UpdateEmployeeWork(workrec)
+								svcs.UpdateEmployeeWork(workrec)
 							}
 						}
 					}
@@ -327,8 +327,8 @@ func IngestFiles(c *gin.Context) {
 		if sDate != "" {
 			start, err = time.ParseInLocation("2006-01-02", sDate, time.UTC)
 			if err != nil {
-				services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-					fmt.Sprintf("%s Time Parse In Location: %s", logmsg, err.Error()))
+				svcs.CreateDBLogEntry("SchedulerAPI", "Error", "Time Parse Problem", "",
+					fmt.Sprintf("%s Time Parse In Location: %s", logmsg, err.Error()), c)
 			}
 		}
 		meIngest := ingest.ManualExcelIngest{
@@ -359,33 +359,33 @@ func IngestFiles(c *gin.Context) {
 			if strings.EqualFold(emp.CompanyInfo.Company, companyid) &&
 				(emp.IsActive(start) || emp.IsActive(end)) {
 				emp.RemoveLeaves(start, end)
-				services.UpdateEmployee(&emp)
+				svcs.UpdateEmployee(&emp)
 				cEmployees[emp.Name.GetLastFirst()] = emp
 
-				work, err := services.GetEmployeeWork(emp.ID.Hex(), uint(start.Year()))
+				work, err := svcs.GetEmployeeWork(emp.ID.Hex(), uint(start.Year()))
 				if err == nil {
 					work.RemoveWork(start, end)
-					services.UpdateEmployeeWork(work)
+					svcs.UpdateEmployeeWork(work)
 				} else if err == mongo.ErrNoDocuments {
 					work = &employees.EmployeeWorkRecord{
 						Year:       uint(start.Year()),
 						EmployeeID: emp.ID,
 					}
-					services.CreateEmployeeWork(work)
+					svcs.CreateEmployeeWork(work)
 				} else {
 					fmt.Println(err)
 				}
 				if start.Year() != end.Year() {
-					work, err := services.GetEmployeeWork(emp.ID.Hex(), uint(end.Year()))
+					work, err := svcs.GetEmployeeWork(emp.ID.Hex(), uint(end.Year()))
 					if err == nil {
 						work.RemoveWork(start, end)
-						services.UpdateEmployeeWork(work)
+						svcs.UpdateEmployeeWork(work)
 					} else if err == mongo.ErrNoDocuments {
 						work = &employees.EmployeeWorkRecord{
 							Year:       uint(end.Year()),
 							EmployeeID: emp.ID,
 						}
-						services.CreateEmployeeWork(work)
+						svcs.CreateEmployeeWork(work)
 					} else {
 						fmt.Println(err)
 					}
@@ -425,10 +425,10 @@ func IngestFiles(c *gin.Context) {
 						}
 						emp.Leaves = append(emp.Leaves, lv)
 						cEmployees[i] = emp
-						err := services.UpdateEmployee(&emp)
+						err := svcs.UpdateEmployee(&emp)
 						if err != nil {
-							services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-								fmt.Sprintf("%s UpdateEmployee (mexcel): %s", logmsg, err.Error()))
+							svcs.CreateDBLogEntry("SchedulerAPI", "Error", "UpdateEmployee", "",
+								fmt.Sprintf("%s UpdateEmployee (mexcel): %s", logmsg, err.Error()), c)
 						}
 					} else {
 						cn := rec.ChargeNumber
@@ -464,7 +464,7 @@ func IngestFiles(c *gin.Context) {
 							PayCode:      1,
 							Hours:        rec.Hours,
 						}
-						workrec, err := services.GetEmployeeWork(emp.ID.Hex(),
+						workrec, err := svcs.GetEmployeeWork(emp.ID.Hex(),
 							uint(rec.Date.Year()))
 						if err != nil {
 							workrec = &employees.EmployeeWorkRecord{
@@ -473,10 +473,10 @@ func IngestFiles(c *gin.Context) {
 								Year:       uint(rec.Date.Year()),
 							}
 							workrec.Work = append(workrec.Work, wr)
-							services.CreateEmployeeWork(workrec)
+							svcs.CreateEmployeeWork(workrec)
 						} else {
 							workrec.Work = append(workrec.Work, wr)
-							services.UpdateEmployeeWork(workrec)
+							svcs.UpdateEmployeeWork(workrec)
 						}
 					}
 				}
@@ -493,8 +493,8 @@ func IngestFiles(c *gin.Context) {
 	companyEmployees, err := getEmployeesAfterIngest(teamid, siteid, companyid,
 		uint(start.Year()), uint(end.Year()))
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s Ingest Files: GetEmployeesAfterIngest: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "Error", "GetEmployees Problem", "",
+			fmt.Sprintf("%s Ingest Files: GetEmployeesAfterIngest: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.IngestResponse{Exception: err.Error()})
 		return
 	}
@@ -511,8 +511,8 @@ func ManualIngestActions(c *gin.Context) {
 	logmsg := "IngestController: ManualIngestActions:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s BindRequest: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "Error", "Binding Problem", "",
+			fmt.Sprintf("%s BindRequest: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
 		return
@@ -527,7 +527,7 @@ func ManualIngestActions(c *gin.Context) {
 		// actions are different based on work or leave
 		parts := strings.Split(change.ChangeType, "-")
 		if parts[1] == "work" {
-			work, err := services.GetEmployeeWork(change.EmployeeID,
+			work, err := svcs.GetEmployeeWork(change.EmployeeID,
 				uint(change.Work.DateWorked.Year()))
 			if err == nil {
 				switch parts[0] {
@@ -550,7 +550,7 @@ func ManualIngestActions(c *gin.Context) {
 						}
 					}
 				}
-				services.UpdateEmployeeWork(work)
+				svcs.UpdateEmployeeWork(work)
 			} else {
 				empID, _ := primitive.ObjectIDFromHex(change.EmployeeID)
 				work = &employees.EmployeeWorkRecord{
@@ -562,10 +562,10 @@ func ManualIngestActions(c *gin.Context) {
 					work.Work = append(work.Work, *change.Work)
 				}
 
-				services.CreateEmployeeWork(work)
+				svcs.CreateEmployeeWork(work)
 			}
 		} else if parts[1] == "leave" {
-			emp, err := services.GetEmployee(change.EmployeeID)
+			emp, err := svcs.GetEmployee(change.EmployeeID)
 			if err == nil {
 				switch parts[0] {
 				case "delete":
@@ -587,15 +587,15 @@ func ManualIngestActions(c *gin.Context) {
 						}
 					}
 				}
-				services.UpdateEmployee(emp)
+				svcs.UpdateEmployee(emp)
 			}
 		}
 	}
 	companyEmployees, err := getEmployeesAfterIngest(data.TeamID, data.SiteID,
 		data.CompanyID, year, year)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetEmployeesAfterIngest: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "Error", "GetEmployees Problem", "",
+			fmt.Sprintf("%s GetEmployeesAfterIngest: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.IngestResponse{Exception: err.Error()})
 	}
 

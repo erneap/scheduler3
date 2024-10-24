@@ -5,8 +5,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/erneap/scheduler2/schedulerApi/models/web"
-	"github.com/erneap/scheduler2/schedulerApi/services"
+	"github.com/erneap/go-models/svcs"
+	"github.com/erneap/scheduler3/scheduler-api/models/web"
+	"github.com/erneap/scheduler3/scheduler-api/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,7 +20,7 @@ func AddLogEntry(c *gin.Context) {
 		return
 	}
 
-	services.AddLogEntry(c, data.Portion, data.Category, data.Title, data.Message)
+	svcs.CreateDBLogEntry(data.Portion, data.Category, data.Title, data.Message)
 	now := time.Now()
 
 	entries, err := services.GetLogEntries(c, data.Portion, now.Year())

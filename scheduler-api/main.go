@@ -5,7 +5,7 @@ import (
 
 	"github.com/erneap/go-models/config"
 	"github.com/erneap/go-models/svcs"
-	"github.com/erneap/scheduler2/schedulerApi/controllers"
+	"github.com/erneap/scheduler3/scheduler-api/controllers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -218,14 +218,6 @@ func main() {
 			notes.GET("/employee/:userid", controllers.GetMessagesForEmployee)
 			notes.POST("/", controllers.CreateMessage)
 			notes.PUT("/acknowledge", controllers.AcknowledgeMessages)
-		}
-
-		logs := api.Group("/logs", svcs.CheckJWT("scheduler"),
-			svcs.CheckRoles("scheduler", roles))
-		{
-			logs.GET("/:portion/:year", controllers.GetLogEntries)
-			logs.POST("/", controllers.AddLogEntry)
-			logs.PUT("/", controllers.GetLogEntriesWithFilter)
 		}
 	}
 

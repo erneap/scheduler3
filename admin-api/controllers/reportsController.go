@@ -9,9 +9,10 @@ import (
 	"time"
 
 	"github.com/erneap/go-models/notifications"
-	"github.com/erneap/scheduler2/schedulerApi/models/reports"
-	"github.com/erneap/scheduler2/schedulerApi/models/web"
-	"github.com/erneap/scheduler2/schedulerApi/services"
+	"github.com/erneap/go-models/svcs"
+	"github.com/erneap/scheduler3/scheduler-api/models/reports"
+	"github.com/erneap/scheduler3/scheduler-api/models/web"
+	"github.com/erneap/scheduler3/scheduler-api/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,8 +20,8 @@ func CreateReport(c *gin.Context) {
 	var data web.ReportRequest
 	logmsg := "ReportsController: CreateReport:"
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s BindingData Problem: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s BindingData Problem: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			notifications.Message{Message: "Trouble with request: " + err.Error()})
 		return
@@ -55,15 +56,15 @@ func CreateReport(c *gin.Context) {
 			SiteID: data.SiteID,
 		}
 		if err := sr.Create(); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s Schedule Creation Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Schedule Creation Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Creation: "+err.Error())
 			return
 		}
 		var b bytes.Buffer
 		if err := sr.Report.Write(&b); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s Schedule Write Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Schedule Write Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Buffer Write: "+err.Error())
 			return
 		}
@@ -75,7 +76,7 @@ func CreateReport(c *gin.Context) {
 			"-Schedule-" + sr.Date.Format("060102") + ".xlsx"
 		c.Header("Content-Description", "File Transfer")
 		c.Header("Content-Disposition", "attachment; filename="+downloadName)
-		services.AddLogEntry(c, "scheduler", "SUCCESS", "CreateReport",
+		svcs.CreateDBLogEntry("scheduler", "SUCCESS", "CreateReport",
 			fmt.Sprintf("Schedule Created: %s", downloadName))
 		c.Data(http.StatusOK,
 			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -87,15 +88,15 @@ func CreateReport(c *gin.Context) {
 			SiteID: data.SiteID,
 		}
 		if err := sr.Create(); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s Schedule Creation Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Schedule Creation Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Creation: "+err.Error())
 			return
 		}
 		var b bytes.Buffer
 		if err := sr.Report.Write(&b); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s Schedule Write Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Schedule Write Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Buffer Write: "+err.Error())
 			return
 		}
@@ -107,7 +108,7 @@ func CreateReport(c *gin.Context) {
 			"-Schedule.xlsx"
 		c.Header("Content-Description", "File Transfer")
 		c.Header("Content-Disposition", "attachment; filename="+downloadName)
-		services.AddLogEntry(c, "scheduler", "SUCCESS", "CreateReport",
+		svcs.CreateDBLogEntry("scheduler", "SUCCESS", "CreateReport",
 			fmt.Sprintf("Schedule Created: %s", downloadName))
 		c.Data(http.StatusOK,
 			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -120,15 +121,15 @@ func CreateReport(c *gin.Context) {
 			CompanyID: data.CompanyID,
 		}
 		if err := lr.Create(); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s PTO-Holiday Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s PTO-Holiday Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Creation: "+err.Error())
 			return
 		}
 		var b bytes.Buffer
 		if err := lr.Report.Write(&b); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s PTO-Holiday Write Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s PTO-Holiday Write Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Buffer Write: "+err.Error())
 			return
 		}
@@ -140,7 +141,7 @@ func CreateReport(c *gin.Context) {
 			"-Leaves.xlsx"
 		c.Header("Content-Description", "File Transfer")
 		c.Header("Content-Disposition", "attachment; filename="+downloadName)
-		services.AddLogEntry(c, "scheduler", "SUCCESS", "CreateReport",
+		svcs.CreateDBLogEntry("scheduler", "SUCCESS", "CreateReport",
 			fmt.Sprintf("PTO/Holiday Report Created: %s", downloadName))
 		c.Data(http.StatusOK,
 			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -154,15 +155,15 @@ func CreateReport(c *gin.Context) {
 			CompanyID: data.CompanyID,
 		}
 		if err := laborrpt.Create(); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s Charge Number Creation Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Charge Number Creation Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Creation: "+err.Error())
 			return
 		}
 		var b bytes.Buffer
 		if err := laborrpt.Report.Write(&b); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s Charge Number Write Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Charge Number Write Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Buffer Write: "+err.Error())
 			return
 		}
@@ -174,7 +175,7 @@ func CreateReport(c *gin.Context) {
 			"-ChargeNumber-" + data.CompanyID + ".xlsx"
 		c.Header("Content-Description", "File Transfer")
 		c.Header("Content-Disposition", "attachment; filename="+downloadName)
-		services.AddLogEntry(c, "scheduler", "SUCCESS", "CreateReport",
+		svcs.CreateDBLogEntry("scheduler", "SUCCESS", "CreateReport",
 			fmt.Sprintf("Charge Number Status Report Created: Company: %s: Name: %s",
 				strings.ToUpper(data.CompanyID), downloadName))
 		c.Data(http.StatusOK,
@@ -189,15 +190,15 @@ func CreateReport(c *gin.Context) {
 			CompanyID: data.CompanyID,
 		}
 		if err := modrpt.Create(); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s ModTime Report Creation Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s ModTime Report Creation Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Creation: "+err.Error())
 			return
 		}
 		var b bytes.Buffer
 		if err := modrpt.Report.Write(&b); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s ModTime Report Write Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s ModTime Report Write Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Buffer Write: "+err.Error())
 			return
 		}
@@ -209,7 +210,7 @@ func CreateReport(c *gin.Context) {
 			"-ModTime-" + data.CompanyID + ".xlsx"
 		c.Header("Content-Description", "File Transfer")
 		c.Header("Content-Disposition", "attachment; filename="+downloadName)
-		services.AddLogEntry(c, "scheduler", "SUCCESS", "CreateReport",
+		svcs.CreateDBLogEntry("scheduler", "SUCCESS", "CreateReport",
 			fmt.Sprintf("ModTime Report Created: Company: %s: Name: %s",
 				strings.ToUpper(data.CompanyID), downloadName))
 		c.Data(http.StatusOK,
@@ -224,15 +225,15 @@ func CreateReport(c *gin.Context) {
 			SiteID: data.SiteID,
 		}
 		if err := cofsReport.Create(); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s CofS Creation Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s CofS Creation Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Creation: "+err.Error())
 			return
 		}
 		downloadName := "CofSReports-" + reportDate.Format("20060102") + ".zip"
 		c.Header("Content-Description", "File Transfer")
 		c.Header("Content-Disposition", "attachment; filename="+downloadName)
-		services.AddLogEntry(c, "scheduler", "SUCCESS", "CreateReport",
+		svcs.CreateDBLogEntry("scheduler", "SUCCESS", "CreateReport",
 			fmt.Sprintf("CofS Zip File created: Month: %s, Name: %s",
 				reportDate.Format("Jan-06"), downloadName))
 		c.Data(http.StatusOK,
@@ -246,15 +247,15 @@ func CreateReport(c *gin.Context) {
 		}
 
 		if err := midRpt.Create(); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s Mids Report Creation Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Mids Report Creation Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Creation: "+err.Error())
 			return
 		}
 		var b bytes.Buffer
 		if err := midRpt.Report.Write(&b); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s Mids Report Write Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Mids Report Write Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Buffer Write: "+err.Error())
 			return
 		}
@@ -266,7 +267,7 @@ func CreateReport(c *gin.Context) {
 			"-MidsSchedule.xlsx"
 		c.Header("Content-Description", "File Transfer")
 		c.Header("Content-Disposition", "attachment; filename="+downloadName)
-		services.AddLogEntry(c, "scheduler", "SUCCESS", "CreateReport",
+		svcs.CreateDBLogEntry("scheduler", "SUCCESS", "CreateReport",
 			fmt.Sprintf("Mid Report Created: %s", downloadName))
 		c.Data(http.StatusOK,
 			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -278,15 +279,15 @@ func CreateReport(c *gin.Context) {
 			SiteID: data.SiteID,
 		}
 		if err := sr.Create(); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s Schedule Creation Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Schedule Creation Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Creation: "+err.Error())
 			return
 		}
 		var b bytes.Buffer
 		if err := sr.Report.Write(&b); err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s Schedule Write Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+				fmt.Sprintf("%s Schedule Write Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusInternalServerError, "Buffer Write: "+err.Error())
 			return
 		}
@@ -298,13 +299,13 @@ func CreateReport(c *gin.Context) {
 			"-Enterprise.xlsx"
 		c.Header("Content-Description", "File Transfer")
 		c.Header("Content-Disposition", "attachment; filename="+downloadName)
-		services.AddLogEntry(c, "scheduler", "SUCCESS", "CreateReport",
+		svcs.CreateDBLogEntry("scheduler", "SUCCESS", "CreateReport",
 			fmt.Sprintf("Schedule Created: %s", downloadName))
 		c.Data(http.StatusOK,
 			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 			b.Bytes())
 	default:
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+		svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
 			fmt.Sprintf("%s No valid report requested: %s", logmsg, data.ReportType))
 		c.JSON(http.StatusBadRequest, web.SiteResponse{
 			Exception: "No valid report requested",

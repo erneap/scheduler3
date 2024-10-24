@@ -4,7 +4,7 @@ import { LogEntry } from '../models/logs/logentry';
 import { LogsService } from '../services/logs.service';
 import { DialogService } from '../services/dialog-service.service';
 import { AuthService } from '../services/auth.service';
-import { ILogResponse, LogResponse } from '../models/web/internalWeb';
+import { AppList, ILogList, LogList } from '../models/logs/applist';
 
 @Component({
   selector: 'app-logs',
@@ -14,10 +14,7 @@ import { ILogResponse, LogResponse } from '../models/web/internalWeb';
 export class LogsComponent {
   logForm: FormGroup;
   logEntries: LogEntry[] = [];
-  portionTitles: string[] = new Array("Authentication", "Leave", 
-    "Leave Requests", "Debug");
-  portions: string[] = new Array("authenticate", "leaves", 
-    "leaverequest", "scheduler");
+  portions: string[] = [];
 
   constructor(
     protected logService: LogsService,
@@ -31,6 +28,18 @@ export class LogsComponent {
       year: [now.getUTCFullYear(), [Validators.required]],
       filter: '',
     });
+    this.dialogService.showSpinner();
+    this.logService.getLogs().subscribe({
+      next: (list: AppList) => {
+        this.dialogService.closeSpinner();
+        this.portions = list.list;
+      },
+      error: (err: AppList) => {
+        this.portions = [];
+        this.dialogService.closeSpinner();
+        this.authService.statusMessage = err.exception;
+      }
+    })
     this.setLogEntries();
   }
 
@@ -44,18 +53,18 @@ export class LogsComponent {
       filter = undefined;
     }
       
-    this.logService.getLogEntries(portion, year, filter).subscribe({
-      next: (idata: ILogResponse) => {
-        const data: LogResponse = new LogResponse(idata);
+    this.logService.getLogEntries(portion, year).subscribe({
+      next: (idata: ILogList) => {
+        const data: LogList = new LogList(idata);
         this.dialogService.closeSpinner();
         this.logEntries = [];
-        data.entries.forEach(entry => {
+        data.list.forEach(entry => {
           this.logEntries.push(new LogEntry(entry));
         });
         this.logEntries.sort((a,b) => b.compareTo(a));
         this.authService.statusMessage = `${this.logEntries.length} log entries`;
       },
-      error: (err: ILogResponse) => {
+      error: (err: ILogList) => {
         this.logEntries = [];
         this.dialogService.closeSpinner();
         this.authService.statusMessage = err.exception;

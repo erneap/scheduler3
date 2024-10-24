@@ -21,6 +21,7 @@ func main() {
 		rpts := api.Group("/reports")
 		{
 			rpts.GET("/types/:app", controllers.GetReportTypes)
+			rpts.GET("/list/:typeid/:start/:end", controllers.GetReportList)
 			rpts.GET("/list/:typeid", controllers.GetReportList)
 			rpts.GET("/list/", controllers.GetReportList)
 		}
@@ -29,8 +30,21 @@ func main() {
 			report.GET("/:id", controllers.GetReport)
 			report.POST("/", controllers.CreateReport)
 		}
+		logs := api.Group("/logs")
+		{
+			logs.GET("/app/cat/:app/:category/:start/:end",
+				controllers.GetLogEntriesByApplicationCategory)
+			logs.GET("/app/cat/:app/:category/:start",
+				controllers.GetLogEntriesByApplicationCategory)
+			logs.GET("/app/cat/:app/:category",
+				controllers.GetLogEntriesByApplicationCategory)
+			logs.GET("/app/:app/:start/:end", controllers.GetLogEntriesByApplication)
+			logs.GET("/app/:app/:start", controllers.GetLogEntriesByApplication)
+			logs.GET("/app/:app", controllers.GetLogEntriesByApplication)
+			logs.GET("/apps", controllers.GetLogApplications)
+		}
 	}
 
 	// listen on port 7004
-	router.Run(":7004")
+	router.Run(":7005")
 }

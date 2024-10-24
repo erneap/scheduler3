@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/erneap/go-models/employees"
+	"github.com/erneap/go-models/svcs"
 	"github.com/erneap/scheduler2/queryApi/models/web"
-	"github.com/erneap/scheduler2/queryApi/services"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -20,32 +20,32 @@ func BasicQuery(c *gin.Context) {
 
 	teamid := c.Param("teamid")
 
-	emps, err := services.GetEmployeesForTeam(teamid)
+	emps, err := svcs.GetEmployeesForTeam(teamid)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s getEmployeesForTeam Problem: Employee Not Found", logmsg))
+			svcs.CreateDBLogEntry("QueryAPI", "Error", "Employee Not Found", "",
+				fmt.Sprintf("%s getEmployeesForTeam Problem: Employee Not Found", logmsg), c)
 			c.JSON(http.StatusNotFound, web.IngestResponse{Employees: nil,
 				Exception: "Employee Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s getEmployeesForTeam Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("QueryAPI", "Error", "GetEmployees Problem", "",
+				fmt.Sprintf("%s getEmployeesForTeam Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.IngestResponse{Employees: nil,
 				Exception: err.Error()})
 		}
 		return
 	}
 
-	team, err := services.GetTeam(teamid)
+	team, err := svcs.GetTeam(teamid)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s getTeam Problem: Team Not Found", logmsg))
+			svcs.CreateDBLogEntry("QueryAPI", "Error", "PROBLEM", "",
+				fmt.Sprintf("%s getTeam Problem: Team Not Found", logmsg), c)
 			c.JSON(http.StatusNotFound, web.IngestResponse{Employees: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s getTeam Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("QueryAPI", "Error", "PROBLEM", "",
+				fmt.Sprintf("%s getTeam Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.IngestResponse{Employees: nil,
 				Exception: err.Error()})
 		}
@@ -96,39 +96,39 @@ func ComplexQuery(c *gin.Context) {
 	var data web.QueryRequest
 	logmsg := "QueryController: ComplexQuery:"
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s Request Data Binding, Trouble with request", logmsg))
+		svcs.CreateDBLogEntry("QueryAPI", "Error", "Binding Problem", "",
+			fmt.Sprintf("%s Request Data Binding, Trouble with request", logmsg), c)
 		c.JSON(http.StatusBadRequest,
 			web.EmployeeResponse{Employee: nil, Exception: "Trouble with request"})
 		return
 	}
 
-	emps, err := services.GetEmployeesForTeam(data.TeamID)
+	emps, err := svcs.GetEmployeesForTeam(data.TeamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s getEmployeesForTeam Problem: Employee Not Found", logmsg))
+			svcs.CreateDBLogEntry("QueryAPI", "Error", "Employee Not Found", "",
+				fmt.Sprintf("%s getEmployeesForTeam Problem: Employee Not Found", logmsg), c)
 			c.JSON(http.StatusNotFound, web.IngestResponse{Employees: nil,
 				Exception: "Employee Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s getEmployeesForTeam Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("QueryAPI", "Error", "GetEmployees Problem", "",
+				fmt.Sprintf("%s getEmployeesForTeam Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.IngestResponse{Employees: nil,
 				Exception: err.Error()})
 		}
 		return
 	}
 
-	team, err := services.GetTeam(data.TeamID)
+	team, err := svcs.GetTeam(data.TeamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s getTeam Problem: Team Not Found", logmsg))
+			svcs.CreateDBLogEntry("QueryAPI", "Error", "Get Team Problem", "",
+				fmt.Sprintf("%s getTeam Problem: Team Not Found", logmsg), c)
 			c.JSON(http.StatusNotFound, web.IngestResponse{Employees: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s getTeam Problem: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("QueryAPI", "Error", "GetTeam Problem", "",
+				fmt.Sprintf("%s getTeam Problem: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.IngestResponse{Employees: nil,
 				Exception: err.Error()})
 		}

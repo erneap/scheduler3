@@ -5,7 +5,7 @@
       <mat-select formControlName="portion" 
         (selectionChange)="setLogEntries()">
         <ng-container *ngFor="let portion of portions; let i = index">
-          <mat-option [value]="portion">{{portionTitles[i]}}</mat-option>
+          <mat-option [value]="portion">{{portion.toUpperCase()}}</mat-option>
         </ng-container>
       </mat-select>
     </mat-form-field>

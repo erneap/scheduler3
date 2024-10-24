@@ -6,8 +6,7 @@ import (
 
 	"github.com/erneap/go-models/notifications"
 	"github.com/erneap/go-models/svcs"
-	"github.com/erneap/scheduler2/schedulerApi/models/web"
-	"github.com/erneap/scheduler2/schedulerApi/services"
+	"github.com/erneap/scheduler3/scheduler-api/models/web"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,8 +24,8 @@ func GetMessagesForEmployee(c *gin.Context) {
 
 	msgs, err := svcs.GetMessagesByEmployee(userid)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetMessagesByEmployee: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s GetMessagesByEmployee: %s", logmsg, err.Error()), c)
 		resp := &web.NotificationResponse{
 			Exception: err.Error(),
 		}
@@ -55,8 +54,8 @@ func GetMessage(c *gin.Context) {
 
 	msgs, err := svcs.GetMessage(messageid)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetMessage Problem: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s GetMessage Problem: %s", logmsg, err.Error()), c)
 		resp := &web.NotificationResponse{
 			Exception: err.Error(),
 		}
@@ -77,8 +76,8 @@ func GetAllMessages(c *gin.Context) {
 	msgs, err := svcs.GetAllMessages()
 	logmsg := "NotificationsController: GetAllMessages:"
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetMessages Problem: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s GetMessages Problem: %s", logmsg, err.Error()), c)
 		resp := &web.NotificationResponse{
 			Exception: err.Error(),
 		}
@@ -98,8 +97,8 @@ func CreateMessage(c *gin.Context) {
 	logmsg := "NotificationsController: CreateMessage:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding Problem: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s DataBinding Problem: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.NotificationResponse{
 				Exception: err.Error(),
@@ -109,8 +108,8 @@ func CreateMessage(c *gin.Context) {
 
 	err := svcs.CreateMessage(data.To, data.From, data.Message)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s CreateMessage Problem: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s CreateMessage Problem: %s", logmsg, err.Error()), c)
 		resp := &web.NotificationResponse{
 			Exception: err.Error(),
 		}
@@ -131,8 +130,8 @@ func AcknowledgeMessages(c *gin.Context) {
 	logmsg := "NotificationsController: AcknowledgeMessages:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding Problem: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
+			fmt.Sprintf("%s DataBinding Problem: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.NotificationResponse{
 				Exception: err.Error(),
@@ -160,7 +159,7 @@ func AcknowledgeMessages(c *gin.Context) {
 		}
 	}
 	if exceptions != "" {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
+		svcs.CreateDBLogEntry("scheduler", "Error", "PROBLEM",
 			fmt.Sprintf("%s Exceptions Noted: %s", logmsg, exceptions))
 		resp := &web.NotificationResponse{
 			Exception: exceptions,

@@ -12,8 +12,7 @@ import (
 	"github.com/erneap/go-models/labor"
 	"github.com/erneap/go-models/svcs"
 	"github.com/erneap/go-models/teams"
-	"github.com/erneap/scheduler2/schedulerApi/models/web"
-	"github.com/erneap/scheduler2/schedulerApi/services"
+	"github.com/erneap/scheduler3/scheduler-api/models/web"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -23,10 +22,10 @@ func GetTeam(c *gin.Context) {
 	teamID := c.Param("teamid")
 	logmsg := "TeamController: GetTeam:"
 
-	team, err := services.GetTeam(teamID)
+	team, err := svcs.GetTeam(teamID)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s Error: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+			"", fmt.Sprintf("%s Error: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: "Team not found"})
 		return
@@ -36,11 +35,11 @@ func GetTeam(c *gin.Context) {
 }
 
 func GetTeams(c *gin.Context) {
-	teams, err := services.GetTeams()
+	teams, err := svcs.GetTeams()
 	logmsg := "TeamController: GetTeams:"
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetTeams: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeams Problem",
+			"", fmt.Sprintf("%s GetTeams: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.TeamsResponse{
 			Exception: err.Error(),
 		})
@@ -56,17 +55,17 @@ func CreateTeam(c *gin.Context) {
 	logmsg := "TeamController: CreateTeam:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Binding Problem",
+			"", fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
 		return
 	}
 
-	teams, err := services.GetTeams()
+	teams, err := svcs.GetTeams()
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetTeams: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+			"", fmt.Sprintf("%s GetTeams: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: "No Teams Available"})
 		return
@@ -74,20 +73,20 @@ func CreateTeam(c *gin.Context) {
 
 	for _, tm := range teams {
 		if strings.EqualFold(tm.Name, data.Name) {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s Team Already Created: %s", logmsg, tm.Name))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Creation Problem",
+				"", fmt.Sprintf("%s Team Already Created: %s", logmsg, tm.Name), c)
 			c.JSON(http.StatusOK, web.SiteResponse{Team: &tm, Site: nil,
 				Exception: ""})
 			return
 		}
 	}
 
-	team := services.CreateTeam(data.Name, data.UseStdWorkcodes)
+	team := svcs.CreateTeam(data.Name, data.UseStdWorkcodes)
 
-	site, err := services.CreateSite(team.ID.Hex(), "leads", "Leads")
+	site, err := svcs.CreateSite(team.ID.Hex(), "leads", "Leads")
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s CreateSite: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Creation Problem",
+			"", fmt.Sprintf("%s CreateSite: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -107,11 +106,11 @@ func CreateTeam(c *gin.Context) {
 		},
 	}
 	emp.AddAssignment("leads", "leads", time.Now().UTC())
-	_, err = services.CreateEmployee(emp, data.Leader.Password,
+	_, err = svcs.CreateEmployee(emp, data.Leader.Password,
 		"scheduler-teamleader", team.ID.Hex(), "leads")
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s CreateLeader: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Creation Problem",
+			"", fmt.Sprintf("%s CreateLeader: %s", logmsg, err.Error()), c)
 	}
 
 	c.JSON(http.StatusOK, web.SiteResponse{Team: team, Site: nil, Exception: ""})
@@ -122,23 +121,23 @@ func UpdateTeam(c *gin.Context) {
 	logmsg := "TeamController: UpdateTeam:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Binding Problem",
+			"", fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
 		return
 	}
 
-	team, err := services.GetTeam(data.TeamID)
+	team, err := svcs.GetTeam(data.TeamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -147,9 +146,9 @@ func UpdateTeam(c *gin.Context) {
 
 	team.Name = data.Value
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 	}
@@ -163,47 +162,48 @@ func DeleteTeam(c *gin.Context) {
 
 	tID, err := primitive.ObjectIDFromHex(teamID)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s Team ID Conversion: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Conversion Problem",
+			"", fmt.Sprintf("%s Team ID Conversion: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.TeamsResponse{Teams: nil,
 			Exception: err.Error()})
 	}
 
 	// get list of employees that are assigned to the team
-	employees, err := services.GetEmployeesForTeam(teamID)
+	employees, err := svcs.GetEmployeesForTeam(teamID)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetEmployeesForTeam: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetEmployees Problem",
+			"", fmt.Sprintf("%s GetEmployeesForTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.TeamsResponse{Teams: nil,
 			Exception: err.Error()})
 	}
 
 	for _, emp := range employees {
-		err = services.DeleteEmployee(emp.ID.Hex())
+		err = svcs.DeleteEmployee(emp.ID.Hex())
 		if err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s Delete Employee: %s: Error: %s", logmsg, emp.ID.Hex(), err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Delete Employee Problem",
+				"", fmt.Sprintf("%s Delete Employee: %s: Error: %s",
+					logmsg, emp.ID.Hex(), err.Error()), c)
 		}
 		err = svcs.DeleteUser(emp.ID.Hex())
 		if err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s Delete User: %s: %s", logmsg, emp.ID.Hex(), err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Delete User Problem",
+				"", fmt.Sprintf("%s Delete User: %s: %s", logmsg, emp.ID.Hex(), err.Error()), c)
 		}
 	}
 
-	err = services.DeleteTeam(tID)
+	err = svcs.DeleteTeam(tID)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DeleteTeam: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Deletion Problem",
+			"", fmt.Sprintf("%s DeleteTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.TeamsResponse{Teams: nil,
 			Exception: err.Error()})
 		return
 	}
 
-	teams, err := services.GetTeams()
+	teams, err := svcs.GetTeams()
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetTeams: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeams Problem",
+			"", fmt.Sprintf("%s GetTeams: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.TeamsResponse{Teams: nil,
 			Exception: err.Error()})
 	}
@@ -216,23 +216,23 @@ func CreateWorkcode(c *gin.Context) {
 	logmsg := "TeamController: CreateWorkcode:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Binding Problem",
+			"", fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
 		return
 	}
 
-	team, err := services.GetTeam(data.TeamID)
+	team, err := svcs.GetTeam(data.TeamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -270,9 +270,9 @@ func CreateWorkcode(c *gin.Context) {
 		sort.Sort(labor.ByWorkcode(team.Workcodes))
 	}
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -286,23 +286,23 @@ func UpdateTeamWorkcode(c *gin.Context) {
 	logmsg := "TeamController: UpdateTeamWorkcode:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Binding Problem",
+			"", fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
 		return
 	}
 
-	team, err := services.GetTeam(data.TeamID)
+	team, err := svcs.GetTeam(data.TeamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -339,9 +339,9 @@ func UpdateTeamWorkcode(c *gin.Context) {
 		}
 	}
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -355,16 +355,16 @@ func DeleteTeamWorkcode(c *gin.Context) {
 	wcID := c.Param("wcid")
 	logmsg := "TeamController: DeleteTeamWorkcode:"
 
-	team, err := services.GetTeam(teamID)
+	team, err := svcs.GetTeam(teamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -382,9 +382,9 @@ func DeleteTeamWorkcode(c *gin.Context) {
 		team.Workcodes = append(team.Workcodes[:pos], team.Workcodes[pos+1:]...)
 	}
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -398,23 +398,23 @@ func CreateTeamCompany(c *gin.Context) {
 	logmsg := "TeamController: CreateTeamCompany:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Binding Problem",
+			"", fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
 		return
 	}
 
-	team, err := services.GetTeam(data.TeamID)
+	team, err := svcs.GetTeam(data.TeamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -440,9 +440,9 @@ func CreateTeamCompany(c *gin.Context) {
 		sort.Sort(teams.ByCompany(team.Companies))
 	}
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -456,23 +456,23 @@ func UpdateTeamCompany(c *gin.Context) {
 	logmsg := "TeamController: UpdateTeamCompany:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Binding Problem",
+			"", fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
 		return
 	}
 
-	team, err := services.GetTeam(data.TeamID)
+	team, err := svcs.GetTeam(data.TeamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -501,9 +501,9 @@ func UpdateTeamCompany(c *gin.Context) {
 			case "addmod", "addmodperiod":
 				parts := strings.Split(data.Value, "|")
 				if len(parts) < 3 {
-					services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-						fmt.Sprintf("%s Not enough info (Add Mod): data split too short",
-							logmsg))
+					svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Data Problem",
+						"", fmt.Sprintf("%s Not enough info (Add Mod): data split too short",
+							logmsg), c)
 					c.JSON(http.StatusBadRequest,
 						web.SiteResponse{Team: nil, Site: nil,
 							Exception: "Not enough info (Add Mod): data split too short"})
@@ -511,8 +511,8 @@ func UpdateTeamCompany(c *gin.Context) {
 				}
 				year, err := strconv.Atoi(parts[0])
 				if err != nil {
-					services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-						fmt.Sprintf("%s Converting Add Mod Year: %s", logmsg, err.Error()))
+					svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Conversion Problem",
+						"", fmt.Sprintf("%s Converting Add Mod Year: %s", logmsg, err.Error()), c)
 					c.JSON(http.StatusBadRequest,
 						web.SiteResponse{Team: nil, Site: nil,
 							Exception: "Error with Company Add Mod Period Year: " +
@@ -521,8 +521,8 @@ func UpdateTeamCompany(c *gin.Context) {
 				}
 				start, err := time.ParseInLocation("2006-01-02", parts[1], time.UTC)
 				if err != nil {
-					services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-						fmt.Sprintf("%s Converting Add Mod Start: %s", logmsg, err.Error()))
+					svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Conversion Problem",
+						"", fmt.Sprintf("%s Converting Add Mod Start: %s", logmsg, err.Error()), c)
 					c.JSON(http.StatusBadRequest,
 						web.SiteResponse{Team: nil, Site: nil,
 							Exception: "Error with Company Add Mod Period Start: " +
@@ -531,8 +531,8 @@ func UpdateTeamCompany(c *gin.Context) {
 				}
 				end, err := time.ParseInLocation("2006-01-02", parts[2], time.UTC)
 				if err != nil {
-					services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-						fmt.Sprintf("%s Converting Add Mod End: %s", logmsg, err.Error()))
+					svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "conversion Problem",
+						"", fmt.Sprintf("%s Converting Add Mod End: %s", logmsg, err.Error()), c)
 					c.JSON(http.StatusBadRequest,
 						web.SiteResponse{Team: nil, Site: nil,
 							Exception: "Error with Company Add Mod Period End: " +
@@ -545,8 +545,8 @@ func UpdateTeamCompany(c *gin.Context) {
 				if len(parts) > 2 {
 					iYear, err := strconv.Atoi(parts[1])
 					if err != nil {
-						services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-							fmt.Sprintf("%s Converting Mod Year Key: %s", logmsg, err.Error()))
+						svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Conversion Problem",
+							"", fmt.Sprintf("%s Converting Mod Year Key: %s", logmsg, err.Error()), c)
 						c.JSON(http.StatusBadRequest,
 							web.SiteResponse{Team: nil, Site: nil,
 								Exception: "Error with converting mod year key: " +
@@ -555,8 +555,8 @@ func UpdateTeamCompany(c *gin.Context) {
 					}
 					oDate, err := time.ParseInLocation("2006-01-02", parts[2], time.UTC)
 					if err != nil {
-						services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-							fmt.Sprintf("%s Converting Mod Year Date: %s", logmsg, err.Error()))
+						svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Conversion Problem",
+							"", fmt.Sprintf("%s Converting Mod Year Date: %s", logmsg, err.Error()), c)
 						c.JSON(http.StatusBadRequest,
 							web.SiteResponse{Team: nil, Site: nil,
 								Exception: "Error with converting mod year date: " +
@@ -568,8 +568,8 @@ func UpdateTeamCompany(c *gin.Context) {
 			case "delmod", "delmodperiod", "deletemodperiod":
 				year, err := strconv.Atoi(data.Value)
 				if err != nil {
-					services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-						fmt.Sprintf("%s Converting Add Mod Year: %s", logmsg, err.Error()))
+					svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Conversion Problem",
+						"", fmt.Sprintf("%s Converting Add Mod Year: %s", logmsg, err.Error()), c)
 					c.JSON(http.StatusBadRequest,
 						web.SiteResponse{Team: nil, Site: nil,
 							Exception: "Error with Company Add Mod Period Year: " +
@@ -582,9 +582,9 @@ func UpdateTeamCompany(c *gin.Context) {
 		}
 	}
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -598,16 +598,16 @@ func DeleteTeamCompany(c *gin.Context) {
 	companyID := c.Param("companyid")
 	logmsg := "TeamController: DeleteTeamCompany:"
 
-	team, err := services.GetTeam(teamID)
+	team, err := svcs.GetTeam(teamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -625,9 +625,9 @@ func DeleteTeamCompany(c *gin.Context) {
 		team.Companies = append(team.Companies[:pos], team.Companies[pos+1:]...)
 	}
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -641,23 +641,23 @@ func CreateCompanyHoliday(c *gin.Context) {
 	logmsg := "TeamController: CreateCompanyHoliday:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Binding Problem",
+			"", fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
 		return
 	}
 
-	team, err := services.GetTeam(data.TeamID)
+	team, err := svcs.GetTeam(data.TeamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -708,9 +708,9 @@ func CreateCompanyHoliday(c *gin.Context) {
 		}
 	}
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -724,23 +724,23 @@ func UpdateCompanyHoliday(c *gin.Context) {
 	logmsg := "TeamController: UpdateCompanyHoliday:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Binding Problem",
+			"", fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
 		return
 	}
 
-	team, err := services.GetTeam(data.TeamID)
+	team, err := svcs.GetTeam(data.TeamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -750,8 +750,8 @@ func UpdateCompanyHoliday(c *gin.Context) {
 	holID := data.HolidayID[0:1]
 	holSortID, err := strconv.Atoi(data.HolidayID[1:])
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s Conversion Holiday Sort: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Conversion Problem",
+			"", fmt.Sprintf("%s Conversion Holiday Sort: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -832,9 +832,9 @@ func UpdateCompanyHoliday(c *gin.Context) {
 		}
 	}
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -852,23 +852,23 @@ func DeleteCompanyHoliday(c *gin.Context) {
 	holID := holidayID[0:1]
 	holSortID, err := strconv.Atoi(holidayID[1:])
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s Holday ID Convertion: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Conversion Problem",
+			"", fmt.Sprintf("%s Holday ID Convertion: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
 	}
 
-	team, err := services.GetTeam(teamID)
+	team, err := svcs.GetTeam(teamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -904,9 +904,9 @@ func DeleteCompanyHoliday(c *gin.Context) {
 		}
 	}
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -920,23 +920,23 @@ func CreateContactType(c *gin.Context) {
 	logmsg := "TeamController: CreateTeamContactType:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Binding Problem",
+			"", fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
 		return
 	}
 
-	team, err := services.GetTeam(data.TeamID)
+	team, err := svcs.GetTeam(data.TeamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -945,9 +945,9 @@ func CreateContactType(c *gin.Context) {
 
 	team.AddContactType(data.ID, data.Name)
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -961,23 +961,23 @@ func ChangeContactType(c *gin.Context) {
 	logmsg := "TeamController: ChangeContactType:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Binding Problem",
+			"", fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
 		return
 	}
 
-	team, err := services.GetTeam(data.TeamID)
+	team, err := svcs.GetTeam(data.TeamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -990,17 +990,17 @@ func ChangeContactType(c *gin.Context) {
 		for _, ct := range team.ContactTypes {
 			contactMap[ct.Id] = ct.SortID
 		}
-		emps, err := services.GetEmployeesForTeam(team.ID.Hex())
+		emps, err := svcs.GetEmployeesForTeam(team.ID.Hex())
 		if err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetEmployeesForTeam: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetEmployees",
+				"", fmt.Sprintf("%s GetEmployeesForTeam: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 			return
 		}
 		for _, emp := range emps {
 			emp.ResortContactInfo(contactMap)
-			services.UpdateEmployee(&emp)
+			svcs.UpdateEmployee(&emp)
 		}
 	} else if strings.EqualFold(data.Field, "title") {
 		for c, ct := range team.ContactTypes {
@@ -1013,9 +1013,9 @@ func ChangeContactType(c *gin.Context) {
 		team.AddContactType(data.ID, data.Value)
 	}
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -1031,23 +1031,23 @@ func DeleteContactType(c *gin.Context) {
 
 	id, err := strconv.Atoi(ctID)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s Contact Type ID Convertion: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Conversion Problem",
+			"", fmt.Sprintf("%s Contact Type ID Convertion: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
 	}
 
-	team, err := services.GetTeam(teamid)
+	team, err := svcs.GetTeam(teamid)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -1056,26 +1056,26 @@ func DeleteContactType(c *gin.Context) {
 
 	team.DeleteContactType(id)
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
 	}
 
 	// delete contact info in all employees within the team
-	emps, err := services.GetEmployeesForTeam(team.ID.Hex())
+	emps, err := svcs.GetEmployeesForTeam(team.ID.Hex())
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetEmployeesForTeam: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetEmployees Problem",
+			"", fmt.Sprintf("%s GetEmployeesForTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
 	}
 	for _, emp := range emps {
 		emp.DeleteContactInfoByType(id)
-		services.UpdateEmployee(&emp)
+		svcs.UpdateEmployee(&emp)
 	}
 
 	c.JSON(http.StatusOK, web.SiteResponse{Team: team, Site: nil, Exception: ""})
@@ -1086,23 +1086,23 @@ func CreateSpecialtyType(c *gin.Context) {
 	logmsg := "TeamController: CreateTeamContactType:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Binding Problem",
+			"", fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
 		return
 	}
 
-	team, err := services.GetTeam(data.TeamID)
+	team, err := svcs.GetTeam(data.TeamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -1111,9 +1111,9 @@ func CreateSpecialtyType(c *gin.Context) {
 
 	team.AddSpecialtyType(data.ID, data.Name)
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -1127,23 +1127,23 @@ func ChangeSpecialtyType(c *gin.Context) {
 	logmsg := "TeamController: ChangeContactType:"
 
 	if err := c.ShouldBindJSON(&data); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Binding Problem",
+			"", fmt.Sprintf("%s DataBinding: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest,
 			web.SiteResponse{Team: nil, Site: nil, Exception: "Trouble with request"})
 		return
 	}
 
-	team, err := services.GetTeam(data.TeamID)
+	team, err := svcs.GetTeam(data.TeamID)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -1156,25 +1156,25 @@ func ChangeSpecialtyType(c *gin.Context) {
 		for _, ct := range team.SpecialtyTypes {
 			contactMap[ct.Id] = ct.SortID
 		}
-		emps, err := services.GetEmployeesForTeam(team.ID.Hex())
+		emps, err := svcs.GetEmployeesForTeam(team.ID.Hex())
 		if err != nil {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetEmployeesForTeam: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetEmployees Problem",
+				"", fmt.Sprintf("%s GetEmployeesForTeam: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 			return
 		}
 		for _, emp := range emps {
 			emp.ResortSpecialties(contactMap)
-			services.UpdateEmployee(&emp)
+			svcs.UpdateEmployee(&emp)
 		}
 	} else {
 		team.AddSpecialtyType(data.ID, data.Value)
 	}
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
@@ -1190,23 +1190,23 @@ func DeleteSpecialtyType(c *gin.Context) {
 
 	id, err := strconv.Atoi(ctID)
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s Contact Type ID Convertion: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "Conversion Problem",
+			"", fmt.Sprintf("%s Contact Type ID Convertion: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
 	}
 
-	team, err := services.GetTeam(teamid)
+	team, err := svcs.GetTeam(teamid)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam: %s", logmsg, "Team Not Found"), c)
 			c.JSON(http.StatusNotFound, web.SiteResponse{Team: nil, Site: nil,
 				Exception: "Team Not Found"})
 		} else {
-			services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-				fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()))
+			svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetTeam Problem",
+				"", fmt.Sprintf("%s GetTeam Error: %s", logmsg, err.Error()), c)
 			c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 				Exception: err.Error()})
 		}
@@ -1215,26 +1215,26 @@ func DeleteSpecialtyType(c *gin.Context) {
 
 	team.DeleteSpecialtyType(id)
 
-	if err = services.UpdateTeam(team); err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()))
+	if err = svcs.UpdateTeam(team); err != nil {
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "UpdateTeam Problem",
+			"", fmt.Sprintf("%s UpdateTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
 	}
 
 	// delete specialty type in all employees within the team
-	emps, err := services.GetEmployeesForTeam(team.ID.Hex())
+	emps, err := svcs.GetEmployeesForTeam(team.ID.Hex())
 	if err != nil {
-		services.AddLogEntry(c, "scheduler", "Error", "PROBLEM",
-			fmt.Sprintf("%s GetEmployeesForTeam: %s", logmsg, err.Error()))
+		svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "GetEmployees Problem",
+			"", fmt.Sprintf("%s GetEmployeesForTeam: %s", logmsg, err.Error()), c)
 		c.JSON(http.StatusBadRequest, web.SiteResponse{Team: nil, Site: nil,
 			Exception: err.Error()})
 		return
 	}
 	for _, emp := range emps {
 		emp.DeleteSpecialtyByType(id)
-		services.UpdateEmployee(&emp)
+		svcs.UpdateEmployee(&emp)
 	}
 
 	c.JSON(http.StatusOK, web.SiteResponse{Team: team, Site: nil, Exception: ""})
