@@ -119,7 +119,7 @@ export class SiteEmployeesVariationCalendarComponent {
           this.workweeks.push(workweek);
           weeks++;
         }
-        workweek.week.push(new Workday(wd));
+        workweek.setWorkday(wd);
       });
     }
   }

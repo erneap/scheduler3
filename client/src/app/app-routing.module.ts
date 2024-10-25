@@ -24,6 +24,7 @@ import { EmployeePtoholidaysComponent } from './employee/employee-ptoholidays/em
 import { EmployeeLeaveRequestComponent } from './employee/employee-leave-request/employee-leave-request.component';
 import { EmployeeContactInfoComponent } from './employee/employee-contact-info/employee-contact-info.component';
 import { EmployeeSpecialtiesComponent } from './employee/employee-specialties/employee-specialties.component';
+import { ReportArchiveComponent } from './report-archive/report-archive.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -81,6 +82,7 @@ const routes: Routes = [
   
   { path: 'notifications', component: NotificationsComponent },
   { path: 'query', component: QueryComponent },
+  { path: 'archive', component: ReportArchiveComponent },
   { path: '**', component: NotFoundComponent}
 ];
 

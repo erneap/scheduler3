@@ -36,6 +36,7 @@ import { AdminModule } from './admin/admin.module';
 import { LogsModule } from './logs/logs.module';
 import { QueryModule } from './query/query.module';
 import { ReportArchiveModule } from './report-archive/report-archive.module';
+import { ReportsService } from './services/reports.service';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -72,7 +73,7 @@ import { ReportArchiveModule } from './report-archive/report-archive.module';
         ReportArchiveModule], 
     providers: [AuthService, DialogService, EmployeeService, SiteService,
         TeamService, LogsService, QueryService, interceptorProviders,
-        AppStateService, AdminService, 
+        AppStateService, AdminService, ReportsService,
         provideHttpClient(withInterceptorsFromDi()),
     ] 
 })
