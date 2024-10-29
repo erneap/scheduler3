@@ -38,7 +38,7 @@ export class ReportChargeNumberComponent {
   }
 
   onSubmit() {
-    const url = '/api/v2/scheduler/reports';
+    const url = '/api/v2/general/report';
     const iTeam = this.teamService.getTeam();
     const iSite = this.siteService.getSite();
     if (iTeam && iSite && this.reportForm.valid) {

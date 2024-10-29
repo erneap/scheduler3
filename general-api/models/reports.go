@@ -39,3 +39,9 @@ type ReportList struct {
 	List      []ReportItem `json:"list"`
 	Exception string       `json:"exception"`
 }
+
+type ReportListRequest struct {
+	ReportTypes []string  `json:"reporttypes"`
+	StartDate   time.Time `json:"start"`
+	EndDate     time.Time `json:"end"`
+}

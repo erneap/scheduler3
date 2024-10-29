@@ -1,7 +1,40 @@
 <div class="toplevel">
-    <div class="flexlayout column center">
-        <form class="flexlayout row center">
-            
-        </form>
-    </div>
+  <div class="flexlayout column center flexgap">
+    <form class="flexlayout row center flexgap" [formGroup]="archiveForm" >
+      <div class="flexlayout row center" style="font-size: 1.2rem;">Display Options:</div>
+      <mat-form-field appearance="fill">
+        <mat-label>Report Type(s)</mat-label>
+        <mat-select formControlName="rptType" multiple="true"
+          (selectionChange)="onSelectType(); setReportList()">
+          <mat-option value="all">ALL TYPES</mat-option>
+          <mat-option *ngFor="let rtype of reportTypes" [value]="rtype.name">
+            {{rtype.name.toUpperCase()}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Between Dates</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate formControlName="start" placeholder="Start Date"
+            (dateChange)="setReportList()">
+          <input matEndDate formControlName="end" placeholder="End Date"
+            (dateChange)="setReportList()">
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </form>
+    <mat-accordion multi>
+      <mat-expansion-panel *ngFor="let rtype of selectedReports" >
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{rtype.name}}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="flexlayout column center">
+          <app-report-archive-file *ngFor="let rpt of rtype.reports"
+            [report]="rpt"></app-report-archive-file>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </div>

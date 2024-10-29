@@ -1,3 +1,5 @@
+import { signal } from "@angular/core";
+
 export interface IDBReport {
   id: string;
   reportdate: Date;
@@ -50,7 +52,7 @@ export class ReportType implements IReportType {
   reporttype: string;
   name: string;
   subtypes?: string[];
-  reports?: IDBReport[];
+  reports?: DBReport[];
 
   constructor(rType?: IReportType) {
     this.id = (rType) ? rType.id : "";
@@ -105,4 +107,10 @@ export class ReportTypeList implements IReportTypeList {
     }
     this.exception = (rtl && rtl.exception) ? rtl.exception : undefined;
   }
+}
+
+export interface ReportListRequest {
+  reporttypes: string[];
+  start: Date;
+  end: Date;
 }

@@ -21,9 +21,7 @@ func main() {
 		rpts := api.Group("/reports")
 		{
 			rpts.GET("/types/:app", controllers.GetReportTypes)
-			rpts.GET("/list/:typeid/:start/:end", controllers.GetReportList)
-			rpts.GET("/list/:typeid", controllers.GetReportList)
-			rpts.GET("/list/", controllers.GetReportList)
+			rpts.POST("/list", controllers.GetReportList)
 		}
 		report := api.Group("/report")
 		{

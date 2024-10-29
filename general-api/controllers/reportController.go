@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
-	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -91,7 +90,9 @@ func GetReport(c *gin.Context) {
 		})
 		return
 	}
-	rptName := fmt.Sprintf("%s-%s", rptType.ReportTypeName, rpt.ReportDate.Format("2005-01-02"))
+	rptName := fmt.Sprintf("%s-%s-%s", rpt.ReportSubType,
+		rptType.ReportTypeName,
+		rpt.ReportDate.Format("2006-01-02"))
 	if strings.EqualFold(rpt.MimeType, "application/zip") {
 		rptName += ".zip"
 	} else {
@@ -103,113 +104,42 @@ func GetReport(c *gin.Context) {
 }
 
 func GetReportList(c *gin.Context) {
-	typeid := c.Param("typeid")
-	start := c.Param("start")
-	end := c.Param("end")
+	var data models.ReportListRequest
+	logmsg := "ReportController: GetReportList:"
 
-	if typeid != "" {
-		rptType, err := svcs.GetReportType(typeid)
-		if err != nil {
-			svcs.CreateDBLogEntry("GeneralAPI", "GetReportList", "ReportList Get Error", "",
-				fmt.Sprintf("GetReportList: Service Error: %s", err.Error()), c)
-			c.JSON(http.StatusBadRequest, models.ReportList{
-				Exception: "GetReportList: Service Error: " + err.Error(),
-			})
-			return
-		}
-		var rpts []general.DBReport
-		if start != "" && end != "" {
-			dStart, err := time.ParseInLocation("2006-01-02", start, time.UTC)
-			if err != nil {
-				svcs.CreateDBLogEntry("GeneralAPI", "GetReportList", "ReportList Get Error", "",
-					fmt.Sprintf("GetReportList: Service Error: %s", err.Error()), c)
-				c.JSON(http.StatusBadRequest, models.ReportList{
-					Exception: "GetReportList: Service Error: " + err.Error(),
-				})
-				return
-			}
-			dEnd, err := time.ParseInLocation("2006-01-02", end, time.UTC)
-			if err != nil {
-				svcs.CreateDBLogEntry("GeneralAPI", "GetReportList", "ReportList Get Error", "",
-					fmt.Sprintf("GetReportList: Service Error: %s", err.Error()), c)
-				c.JSON(http.StatusBadRequest, models.ReportList{
-					Exception: "GetReportList: Service Error: " + err.Error(),
-				})
-				return
-			}
-			dEnd = dEnd.AddDate(0, 0, 1)
-
-			rpts, err = svcs.GetReportsByTypeAndDates(typeid, dStart, dEnd)
-
-			if err != nil {
-				svcs.CreateDBLogEntry("GeneralAPI", "GetReportList", "ReportList Get Error", "",
-					fmt.Sprintf("GetReportList: Service Error: %s", err.Error()), c)
-				c.JSON(http.StatusBadRequest, models.ReportList{
-					Exception: "GetReportList: Service Error: " + err.Error(),
-				})
-				return
-			}
-		} else {
-			rpts, err = svcs.GetReportsByType(typeid)
-
-			if err != nil {
-				svcs.CreateDBLogEntry("GeneralAPI", "GetReportList", "ReportList Get Error", "",
-					fmt.Sprintf("GetReportList: Service Error: %s", err.Error()), c)
-				c.JSON(http.StatusBadRequest, models.ReportList{
-					Exception: "GetReportList: Service Error: " + err.Error(),
-				})
-				return
-			}
-		}
-		sort.Sort(sort.Reverse(general.ByDBReports(rpts)))
-		ans := &models.ReportList{}
-		for _, rpt := range rpts {
-			iRpt := models.ReportItem{
-				ID:            rpt.ID,
-				ReportType:    rptType.ReportType,
-				ReportSubType: rpt.ReportSubType,
-				ReportDate:    rpt.ReportDate,
-			}
-			ans.List = append(ans.List, iRpt)
-		}
-		c.JSON(http.StatusOK, ans)
-	} else {
-		types := make(map[string]general.ReportType)
-		rptTypes, err := svcs.GetReportTypes()
-		if err != nil {
-			svcs.CreateDBLogEntry("GeneralAPI", "GetReportList", "ReportList Get Error", "",
-				fmt.Sprintf("GetReportList: Service Error: %s", err.Error()), c)
-			c.JSON(http.StatusBadRequest, models.ReportList{
-				Exception: "GetReportList: Service Error: " + err.Error(),
-			})
-			return
-		}
-		for _, rType := range rptTypes {
-			types[rType.ID.Hex()] = rType
-		}
-		rpts, err := svcs.GetReportsAll()
-		if err != nil {
-			svcs.CreateDBLogEntry("GeneralAPI", "GetReportList", "ReportList Get Error", "",
-				fmt.Sprintf("GetReportList: Service Error: %s", err.Error()), c)
-			c.JSON(http.StatusBadRequest, models.ReportList{
-				Exception: "GetReportList: Service Error: " + err.Error(),
-			})
-			return
-		}
-		sort.Sort(sort.Reverse(general.ByDBReports(rpts)))
-		ans := &models.ReportList{}
-		for _, rpt := range rpts {
-			rType := types[rpt.ReportTypeID.Hex()]
-			iRpt := models.ReportItem{
-				ID:            rpt.ID,
-				ReportType:    rType.ReportType,
-				ReportSubType: rpt.ReportSubType,
-				ReportDate:    rpt.ReportDate,
-			}
-			ans.List = append(ans.List, iRpt)
-		}
-		c.JSON(http.StatusOK, ans)
+	if err := c.ShouldBindJSON(&data); err != nil {
+		svcs.CreateDBLogEntry("GeneralAPI", "ERROR", "Binding Problem", "",
+			fmt.Sprintf("%s Request Data Binding, Trouble with request", logmsg), c)
+		c.JSON(http.StatusBadRequest,
+			models.ReportTypeList{Exception: "Trouble with request"})
+		return
 	}
+
+	answer := &models.ReportTypeList{}
+	for _, rtype := range data.ReportTypes {
+		rptType, err := svcs.GetReportType(rtype)
+		if err != nil {
+			svcs.CreateDBLogEntry("GeneralAPI", "GetReportList", "ReportList Get Error", "",
+				fmt.Sprintf("GetReportList: Service Error: %s", err.Error()), c)
+			c.JSON(http.StatusBadRequest, models.ReportTypeList{
+				Exception: "GetReportList: Service Error: " + err.Error(),
+			})
+			return
+		}
+		rpts, err := svcs.GetReportsByTypeAndDates(rtype, data.StartDate, data.EndDate)
+		if err != nil {
+			svcs.CreateDBLogEntry("GeneralAPI", "GetReportList",
+				"Retrieveing Reports", "", fmt.Sprintf("%s Problem Getting Reports: %s",
+					logmsg, err.Error()), c)
+			c.JSON(http.StatusBadRequest, models.ReportTypeList{
+				Exception: "GetReportList: Service Error: " + err.Error(),
+			})
+			return
+		}
+		rptType.Reports = append(rptType.Reports, rpts...)
+		answer.ReportTypes = append(answer.ReportTypes, *rptType)
+	}
+	c.JSON(http.StatusOK, answer)
 }
 
 func CreateReport(c *gin.Context) {
