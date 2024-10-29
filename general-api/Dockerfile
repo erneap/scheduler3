@@ -39,6 +39,7 @@ COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group
 
 COPY --from=builder /go/bin/general-api /go/bin/general-api
+COPY initial.json /data/initial/initial.json
 
 USER scheduler:scheduler
 
