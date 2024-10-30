@@ -444,7 +444,7 @@ func IngestFiles(c *gin.Context) {
 										for _, alc := range asgmt.LaborCodes {
 											for _, flc := range fr.LaborCodes {
 												if strings.EqualFold(alc.ChargeNumber, flc.ChargeNumber) &&
-													strings.EqualFold(alc.Extension, flc.Extension) {
+													strings.EqualFold(alc.Extension, flc.Extension) && !found {
 													found = true
 													cn = alc.ChargeNumber
 													ext = alc.Extension
