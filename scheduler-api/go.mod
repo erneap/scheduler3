@@ -5,8 +5,7 @@ go 1.22.0
 toolchain go1.23.0
 
 require (
-	github.com/erneap/go-models v1.15.21
-	github.com/erneap/scheduler3/scheduler-api v0.0.0-20240909225427-a6216212333b
+	github.com/erneap/go-models v1.15.24
 	github.com/gin-gonic/gin v1.9.1
 	github.com/xuri/excelize/v2 v2.8.0
 	go.mongodb.org/mongo-driver v1.13.0
