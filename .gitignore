@@ -3,3 +3,5 @@ query-api/.env
 authentication/.env
 .DS_Store
 authentication-api.tar
+out/linecounter.txt
+out/linecounter.json

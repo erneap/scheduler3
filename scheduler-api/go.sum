@@ -16,6 +16,8 @@ github.com/erneap/go-models v1.15.21 h1:j3Zu+hflEtmy1Hsd88uLUwU/IXqZTw1XUS8JMULt
 github.com/erneap/go-models v1.15.21/go.mod h1:SigxsNm7rIr9PcBR/jvWp6235YLknxVavapTHk0qECY=
 github.com/erneap/go-models v1.15.24 h1:v+nf9RrO49TdUnVA7VwnvyS1cadvmtmeVpWzObHakRg=
 github.com/erneap/go-models v1.15.24/go.mod h1:SigxsNm7rIr9PcBR/jvWp6235YLknxVavapTHk0qECY=
+github.com/erneap/go-models v1.15.25 h1:VThFZt7KJvpQw5K/7NEDUvhvp9mmCbMeyUnSboKKG8k=
+github.com/erneap/go-models v1.15.25/go.mod h1:SigxsNm7rIr9PcBR/jvWp6235YLknxVavapTHk0qECY=
 github.com/erneap/scheduler3/scheduler-api v0.0.0-20240909225427-a6216212333b h1:iAEXm4hNy7JU4dWL+iEkrLFqOdeGYTOQdfBqxUuzpi0=
 github.com/erneap/scheduler3/scheduler-api v0.0.0-20240909225427-a6216212333b/go.mod h1:lkFHjAOYd1ivnolmd/Zvfm3irPg4Ra535qIPWirnMQU=
 github.com/gabriel-vasile/mimetype v1.4.3 h1:in2uUcidCuFcDKtdcBxlR0rJ1+fsokWf+uqxgUFjbI0=
