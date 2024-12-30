@@ -373,7 +373,8 @@ func IngestFiles(c *gin.Context) {
 					}
 					svcs.CreateEmployeeWork(work)
 				} else {
-					fmt.Println(err)
+					svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "ManualIngest Problem", "",
+						fmt.Sprintf("%s IngestFiles, Error: %s", logmsg, err.Error()), c)
 				}
 				if start.Year() != end.Year() {
 					work, err := svcs.GetEmployeeWork(emp.ID.Hex(), uint(end.Year()))
@@ -387,7 +388,8 @@ func IngestFiles(c *gin.Context) {
 						}
 						svcs.CreateEmployeeWork(work)
 					} else {
-						fmt.Println(err)
+						svcs.CreateDBLogEntry("SchedulerAPI", "ERROR", "ManualIngest Problem", "",
+							fmt.Sprintf("%s IngestFiles, Error: %s", logmsg, err.Error()), c)
 					}
 				}
 			}
@@ -396,8 +398,8 @@ func IngestFiles(c *gin.Context) {
 		for _, rec := range records {
 			// find the employee in the employees list
 			for i, emp := range cEmployees {
-				if strings.EqualFold(emp.Name.GetLastFirst(), rec.CompanyID) ||
-					strings.EqualFold(emp.Name.GetLastFirstMI(), rec.CompanyID) {
+				if strings.EqualFold(emp.Name.GetLastFirst(), strings.TrimSpace(rec.CompanyID)) ||
+					strings.EqualFold(emp.Name.GetLastFirstMI(), strings.TrimSpace(rec.CompanyID)) {
 					if rec.Code != "" {
 						// leave, so add to employee and update
 						// hours is the number of normal work hours
