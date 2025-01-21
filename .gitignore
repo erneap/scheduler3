@@ -5,3 +5,5 @@ authentication/.env
 authentication-api.tar
 out/linecounter.txt
 out/linecounter.json
+.env
+.env

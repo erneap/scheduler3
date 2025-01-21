@@ -9,7 +9,7 @@ export class WorkWeek {
     this.week = [];
     for (let i=0; i < 7; i++) {
       const wd: Workday = new Workday();
-      wd.date = new Date();
+      wd.date = undefined;
       wd.id = i;
       this.week.push(wd);
     }
@@ -27,7 +27,6 @@ export class WorkWeek {
       day = wDay.id % 7;
     }
     this.week[day] =new Workday(wDay);
-    this.week.sort((a,b) => a.compareTo(b))
   }
 
   getWorkday(id: number): Workday {
