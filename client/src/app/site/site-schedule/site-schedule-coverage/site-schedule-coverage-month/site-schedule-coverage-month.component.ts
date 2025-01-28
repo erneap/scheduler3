@@ -68,7 +68,7 @@ export class SiteScheduleCoverageMonthComponent {
     const monthWidth = (width - (4 * (moveWidth + 2)));
     this.monthStyle = `width: ${monthWidth}px;font-size: ${moveFontSize}pt;`;
     this.moveStyle = `width: ${moveWidth}px;font-size: ${moveFontSize}pt;`;
-    this.wkctrStyle = `width: ${width - 40}px;`;
+    this.wkctrStyle = `width: ${width}px;`;
   }
 
   setWorkcenter() {

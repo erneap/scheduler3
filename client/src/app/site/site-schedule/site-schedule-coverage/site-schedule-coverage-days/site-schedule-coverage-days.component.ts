@@ -29,5 +29,12 @@ export class SiteScheduleCoverageDaysComponent {
   @Input() wkctrID: string = '';
   @Input() shiftID: string = '';
   @Input() viewtype: string = 'label';
-  @Input() width: number = 25;
+  private _width: number = 25;
+  @Input() 
+  public set width(w: number) {
+    this._width = w;
+  }
+  get width(): number {
+    return this._width;
+  }
 }

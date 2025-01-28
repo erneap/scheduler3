@@ -45,7 +45,15 @@ export class SiteScheduleCoverageDayComponent {
   get shiftID(): string {
     return this._shiftID;
   }
-  @Input() width: number = 25;
+  private _width: number = 25;
+  @Input() 
+  public set width(w: number) {
+    this._width = w;
+    console.log(this._width);
+  }
+  get width(): number {
+    return this._width;
+  }
   @Input() viewtype: string = 'label';
   coverage: number = 0;
   minimums: number = 0;
@@ -127,8 +135,7 @@ export class SiteScheduleCoverageDayComponent {
         }
       }
     }
-
-    return `width: ${this.width}px;height: ${this.width}px;fontsize: `
-      + `${fontSize}pt;background-color: #${bkColor};color: #${txColor};`;
+    return `width: ${this.width}px;height: ${this.width}px;font-size: ${fontSize}pt;`
+    + `background-color: #${bkColor};color: #${txColor}`;
   }
 }
