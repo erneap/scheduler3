@@ -52,20 +52,30 @@ export class LogsComponent {
     if (filter === '') {
       filter = undefined;
     }
-      
+    this.logEntries = [];
     this.logService.getLogEntries(portion, year).subscribe({
       next: (idata: ILogList) => {
-        const data: LogList = new LogList(idata);
         this.dialogService.closeSpinner();
-        this.logEntries = [];
-        data.list.forEach(entry => {
-          this.logEntries.push(new LogEntry(entry));
-        });
-        this.logEntries.sort((a,b) => b.compareTo(a));
+        if (idata.list) {
+          idata.list.forEach(entry => {
+            this.logEntries.push(new LogEntry(entry));
+          });
+          this.logEntries.sort((a,b) => b.compareTo(a));
+        } else {
+          const logentry = new LogEntry({
+            id: '',
+            entrydate: new Date(),
+            application: 'scheduler',
+            category: '',
+            title: "NO LOG ENTRIES FOR PERIOD/CATEGORY",
+            message: '',
+            name: ''
+          });
+          this.logEntries.push(logentry);
+        }
         this.authService.statusMessage = `${this.logEntries.length} log entries`;
       },
       error: (err: ILogList) => {
-        this.logEntries = [];
         this.dialogService.closeSpinner();
         this.authService.statusMessage = err.exception;
       }

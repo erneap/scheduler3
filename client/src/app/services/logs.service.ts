@@ -22,7 +22,6 @@ export class LogsService {
   getLogEntries(portion: string, year: number, filter?: string):
     Observable<ILogList> {
     let url = `/api/v2/general/logs/app/${portion}/${year}-01-01/${year}-12-31`;
-    console.log(url);
     return this.httpClient.get<ILogList>(url);
   }
 }
