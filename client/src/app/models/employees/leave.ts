@@ -30,7 +30,7 @@ export interface ILeaveDay {
   hours: number;
   status: string;
   requestid: string;
-  disable?: boolean
+  disable?: boolean;
 }
 
 export class LeaveDay implements ILeaveDay {
@@ -41,6 +41,7 @@ export class LeaveDay implements ILeaveDay {
   status: string;
   requestid: string;
   disable: boolean;
+  used: boolean;
 
   constructor(ld?: ILeaveDay) {
     this.id = (ld) ? ld.id : 1;
@@ -50,6 +51,7 @@ export class LeaveDay implements ILeaveDay {
     this.status = (ld) ? ld.status : "REQUESTED";
     this.requestid = (ld) ? ld.requestid : '';
     this.disable = false;
+    this.used = false;
   }
 
   compareTo(other?: LeaveDay): number {

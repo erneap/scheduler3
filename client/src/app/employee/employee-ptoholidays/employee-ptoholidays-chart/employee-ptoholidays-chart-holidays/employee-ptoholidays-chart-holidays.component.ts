@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Employee, IEmployee } from 'src/app/models/employees/employee';
+import { LeaveDay } from 'src/app/models/employees/leave';
 import { CompanyHoliday } from 'src/app/models/teams/company';
 import { Team } from 'src/app/models/teams/team';
 import { AppStateService } from 'src/app/services/app-state.service';
@@ -71,6 +72,7 @@ export class EmployeePTOHolidaysChartHolidaysComponent {
     return this._width;
   }
   holidays: CompanyHoliday[] = [];
+  empHolidays: LeaveDay[] = [];
 
   constructor(
     protected empService: EmployeeService,
@@ -100,25 +102,66 @@ export class EmployeePTOHolidaysChartHolidaysComponent {
           }
         }
       });
+
+      this.empHolidays = [];
       emp.leaves.forEach(lv => {
         if (lv.leavedate.getUTCFullYear() === this.year 
           && lv.code.toLowerCase() === 'h') {
-          if (lv.hours === 8.0) {
+          this.empHolidays.push(new LeaveDay(lv));
+        }
+      });
+      this.empHolidays.sort((a,b) => a.compareTo(b))
+      // loop through employee holiday and add leave for equal to ref dates first
+      this.empHolidays.forEach(eHol => {
+        this.holidays.forEach(hol => {
+          hol.actualdates.forEach(ad => {
+            if (ad.getUTCFullYear() === this.year) {
+                const adStart = new Date(ad.getTime() - (7 * 24 * 3600000));
+                const adEnd = new Date(ad.getTime() + (7 * 24 * 3600000));
+              if (eHol.leavedate.getTime() > adStart.getTime()
+                && eHol.leavedate.getTime() < adEnd.getTime()
+                && hol.leaveDays.length === 0) {
+                hol.addLeaveDay(eHol);
+                eHol.used = true;
+              }
+            }
+          });
+        });
+      });
+
+      // then if floater is not filled, add first non-reference date to floater
+      this.holidays.forEach(hol => {
+        if (hol.id.toLowerCase() === "f" && hol.leaveDays.length === 0) {
+          let found = false;
+          for (let i=0; i < this.empHolidays.length && !found; i++) {
+            if (!this.empHolidays[i].used) {
+              hol.addLeaveDay(this.empHolidays[i]);
+              this.empHolidays[i].used = true;
+              found = true;
+            }
+          }
+        }
+      });
+
+      // then loop again to fill in for non-reference dates
+      this.empHolidays.forEach(eHol => {
+        if (!eHol.used) {
+          if (eHol.hours === 8.0) {
             let found = false;
             for (let i=0; i < this.holidays.length && !found; i++) {
               if (this.holidays[i].getLeaveDayTotalHours() === 0.0 
                 && this.holidays[i].active) {
                 found = true;
-                this.holidays[i].addLeaveDay(lv);
+                this.holidays[i].addLeaveDay(eHol);
               }
             }
-          } else if (lv.hours < 8.0) {
+          } else if (eHol.hours < 8.0) {
             let found = false;
             for (let i=0; i < this.holidays.length && !found; i++) {
-              if (this.holidays[i].getLeaveDayTotalHours() + lv.hours <= 8.0 
+              if (this.holidays[i].getLeaveDayTotalHours() + eHol.hours <= 8.0 
                 && this.holidays[i].active) {
                 found = true;
-                this.holidays[i].addLeaveDay(lv);
+                this.holidays[i].addLeaveDay(eHol);
               }
             }
           }
