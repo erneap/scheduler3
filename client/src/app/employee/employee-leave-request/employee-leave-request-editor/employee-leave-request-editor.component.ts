@@ -588,4 +588,8 @@ export class EmployeeLeaveRequestEditorComponent {
       });
     }
   }
+
+  checkHoliday(chg: string): boolean {
+    return false;
+  }
 }
