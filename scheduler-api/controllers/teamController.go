@@ -789,7 +789,7 @@ func UpdateCompanyHoliday(c *gin.Context) {
 							}
 						}
 					case "addactual", "addactualdate", "actual":
-						tDate, _ := time.Parse("2006-01-02", data.Value)
+						tDate, _ := time.ParseInLocation("2006-01-02", data.Value, time.UTC)
 						found := false
 						for d, aDate := range holiday.ActualDates {
 							if aDate.Year() == tDate.Year() {
@@ -803,8 +803,8 @@ func UpdateCompanyHoliday(c *gin.Context) {
 					case "replaceactual", "replaceactualdate", "replacedate":
 						parts := strings.Split(data.Value, "|")
 						if len(parts) > 1 {
-							oldDate, _ := time.Parse("2006-01-02", parts[0])
-							newDate, _ := time.Parse("2006-01-02", parts[1])
+							oldDate, _ := time.ParseInLocation("2006-01-02", parts[0], time.UTC)
+							newDate, _ := time.ParseInLocation("2006-01-02", parts[1], time.UTC)
 							for d := 0; d < len(holiday.ActualDates); d++ {
 								if holiday.ActualDates[d].Equal(oldDate) {
 									holiday.ActualDates[d] = newDate
@@ -812,7 +812,7 @@ func UpdateCompanyHoliday(c *gin.Context) {
 							}
 						}
 					case "removeactual", "removeactualdate":
-						tDate, _ := time.Parse("2006-01-02", data.Value)
+						tDate, _ := time.ParseInLocation("2006-01-02", data.Value, time.UTC)
 						pos := -1
 						for d, aDate := range holiday.ActualDates {
 							if aDate.Equal(tDate) {
