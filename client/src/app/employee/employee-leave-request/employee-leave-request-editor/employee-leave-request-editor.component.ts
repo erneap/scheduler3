@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Employee } from 'src/app/models/employees/employee';
-import { ILeaveRequest, LeaveRequest } from 'src/app/models/employees/leave';
+import { ILeaveRequest, LeaveDay, LeaveRequest } from 'src/app/models/employees/leave';
 import { Team } from 'src/app/models/teams/team';
 import { Workcode } from 'src/app/models/teams/workcode';
 import { AppStateService } from 'src/app/services/app-state.service';
@@ -17,6 +17,8 @@ import { EmployeeLeaveRequestEditorMidDenialComponent } from './employee-leave-r
 import { DeletionConfirmationComponent } from 'src/app/generic/deletion-confirmation/deletion-confirmation.component';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { CompanyHoliday } from 'src/app/models/teams/company';
+import { NoticeDialogComponent } from 'src/app/generic/notice-dialog/notice-dialog.component';
 
 @Component({
   selector: 'app-employee-leave-request-editor',
@@ -61,6 +63,7 @@ export class EmployeeLeaveRequestEditorComponent {
     return this._height;
   }
   @Input() employee: Employee = new Employee();
+  @Input() team: Team = new Team();
   @Output() changed = new EventEmitter<Employee>();
 
   leavecodes: Workcode[] = [];
@@ -69,6 +72,7 @@ export class EmployeeLeaveRequestEditorComponent {
   ptohours: number = 0;
   holidayhours: number = 0;
   maxMids: number = 0;
+  alreadyChecked: boolean = false;
 
   constructor(
     protected authService: AuthService,
@@ -83,8 +87,8 @@ export class EmployeeLeaveRequestEditorComponent {
     this.leavecodes = [];
     const iteam = this.teamService.getTeam();
     if (iteam) {
-      const team = new Team(iteam);
-      team.workcodes.forEach(wc => {
+      this.team = new Team(iteam);
+      this.team.workcodes.forEach(wc => {
         if (wc.isLeave) {
           this.leavecodes.push(new Workcode(wc))
         }
@@ -141,6 +145,7 @@ export class EmployeeLeaveRequestEditorComponent {
       this.editorForm.controls['comment'].setValue('');
       this.editorForm.controls['comment'].disable();
     }
+    this.alreadyChecked = false;
   }
 
   inputStyle(element: string): string {
@@ -248,6 +253,7 @@ export class EmployeeLeaveRequestEditorComponent {
         });
       } else {
         this.dialogService.showSpinner();
+        this.alreadyChecked = false;
         if (value !== '') {
           this.empService.updateLeaveRequest(this.employee.id, 
             this.request.id, field, value)
@@ -516,33 +522,205 @@ export class EmployeeLeaveRequestEditorComponent {
 
   submitForApproval() {
     this.authService.statusMessage = "Submitting for approval";
-    this.dialogService.showSpinner();
     const iEmp = this.empService.getEmployee();
     if (iEmp && this.request) {
-      this.empService.updateLeaveRequest(this.employee.id, this.request.id, 
-      "requested", iEmp.id).subscribe({
-        next: (data: EmployeeResponse) => {
-          this.dialogService.closeSpinner();
-          if (data && data !== null) {
-            if (data.employee) {
-              this.employee = new Employee(data.employee);
-              this.employee.requests.forEach(req => {
-                if (this.request && this.request.id === req.id) {
-                  this.request = new LeaveRequest(req)
+      if (!this.alreadyChecked) {
+        if (!this.checkRequestForHolidayProblems()) {
+          this.dialogService.showSpinner();
+          this.empService.updateLeaveRequest(this.employee.id, this.request.id, 
+          "requested", iEmp.id).subscribe({
+            next: (data: EmployeeResponse) => {
+              this.dialogService.closeSpinner();
+              if (data && data !== null) {
+                if (data.employee) {
+                  this.employee = new Employee(data.employee);
+                  this.employee.requests.forEach(req => {
+                    if (this.request && this.request.id === req.id) {
+                      this.request = new LeaveRequest(req)
+                    }
+                  });
                 }
-              });
+                this.setCurrent();
+              }
+              this.authService.statusMessage = "Submit for Approval Complete";
+              this.changed.emit(new Employee(this.employee));
+            },
+            error: (err: EmployeeResponse) => {
+              this.dialogService.closeSpinner();
+              this.authService.statusMessage = err.exception;
             }
-            this.setCurrent();
-          }
-          this.authService.statusMessage = "Submit for Approval Complete";
-          this.changed.emit(new Employee(this.employee));
-        },
-        error: (err: EmployeeResponse) => {
-          this.dialogService.closeSpinner();
-          this.authService.statusMessage = err.exception;
+          });
+        } else {
+          const dialogRef = this.dialog.open(NoticeDialogComponent, {
+            data: {title: 'Holiday Policy Issue', 
+            message: "You have more than 8 hours on a holiday or "
+              + "you are requesting a holiday more than 14 days before "
+              + "it's actual reference date.  You can request a waiver by "
+              + "re-submitting the request without a change."},
+          });
+
+          dialogRef.afterClosed().subscribe(result => {
+            if (result === 'yes') {
+              this.alreadyChecked = true;
+            }
+          });
         }
-      });
+      } else {
+        this.dialogService.showSpinner();
+        this.empService.updateLeaveRequest(this.employee.id, this.request.id, 
+        "requested", iEmp.id).subscribe({
+          next: (data: EmployeeResponse) => {
+            this.dialogService.closeSpinner();
+            if (data && data !== null) {
+              if (data.employee) {
+                this.employee = new Employee(data.employee);
+                this.employee.requests.forEach(req => {
+                  if (this.request && this.request.id === req.id) {
+                    this.request = new LeaveRequest(req)
+                  }
+                });
+              }
+              this.setCurrent();
+            }
+            this.authService.statusMessage = "Submit for Approval Complete";
+            this.changed.emit(new Employee(this.employee));
+          },
+          error: (err: EmployeeResponse) => {
+            this.dialogService.closeSpinner();
+            this.authService.statusMessage = err.exception;
+          }
+        });
+      }
     }
+  }
+
+  isEmployeeActive(holiday: CompanyHoliday, employee: Employee, dt: Date): boolean {
+    employee.assignments.sort((a,b) => a.compareTo(b));
+    const actual = holiday.getActual(dt.getFullYear());
+    const startasgmt = employee.assignments[0];
+    const endasgmt = employee.assignments[
+      employee.assignments.length - 1];
+    if (actual) {
+      return (actual.getTime() >= startasgmt.startDate.getTime() &&
+        actual.getTime() <= endasgmt.endDate.getTime());
+    }
+    return true;
+  }
+
+  checkRequestForHolidayProblems(): boolean {
+    let problems = false;
+    if (this.request && this.request.requesteddays.length > 0) {
+      for (let i=0; i < this.request.requesteddays.length && !problems; i++) {
+        if (this.request.requesteddays[i].code.toLowerCase() === "h") {
+          problems = this.checkForHolidayAvailability(new Date(
+            this.request.requesteddays[i].leavedate), 
+            this.request.requesteddays[i].hours);
+        }
+      }
+    }
+    return problems;
+  }
+
+  checkForHolidayAvailability(dt: Date, hours: number): boolean {
+    if (hours > 8.0) {
+      return true;
+    }
+    var empHolidays: LeaveDay[] = [];
+    var holidays: CompanyHoliday[] = [];
+    
+    // get any company holidays
+    this.team.companies.forEach(co => {
+      if (co.id.toLowerCase() === this.employee.companyinfo.company.toLowerCase()) {
+        if (co.holidays.length > 0) {
+          co.holidays.forEach(hol => {
+            const holiday = new CompanyHoliday(hol);
+            holiday.active = this.isEmployeeActive(holiday, this.employee, dt);
+            holidays.push(holiday);
+          });
+        }
+      }
+    });
+    this.employee.leaves.forEach(lv => {
+      if (lv.leavedate.getUTCFullYear() === dt.getFullYear()
+        && lv.code.toLowerCase() === 'h') {
+        empHolidays.push(new LeaveDay(lv));
+      }
+    });
+    empHolidays.sort((a,b) => a.compareTo(b))
+    // loop through employee holiday and add leave for equal to ref dates first
+    empHolidays.forEach(eHol => {
+      holidays.forEach(hol => {
+        hol.actualdates.forEach(ad => {
+          if (ad.getUTCFullYear() === dt.getFullYear()) {
+              const adStart = new Date(ad.getTime() - (7 * 24 * 3600000));
+              const adEnd = new Date(ad.getTime() + (7 * 24 * 3600000));
+            if (eHol.leavedate.getTime() > adStart.getTime()
+              && eHol.leavedate.getTime() < adEnd.getTime()
+              && hol.leaveDays.length === 0) {
+              hol.addLeaveDay(eHol);
+              eHol.used = true;
+            }
+          }
+        });
+      });
+    });
+
+    // then if floater is not filled, add first non-reference date to floater
+    holidays.forEach(hol => {
+      if (hol.id.toLowerCase() === "f" && hol.leaveDays.length === 0) {
+        let found = false;
+        for (let i=0; i < empHolidays.length && !found; i++) {
+          if (!empHolidays[i].used) {
+            hol.addLeaveDay(empHolidays[i]);
+            empHolidays[i].used = true;
+            found = true;
+          }
+        }
+      }
+    });
+
+    // then loop again to fill in for non-reference dates
+    empHolidays.forEach(eHol => {
+      if (!eHol.used) {
+        if (eHol.hours === 8.0) {
+          let found = false;
+          for (let i=0; i < holidays.length && !found; i++) {
+            if (holidays[i].getLeaveDayTotalHours() === 0.0 
+              && holidays[i].active) {
+              found = true;
+              holidays[i].addLeaveDay(eHol);
+            }
+          }
+        } else if (eHol.hours < 8.0) {
+          let found = false;
+          for (let i=0; i < holidays.length && !found; i++) {
+            if (holidays[i].getLeaveDayTotalHours() + eHol.hours <= 8.0 
+              && holidays[i].active) {
+              found = true;
+              holidays[i].addLeaveDay(eHol);
+            }
+          }
+        }
+      }
+    });
+
+    // now check to see if the requested holiday is available on the date
+    let found = true;
+    for (let i=0; i < holidays.length && found; i++) {
+      const hol = holidays[i];
+      if (hol.id.toLowerCase() === "h") {
+        let actual = hol.getActual(dt.getFullYear());
+        if (actual) {
+          actual = new Date(actual.getTime() - (14 * 24 * 3600000));
+          if (actual.getTime() < dt.getTime() && hol.getLeaveDayTotalHours() + hours <= 8.0) {
+            found = false;
+          }
+        }
+      } else if (hol.getLeaveDayTotalHours() + hours <= 8.0) {
+        found = false;
+      }
+    }
+    return found;
   }
 
   viewHeight(): number {
@@ -562,6 +740,7 @@ export class EmployeeLeaveRequestEditorComponent {
 
   onDayChange(chg: string) {
     if (chg !== '' && this.request && this.request.id !== '') {
+      this.alreadyChecked = false;
       this.empService.updateLeaveRequest(this.employee.id, 
         this.request.id, 'day', chg).subscribe({
         next: (data: EmployeeResponse) => {
