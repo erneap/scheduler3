@@ -111,35 +111,37 @@ export class EmployeePTOHolidaysChartHolidaysComponent {
         }
       });
       this.empHolidays.sort((a,b) => a.compareTo(b))
-      // loop through employee holiday and add leave for equal to ref dates first
+      // put holidays, status actual, in display order
       this.empHolidays.forEach(eHol => {
-        this.holidays.forEach(hol => {
-          hol.actualdates.forEach(ad => {
-            if (ad.getUTCFullYear() === this.year) {
-                const adStart = new Date(ad.getTime() - (7 * 24 * 3600000));
-                const adEnd = new Date(ad.getTime() + (7 * 24 * 3600000));
-              if (eHol.leavedate.getTime() > adStart.getTime()
-                && eHol.leavedate.getTime() < adEnd.getTime()
-                && hol.leaveDays.length === 0) {
-                hol.addLeaveDay(eHol);
-                eHol.used = true;
-              }
+        if (eHol.status.toLowerCase() === "actual") {
+          let found = false
+          this.holidays.forEach(cHol => {
+            if (!found && cHol.getLeaveDayTotalHours() + eHol.hours <= 8.0) {
+              found = true;
+              cHol.addLeaveDay(eHol);
+              eHol.used = true;
             }
           });
-        });
+        }
       });
 
-      // then if floater is not filled, add first non-reference date to floater
-      this.holidays.forEach(hol => {
-        if (hol.id.toLowerCase() === "f" && hol.leaveDays.length === 0) {
-          let found = false;
-          for (let i=0; i < this.empHolidays.length && !found; i++) {
-            if (!this.empHolidays[i].used) {
-              hol.addLeaveDay(this.empHolidays[i]);
-              this.empHolidays[i].used = true;
-              found = true;
-            }
-          }
+      // loop through employee holiday and add leave for equal to ref dates first
+      this.empHolidays.forEach(eHol => {
+        if (!eHol.used){
+          this.holidays.forEach(hol => {
+            hol.actualdates.forEach(ad => {
+              if (ad.getUTCFullYear() === this.year) {
+                const adStart = new Date(ad);
+                const adEnd = new Date(ad.getTime() + (24 * 3600000));
+                if (eHol.leavedate.getTime() >= adStart.getTime()
+                  && eHol.leavedate.getTime() <= adEnd.getTime()
+                  && !eHol.used  && hol.leaveDays.length === 0) {
+                  hol.addLeaveDay(eHol);
+                  eHol.used = true;
+                }
+              }
+            });
+          });
         }
       });
 
