@@ -36,6 +36,7 @@ export interface IForecastReport {
   periods?: ForecastPeriod[];
   laborCodes?: LaborCode[];
   companyid?: string;
+  sortfirst?: boolean;
 }
 
 export class ForecastReport implements IForecastReport {
@@ -46,6 +47,7 @@ export class ForecastReport implements IForecastReport {
   periods?: ForecastPeriod[];
   laborCodes?: LaborCode[];
   companyid?: string;
+  sortfirst?: boolean;
 
   constructor(fr?: IForecastReport) {
     this.id = (fr) ? fr.id : 0;
@@ -53,6 +55,7 @@ export class ForecastReport implements IForecastReport {
     this.startDate = (fr) ? new Date(fr.startDate) : new Date();
     this.endDate = (fr) ? new Date(fr.endDate) : new Date();
     this.companyid = (fr && fr.companyid) ? fr.companyid : '';
+    this.sortfirst = (fr) ? fr.sortfirst : false;
     this.periods = [];
     if (fr && fr.periods && fr.periods.length > 0) {
       fr.periods.forEach(prd => {

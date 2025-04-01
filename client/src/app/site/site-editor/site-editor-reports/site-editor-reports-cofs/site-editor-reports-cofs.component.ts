@@ -68,6 +68,7 @@ export class SiteEditorReportsCofsComponent {
       start: [new Date(), [Validators.required]],
       end: [new Date(), [Validators.required]],
       unit: ['', [Validators.required]],
+      past: false,
     });
     const isite = this.siteService.getSite();
     if (isite) {
@@ -81,13 +82,14 @@ export class SiteEditorReportsCofsComponent {
   }
 
   setReportList() {
+    const showPast: boolean = this.reportForm.controls['past'].value;
     this.reportList = [];
     this.reportList.push(new ListItem('new', 'Add New CofS Report'));
     const now = new Date();
     if (this.site.cofs && this.site.cofs.length > 0) {
-      this.site.cofs.sort((a,b) => a.compareTo(b));
+      this.site.cofs.sort((a,b) => b.compareTo(a));
       this.site.cofs.forEach(rpt => {
-        if (rpt.enddate.getTime() > now.getTime()) {
+        if (showPast || rpt.enddate.getTime() > now.getTime()) {
           const lbl = `${rpt.name} - (${rpt.reportPeriod()})`;
           this.reportList.push(new ListItem(`${rpt.id}`, lbl));
         }

@@ -114,7 +114,14 @@ export class CofSReport implements ICofSReport {
 
   compareTo(other?: ICofSReport): number {
     if (other) {
-      return (this.name < other.name) ? -1 : 1;
+      const oOther = new CofSReport(other);
+      if (this.startdate.getTime() === oOther.startdate.getTime()) {
+        if (this.enddate.getTime() === oOther.enddate.getTime()) {
+          return (this.name < oOther.name) ? -1 : 1;
+        }
+        return (this.enddate.getTime() < oOther.enddate.getTime()) ? -1 : 1;
+      }
+      return (this.startdate.getTime() < oOther.startdate.getTime()) ? -1 : 1;
     }
     return -1
   }

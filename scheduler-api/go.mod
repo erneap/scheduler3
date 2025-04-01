@@ -5,7 +5,7 @@ go 1.22.0
 toolchain go1.23.0
 
 require (
-	github.com/erneap/go-models v1.15.26
+	github.com/erneap/go-models v1.16.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/xuri/excelize/v2 v2.8.0
 	go.mongodb.org/mongo-driver v1.13.0

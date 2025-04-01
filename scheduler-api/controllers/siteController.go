@@ -1216,11 +1216,12 @@ func CreateSiteForecastReport(c *gin.Context) {
 	}
 	if !found {
 		rpt := sites.ForecastReport{
-			ID:        fID + 1,
-			CompanyID: data.CompanyID,
-			Name:      data.Name,
-			StartDate: data.StartDate,
-			EndDate:   data.EndDate,
+			ID:          fID + 1,
+			CompanyID:   data.CompanyID,
+			Name:        data.Name,
+			StartDate:   data.StartDate,
+			EndDate:     data.EndDate,
+			SortByFirst: data.SortFirst,
 		}
 		rpt.ChangePeriodsStart(data.Period)
 		site.ForecastReports = append(site.ForecastReports, rpt)
@@ -1318,6 +1319,12 @@ func UpdateSiteForecastReport(c *gin.Context) {
 			case "addperiod":
 				prdDate, _ := time.Parse("2006-01-02", data.Value)
 				rpt.AddOutCyclePeriod(prdDate)
+			case "sortfirst":
+				first := false
+				if strings.ToLower(data.Value) == "true" {
+					first = true
+				}
+				rpt.SortByFirst = first
 			}
 			site.ForecastReports[r] = rpt
 		}

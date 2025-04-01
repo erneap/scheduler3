@@ -9,6 +9,13 @@
     <form [formGroup]="reportForm" class="flexlayout column center flexgap"
       style="margin-top: 10px;">
       <div class="formrow">
+        <div class="formlabel">Show All Reports</div>
+        <div class="forminput">
+          <mat-checkbox formControlName="past" (change)="setReportList()">
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="formrow">
         <div class="formlabel">CofS Report Name*</div>
         <div class="forminput">
           <input matNativeControl formControlName="name"

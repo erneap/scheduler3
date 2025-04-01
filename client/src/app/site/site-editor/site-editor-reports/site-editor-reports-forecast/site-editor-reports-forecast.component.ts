@@ -78,7 +78,8 @@ export class SiteEditorReportsForecastComponent {
       start: [new Date(), [Validators.required]],
       end: [new Date(), [Validators.required]],
       period: [5, [Validators.required]],
-      companyid: ["", [Validators.required]]
+      companyid: ["", [Validators.required]],
+      sortfirst: false,
     })
   }
 
@@ -196,6 +197,7 @@ export class SiteEditorReportsForecastComponent {
     this.reportForm.controls['period'].setValue(weekday);
     this.reportForm.controls['companyid'].setValue((this.selected.companyid) 
       ? this.selected.companyid : '');
+    this.reportForm.controls['sortfirst'].setValue(this.selected.sortfirst);
   }
 
   onChange(field: string) {
@@ -205,6 +207,8 @@ export class SiteEditorReportsForecastComponent {
         let outputValue = '';
         if (field === 'start' || field === 'end') {
           outputValue = this.getUTCDateString(value);
+        } else if (field === 'sortfirst') {
+          outputValue = (value) ? 'true' : 'false';
         } else {
           outputValue = value;
         }
@@ -228,6 +232,7 @@ export class SiteEditorReportsForecastComponent {
   }
 
   getUTCDateString(date: Date): string {
+    date = new Date(date);
     let answer = `${date.getUTCFullYear()}-`;
     if (date.getUTCMonth() < 9) {
       answer += '0';

@@ -186,6 +186,7 @@ type CreateSiteForecast struct {
 	StartDate time.Time `json:"startdate"`
 	EndDate   time.Time `json:"enddate"`
 	Period    int       `json:"period"`
+	SortFirst bool      `json:"sortfirst"`
 }
 
 type UpdateSiteForecast struct {

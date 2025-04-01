@@ -25,6 +25,13 @@
       </div>
     </div>
     <div class="formrow">
+      <div class="formlabel" [style]="labelStyle()">Name Sort By First Name:</div>
+      <div class="forminput" [style]="inputStyle()">
+        <mat-checkbox formControlName="sortfirst" 
+          (change)="onChange('sortfirst')"></mat-checkbox>
+      </div>
+    </div>
+    <div class="formrow">
       <div class="formlabel" [style]="labelStyle()">Start Date</div>
       <div class="forminput" [style]="inputStyle()">
         <input matNativeControl formControlName="start" 
@@ -41,7 +48,7 @@
         <input matNativeControl formControlName="end" 
           style="border: none;width: 60%;"
           [matDatepicker]="endpicker"
-          (dateChange)="onChange('start')">
+          (dateChange)="onChange('end')">
         <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
         <mat-datepicker #endpicker></mat-datepicker>
       </div>
