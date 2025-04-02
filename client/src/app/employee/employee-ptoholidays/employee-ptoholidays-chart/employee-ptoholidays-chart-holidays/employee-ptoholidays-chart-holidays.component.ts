@@ -116,10 +116,12 @@ export class EmployeePTOHolidaysChartHolidaysComponent {
         if (eHol.status.toLowerCase() === "actual") {
           let found = false
           this.holidays.forEach(cHol => {
-            if (!found && cHol.getLeaveDayTotalHours() + eHol.hours <= 8.0) {
-              found = true;
-              cHol.addLeaveDay(eHol);
-              eHol.used = true;
+            if (cHol.active) {
+              if (!found && cHol.getLeaveDayTotalHours() + eHol.hours <= 8.0) {
+                found = true;
+                cHol.addLeaveDay(eHol);
+                eHol.used = true;
+              }
             }
           });
         }
@@ -129,18 +131,20 @@ export class EmployeePTOHolidaysChartHolidaysComponent {
       this.empHolidays.forEach(eHol => {
         if (!eHol.used){
           this.holidays.forEach(hol => {
-            hol.actualdates.forEach(ad => {
-              if (ad.getUTCFullYear() === this.year) {
-                const adStart = new Date(ad);
-                const adEnd = new Date(ad.getTime() + (24 * 3600000));
-                if (eHol.leavedate.getTime() >= adStart.getTime()
-                  && eHol.leavedate.getTime() <= adEnd.getTime()
-                  && !eHol.used  && hol.leaveDays.length === 0) {
-                  hol.addLeaveDay(eHol);
-                  eHol.used = true;
+            if (hol.active) {
+              hol.actualdates.forEach(ad => {
+                if (ad.getUTCFullYear() === this.year) {
+                  const adStart = new Date(ad);
+                  const adEnd = new Date(ad.getTime() + (24 * 3600000));
+                  if (eHol.leavedate.getTime() >= adStart.getTime()
+                    && eHol.leavedate.getTime() <= adEnd.getTime()
+                    && !eHol.used  && hol.leaveDays.length === 0) {
+                    hol.addLeaveDay(eHol);
+                    eHol.used = true;
+                  }
                 }
-              }
-            });
+              });
+            }
           });
         }
       });
@@ -155,6 +159,7 @@ export class EmployeePTOHolidaysChartHolidaysComponent {
                 && this.holidays[i].active) {
                 found = true;
                 this.holidays[i].addLeaveDay(eHol);
+                eHol.used = true;
               }
             }
           } else if (eHol.hours < 8.0) {
@@ -164,7 +169,23 @@ export class EmployeePTOHolidaysChartHolidaysComponent {
                 && this.holidays[i].active) {
                 found = true;
                 this.holidays[i].addLeaveDay(eHol);
+                eHol.used = true;
               }
+            }
+          }
+        }
+      });
+
+      // lastly, plug in holidays actually taken, even if outside the 
+      // employee's active period
+      this.empHolidays.forEach(eHol => {
+        if (!eHol.used) {
+          let found = false;
+          for (let i=0; i < this.holidays.length && !found; i++) {
+            if (this.holidays[i].getLeaveDayTotalHours() + eHol.hours <= 8.0
+              && !this.holidays[i].active) {
+              found = true;
+              this.holidays[i].addLeaveDay(eHol);
             }
           }
         }
