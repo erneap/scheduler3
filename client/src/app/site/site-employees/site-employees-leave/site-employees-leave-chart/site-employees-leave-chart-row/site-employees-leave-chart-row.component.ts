@@ -43,6 +43,7 @@ export class SiteEmployeesLeaveChartRowComponent {
       code: ['', [Validators.required]],
       hours: [0.0, [Validators.required, Validators.min(0.1), Validators.max(12.0)]],
       status: ['REQUESTED', [Validators.required]],
+      tagday: '',
     })
   }
 
@@ -53,6 +54,7 @@ export class SiteEmployeesLeaveChartRowComponent {
       this.leaveForm.controls['code'].setValue(this.leave.code);
       this.leaveForm.controls['hours'].setValue(this.leave.hours);
       this.leaveForm.controls['status'].setValue(this.leave.status);
+      this.leaveForm.controls['tagday'].setValue(this.leave.tagday);
     }
   }
 
@@ -84,13 +86,16 @@ export class SiteEmployeesLeaveChartRowComponent {
         width = Math.floor(125 * ratio);
         break;
       case "code":
-        width = Math.floor(250 * ratio);
+        width = Math.floor(125 * ratio);
         break;
       case "hours":
         width = Math.floor(100 * ratio);
         break;
       case "status":
         width = Math.floor(215 * ratio);
+        break;
+      case "tagday":
+        width = Math.floor(125 * ratio);
         break;
     }
     if (this.leave) {
@@ -121,6 +126,9 @@ export class SiteEmployeesLeaveChartRowComponent {
         break;
       case "status":
         value = this.leaveForm.value.status;
+        break;
+      case "tagday":
+        value = this.leaveForm.value.tagday;
         break;
     }
     this.dialogService.showSpinner();

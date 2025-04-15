@@ -110,13 +110,32 @@ export class EmployeePTOHolidaysChartHolidaysComponent {
           this.empHolidays.push(new LeaveDay(lv));
         }
       });
-      this.empHolidays.sort((a,b) => a.compareTo(b))
+      this.empHolidays.sort((a,b) => a.compareTo(b));
+
+      // put tagged holidays assigned to correct company holiday
+      this.empHolidays.forEach(eHol => {
+        if (eHol.tagday !== '') {
+          let found = false
+          this.holidays.forEach(cHol => {
+            if (cHol.active) {
+              const holID = `${cHol.id}${cHol.sort}`;
+              if (!found && eHol.tagday.toLowerCase() === holID.toLowerCase()
+                && cHol.getLeaveDayTotalHours() + eHol.hours <= 8.0) {
+                found = true;
+                cHol.addLeaveDay(eHol);
+                eHol.used = true;
+              }
+            }
+          });
+        }
+      });
+
       // put holidays, status actual, in display order
       this.empHolidays.forEach(eHol => {
         if (eHol.status.toLowerCase() === "actual") {
           let found = false
           this.holidays.forEach(cHol => {
-            if (cHol.active) {
+            if (cHol.active && !eHol.used) {
               if (!found && cHol.getLeaveDayTotalHours() + eHol.hours <= 8.0) {
                 found = true;
                 cHol.addLeaveDay(eHol);

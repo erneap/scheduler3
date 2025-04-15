@@ -30,6 +30,7 @@ export interface ILeaveDay {
   hours: number;
   status: string;
   requestid: string;
+  tagday?: string
   disable?: boolean;
 }
 
@@ -40,6 +41,7 @@ export class LeaveDay implements ILeaveDay {
   hours: number;
   status: string;
   requestid: string;
+  tagday: string;
   disable: boolean;
   used: boolean;
 
@@ -50,6 +52,7 @@ export class LeaveDay implements ILeaveDay {
     this.hours = (ld) ? ld.hours : 0.0;
     this.status = (ld) ? ld.status : "REQUESTED";
     this.requestid = (ld) ? ld.requestid : '';
+    this.tagday = (ld && ld.tagday) ? ld.tagday : '';
     this.disable = false;
     this.used = false;
   }

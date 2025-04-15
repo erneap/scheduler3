@@ -28,6 +28,10 @@
         <option style="color: black;" value="ACTUAL">Actual</option>
       </select>
     </div>
+    <div class="date" [style]="fieldStyle('tagday')">
+      <input matNativeControl formControlName="tagday" class="form-field"
+        (blur)="onUpdate('tagday')">
+    </div>
   </form>
 </ng-container>
 <ng-container *ngIf="!leave">
@@ -37,6 +41,7 @@
     <div class="code" [style]="fieldStyle('code')">Leave Type</div>
     <div class="hours" [style]="fieldStyle('hours')">Hours</div>
     <div class="status" [style]="fieldStyle('status')">Status</div>
+    <div class="date" [style]="fieldStyle('tagday')">Holiday Tag</div>
   </div>
 </ng-container>
 
