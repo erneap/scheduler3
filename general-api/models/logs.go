@@ -1,6 +1,6 @@
 package models
 
-import "github.com/erneap/go-models/general"
+import "github.com/erneap/models/v2/general"
 
 type LogApplicationList struct {
 	List      []string `json:"list"`

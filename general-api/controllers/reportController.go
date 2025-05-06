@@ -8,11 +8,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/erneap/go-models/general"
-	"github.com/erneap/go-models/notifications"
-	"github.com/erneap/go-models/reports"
-	"github.com/erneap/go-models/svcs"
-	"github.com/erneap/go-models/systemdata"
+	"github.com/erneap/models/v2/general"
+	"github.com/erneap/models/v2/notifications"
+	"github.com/erneap/models/v2/reports"
+	"github.com/erneap/models/v2/svcs"
+	"github.com/erneap/models/v2/systemdata"
 	"github.com/erneap/scheduler3/general-api/models"
 	"github.com/gin-gonic/gin"
 )

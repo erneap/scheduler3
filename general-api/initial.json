@@ -108,7 +108,86 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
-      "exploitations": []
+      "checkForUse": true,
+      "exploitations": [
+        {
+          "platformID": "U2",
+          "sensorType": "PME3",
+          "exploitation": "Primary",
+          "communicationID": "LOS"
+        },
+        {
+          "platformID": "U2",
+          "sensorType": "PME3",
+          "exploitation": "Primary",
+          "communicationID": "Non-LOS"
+        },
+        {
+          "platformID": "GH",
+          "sensorType": "IMINT",
+          "exploitation": "Primary",
+          "communicationID": "Non-LOS",
+          "enclaves": [ "LOW", "HIGH"]
+        },
+        {
+          "platformID": "GH",
+          "sensorType": "IMINT",
+          "exploitation": "Shadow/Federated",
+          "communicationID": "Non-LOS",
+          "enclaves": [ "LOW", "HIGH"]
+        },
+        {
+          "platformID": "U2",
+          "sensorType": "PME3",
+          "exploitation": "Shadow/Federated",
+          "communicationID": "LOS"
+        },
+        {
+          "platformID": "U2",
+          "sensorType": "PME3",
+          "exploitation": "Shadow/Federated",
+          "communicationID": "Non-LOS"
+        },
+        {
+          "platformID": "GH",
+          "sensorType": "IMINT",
+          "exploitation": "Shadow/Federated",
+          "communicationID": "Non-LOS",
+          "enclaves": [ "LOW", "HIGH"]
+        },
+        {
+          "platformID": "U2",
+          "sensorType": "PME3",
+          "exploitation": "Shadow/Federated",
+          "communicationID": "Non-LOS",
+          "enclaves": [ "LOW", "HIGH"]
+        }
+      ]
+    },
+    {
+      "id": "APS+",
+      "enclaves": [ "LOW" ],
+      "showOnGEOINT": true,
+      "showOnGSEG": false,
+      "showOnMIST": false,
+      "showOnXINT": false,
+      "checkForUse": true,
+      "exploitations": [
+        {
+          "platformID": "U2",
+          "sensorType": "PME3",
+          "exploitation": "Primary",
+          "communicationID": "LOS",
+          "enclaves": [ "LOW" ]
+        },
+        {
+          "platformID": "U2",
+          "sensorType": "PME3",
+          "exploitation": "Primary",
+          "communicationID": "Non-LOS",
+          "enclaves": [ "LOW" ]
+        }
+      ]
     },
     {
       "id": "CREWCOMM",
@@ -117,6 +196,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": []
     },
     {
@@ -126,6 +206,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": []
     },
     {
@@ -135,6 +216,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": []
     },
     {
@@ -144,6 +226,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": []
     },
     {
@@ -153,6 +236,7 @@
       "showOnGSEG": true,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": true,
       "exploitations": [
         {
           "platformID": "U2",
@@ -175,6 +259,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": []
     },
     {
@@ -184,6 +269,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": []
     },
     {
@@ -193,6 +279,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": []
     },
     {
@@ -202,6 +289,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": []
     },
     {
@@ -211,6 +299,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": []
     },
     {
@@ -220,6 +309,7 @@
       "showOnGSEG": false,
       "showOnMIST": true,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": [
         {
           "platformID": "U2",
@@ -242,6 +332,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": true,
+      "checkForUse": false,
       "exploitations": [
         {
           "platformID": "U2",
@@ -258,6 +349,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": true,
+      "checkForUse": false,
       "exploitations": [
         {
           "platformID": "U2",
@@ -274,6 +366,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": true,
+      "checkForUse": false,
       "exploitations": [
         {
           "platformID": "U2",
@@ -290,6 +383,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": true,
+      "checkForUse": false,
       "exploitations": [
         {
           "platformID": "U2",
@@ -306,6 +400,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": true,
+      "checkForUse": false,
       "exploitations": [
         {
           "platformID": "U2",
@@ -322,6 +417,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": true,
+      "checkForUse": false,
       "exploitations": [
         {
           "platformID": "U2",
@@ -338,6 +434,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": true,
+      "checkForUse": false,
       "exploitations": [
         {
           "platformID": "U2",
@@ -354,6 +451,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": []
     },
     {
@@ -363,6 +461,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": []
     },
     {
@@ -372,6 +471,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": [
         {
           "platformID": "U2",
@@ -406,6 +506,7 @@
       "showOnGSEG": false,
       "showOnMIST": false,
       "showOnXINT": false,
+      "checkForUse": false,
       "exploitations": []
     }
   ],

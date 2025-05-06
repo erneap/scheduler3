@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"github.com/erneap/go-models/general"
+	"github.com/erneap/models/v2/general"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

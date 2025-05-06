@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/erneap/go-models/config"
+	"github.com/erneap/models/v2/config"
 	"github.com/erneap/scheduler3/general-api/controllers"
 	"github.com/gin-gonic/gin"
 )
