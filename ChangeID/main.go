@@ -1,12 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"log"
 
-	"github.com/erneap/authentication/controllers"
-	"github.com/erneap/go-models/config"
-	"github.com/erneap/go-models/svcs"
-	"github.com/gin-gonic/gin"
+	"github.com/erneap/models/v2/config"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func main() {
@@ -15,37 +15,21 @@ func main() {
 	// run database
 	config.ConnectDB()
 
-	// add routes
-	router := gin.Default()
-	adminRoles := []string{"metrics-admin", "scheduler-scheduler",
-		"scheduler-siteleader", "scheduler-teamleader", "scheduler-admin"}
-	api := router.Group("/api/v2/authentication")
-	{
-		authenticate := api.Group("/authenticate")
-		{
-			authenticate.POST("/", controllers.Login)
-			authenticate.PUT("/", svcs.CheckJWT("authentication"),
-				controllers.RenewToken)
-			authenticate.DELETE("/:userid/:application",
-				svcs.CheckJWT("authentication"), controllers.Logout)
-		}
-		user := api.Group("/user")
-		{
-			user.GET("/:userid", svcs.CheckRoleList("authentication", adminRoles),
-				controllers.GetUser)
-			user.POST("/", svcs.CheckRoleList("authentication", adminRoles), controllers.AddUser)
-			user.PUT("/", svcs.CheckJWT("authentication"), controllers.UpdateUser)
-			user.DELETE("/:userid", svcs.CheckRoleList("authentication", adminRoles),
-				controllers.DeleteUser)
-		}
-		reset := api.Group("/reset")
-		{
-			reset.POST("/", controllers.StartPasswordReset)
-			reset.PUT("/", controllers.PasswordReset)
-		}
-		api.GET("/users", svcs.CheckRoleList("authentication", adminRoles), controllers.GetUsers)
+	// to change a person's primary key,
+	// I must pull their employee record
+	pKey, err := primitive.ObjectIDFromHex("68107f948a5f27b2e7cb8f60")
+	if err != nil {
+		log.Fatalf("New Key: %s\n", err.Error())
+	}
+	oldKey, err := primitive.ObjectIDFromHex("63aa10da17a70c70cebb76a9")
+	if err != nil {
+		log.Fatalf("Old Key: %s\n", err.Error())
 	}
 
-	// listen on port 6000
-	router.Run(":7004")
+	// then add it with the new id.
+	emp.ID = pKey
+	empCol := config.GetCollection(config.DB, "scheduler", "employees")
+
+	empCol.InsertOne(context.TODO(), emp)
+
 }
