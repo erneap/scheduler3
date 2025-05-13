@@ -1,5 +1,32 @@
 import { ILeaveDay, LeaveDay } from "../employees/leave";
 
+export class CompanyHolidays {
+  year: number;
+  holidays: CompanyHoliday[];
+
+  constructor(yr: number, holidays?: CompanyHoliday[]) {
+    this.year = yr
+    this.holidays = [];
+    if (holidays && holidays.length > 0) {
+      holidays.sort((a,b) => a.compareTo(b));
+      holidays.forEach(hol => {
+        const cHol = new CompanyHoliday(hol);
+        this.holidays.push(cHol)
+      });
+    }
+  }
+
+  hasLeaveDay(dt: Date): boolean {
+    let answer = false;
+    this.holidays.forEach(hol => {
+      if (hol.hasLeaveDay(new Date(dt))) {
+        answer = true;
+      }
+    });
+    return answer;
+  }
+}
+
 export interface ICompanyHoliday {
   id: string;
   name: string;
@@ -68,6 +95,18 @@ export class CompanyHoliday implements ICompanyHoliday {
       })
     }
     return total;
+  }
+
+  hasLeaveDay(dt: Date): boolean {
+    let answer = false;
+    this.leaveDays.forEach(day => {
+      if (dt.getUTCFullYear() === day.leavedate.getUTCFullYear() 
+        && dt.getUTCMonth() === day.leavedate.getUTCMonth()
+        && dt.getUTCDate() === day.leavedate.getUTCDate()) {
+        answer = true;
+      }
+    });
+    return answer;
   }
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "scheduler-client",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 8093 --proxy-config proxy.conf.json",
