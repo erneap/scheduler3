@@ -49,6 +49,14 @@ github.com/erneap/models/v2 v2.0.6 h1:pWMapAfBhKdwUF9/jSIZ9vpTssaxOPQmUR8Nq0QB+F
 github.com/erneap/models/v2 v2.0.6/go.mod h1:bVrwvntllRFVHXVF7jrOa51MTLeHB64AA56awQTdXJU=
 github.com/erneap/models/v2 v2.0.7 h1:Tz04RuUyLJYuvWIcP6z0ElwRnZ/5YmfCastyOTYtM58=
 github.com/erneap/models/v2 v2.0.7/go.mod h1:bVrwvntllRFVHXVF7jrOa51MTLeHB64AA56awQTdXJU=
+github.com/erneap/models/v2 v2.0.8 h1:Eqm/tDOoSkAwZ5xA1nMSodI2wX1S6oSQlkhjty8y9SQ=
+github.com/erneap/models/v2 v2.0.8/go.mod h1:bVrwvntllRFVHXVF7jrOa51MTLeHB64AA56awQTdXJU=
+github.com/erneap/models/v2 v2.0.9 h1:9QagsB2stATbQ0RE5/fnfMTzZt7qnblJFWLHVZk2VhU=
+github.com/erneap/models/v2 v2.0.9/go.mod h1:bVrwvntllRFVHXVF7jrOa51MTLeHB64AA56awQTdXJU=
+github.com/erneap/models/v2 v2.0.10 h1:2uEsftkQ0jj32TV5XXdxPqYB/Q1qtu/GAP/2LkJmmOI=
+github.com/erneap/models/v2 v2.0.10/go.mod h1:bVrwvntllRFVHXVF7jrOa51MTLeHB64AA56awQTdXJU=
+github.com/erneap/models/v2 v2.0.11 h1:IcOUwps2tkpRRMoPV8FPpb68APXP4BFP1BxC7V/Oc2w=
+github.com/erneap/models/v2 v2.0.11/go.mod h1:bVrwvntllRFVHXVF7jrOa51MTLeHB64AA56awQTdXJU=
 github.com/gabriel-vasile/mimetype v1.4.3 h1:in2uUcidCuFcDKtdcBxlR0rJ1+fsokWf+uqxgUFjbI0=
 github.com/gabriel-vasile/mimetype v1.4.3/go.mod h1:d8uq/6HKRL6CGdk+aubisF/M5GcPfT7nKyLpA0lbSSk=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=
