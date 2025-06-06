@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/erneap/go-models/svcs"
-	"github.com/erneap/go-models/users"
+	"github.com/erneap/models/v2/svcs"
+	"github.com/erneap/models/v2/users"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )

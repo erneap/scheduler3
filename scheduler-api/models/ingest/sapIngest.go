@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/erneap/go-models/converters"
-	"github.com/erneap/go-models/svcs"
+	"github.com/erneap/models/v2/converters"
+	"github.com/erneap/models/v2/svcs"
 	"github.com/xuri/excelize/v2"
 )
 

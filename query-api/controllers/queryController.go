@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/erneap/go-models/employees"
-	"github.com/erneap/go-models/svcs"
+	"github.com/erneap/models/v2/employees"
+	"github.com/erneap/models/v2/svcs"
 	"github.com/erneap/scheduler2/queryApi/models/web"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo"

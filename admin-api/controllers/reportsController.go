@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/erneap/go-models/notifications"
-	"github.com/erneap/go-models/svcs"
+	"github.com/erneap/models/v2/notifications"
+	"github.com/erneap/models/v2/svcs"
 	"github.com/erneap/scheduler3/scheduler-api/models/reports"
 	"github.com/erneap/scheduler3/scheduler-api/models/web"
 	"github.com/erneap/scheduler3/scheduler-api/services"

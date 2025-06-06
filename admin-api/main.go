@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/erneap/go-models/config"
-	"github.com/erneap/go-models/svcs"
+	"github.com/erneap/models/v2/config"
+	"github.com/erneap/models/v2/svcs"
 	"github.com/erneap/scheduler3/scheduler-api/controllers"
 	"github.com/gin-gonic/gin"
 )

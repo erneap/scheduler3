@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/erneap/authentication/controllers"
-	"github.com/erneap/go-models/config"
-	"github.com/erneap/go-models/svcs"
+	"github.com/erneap/models/v2/config"
+	"github.com/erneap/models/v2/svcs"
 	"github.com/gin-gonic/gin"
 )
 

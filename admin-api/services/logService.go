@@ -3,8 +3,8 @@ package services
 import (
 	"fmt"
 
-	"github.com/erneap/go-models/logs"
-	"github.com/erneap/go-models/svcs"
+	"github.com/erneap/models/v2/logs"
+	"github.com/erneap/models/v2/svcs"
 	"github.com/gin-gonic/gin"
 )
 

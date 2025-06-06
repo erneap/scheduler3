@@ -5,6 +5,7 @@ export interface INotification {
   from: string;
   message: string;
   checked: boolean;
+  critical: boolean;
 }
 
 export class Notification implements INotification {
@@ -14,6 +15,7 @@ export class Notification implements INotification {
   from: string;
   message: string;
   checked: boolean;
+  critical: boolean;
 
   constructor(note?: INotification) {
     this.id = (note) ? note.id : '';
@@ -22,6 +24,7 @@ export class Notification implements INotification {
     this.from = (note) ? note.from : '';
     this.message = (note) ? note.message : '';
     this.checked = (note) ? note.checked : false;
+    this.critical = (note) ? note.critical : false;
   }
 
   compareTo(other?: Notification): number {

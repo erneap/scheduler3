@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/erneap/go-models/employees"
+	"github.com/erneap/models/v2/employees"
 	"github.com/erneap/scheduler3/scheduler-api/services"
 	"github.com/xuri/excelize/v2"
 )

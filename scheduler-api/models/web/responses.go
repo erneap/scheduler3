@@ -1,12 +1,12 @@
 package web
 
 import (
-	"github.com/erneap/go-models/employees"
-	"github.com/erneap/go-models/logs"
-	"github.com/erneap/go-models/notifications"
-	"github.com/erneap/go-models/sites"
-	"github.com/erneap/go-models/teams"
-	"github.com/erneap/go-models/users"
+	"github.com/erneap/models/v2/employees"
+	"github.com/erneap/models/v2/logs"
+	"github.com/erneap/models/v2/notifications"
+	"github.com/erneap/models/v2/sites"
+	"github.com/erneap/models/v2/teams"
+	"github.com/erneap/models/v2/users"
 )
 
 type EmployeeResponse struct {

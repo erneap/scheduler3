@@ -59,6 +59,9 @@ export class NotificationsMessageComponent {
   }
 
   getStyle(): string {
+    if (this.message.critical) {
+      return 'notification critical';
+    }
     return `notification ${this.messageStyle}`;
   }
 

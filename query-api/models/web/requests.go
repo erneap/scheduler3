@@ -3,8 +3,8 @@ package web
 import (
 	"time"
 
-	"github.com/erneap/go-models/employees"
-	"github.com/erneap/go-models/users"
+	"github.com/erneap/models/v2/employees"
+	"github.com/erneap/models/v2/users"
 )
 
 type MessageRequest struct {

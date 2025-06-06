@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/erneap/go-models/svcs"
+	"github.com/erneap/models/v2/svcs"
 	"github.com/erneap/scheduler3/scheduler-api/models/web"
 	"github.com/gin-gonic/gin"
 )

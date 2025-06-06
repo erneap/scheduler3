@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/erneap/go-models/employees"
-	"github.com/erneap/go-models/sites"
-	"github.com/erneap/go-models/teams"
+	"github.com/erneap/models/v2/employees"
+	"github.com/erneap/models/v2/sites"
+	"github.com/erneap/models/v2/teams"
 	"github.com/erneap/scheduler3/scheduler-api/services"
 )
 
