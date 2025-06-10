@@ -62,7 +62,7 @@ func main() {
 				now := time.Now()
 				now = time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0,
 					time.UTC)
-				end := now.AddDate(0, 0, 7)
+				end := now.AddDate(1, 0, 0)
 				siteEmps, _ := svcs.GetEmployees(tm.ID.Hex(), site.ID)
 				for now.Before(end) {
 					for w, wkctr := range eSite.Workcenters {
