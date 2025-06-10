@@ -63,6 +63,7 @@ func main() {
 				now = time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0,
 					time.UTC)
 				end := now.AddDate(0, 0, 7)
+				siteEmps, _ := svcs.GetEmployees(tm.ID.Hex(), site.ID)
 				for now.Before(end) {
 					for w, wkctr := range eSite.Workcenters {
 						for s, sft := range wkctr.Shifts {
@@ -113,8 +114,14 @@ func main() {
 										now.Format("2006-01-02"),
 										strings.ToUpper(wkctr.ID),
 										strings.ToUpper(shft.Name))
-									err = svcs.CreateCriticalMessage("63a39b8255247905bd993e1f",
-										"63a39b8255247905bd993e1f", msg)
+									// create notification message for each siteleader
+									// at the site.
+									for _, emp := range siteEmps {
+										if emp.User.IsInGroup("scheduler", "siteleader") ||
+											emp.User.IsInGroup("scheduler", "scheduler") {
+											svcs.CreateMessage(emp.ID.Hex(), emp.ID.Hex(), msg)
+										}
+									}
 									if err != nil {
 										log.Fatalln(err)
 									}
