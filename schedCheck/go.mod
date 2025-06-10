@@ -2,7 +2,7 @@ module github.com/erneap/scheduler3/schedCheck
 
 go 1.23.0
 
-require github.com/erneap/models/v2 v2.1.5
+require github.com/erneap/models/v2 v2.1.6
 
 require (
 	github.com/bytedance/sonic v1.9.1 // indirect
