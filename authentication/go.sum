@@ -18,6 +18,8 @@ github.com/erneap/go-models v1.15.25 h1:VThFZt7KJvpQw5K/7NEDUvhvp9mmCbMeyUnSboKK
 github.com/erneap/go-models v1.15.25/go.mod h1:SigxsNm7rIr9PcBR/jvWp6235YLknxVavapTHk0qECY=
 github.com/erneap/models/v2 v2.1.5 h1:hzZuZpiaXqCidNDL4Bvyh1mhCaGVT0bp4Tw3gP7V5S4=
 github.com/erneap/models/v2 v2.1.5/go.mod h1:bVrwvntllRFVHXVF7jrOa51MTLeHB64AA56awQTdXJU=
+github.com/erneap/models/v2 v2.1.6 h1:uF5rxbXVlMOkyfFs8Z2eQGNV5ZDvE4xkEkgHhlOxSNs=
+github.com/erneap/models/v2 v2.1.6/go.mod h1:bVrwvntllRFVHXVF7jrOa51MTLeHB64AA56awQTdXJU=
 github.com/gabriel-vasile/mimetype v1.4.3 h1:in2uUcidCuFcDKtdcBxlR0rJ1+fsokWf+uqxgUFjbI0=
 github.com/gabriel-vasile/mimetype v1.4.3/go.mod h1:d8uq/6HKRL6CGdk+aubisF/M5GcPfT7nKyLpA0lbSSk=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=
