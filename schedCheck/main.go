@@ -64,6 +64,19 @@ func main() {
 					time.UTC)
 				end := now.AddDate(1, 0, 0)
 				siteEmps, _ := svcs.GetEmployees(tm.ID.Hex(), site.ID)
+				for e, emp := range siteEmps {
+					wr, err := svcs.GetEmployeeWork(emp.ID.Hex(), uint(now.Year()))
+					if err == nil {
+						emp.Work = append(emp.Work, wr.Work...)
+					}
+					if now.Year() != end.Year() {
+						wr, err = svcs.GetEmployeeWork(emp.ID.Hex(), uint(end.Year()))
+						if err == nil {
+							emp.Work = append(emp.Work, wr.Work...)
+						}
+					}
+					siteEmps[e] = emp
+				}
 				for now.Before(end) {
 					for w, wkctr := range eSite.Workcenters {
 						for s, sft := range wkctr.Shifts {
@@ -72,7 +85,7 @@ func main() {
 						}
 						eSite.Workcenters[w] = wkctr
 					}
-					for _, emp := range eSite.Employees {
+					for _, emp := range siteEmps {
 						if emp.AtSite(eSite.ID, now, now) {
 							bPosition := false
 							for _, wkctr := range eSite.Workcenters {
@@ -85,20 +98,30 @@ func main() {
 								}
 							}
 							if !bPosition {
-								wkctr, shift := emp.GetAssignment(now, now.AddDate(0, 0, 1))
-								for w, wc := range eSite.Workcenters {
-									if strings.EqualFold(wc.ID, wkctr) {
-										for s, sft := range wc.Shifts {
-											bShift := false
-											for _, code := range sft.AssociatedCodes {
-												if strings.EqualFold(code, shift) {
-													bShift = true
+								last := time.Date(1970, 1, 1, 0, 0, 0, 0, time.UTC)
+								if len(emp.Work) > 0 {
+									for _, wk := range emp.Work {
+										if wk.DateWorked.After(last) {
+											last = wk.DateWorked
+										}
+									}
+								}
+								wcode := emp.GetWorkday(now, last)
+								if wcode != nil {
+									for w, wc := range eSite.Workcenters {
+										if strings.EqualFold(wc.ID, wcode.Workcenter) {
+											for s, sft := range wc.Shifts {
+												bShift := false
+												for _, code := range sft.AssociatedCodes {
+													if strings.EqualFold(code, wcode.Code) {
+														bShift = true
+													}
 												}
-											}
-											if bShift {
-												sft.Employees = append(sft.Employees, emp)
-												wc.Shifts[s] = sft
-												eSite.Workcenters[w] = wc
+												if bShift {
+													sft.Employees = append(sft.Employees, emp)
+													wc.Shifts[s] = sft
+													eSite.Workcenters[w] = wc
+												}
 											}
 										}
 									}
@@ -119,7 +142,7 @@ func main() {
 									for _, emp := range siteEmps {
 										if emp.User.IsInGroup("scheduler", "siteleader") ||
 											emp.User.IsInGroup("scheduler", "scheduler") {
-											svcs.CreateMessage(emp.ID.Hex(), emp.ID.Hex(), msg)
+											svcs.CreateCriticalMessage(emp.ID.Hex(), emp.ID.Hex(), msg)
 										}
 									}
 									if err != nil {
