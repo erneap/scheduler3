@@ -1,9 +1,9 @@
-<div class="toplevel">  
+<div class="toplevel">
   <h3>Report Creator</h3>
   <form [formGroup]="reportForm">
     <mat-form-field appearance="fill">
       <mat-label>Report Type</mat-label>
-      <mat-select formControlName="reportType" 
+      <mat-select formControlName="reportType"
         (selectionChange)="onSelect()">
         <mat-option value="schedule">Team Schedule</mat-option>
         <mat-option value="ptoholiday">PTO/Holiday</mat-option>
@@ -15,19 +15,32 @@
       </mat-select>
     </mat-form-field>
   </form>
-  <app-report-schedule *ngIf="reportType === 'schedule'" 
+  @if (reportType === 'schedule') {
+    <app-report-schedule
     [reportType]="reportType"></app-report-schedule>
-  <app-report-leave-list *ngIf="reportType === 'ptoholiday'"
+  }
+  @if (reportType === 'ptoholiday') {
+    <app-report-leave-list
     [reportType]="reportType"></app-report-leave-list>
-  <app-report-charge-number 
-    *ngIf="reportType === 'chargenumber'"
+  }
+  @if (reportType === 'chargenumber') {
+    <app-report-charge-number
     [reportType]="reportType"></app-report-charge-number>
-  <app-report-cert-of-service *ngIf="reportType === 'cofs'"
+  }
+  @if (reportType === 'cofs') {
+    <app-report-cert-of-service
     [reportType]="reportType"></app-report-cert-of-service>
-  <app-report-mid-shift *ngIf="reportType === 'midshift'"
+  }
+  @if (reportType === 'midshift') {
+    <app-report-mid-shift
     [reportType]="reportType"></app-report-mid-shift>
-  <app-report-enterprise *ngIf="reportType === 'enterprise'"
+  }
+  @if (reportType === 'enterprise') {
+    <app-report-enterprise
     [reportType]="reportType"></app-report-enterprise>
-  <app-report-mod-time *ngIf="reportType === 'modtime'"
+  }
+  @if (reportType === 'modtime') {
+    <app-report-mod-time
     [reportType]="reportType"></app-report-mod-time>
+  }
 </div>

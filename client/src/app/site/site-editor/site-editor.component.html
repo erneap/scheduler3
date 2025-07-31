@@ -3,31 +3,39 @@
     <mat-form-field>
       <mat-label>Site Name/Title</mat-label>
       <input matInput formControlName="name" (blur)="updateSite('name')">
-      <mat-error *ngIf="siteform.controls['name'].hasError('required')" 
+      @if (siteform.controls['name'].hasError('required')) {
+        <mat-error
         class="error">Required</mat-error>
+      }
     </mat-form-field>
     <mat-form-field>
       <mat-label>UTC Offset (+/- hours)</mat-label>
       <input matInput type="number" formControlName="offset" max="12" min="-12"
         step="0.5" (blur)="updateSite('offset')">
-      <mat-error *ngIf="siteform.controls['offset'].hasError('required')" 
+      @if (siteform.controls['offset'].hasError('required')) {
+        <mat-error
         class="error">Required</mat-error>
-      <mat-error *ngIf="siteform.controls['offset'].hasError('max')" 
+      }
+      @if (siteform.controls['offset'].hasError('max')) {
+        <mat-error
         class="error">Maximum +12</mat-error>
-      <mat-error *ngIf="siteform.controls['offset'].hasError('min')" 
+      }
+      @if (siteform.controls['offset'].hasError('min')) {
+        <mat-error
         class="error">Minimum -12</mat-error>
+      }
     </mat-form-field>
   </form>
   <mat-tab-group preserveContent="true" backgroundColor="accent" [style]="setViewStyle()">
     <mat-tab label="Workcenter Editor">
-      <app-site-editor-workcenter [teamid]="team.id" [site]="site" 
+      <app-site-editor-workcenter [teamid]="team.id" [site]="site"
         [width]="width - 5" [height]="height - 105" (changed)="siteChanged($event)">
       </app-site-editor-workcenter>
     </mat-tab>
     <mat-tab label="Report Editor">
       <app-site-editor-reports [team]="team" [site]="site" [width]="width - 25"
         [height]="height - 105"
-        (changed)="siteChanged($event)"></app-site-editor-reports>
+      (changed)="siteChanged($event)"></app-site-editor-reports>
     </mat-tab>
   </mat-tab-group>
 </div>

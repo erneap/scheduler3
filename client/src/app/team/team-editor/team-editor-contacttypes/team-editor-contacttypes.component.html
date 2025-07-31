@@ -3,22 +3,28 @@
   <div class="flexlayout row topcenter">
     <div class="list" [style]="listStyle()">
       <div [class]="itemClass('0')" [style]="itemStyle()"
-        (click)="onSelect('0')">Add New Contact Type</div>
-      <div *ngFor="let item of team.contacttypes"
-      (click)="onSelect(item.id.toFixed(0))"
-      [class]="itemClass(item.id.toFixed(0))" [style]="itemStyle()"
-      >{{item.name}}</div>
+      (click)="onSelect('0')">Add New Contact Type</div>
+      @for (item of team.contacttypes; track item) {
+        <div
+          (click)="onSelect(item.id.toFixed(0))"
+          [class]="itemClass(item.id.toFixed(0))" [style]="itemStyle()"
+        >{{item.name}}</div>
+      }
     </div>
     <div class="layout-stretch sortdiv" [style]="sortStyle()">
       <div class="layout-top movement" [style]="moveStyle()"
         matTooltip="Change Display Order - Move Up"
         (click)="onChangeSort('up')">
-        <mat-icon *ngIf="showSortUp">arrow_drop_up</mat-icon>
+        @if (showSortUp) {
+          <mat-icon>arrow_drop_up</mat-icon>
+        }
       </div>
       <div class="layout-bottom movement" [style]="moveStyle()"
         matTooltip="Change Order - Move Down"
         (click)="onChangeSort('down')">
-        <mat-icon *ngIf="showSortDown">arrow_drop_down</mat-icon>
+        @if (showSortDown) {
+          <mat-icon>arrow_drop_down</mat-icon>
+        }
       </div>
     </div>
   </div>
@@ -31,15 +37,18 @@
       </div>
     </div>
     <div class="formfull flexlayout row center flexgap">
-      <button mat-raised-button 
-        *ngIf="selected.id === 0  && typeForm.valid"
-        color="accent" (click)="onAdd()">
-        Add
-      </button>
-      <button mat-raised-button (click)="onDelete()"
-        *ngIf="selected.id > 0" color="warn">
-        Delete
-      </button>
+      @if (selected.id === 0  && typeForm.valid) {
+        <button mat-raised-button
+          color="accent" (click)="onAdd()">
+          Add
+        </button>
+      }
+      @if (selected.id > 0) {
+        <button mat-raised-button (click)="onDelete()"
+          color="warn">
+          Delete
+        </button>
+      }
       <button mat-raised-button (click)="onClear()">Clear</button>
     </div>
   </form>

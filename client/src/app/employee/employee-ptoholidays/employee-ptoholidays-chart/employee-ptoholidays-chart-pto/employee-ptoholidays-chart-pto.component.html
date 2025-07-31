@@ -8,10 +8,12 @@
     <div class="actual" [style]="getUTCMonthStyle()">Taken</div>
     <div class="requested" [style]="getUTCMonthStyle()">Project</div>
   </div>
-  <app-employee-ptoholidays-chart-ptomonth *ngFor="let lm of leaveMonths" 
-    [leaveMonth]="lm" [width]="width">
-  </app-employee-ptoholidays-chart-ptomonth>
-  <ng-container *ngIf="annual > 0.0">
+  @for (lm of leaveMonths; track lm) {
+    <app-employee-ptoholidays-chart-ptomonth
+      [leaveMonth]="lm" [width]="width">
+    </app-employee-ptoholidays-chart-ptomonth>
+  }
+  @if (annual > 0.0) {
     <div class="flexlayout row center">
       <div class="bottomlabel" [style]="getTotalsStyle()">Annual</div>
       <div class="bottomlabel" [style]="getTotalsStyle()">Carryover</div>
@@ -26,5 +28,5 @@
       <div class="bottomdata" [style]="getTotalsStyle()">{{requested.toFixed(1)}}</div>
       <div [class]="balanceStyle" [style]="getTotalsStyle()">{{balance.toFixed(1)}}</div>
     </div>
-  </ng-container>
+  }
 </div>

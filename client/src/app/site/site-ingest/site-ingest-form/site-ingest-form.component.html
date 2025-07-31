@@ -2,9 +2,11 @@
   <form [formGroup]="companyForm" class="flexlayout row topleft companyform">
     <mat-radio-group formControlName="company" class="flexlayout row topleft"
       (change)="onChangeCompany()">
-      <mat-radio-button *ngFor="let co of team.companies" [value]="co.id" color="primary">
-        {{co.name}}
-      </mat-radio-button>
+      @for (co of team.companies; track co) {
+        <mat-radio-button [value]="co.id" color="primary">
+          {{co.name}}
+        </mat-radio-button>
+      }
     </mat-radio-group>
   </form>
   <div class="toplevel" [style]="getViewStyle()">
@@ -13,30 +15,38 @@
       (manualChanged)="onManualChange($event)">
     </app-site-ingest-form-month>
   </div>
-  <form [formGroup]="ingestForm" *ngIf="company.ingest !== 'manual'"
-    class="ingestDiv flexlayout row topleft flexgap" [style]="formStyle()">
-    <input formControlName="file" id="file" type="file" multiple
+  @if (company.ingest !== 'manual') {
+    <form [formGroup]="ingestForm"
+      class="ingestDiv flexlayout row topleft flexgap" [style]="formStyle()">
+      <input formControlName="file" id="file" type="file" multiple
         (change)="onFileChange($event)">
-    <div class="flexlayout column center" style="padding-top: 10px;">
-      <div *ngFor="let file of myFiles">
-        {{file.name}}
+      <div class="flexlayout column center" style="padding-top: 10px;">
+        @for (file of myFiles; track file) {
+          <div>
+            {{file.name}}
+          </div>
+        }
       </div>
+      @if (myFiles.length > 0) {
+        <div class="flexlayout row center" style="gap: 5px;"
+          >
+          <button mat-raised-button color="accent"
+          (click)="onSubmit()">Upload</button>
+          <button mat-raised-button color="warn"
+          (click)="onClear()">Clear</button>
+        </div>
+      }
+    </form>
+  }
+  @if (changes.length > 0) {
+    <div class="ingestDiv flexlayout row topleft" [style]="formStyle()"
+      >
+      <button mat-raised-button color="accent" (click)="approveChanges()">
+        Approve Changes
+      </button>
+      <button mat-raised-button color="warn" (click)="clearChanges()">
+        Clear Changes
+      </button>
     </div>
-    <div class="flexlayout row center" style="gap: 5px;"
-      *ngIf="myFiles.length > 0">
-      <button mat-raised-button color="accent"
-        (click)="onSubmit()">Upload</button>
-      <button mat-raised-button color="warn"
-        (click)="onClear()">Clear</button>
-    </div>
-  </form>
-  <div class="ingestDiv flexlayout row topleft" [style]="formStyle()"
-    *ngIf="changes.length > 0">
-    <button mat-raised-button color="accent" (click)="approveChanges()">
-      Approve Changes
-    </button>
-    <button mat-raised-button color="warn" (click)="clearChanges()">
-      Clear Changes
-    </button>
-  </div>
+  }
 </div>

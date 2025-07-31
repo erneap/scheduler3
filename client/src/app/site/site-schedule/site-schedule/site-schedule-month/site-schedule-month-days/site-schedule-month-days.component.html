@@ -1,5 +1,7 @@
 <div class="dateRow">
-  <app-site-schedule-month-day [workcodes]="workcodes" [employee]="employee"
-    [viewtype]="viewtype" *ngFor="let day of dates" [date]="day" [width]="width">
-  </app-site-schedule-month-day>
+  @for (day of dates; track day) {
+    <app-site-schedule-month-day [workcodes]="workcodes" [employee]="employee"
+      [viewtype]="viewtype" [date]="day" [width]="width">
+    </app-site-schedule-month-day>
+  }
 </div>

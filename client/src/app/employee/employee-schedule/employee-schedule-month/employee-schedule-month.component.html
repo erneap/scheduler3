@@ -1,7 +1,7 @@
 <div class="flexlayout column center">
   <div class="flexlayout row center">
     <div class="movement" [style]="getMoveStyle()"
-      (click)="changeMonth('down', 'year')">&lt;&lt;</div>
+    (click)="changeMonth('down', 'year')">&lt;&lt;</div>
     <div class="movement"  [style]="getMoveStyle()"
     (click)="changeMonth('down', 'month')">&lt;</div>
     <div class="month" [style]="getUTCMonthStyle()">{{monthLabel}}</div>
@@ -19,11 +19,13 @@
     <div class="daycell weekday" [style]="getUTCDayStyle()">FRI</div>
     <div class="daycell weekend" [style]="getUTCDayStyle()">SAT</div>
   </div>
-  <ng-container *ngFor="let week of workweeks">
+  @for (week of workweeks; track week) {
     <div class="flexlayout row center">
-      <app-employee-schedule-day *ngFor="let day of week.getWorkdays()"
-        [workday]="day" [month]="month" [width]="getCellWidth()"
+      @for (day of week.getWorkdays(); track day) {
+        <app-employee-schedule-day
+          [workday]="day" [month]="month" [width]="getCellWidth()"
         [workcenters]="workcenters"></app-employee-schedule-day>
+      }
     </div>
-  </ng-container>
+  }
 </div>

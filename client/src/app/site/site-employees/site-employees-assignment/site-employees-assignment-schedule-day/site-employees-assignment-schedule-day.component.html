@@ -1,36 +1,38 @@
 <div class="cell" [style]="cellStyle()">
   <form [formGroup]="dayForm">
-    <mat-icon *ngIf="copy" class="copy"
-      matTooltip="Copy Previous Workday"
+    @if (copy) {
+      <mat-icon class="copy"
+        matTooltip="Copy Previous Workday"
       (click)="changeField('copy')">add_circle</mat-icon>
+    }
     <div class="dayOfMonth weekday" [style]="dayOfWeekStyle()">
       {{getDisplayDate()}}
     </div>
     <div class="code" [style]="inputStyle('code')">
       <select class="day-form-field" formControlName="code"
-      [style]="inputStyle('code')" (change)="changeField('code')">
+        [style]="inputStyle('code')" (change)="changeField('code')">
         <option value=""></option>
-        <ng-container *ngFor="let opt of workCodes">
+        @for (opt of workCodes; track opt) {
           <option [value]="opt.id" class="options"
-            >{{opt.id.toUpperCase()}}</option>
-        </ng-container>
+          >{{opt.id.toUpperCase()}}</option>
+        }
       </select>
     </div>
     <div class="workcenter" [style]="inputStyle('workcenter')">
       <select class="day-form-field" formControlName="workcenter"
-      [style]="inputStyle('workcenter')" (change)="changeField('workcenter')">
+        [style]="inputStyle('workcenter')" (change)="changeField('workcenter')">
         <option value=""></option>
-        <ng-container *ngFor="let opt of workcenters">
+        @for (opt of workcenters; track opt) {
           <option [value]="opt.id" class="options">{{opt.name.toUpperCase()}}</option>
-        </ng-container>
+        }
       </select>
     </div>
     <div class="hours" [style]="inputStyle('hours')">
       <select class="day-form-field" formControlName="hours"
-      [style]="inputStyle('hours')" (change)="changeField('hours')">
-        <ng-container *ngFor="let opt of workHours">
+        [style]="inputStyle('hours')" (change)="changeField('hours')">
+        @for (opt of workHours; track opt) {
           <option [value]="opt" class="options">{{opt}}</option>
-        </ng-container>
+        }
       </select>
     </div>
   </form>

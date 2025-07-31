@@ -1,32 +1,34 @@
 <div class="flexlayout column topleft">
   <div class="monthDirectionDiv flexlayout row topleft" [style]="monthDirStyle()">
-    <div class="direction" [style]="directionStyle()" 
+    <div class="direction" [style]="directionStyle()"
       (click)="changeMonth('year', 'down')">
       &lt;&lt;
     </div>
-    <div class="direction" [style]="directionStyle()" 
+    <div class="direction" [style]="directionStyle()"
       (click)="changeMonth('month', 'down')">
       &lt;
     </div>
     <div class="month" [style]="monthStyle()">
       <form [formGroup]="dateForm" class="flexlayout row center">
-        <select matNativeControl formControlName="month" 
+        <select matNativeControl formControlName="month"
           (change)="selectMonth()" class="monthSelect">
-          <option *ngFor="let month of months;let i = index" [value]="i"
-            class="monthSelectOption">
-            {{month}}
-          </option>
+          @for (month of months; track month; let i = $index) {
+            <option [value]="i"
+              class="monthSelectOption">
+              {{month}}
+            </option>
+          }
         </select>
-        <input matNativeControl type="number" formControlName="year" 
+        <input matNativeControl type="number" formControlName="year"
           class="yearSelect"
           (change)="selectMonth()">
       </form>
     </div>
-    <div class="direction" [style]="directionStyle()" 
+    <div class="direction" [style]="directionStyle()"
       (click)="changeMonth('month', 'add')">
       &gt;
     </div>
-    <div class="direction" [style]="directionStyle()" 
+    <div class="direction" [style]="directionStyle()"
       (click)="changeMonth('year', 'add')">
       &gt;&gt;
     </div>
@@ -35,17 +37,21 @@
     <div class="name" [style]="nameCellStyle(undefined)">
       Name
     </div>
-    <app-site-ingest-form-month-employee-day [ingest]="'anything'"
-      *ngFor="let date of dates" [date]="date" [leavecodes]="leavecodes"
+    @for (date of dates; track date) {
+      <app-site-ingest-form-month-employee-day [ingest]="'anything'"
+        [date]="date" [leavecodes]="leavecodes"
       [width]="width"></app-site-ingest-form-month-employee-day>
+    }
     <div class="name" [style]="totalsStyle()">Totals</div>
   </div>
   <div class="monthDiv" [style]="viewStyle()">
     <div class="flexlayout column topleft">
-      <app-site-ingest-form-month-employee *ngFor="let emp of employees"
-        [dates]="dates" [employee]="emp" [ingest]="company.ingest"
-        [leavecodes]="leavecodes" [width]="width" (changed)="onChanged($event)">
-      </app-site-ingest-form-month-employee>
+      @for (emp of employees; track emp) {
+        <app-site-ingest-form-month-employee
+          [dates]="dates" [employee]="emp" [ingest]="company.ingest"
+          [leavecodes]="leavecodes" [width]="width" (changed)="onChanged($event)">
+        </app-site-ingest-form-month-employee>
+      }
     </div>
   </div>
 </div>

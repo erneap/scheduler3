@@ -1,41 +1,42 @@
 <div class="flexlayout column center">
-    <div class="flexlayout row center">
-      <div class="movement" [style]="headerStyle('movement')">
-      </div>
-      <div class="month" [style]="headerStyle('month')">{{label}}</div>
-      <div class="movement" [style]="headerStyle('movement')">
-        <form [formGroup]="scheduleForm">
-        <ng-container *ngIf="!variation.schedule.showdates">
+  <div class="flexlayout row center">
+    <div class="movement" [style]="headerStyle('movement')">
+    </div>
+    <div class="month" [style]="headerStyle('month')">{{label}}</div>
+    <div class="movement" [style]="headerStyle('movement')">
+      <form [formGroup]="scheduleForm">
+        @if (!variation.schedule.showdates) {
           <select class="day-form-field" formControlName="days"
             (change)="changeDays()"
-          style="color: white;">
-            <ng-container *ngFor="let opt of days">
+            style="color: white;">
+            @for (opt of days; track opt) {
               <option [value]="opt" class="options">{{opt}}</option>
-            </ng-container>
+            }
           </select>
-        </ng-container>
-        </form>
-      </div>
+        }
+      </form>
     </div>
+  </div>
+  <div class="flexlayout row center">
+    <div class="daycell" [style]="weekdayStyle(0)">SUN</div>
+    <div class="daycell" [style]="weekdayStyle(1)">MON</div>
+    <div class="daycell" [style]="weekdayStyle(2)">TUE</div>
+    <div class="daycell" [style]="weekdayStyle(3)">WED</div>
+    <div class="daycell" [style]="weekdayStyle(4)">THU</div>
+    <div class="daycell" [style]="weekdayStyle(5)">FRI</div>
+    <div class="daycell" [style]="weekdayStyle(6)">SAT</div>
+  </div>
+  @for (week of workweeks; track week) {
     <div class="flexlayout row center">
-      <div class="daycell" [style]="weekdayStyle(0)">SUN</div>
-      <div class="daycell" [style]="weekdayStyle(1)">MON</div>
-      <div class="daycell" [style]="weekdayStyle(2)">TUE</div>
-      <div class="daycell" [style]="weekdayStyle(3)">WED</div>
-      <div class="daycell" [style]="weekdayStyle(4)">THU</div>
-      <div class="daycell" [style]="weekdayStyle(5)">FRI</div>
-      <div class="daycell" [style]="weekdayStyle(6)">SAT</div>
-    </div>
-    <ng-container *ngFor="let week of workweeks">
-      <div class="flexlayout row center">
+      @for (wd of week.getWorkdays(); track wd) {
         <app-site-employees-variation-calendar-day
-            *ngFor="let wd of week.getWorkdays()"
           [site]="site"
           [showdates]="variation.schedule.showdates"
           [copy]="setCopy(wd.id)"
           [width]="width"
           [workday]="wd" (changedate)="updateDate($event)">
         </app-site-employees-variation-calendar-day>
-      </div>
-    </ng-container>
-  </div>
+      }
+    </div>
+  }
+</div>

@@ -6,21 +6,25 @@
     <select matNativeControl formControlName="code" [style]="getCodeStyle()"
       (change)="changeCode()">
       <option value=""></option>
-      <option *ngFor="let lc of workcodes" [style]="optionStyle(lc.id)"
-        [value]="lc.id">
-        {{lc.id.toUpperCase()}}
-      </option>
+      @for (lc of workcodes; track lc) {
+        <option [style]="optionStyle(lc.id)"
+          [value]="lc.id">
+          {{lc.id.toUpperCase()}}
+        </option>
+      }
     </select>
-    <select matNativeControl formControlName="workcenter" 
+    <select matNativeControl formControlName="workcenter"
       [style]="getCodeStyle()" (change)="changeCode()">
       <option value=""></option>
-      <option *ngFor="let lc of workcenters" 
-        [style]="wkctrOptionStyle()"
-        [value]="lc.id">
-        {{lc.id.toUpperCase()}}
-      </option>
+      @for (lc of workcenters; track lc) {
+        <option
+          [style]="wkctrOptionStyle()"
+          [value]="lc.id">
+          {{lc.id.toUpperCase()}}
+        </option>
+      }
     </select>
-    <input matNativeControl formControlName="hours" 
+    <input matNativeControl formControlName="hours"
       [style]="getHoursStyle()" (blur)="changeCode()">
   </form>
 </div>

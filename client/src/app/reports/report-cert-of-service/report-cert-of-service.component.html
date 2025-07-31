@@ -7,11 +7,13 @@
     <mat-form-field appearance="fill" style="margin-left: 5px;">
       <mat-label>Report Month</mat-label>
       <mat-select formControlName="month">
-        <mat-option *ngFor="let m of months;let i = index"
+        @for (m of months; track m; let i = $index) {
+          <mat-option
           [value]="i+1">{{months[i]}}</mat-option>
+        }
       </mat-select>
     </mat-form-field>
   </div>
   <button mat-raised-button color="accent"
-      (click)="onSubmit()">Create</button>
-</form>  
+  (click)="onSubmit()">Create</button>
+</form>

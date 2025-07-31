@@ -1,10 +1,12 @@
 <div class="flexlayout row topleft">
   <div class="flexlayout column center">
     <div class="list">
-      <div *ngFor="let item of reportList" [class]="setListClass(item.id)"
-        (click)="selectReport(item.id)">
-        {{item.label}}
-      </div>
+      @for (item of reportList; track item) {
+        <div [class]="setListClass(item.id)"
+          (click)="selectReport(item.id)">
+          {{item.label}}
+        </div>
+      }
     </div>
     <form [formGroup]="reportForm" class="flexlayout column center flexgap"
       style="margin-top: 10px;">
@@ -45,7 +47,7 @@
       <div class="formrow">
         <div class="formlabel">Report Start Date</div>
         <div class="forminput" style="background-color: white;">
-          <input matNativeControl formControlName="start" 
+          <input matNativeControl formControlName="start"
             (dateChange)="updateReport('start')"
             style="border: none;width: 180px;"
             [matDatepicker]="startpicker">
@@ -56,7 +58,7 @@
       <div class="formrow">
         <div class="formlabel">Report End Date</div>
         <div class="forminput" style="background-color: white;">
-          <input matNativeControl formControlName="end" 
+          <input matNativeControl formControlName="end"
             (dateChange)="updateReport('end')"
             style="border: none;width: 180px;"
             [matDatepicker]="endpicker">
@@ -65,14 +67,18 @@
         </div>
       </div>
       <div class="flexlayout row center">
-        <button mat-raised-button *ngIf="selected.id <= 0" color="accent"
-          (click)="addReport()">
-          Add
-        </button>
-        <button mat-raised-button *ngIf="selected.id > 0" color="warn"
-          (click)="deleteReport()">
-          Delete
-        </button>
+        @if (selected.id <= 0) {
+          <button mat-raised-button color="accent"
+            (click)="addReport()">
+            Add
+          </button>
+        }
+        @if (selected.id > 0) {
+          <button mat-raised-button color="warn"
+            (click)="deleteReport()">
+            Delete
+          </button>
+        }
         <button mat-raised-button (click)="clearReport()">
           Clear
         </button>
@@ -80,7 +86,7 @@
     </form>
   </div>
   <app-site-editor-reports-cofs-descriptor-section [site]="site"
-    [team]="team" [report]="selected" [width]="width" 
+    [team]="team" [report]="selected" [width]="width"
     (changed)="onChange($event)">
   </app-site-editor-reports-cofs-descriptor-section>
 </div>

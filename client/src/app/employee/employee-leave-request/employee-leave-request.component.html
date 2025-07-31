@@ -1,40 +1,44 @@
 <div class="toplevel">
   <h2>Leave Request Editor</h2>
-  <ng-container *ngIf="!appState.isMobile()">
+  @if (!appState.isMobile()) {
     <div class="list">
-      <div *ngFor="let item of requests" [class]="itemClass(item.id)"
-        (click)="onSelect(item.id)">
-        {{item.label}}
-      </div>
+      @for (item of requests; track item) {
+        <div [class]="itemClass(item.id)"
+          (click)="onSelect(item.id)">
+          {{item.label}}
+        </div>
+      }
     </div>
     <div class="view">
-      <ng-container *ngIf="showEditor()">
-        <app-employee-leave-request-editor [employee]="employee" 
+      @if (showEditor()) {
+        <app-employee-leave-request-editor [employee]="employee"
           [request]="selected" [width]="width - 270" [height]="height"
           (changed)="onChange($event)">
         </app-employee-leave-request-editor>
-      </ng-container>
+      }
     </div>
-  </ng-container>
-  <ng-container *ngIf="appState.isMobile()">
+  }
+  @if (appState.isMobile()) {
     <form [formGroup]="requestForm">
       <mat-form-field appearance="fill" style="width: 95%;">
         <mat-label>Selected Request</mat-label>
         <mat-select formControlName="request"
           (selectionChange)="onSelectMobile()">
-          <mat-option *ngFor="let item of requests" [value]="item.id">
-            {{item.label}}
-          </mat-option>
+          @for (item of requests; track item) {
+            <mat-option [value]="item.id">
+              {{item.label}}
+            </mat-option>
+          }
         </mat-select>
       </mat-form-field>
     </form>
     <div class="mobileview">
-      <ng-container *ngIf="showEditor()">
-        <app-employee-leave-request-editor [employee]="employee" 
+      @if (showEditor()) {
+        <app-employee-leave-request-editor [employee]="employee"
           [request]="selected" [width]="width - 20" [height]="height - 70"
           (changed)="onChange($event)">
         </app-employee-leave-request-editor>
-      </ng-container>
+      }
     </div>
-  </ng-container>
+  }
 </div>

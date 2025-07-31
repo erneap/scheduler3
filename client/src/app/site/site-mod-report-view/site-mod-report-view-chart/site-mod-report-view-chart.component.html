@@ -9,18 +9,22 @@
         <div class="balanceLabel">BAL</div>
       </div>
     </div>
-    <div class="row" *ngFor="let emp of employees;let i = index">
-      <div [class]="getDataClass('name', i)" [style]="dataStyle('name')">
-        {{emp.name.getLastFirst()}}
+    @for (emp of employees; track emp; let i = $index) {
+      <div class="row">
+        <div [class]="getDataClass('name', i)" [style]="dataStyle('name')">
+          {{emp.name.getLastFirst()}}
+        </div>
+        <div [class]="getDataClass('bal', i)" [style]="dataStyle('bal')">
+          {{getTotalValue(emp)}}
+        </div>
       </div>
-      <div [class]="getDataClass('bal', i)" [style]="dataStyle('bal')">
-        {{getTotalValue(emp)}}
-      </div>
-    </div>
+    }
   </div>
   <div class="monthsSection" [style]="viewStyle()">
-    <app-site-mod-report-view-chart-month *ngFor="let month of months"
-      [month]="month" [employees]="employees" (changed)="onChange($event)">
-    </app-site-mod-report-view-chart-month>
+    @for (month of months; track month) {
+      <app-site-mod-report-view-chart-month
+        [month]="month" [employees]="employees" (changed)="onChange($event)">
+      </app-site-mod-report-view-chart-month>
+    }
   </div>
 </div>

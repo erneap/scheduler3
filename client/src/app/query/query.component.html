@@ -9,9 +9,11 @@
       <mat-form-field appearance="fill">
         <mat-label>Find Specialties</mat-label>
         <mat-select formControlName="specialties" multiple="true">
-          <mat-option *ngFor="let sp of team.specialties" [value]="sp.id">
-            {{sp.name}}
-          </mat-option>
+          @for (sp of team.specialties; track sp) {
+            <mat-option [value]="sp.id">
+              {{sp.name}}
+            </mat-option>
+          }
         </mat-select>
       </mat-form-field>
       <button mat-raised-button color="accent"
@@ -25,10 +27,12 @@
       Employees Working
     </div>
     <div class="list">
-      <div [class]="itemClass(item.id)" *ngFor="let item of employees"
-        (click)="onSelect(item.id)">
-        {{item.name.getFullName()}} ({{item.site.toUpperCase()}})
-      </div>
+      @for (item of employees; track item) {
+        <div [class]="itemClass(item.id)"
+          (click)="onSelect(item.id)">
+          {{item.name.getFullName()}} ({{item.site.toUpperCase()}})
+        </div>
+      }
     </div>
   </div>
   <div class="viewDiv">
@@ -38,7 +42,7 @@
         style="width: 100%;">
       </app-query-contacts>
       <app-query-specialties [team]="team" [employee]="selectedEmployee"
-        style="width: 100%;"></app-query-specialties>
+      style="width: 100%;"></app-query-specialties>
     </div>
   </div>
 </div>

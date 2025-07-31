@@ -1,4 +1,4 @@
-<ng-container *ngIf="leave">
+@if (leave) {
   <form [formGroup]="leaveForm" class="flexlayout row topleft">
     <div class="delete" [style]="fieldStyle('delete')" (click)="onDelete()">
       <mat-icon class="deleteIcon">delete</mat-icon>
@@ -10,10 +10,12 @@
     <div class="code" [style]="fieldStyle('code')">
       <select formControlName="code" class="form-field"
         (change)="onUpdate('code')">
-        <option *ngFor="let wc of leavecodes" [value]="wc.id" 
-          style="color: black;background-color: white;">
-          {{wc.id.toUpperCase()}}
-        </option>
+        @for (wc of leavecodes; track wc) {
+          <option [value]="wc.id"
+            style="color: black;background-color: white;">
+            {{wc.id.toUpperCase()}}
+          </option>
+        }
       </select>
     </div>
     <div class="hours" [style]="fieldStyle('hours')">
@@ -33,8 +35,8 @@
         (blur)="onUpdate('tagday')">
     </div>
   </form>
-</ng-container>
-<ng-container *ngIf="!leave">
+}
+@if (!leave) {
   <div class="flexlayout row topleft">
     <div class="delete" [style]="fieldStyle('delete')">&nbsp;</div>
     <div class="date" [style]="fieldStyle('date')">Leave Date</div>
@@ -43,5 +45,5 @@
     <div class="status" [style]="fieldStyle('status')">Status</div>
     <div class="date" [style]="fieldStyle('tagday')">Holiday Tag</div>
   </div>
-</ng-container>
+}
 

@@ -1,7 +1,9 @@
 <div class="toplevel">
   <div class="label">Employee's Specialties</div>
-  <div [class]="specialtyClass(i)"
-    *ngFor="let item of employee.specialties;let i = index">
-    {{specialtyLabel(item)}}
-  </div>
+  @for (item of employee.specialties; track item; let i = $index) {
+    <div [class]="specialtyClass(i)"
+      >
+      {{specialtyLabel(item)}}
+    </div>
+  }
 </div>

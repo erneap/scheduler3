@@ -2,11 +2,11 @@
   <form [formGroup]="logForm" class="formRow">
     <mat-form-field appearance="fill">
       <mat-label>View Log</mat-label>
-      <mat-select formControlName="portion" 
+      <mat-select formControlName="portion"
         (selectionChange)="setLogEntries()">
-        <ng-container *ngFor="let portion of portions; let i = index">
+        @for (portion of portions; track portion; let i = $index) {
           <mat-option [value]="portion">{{portion.toUpperCase()}}</mat-option>
-        </ng-container>
+        }
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="fill">
@@ -25,7 +25,9 @@
     </button>
   </form>
   <div class="chart">
-    <app-log-entry *ngFor="let entry of logEntries;let i = index" 
+    @for (entry of logEntries; track entry; let i = $index) {
+      <app-log-entry
       [entry]="entry" [nth]="i"></app-log-entry>
+    }
   </div>
 </div>

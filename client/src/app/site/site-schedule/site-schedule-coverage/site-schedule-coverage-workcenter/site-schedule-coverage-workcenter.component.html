@@ -2,28 +2,28 @@
   <div class="columns">
     <div class="name" [style]="nameCellStyle(-1)">&nbsp;</div>
     <div class="name" [style]="nameCellStyle(-1)">Shift</div>
-    <ng-container *ngIf="workcenter.shifts && workcenter.shifts.length > 0">
-      <ng-container *ngFor="let pos of workcenter.shifts;let s = index">
+    @if (workcenter.shifts && workcenter.shifts.length > 0) {
+      @for (pos of workcenter.shifts; track pos; let s = $index) {
         <div class="name" [style]="nameCellStyle(s)">
           {{pos.name}}
         </div>
-      </ng-container>
-    </ng-container>
+      }
+    }
   </div>
   <div class="columns overflowx" [style]="daysStyle()">
-    <!-- the first two rows of this section are the date headers of date 
-      number and weekday for the date -->
+    <!-- the first two rows of this section are the date headers of date
+    number and weekday for the date -->
     <app-site-schedule-coverage-days [dates]="monthDays" [site]="site"
-      [viewtype]="'label'" [width]="width"></app-site-schedule-coverage-days>
+    [viewtype]="'label'" [width]="width"></app-site-schedule-coverage-days>
     <app-site-schedule-coverage-days [dates]="monthDays" [site]="site"
-      [viewtype]="'day'" [width]="width"></app-site-schedule-coverage-days>
-    <ng-container *ngIf="workcenter.shifts && workcenter.shifts.length > 0">
-      <ng-container *ngFor="let pos of workcenter.shifts;let s = index">
+    [viewtype]="'day'" [width]="width"></app-site-schedule-coverage-days>
+    @if (workcenter.shifts && workcenter.shifts.length > 0) {
+      @for (pos of workcenter.shifts; track pos; let s = $index) {
         <app-site-schedule-coverage-days [site]="site" [dates]="monthDays"
           [viewtype]="(s % 2 === 0) ? 'even' : 'odd'" [width]="width"
           [wkctrID]="workcenter.id" [shiftID]="pos.id">
         </app-site-schedule-coverage-days>
-      </ng-container>
-    </ng-container>
+      }
+    }
   </div>
 </div>

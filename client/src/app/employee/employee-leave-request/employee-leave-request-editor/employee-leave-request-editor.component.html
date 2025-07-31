@@ -5,8 +5,8 @@
         <mat-form-field appearance="fill" [style]="inputStyle('start')">
           <mat-label>Request Start</mat-label>
           <input matInput placeholder="Start Date" [style]="inputStyle('start')"
-              formControlName="start" (dateChange)="processChange('start')"
-              [matDatepicker]="startpicker">
+            formControlName="start" (dateChange)="processChange('start')"
+            [matDatepicker]="startpicker">
           <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
           <mat-datepicker #startpicker></mat-datepicker>
         </mat-form-field>
@@ -22,20 +22,23 @@
           <mat-label>Primary Leave Code</mat-label>
           <mat-select formControlName="primarycode" [style]="inputStyle('primarycode')"
             (selectionChange)="processChange('code')">
-            <mat-option *ngFor="let wc of leavecodes" [value]="wc.id">
-              {{wc.title}}
-            </mat-option>
+            @for (wc of leavecodes; track wc) {
+              <mat-option [value]="wc.id">
+                {{wc.title}}
+              </mat-option>
+            }
             <mat-option value="mod">Mod Time</mat-option>
           </mat-select>
         </mat-form-field>
         <div class="flexlayout column center" [style]="inputStyle('buttons')">
-          <button mat-icon-button color="accent"
-            *ngIf="request && request.id !== '' && !approver"
-            matTooltip="Delete Current Leave Request"
-            (click)="deleteRequest()">
-            <mat-icon [style]="inputStyle('button')">delete</mat-icon>
-          </button>
-          <button mat-icon-button 
+          @if (request && request.id !== '' && !approver) {
+            <button mat-icon-button color="accent"
+              matTooltip="Delete Current Leave Request"
+              (click)="deleteRequest()">
+              <mat-icon [style]="inputStyle('button')">delete</mat-icon>
+            </button>
+          }
+          <button mat-icon-button
             matTooltip="Clear editor"
             (click)="clearRequest()">
             <mat-icon [style]="inputStyle('button')">deselect</mat-icon>
@@ -49,21 +52,25 @@
         </div>
         <div class="flexlayout column center">
           <mat-icon class="icon" [style]="inputStyle('button')"
-            matTooltip="click to add new comment" 
+            matTooltip="click to add new comment"
             (click)="processChange('comment')">
             add
           </mat-icon>
         </div>
       </div>
-      <div class="comments" [style]="commentsStyle()" 
-        *ngIf="request && request.comments.length > 0">
-        <div *ngFor="let cmt of request.comments">
-          {{datetimeString(cmt.commentdate)}} - {{cmt.comment}}
+      @if (request && request.comments.length > 0) {
+        <div class="comments" [style]="commentsStyle()"
+          >
+          @for (cmt of request.comments; track cmt) {
+            <div>
+              {{datetimeString(cmt.commentdate)}} - {{cmt.comment}}
+            </div>
+          }
         </div>
-      </div>
+      }
     </form>
-    <ng-container *ngIf="request && request.id !== ''">
-      <ng-container *ngIf="appState.isMobile()">
+    @if (request && request.id !== '') {
+      @if (appState.isMobile()) {
         <div class="flexlayout row center">
           <div class="flexlayout column center" style="padding-bottom: 10px;">
             <div class="flexlayout row center">
@@ -92,31 +99,37 @@
             </div>
           </div>
           <div class="flexlayout row center" style="gap: 5px;">
-            <div class="flexlayout row center" *ngIf="draft" style="padding-left: 50px;">
-              <button mat-raised-button color="accent" 
-                matTooltip="Submit for Approval"
-                (click)="submitForApproval()">
-                Submit for Approval
-              </button>
-            </div>
-            <div class="flexlayout row center" *ngIf="approver" style="padding-left: 50px;">
-              <button mat-raised-button color="accent" 
-                matTooltip="Supervisor Approve Leave Request"
-                (click)="approveLeaveRequest()">
-                Approve Request
-              </button>
-            </div>
-            <div class="flexlayout row center" *ngIf="approver" style="padding-left: 50px;">
-              <button mat-raised-button color="warn" 
-                matTooltip="Supervisor Un-Approve Leave Request"
-                (click)="unapproveLeaveRequest()">
-                Un-Approve Request
-              </button>
-            </div>
+            @if (draft) {
+              <div class="flexlayout row center" style="padding-left: 50px;">
+                <button mat-raised-button color="accent"
+                  matTooltip="Submit for Approval"
+                  (click)="submitForApproval()">
+                  Submit for Approval
+                </button>
+              </div>
+            }
+            @if (approver) {
+              <div class="flexlayout row center" style="padding-left: 50px;">
+                <button mat-raised-button color="accent"
+                  matTooltip="Supervisor Approve Leave Request"
+                  (click)="approveLeaveRequest()">
+                  Approve Request
+                </button>
+              </div>
+            }
+            @if (approver) {
+              <div class="flexlayout row center" style="padding-left: 50px;">
+                <button mat-raised-button color="warn"
+                  matTooltip="Supervisor Un-Approve Leave Request"
+                  (click)="unapproveLeaveRequest()">
+                  Un-Approve Request
+                </button>
+              </div>
+            }
           </div>
         </div>
-      </ng-container>
-      <ng-container *ngIf="!appState.isMobile()">
+      }
+      @if (!appState.isMobile()) {
         <div class="flexlayout row center" style="padding-bottom: 10px;">
           <div class="flexlayout column center">
             <div class="label">Created On:</div>
@@ -144,45 +157,54 @@
           </div>
         </div>
         <div class="flexlayout row center" style="gap: 5px;">
-          <div class="flexlayout row center" *ngIf="draft" style="padding-left: 50px;">
-            <button mat-raised-button color="accent" 
-              matTooltip="Submit for Approval"
-              (click)="submitForApproval()">
-              Submit for Approval
-            </button>
-          </div>
-          <div class="flexlayout row center" *ngIf="approver" style="padding-left: 50px;">
-            <button mat-raised-button color="accent" 
-              matTooltip="Supervisor Approve Leave Request"
-              (click)="approveLeaveRequest()">
-              Approve Request
-            </button>
-          </div>
-          <div class="flexlayout row center" *ngIf="approver" style="padding-left: 50px;">
-            <button mat-raised-button color="warn" 
-              matTooltip="Supervisor Un-Approve Leave Request"
-              (click)="unapproveLeaveRequest()">
-              Un-Approve Request
-            </button>
-          </div>
+          @if (draft) {
+            <div class="flexlayout row center" style="padding-left: 50px;">
+              <button mat-raised-button color="accent"
+                matTooltip="Submit for Approval"
+                (click)="submitForApproval()">
+                Submit for Approval
+              </button>
+            </div>
+          }
+          @if (approver) {
+            <div class="flexlayout row center" style="padding-left: 50px;">
+              <button mat-raised-button color="accent"
+                matTooltip="Supervisor Approve Leave Request"
+                (click)="approveLeaveRequest()">
+                Approve Request
+              </button>
+            </div>
+          }
+          @if (approver) {
+            <div class="flexlayout row center" style="padding-left: 50px;">
+              <button mat-raised-button color="warn"
+                matTooltip="Supervisor Un-Approve Leave Request"
+                (click)="unapproveLeaveRequest()">
+                Un-Approve Request
+              </button>
+            </div>
+          }
         </div>
-      </ng-container>
-    </ng-container>
-    <app-employee-leave-request-editor-calendar 
-      *ngIf="request && request.id !== '' && request.primarycode !== 'mod'" 
-      [request]="request" [leavecodes]="leavecodes" [width]="width" 
-      [height]="viewHeight()" (changed)="onDayChange($event)">
-    </app-employee-leave-request-editor-calendar>
-    <app-employee-leave-request-editor-modtime-calendar
-      *ngIf="request && request.id !== '' && request.primarycode === 'mod'"
-      [request]="request" [width]="width" 
-      [height]="viewHeight()" (changed)="onDayChange($event)">
-    </app-employee-leave-request-editor-modtime-calendar>
+      }
+    }
+    @if (request && request.id !== '' && request.primarycode !== 'mod') {
+      <app-employee-leave-request-editor-calendar
+        [request]="request" [leavecodes]="leavecodes" [width]="width"
+        [height]="viewHeight()" (changed)="onDayChange($event)">
+      </app-employee-leave-request-editor-calendar>
+    }
+    @if (request && request.id !== '' && request.primarycode === 'mod') {
+      <app-employee-leave-request-editor-modtime-calendar
+        [request]="request" [width]="width"
+        [height]="viewHeight()" (changed)="onDayChange($event)">
+      </app-employee-leave-request-editor-modtime-calendar>
+    }
   </div>
   <div class="legend">
-    <app-employee-leave-request-editor-legend 
-      *ngIf="request && request.id !== ''"
-      [leavecodes]="leavecodes" [width]="width">
-    </app-employee-leave-request-editor-legend>
+    @if (request && request.id !== '') {
+      <app-employee-leave-request-editor-legend
+        [leavecodes]="leavecodes" [width]="width">
+      </app-employee-leave-request-editor-legend>
+    }
   </div>
 </div>

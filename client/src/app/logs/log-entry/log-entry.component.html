@@ -1,8 +1,8 @@
 <div class="flexlayout row topleft" [style]="cellStyle()">
   <div class="date">{{dateTime()}}
-    <ng-container *ngIf="entry.name !== ''">
+    @if (entry.name !== '') {
       <br/>By: {{entry.name}}
-    </ng-container>
+    }
   </div>
   <div class="category">{{entry.category.toUpperCase()}}</div>
   <div class="title">{{entry.title}}</div>

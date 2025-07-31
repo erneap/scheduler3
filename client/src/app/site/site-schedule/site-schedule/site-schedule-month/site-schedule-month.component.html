@@ -1,43 +1,47 @@
 <div class="flexlayout column topleft">
   <div class="flexlayout row topleft">
     <div class="direction" [style]="moveStyle"
-      (click)="changeMonth('down', 'year')">&lt;&lt;</div>
+    (click)="changeMonth('down', 'year')">&lt;&lt;</div>
     <div class="direction" [style]="moveStyle"
-      (click)="changeMonth('down', 'month')">&lt;</div>
+    (click)="changeMonth('down', 'month')">&lt;</div>
     <div class="overall flexlayout row center" [style]="monthStyle">
       <div class="flex-spacer">&nbsp;</div>
       <div class="month">
         <form [formGroup]="monthForm" class="flexlayout row center flexgap">
-          <select class="monthSelect" (change)="selectMonth()" 
+          <select class="monthSelect" (change)="selectMonth()"
             formControlName="month">
-            <option *ngFor="let m of months;let i = index" [value]="i"
-              class="monthSelectOption">
-              {{m}}
-            </option>
+            @for (m of months; track m; let i = $index) {
+              <option [value]="i"
+                class="monthSelectOption">
+                {{m}}
+              </option>
+            }
           </select>
           <input type="number" (change)="selectMonth()" formControlName="year"
-          class="yearSelect">
+            class="yearSelect">
         </form>
       </div>
       <div class="flex-spacer"></div>
-      <div class="print" (click)="onSubmit()" 
-        matTooltip="Create Printable Schedule" *ngIf="appState.isDesktop()">
-        <mat-icon>print</mat-icon>
-      </div>
+      @if (appState.isDesktop()) {
+        <div class="print" (click)="onSubmit()"
+          matTooltip="Create Printable Schedule">
+          <mat-icon>print</mat-icon>
+        </div>
+      }
     </div>
     <div class="direction" [style]="moveStyle"
-      (click)="changeMonth('up', 'month')">&gt;</div>
+    (click)="changeMonth('up', 'month')">&gt;</div>
     <div class="direction" [style]="moveStyle"
-      (click)="changeMonth('up', 'year')">&gt;&gt;</div>
+    (click)="changeMonth('up', 'year')">&gt;&gt;</div>
   </div>
   <div class="workcenter-container" [style]="wkctrStyle">
     <mat-accordion displayMode="flat" multi [style]="wkctrStyle">
-      <ng-container *ngFor="let wkctr of workcenters">
+      @for (wkctr of workcenters; track wkctr) {
         <mat-expansion-panel [expanded]="isExpanded(wkctr.id)"
           (opened)="openPanel(wkctr.id)" (closed)="closePanel(wkctr.id)"
           class="remove-mat-expansion-panel-padding" >
-          <mat-expansion-panel-header [collapsedHeight]="'25px'" 
-          [expandedHeight]="'25px'">
+          <mat-expansion-panel-header [collapsedHeight]="'25px'"
+            [expandedHeight]="'25px'">
             <mat-panel-description>
               {{wkctr.name.toUpperCase()}}
             </mat-panel-description>
@@ -46,7 +50,7 @@
             [site]="site" [workcenter]="wkctr" [month]="month">
           </app-site-schedule-month-office>
         </mat-expansion-panel>
-      </ng-container>
+      }
     </mat-accordion>
   </div>
 </div>

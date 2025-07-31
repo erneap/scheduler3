@@ -1,12 +1,12 @@
 <mat-accordion multi displayMode="flat">
   <mat-expansion-panel expanded="true" class="remove-mat-expansion-panel-padding">
-    <mat-expansion-panel-header [collapsedHeight]="'25px'" 
-    [expandedHeight]="'25px'">
+    <mat-expansion-panel-header [collapsedHeight]="'25px'"
+      [expandedHeight]="'25px'">
       <mat-panel-title>Employee</mat-panel-title>
     </mat-expansion-panel-header>
     <mat-nav-list>
       <a mat-list-item (click)="goToLink('/employee/schedule')"
-        style="height: 20px;">Schedule</a>
+      style="height: 20px;">Schedule</a>
       <a mat-list-item (click)="goToLink('/employee/ptoholidays')"
       style="height: 20px;">PTO/Holiday Listing</a>
       <a mat-list-item (click)="goToLink('/employee/profile')"
@@ -20,62 +20,75 @@
     </mat-nav-list>
   </mat-expansion-panel>
   <mat-expansion-panel expanded="true" class="remove-mat-expansion-panel-padding">
-    <mat-expansion-panel-header [collapsedHeight]="'25px'" 
-    [expandedHeight]="'25px'">
+    <mat-expansion-panel-header [collapsedHeight]="'25px'"
+      [expandedHeight]="'25px'">
       <mat-panel-title>Schedules</mat-panel-title>
     </mat-expansion-panel-header>
     <mat-nav-list>
       <a mat-list-item (click)="goToLink('/site/schedule/schedule')"
-        style="height: 20px;">Site Schedule</a>
-      <a mat-list-item 
-        *ngIf="this.authService.isScheduler || this.authService.isSiteLeader"
-        (click)="goToLink('/site/schedule/coverage')"
+      style="height: 20px;">Site Schedule</a>
+      @if (this.authService.isScheduler || this.authService.isSiteLeader) {
+        <a mat-list-item
+          (click)="goToLink('/site/schedule/coverage')"
         style="height: 20px;">Site Coverage</a>
+      }
       <a mat-list-item (click)="goToLink('/site/schedule/mids')"
-        style="height: 20px;">Site Mids Listing</a>
+      style="height: 20px;">Site Mids Listing</a>
       <a mat-list-item (click)="goToLink('/query')"
-        style="height: 20px;">Who's Working (Query)</a>
+      style="height: 20px;">Who's Working (Query)</a>
     </mat-nav-list>
   </mat-expansion-panel>
-  <mat-expansion-panel expanded="true" class="remove-mat-expansion-panel-padding"
-    *ngIf="authService.isScheduler || authService.isSiteLeader || authService.isCompanyLead">
-    <mat-expansion-panel-header [collapsedHeight]="'25px'" 
-    [expandedHeight]="'25px'">
-      <mat-panel-title>Admin</mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-nav-list>
-      <a mat-list-item (click)="goToLink('/site/employees')"
-        *ngIf="(this.authService.isScheduler || this.authService.isSiteLeader) && appState.isDesktop()"
-      style="height: 20px;">Employee Editor</a>
-      <a mat-list-item (click)="goToLink('/site/employees/leaveapprover')"
-      *ngIf="this.authService.isScheduler || this.authService.isSiteLeader"
-      style="height: 20px;">Leave Approval</a>
-      <a mat-list-item (click)="goToLink('/site/modview')"
-      *ngIf="(this.authService.isScheduler || this.authService.isSiteLeader) && appState.isDesktop()"
-      style="height: 20px;">Site Mod Time Review</a>
-      <a mat-list-item (click)="goToLink('/site/editor')"
-      *ngIf="(this.authService.isScheduler || this.authService.isSiteLeader) && appState.isDesktop()"
-      style="height: 20px;">Site Editor</a>
-      <a mat-list-item (click)="goToLink('site/ingest')"
-      *ngIf="(authService.isScheduler || authService.isSiteLeader || authService.isCompanyLead) && appState.isDesktop()"
-      style="height: 20px;">Timecard Ingest/Entry</a>
-      <a mat-list-item (click)="goToLink('/team/editor')"
-      *ngIf="(this.authService.isAdmin || this.authService.isTeamLeader) && appState.isDesktop()"
-      style="height: 20px;">Team Editor</a>
-      <a mat-list-item (click)="goToLink('admin')"
-      *ngIf="this.authService.isAdmin && appState.isDesktop()"
-      style="height: 20px;">Admin</a>
-      <a mat-list-item (click)="goToLink('/admin/reports')"
-        *ngIf="(authService.isScheduler || authService.isSiteLeader || authService.isCompanyLead) && appState.isDesktop()"
-        style="height: 20px;">Report Creator</a>
-      <a mat-list-item (click)="goToLink('/admin/logs')" 
-        *ngIf="(authService.isScheduler || authService.isSiteLeader || authService.isCompanyLead) && appState.isDesktop()"
-        style="height: 20px;">Log Viewer</a>
-    </mat-nav-list>
-  </mat-expansion-panel>
+  @if (authService.isScheduler || authService.isSiteLeader || authService.isCompanyLead) {
+    <mat-expansion-panel expanded="true" class="remove-mat-expansion-panel-padding"
+      >
+      <mat-expansion-panel-header [collapsedHeight]="'25px'"
+        [expandedHeight]="'25px'">
+        <mat-panel-title>Admin</mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-nav-list>
+        @if ((this.authService.isScheduler || this.authService.isSiteLeader) && appState.isDesktop()) {
+          <a mat-list-item (click)="goToLink('/site/employees')"
+          style="height: 20px;">Employee Editor</a>
+        }
+        @if (this.authService.isScheduler || this.authService.isSiteLeader) {
+          <a mat-list-item (click)="goToLink('/site/employees/leaveapprover')"
+          style="height: 20px;">Leave Approval</a>
+        }
+        @if ((this.authService.isScheduler || this.authService.isSiteLeader) && appState.isDesktop()) {
+          <a mat-list-item (click)="goToLink('/site/modview')"
+          style="height: 20px;">Site Mod Time Review</a>
+        }
+        @if ((this.authService.isScheduler || this.authService.isSiteLeader) && appState.isDesktop()) {
+          <a mat-list-item (click)="goToLink('/site/editor')"
+          style="height: 20px;">Site Editor</a>
+        }
+        @if ((authService.isScheduler || authService.isSiteLeader || authService.isCompanyLead) && appState.isDesktop()) {
+          <a mat-list-item (click)="goToLink('site/ingest')"
+          style="height: 20px;">Timecard Ingest/Entry</a>
+        }
+        @if ((this.authService.isAdmin || this.authService.isTeamLeader) && appState.isDesktop()) {
+          <a mat-list-item (click)="goToLink('/team/editor')"
+          style="height: 20px;">Team Editor</a>
+        }
+        @if (this.authService.isAdmin && appState.isDesktop()) {
+          <a mat-list-item (click)="goToLink('admin')"
+          style="height: 20px;">Admin</a>
+        }
+        @if ((authService.isScheduler || authService.isSiteLeader || authService.isCompanyLead) && appState.isDesktop()) {
+          <a mat-list-item (click)="goToLink('/admin/reports')"
+          style="height: 20px;">Report Creator</a>
+        }
+        @if ((authService.isScheduler || authService.isSiteLeader || authService.isCompanyLead) && appState.isDesktop()) {
+          <a mat-list-item (click)="goToLink('/admin/logs')"
+          style="height: 20px;">Log Viewer</a>
+        }
+      </mat-nav-list>
+    </mat-expansion-panel>
+  }
 </mat-accordion>
 <mat-nav-list class="bottom">
-  <a mat-list-item routerLinkActive="active-link"
-    *ngIf="this.authService.hasRole('ADMIN')"
+  @if (this.authService.hasRole('ADMIN')) {
+    <a mat-list-item routerLinkActive="active-link"
     (click)="goToLink('/archive')">Report Archive</a>
+  }
 </mat-nav-list>

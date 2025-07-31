@@ -1,24 +1,30 @@
 
-<form [formGroup]="compInfoForm" class="flexlayout column topleft" 
+<form [formGroup]="compInfoForm" class="flexlayout column topleft"
   style="margin-top: 10px;">
   <div class="flexlayout row topleft flexgap flexwrap">
     <mat-form-field class="fieldWidth">
       <mat-label>Company</mat-label>
       <mat-select formControlName="company"
         (selectionChange)="updateCompanyInfo('company')">
-        <mat-option *ngFor="let co of companies"
+        @for (co of companies; track co) {
+          <mat-option
           [value]="co.id">{{co.name}}</mat-option>
+        }
       </mat-select>
-      <mat-error *ngIf="this.compInfoForm.get('last')?.hasError('required')"
-      class="error">Required</mat-error>
+      @if (this.compInfoForm.get('last')?.hasError('required')) {
+        <mat-error
+        class="error">Required</mat-error>
+      }
     </mat-form-field>
     <mat-form-field class="fieldWidth">
       <mat-label>Employee ID</mat-label>
       <input matInput formControlName="employeeid"
         (blur)="updateCompanyInfo('employeeid')">
       <mat-hint>Company Employee ID</mat-hint>
-      <mat-error *ngIf="this.compInfoForm.get('employeeid')?.hasError('required')"
+      @if (this.compInfoForm.get('employeeid')?.hasError('required')) {
+        <mat-error
         class="error">Required</mat-error>
+      }
     </mat-form-field>
     <mat-form-field class="fieldWidth">
       <mat-label>Alternate ID</mat-label>
@@ -30,8 +36,10 @@
       <mat-label>Job Title</mat-label>
       <input matInput formControlName="jobtitle"
         (blur)="updateCompanyInfo('jobtitle')">
-      <mat-error *ngIf="this.compInfoForm.get('jobtitle')?.hasError('required')"
+      @if (this.compInfoForm.get('jobtitle')?.hasError('required')) {
+        <mat-error
         class="error">Required</mat-error>
+      }
     </mat-form-field>
     <mat-form-field class="fieldWidth">
       <mat-label>Rank/Grade</mat-label>

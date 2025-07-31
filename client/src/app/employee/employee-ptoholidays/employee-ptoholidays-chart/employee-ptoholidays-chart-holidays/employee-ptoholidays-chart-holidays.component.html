@@ -8,9 +8,11 @@
     </div>
     <div class="actual" [style]="getHoursStyle()">Hours</div>
   </div>
-  <app-employee-ptoholidays-chart-holidays-cell *ngFor="let hol of holidays" 
-    [year]="year" [holiday]="hol" [activecell]="isActive(hol)" [width]="width">
-  </app-employee-ptoholidays-chart-holidays-cell>
+  @for (hol of holidays; track hol) {
+    <app-employee-ptoholidays-chart-holidays-cell
+      [year]="year" [holiday]="hol" [activecell]="isActive(hol)" [width]="width">
+    </app-employee-ptoholidays-chart-holidays-cell>
+  }
   <div class="flexlayout row center">
     <div class="code bottomlabel" [style]="getCodeStyle()">&nbsp;</div>
     <div class="daysleft bottomlabel" [style]="getTotalsStyle()">Days Left</div>

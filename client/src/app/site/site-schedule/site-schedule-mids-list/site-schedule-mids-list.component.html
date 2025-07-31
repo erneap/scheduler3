@@ -12,13 +12,13 @@
         <div class="datelabel">FROM</div>
         <div class="datelabel">TO</div>
       </div>
-      <ng-container *ngFor="let eVar of midList">
+      @for (eVar of midList; track eVar) {
         <div class="flexlayout row center data">
           <div class="name">{{eVar.employee.name.getLastFirst()}}</div>
           <div class="date">{{dateString(eVar.variation.startdate)}}</div>
           <div class="date">{{dateString(eVar.variation.enddate)}}</div>
         </div>
-      </ng-container>
+      }
     </div>
   </div>
 </div>

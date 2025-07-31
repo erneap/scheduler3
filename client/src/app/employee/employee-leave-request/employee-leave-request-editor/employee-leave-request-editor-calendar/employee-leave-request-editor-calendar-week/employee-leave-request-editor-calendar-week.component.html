@@ -1,6 +1,8 @@
 <div class="flexlayout row center">
-  <app-employee-leave-request-editor-calendar-day *ngFor="let day of weekdays"
-    [leaveday]="day" [leavecodes]="leavecodes" [show]="showDay(day.leavedate)"
-    [width]="width" (changed)="dayChanged($event)">
-  </app-employee-leave-request-editor-calendar-day>
+  @for (day of weekdays; track day) {
+    <app-employee-leave-request-editor-calendar-day
+      [leaveday]="day" [leavecodes]="leavecodes" [show]="showDay(day.leavedate)"
+      [width]="width" (changed)="dayChanged($event)">
+    </app-employee-leave-request-editor-calendar-day>
+  }
 </div>

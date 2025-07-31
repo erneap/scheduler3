@@ -11,10 +11,12 @@
     </div>
   </div>
   <div [class]="getDisplayClass()">
-   <app-employee-ptoholidays-chart-holidays *ngIf="showHolidays" 
-      [employee]="employee" [year]="year" [width]="getPortionWidth()">
-    </app-employee-ptoholidays-chart-holidays>
-    <app-employee-ptoholidays-chart-pto [year]="year" [employee]="employee" 
+    @if (showHolidays) {
+      <app-employee-ptoholidays-chart-holidays
+        [employee]="employee" [year]="year" [width]="getPortionWidth()">
+      </app-employee-ptoholidays-chart-holidays>
+    }
+    <app-employee-ptoholidays-chart-pto [year]="year" [employee]="employee"
       [width]="getPortionWidth()">
     </app-employee-ptoholidays-chart-pto>
   </div>

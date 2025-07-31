@@ -2,10 +2,12 @@
   <h5>Selected Report Periods</h5>
   <div class="flexlayout row center">
     <div class="list" [style]="getListHeight()">
-      <div *ngFor="let item of periods"
-      [class]="setItemClass(item.id)"
-      (click)="selectPeriod(item.id)"
-      >{{item.label}}</div>
+      @for (item of periods; track item) {
+        <div
+          [class]="setItemClass(item.id)"
+          (click)="selectPeriod(item.id)"
+        >{{item.label}}</div>
+      }
     </div>
   </div>
   <div class="moveLabel">
@@ -13,7 +15,7 @@
   </div>
   <div class="flexlayout row center">
     <div class="movePeriod back" (click)="onMovePeriod('back')">
-      &lt; First Week 
+      &lt; First Week
     </div>
     <div class="movePeriod forward" (click)="onMovePeriod('forward')">
       Last Week &gt;

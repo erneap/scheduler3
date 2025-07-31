@@ -5,11 +5,13 @@
   </div>
   <div class="flex-spacer"></div>
   <div class="notices">
-    <button mat-icon-button *ngIf="this.msgService.showAlerts"
-    matTooltip="Notifications Available"
-    routerLink="/notifications">
-    <mat-icon class="warning-icon">notification_important</mat-icon>
-  </button>
+    @if (this.msgService.showAlerts) {
+      <button mat-icon-button
+        matTooltip="Notifications Available"
+        routerLink="/notifications">
+        <mat-icon class="warning-icon">notification_important</mat-icon>
+      </button>
+    }
   </div>
   <div class="version">
     {{appVersion}}

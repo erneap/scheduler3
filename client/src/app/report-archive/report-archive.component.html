@@ -7,9 +7,11 @@
         <mat-select formControlName="rptType" multiple="true"
           (selectionChange)="onSelectType(); setReportList()">
           <mat-option value="all">ALL TYPES</mat-option>
-          <mat-option *ngFor="let rtype of reportTypes" [value]="rtype.name">
-            {{rtype.name.toUpperCase()}}
-          </mat-option>
+          @for (rtype of reportTypes; track rtype) {
+            <mat-option [value]="rtype.name">
+              {{rtype.name.toUpperCase()}}
+            </mat-option>
+          }
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="fill">
@@ -26,15 +28,19 @@
       </mat-form-field>
     </form>
     <mat-accordion multi>
-      <mat-expansion-panel *ngFor="let rtype of selectedReports" >
-        <mat-expansion-panel-header>
-          <mat-panel-title>{{rtype.name}}</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="flexlayout column center">
-          <app-report-archive-file *ngFor="let rpt of rtype.reports"
-            [report]="rpt"></app-report-archive-file>
-        </div>
-      </mat-expansion-panel>
+      @for (rtype of selectedReports; track rtype) {
+        <mat-expansion-panel >
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{rtype.name}}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="flexlayout column center">
+            @for (rpt of rtype.reports; track rpt) {
+              <app-report-archive-file
+              [report]="rpt"></app-report-archive-file>
+            }
+          </div>
+        </mat-expansion-panel>
+      }
     </mat-accordion>
   </div>
 </div>

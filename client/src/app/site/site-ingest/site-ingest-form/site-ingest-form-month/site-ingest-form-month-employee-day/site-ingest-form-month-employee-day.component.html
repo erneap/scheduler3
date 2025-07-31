@@ -1,11 +1,11 @@
 <div class="cell" [style]="dayStyle()">
-  <ng-container *ngIf="ingest.toLowerCase() === 'manual' && employee.id !== ''">
+  @if (ingest.toLowerCase() === 'manual' && employee.id !== '') {
     <form [formGroup]="dayForm">
-      <input formControlName="changedValue" class="cellinput" 
+      <input formControlName="changedValue" class="cellinput"
         [style]="inputStyle()" (blur)="onChange()">
     </form>
-  </ng-container>
-  <ng-container *ngIf="ingest.toLowerCase() !== 'manual' || employee.id === ''">
-      {{getDisplayValue()}}
-  </ng-container>
+  }
+  @if (ingest.toLowerCase() !== 'manual' || employee.id === '') {
+    {{getDisplayValue()}}
+  }
 </div>

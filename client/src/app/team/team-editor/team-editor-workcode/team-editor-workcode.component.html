@@ -1,20 +1,26 @@
 <div class="toplevel" [style]="viewStyle()">
   <div class="list">
     <div [class]="itemClass('')" (click)="onSelect('')">Add New Workcode</div>
-    <div *ngFor="let wc of team.workcodes" [class]="itemClass(wc.id)"
-      (click)="onSelect(wc.id)">
-      <span [style]="spanStyle(wc)">{{wc.id}}</span> - {{wc.title}}
-    </div>
+    @for (wc of team.workcodes; track wc) {
+      <div [class]="itemClass(wc.id)"
+        (click)="onSelect(wc.id)">
+        <span [style]="spanStyle(wc)">{{wc.id}}</span> - {{wc.title}}
+      </div>
+    }
   </div>
   <form [formGroup]="codeForm" class="formDiv flexlayout column topleft">
     <div class="formrow">
       <div class="formlabel">ID *</div>
-      <div class="forminput" *ngIf="selected.id === ''">
-        <input formControlName="id">
-      </div>
-      <div class="forminput" *ngIf="selected.id !== ''">
-        <input formControlName="id" readonly="readonly">
-      </div>
+      @if (selected.id === '') {
+        <div class="forminput">
+          <input formControlName="id">
+        </div>
+      }
+      @if (selected.id !== '') {
+        <div class="forminput">
+          <input formControlName="id" readonly="readonly">
+        </div>
+      }
       <div class="formError">
         {{checkIDError()}}
       </div>
@@ -25,9 +31,9 @@
         <input formControlName="title" (blur)="onUpdate('title')">
       </div>
       <div class="formError">
-        <ng-container *ngIf="codeForm.controls['title'].hasError('required')">
+        @if (codeForm.controls['title'].hasError('required')) {
           * required
-        </ng-container>
+        }
       </div>
     </div>
     <div class="formrow">
@@ -37,31 +43,39 @@
           (change)="onUpdate('isleave')">
       </div>
     </div>
-    <div class="formrow" *ngIf="codeForm.controls['isleave'].value">
-      <div class="formlabel">Alternate ID</div>
-      <div class="forminput">
-        <input formControlName="altcode" (blur)="onUpdate('altcode')">
+    @if (codeForm.controls['isleave'].value) {
+      <div class="formrow">
+        <div class="formlabel">Alternate ID</div>
+        <div class="forminput">
+          <input formControlName="altcode" (blur)="onUpdate('altcode')">
+        </div>
       </div>
-    </div>
-    <div class="formrow" *ngIf="codeForm.controls['isleave'].value">
-      <div class="formlabel">Search For</div>
-      <div class="forminput">
-        <input formControlName="search" (blur)="onUpdate('search')">
+    }
+    @if (codeForm.controls['isleave'].value) {
+      <div class="formrow">
+        <div class="formlabel">Search For</div>
+        <div class="forminput">
+          <input formControlName="search" (blur)="onUpdate('search')">
+        </div>
       </div>
-    </div>
-    <div class="formrow" *ngIf="!codeForm.controls['isleave'].value">
-      <div class="formlabel">Shift Start Hour</div>
-      <div class="forminput">
-        <input type="number" formControlName="start" (change)="onUpdate('start')"
-          min="0" max="23">
+    }
+    @if (!codeForm.controls['isleave'].value) {
+      <div class="formrow">
+        <div class="formlabel">Shift Start Hour</div>
+        <div class="forminput">
+          <input type="number" formControlName="start" (change)="onUpdate('start')"
+            min="0" max="23">
+        </div>
       </div>
-    </div>
-    <div class="formrow" *ngIf="!codeForm.controls['isleave'].value">
-      <div class="formlabel">Shift/Premimum Code</div>
-      <div class="forminput">
-        <input formControlName="shiftCode" (blur)="onUpdate('shiftCode')">
+    }
+    @if (!codeForm.controls['isleave'].value) {
+      <div class="formrow">
+        <div class="formlabel">Shift/Premimum Code</div>
+        <div class="forminput">
+          <input formControlName="shiftCode" (blur)="onUpdate('shiftCode')">
+        </div>
       </div>
-    </div>
+    }
     <div class="formrow">
       <div class="formlabel">Text Color</div>
       <div class="forminput">
@@ -77,14 +91,18 @@
       </div>
     </div>
     <div class="formrow formfull flexgap">
-      <button mat-raised-button color="accent" *ngIf="selected.id === ''"
-        (click)="onAdd()">
-        Add
-      </button>
-      <button mat-raised-button color="warn" *ngIf="selected.id !== ''"
-        (click)="onDelete()">
-        Delete
-      </button>
+      @if (selected.id === '') {
+        <button mat-raised-button color="accent"
+          (click)="onAdd()">
+          Add
+        </button>
+      }
+      @if (selected.id !== '') {
+        <button mat-raised-button color="warn"
+          (click)="onDelete()">
+          Delete
+        </button>
+      }
       <button mat-raised-button (click)="onClear()">Clear</button>
     </div>
   </form>

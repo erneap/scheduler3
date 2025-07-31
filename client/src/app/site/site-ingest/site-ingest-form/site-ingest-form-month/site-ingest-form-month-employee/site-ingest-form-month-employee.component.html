@@ -2,10 +2,12 @@
   <div class="name" [style]="nameCellStyle()">
     {{employee.name.getLastFirst()}}
   </div>
-  <app-site-ingest-form-month-employee-day *ngFor="let date of dates"
-    [date]="date" [employee]="employee" [ingest]="ingest" 
-    [leavecodes]="leavecodes" [width]="width" (changed)="onChange($event)">
-  </app-site-ingest-form-month-employee-day>
+  @for (date of dates; track date) {
+    <app-site-ingest-form-month-employee-day
+      [date]="date" [employee]="employee" [ingest]="ingest"
+      [leavecodes]="leavecodes" [width]="width" (changed)="onChange($event)">
+    </app-site-ingest-form-month-employee-day>
+  }
   <div class="name" [style]="totalsStyle()">
     {{totalsValue()}}
   </div>

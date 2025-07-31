@@ -1,6 +1,6 @@
 <div [class]="viewClass()" style="margin: 10px;">
   <form [formGroup]="profileForm" class="flexlayout column center">
-    <ng-container *ngIf="showPassword">
+    @if (showPassword) {
       <div class="flexlayout row center flexwrap">
         <mat-form-field>
           <mat-label>Login E-mail Address</mat-label>
@@ -8,7 +8,7 @@
             (blur)="updateUserField('email')">
         </mat-form-field>
       </div>
-    </ng-container>
+    }
     <div class="flexlayout row center flexwrap flexgap">
       <mat-form-field [style]="nameStyle()">
         <mat-label>First Name</mat-label>
@@ -26,62 +26,78 @@
           (blur)="updateUserField('last')">
       </mat-form-field>
     </div>
-    <ng-container *ngIf="showPassword">
+    @if (showPassword) {
       <div class="flexlayout row center flexwrap">
         <h3>Reset Password</h3>
       </div>
       <div class="flexlayout row center flexwrap flexgap">
-          <mat-form-field [style]="passwdStyle()">
-            <mat-label>New Password</mat-label>
-            <input matInput type="password" formControlName="password">
-            <mat-error *ngIf="this.profileForm.get('password')?.invalid"
+        <mat-form-field [style]="passwdStyle()">
+          <mat-label>New Password</mat-label>
+          <input matInput type="password" formControlName="password">
+          @if (this.profileForm.get('password')?.invalid) {
+            <mat-error
               class="error">
               {{getPasswordError()}}
             </mat-error>
-          </mat-form-field>
-          <mat-form-field [style]="passwdStyle()">
-            <mat-label>Verify Password</mat-label>
-            <input matInput type="password" formControlName="password2">
-            <mat-error *ngIf="this.profileForm.get('password2')?.invalid"
+          }
+        </mat-form-field>
+        <mat-form-field [style]="passwdStyle()">
+          <mat-label>Verify Password</mat-label>
+          <input matInput type="password" formControlName="password2">
+          @if (this.profileForm.get('password2')?.invalid) {
+            <mat-error
               class="error">
               {{getVerifyError()}}
             </mat-error>
-          </mat-form-field>
+          }
+        </mat-form-field>
         <div class="formField" style="vertical-align: top; width: 75px;">
-          <button mat-raised-button color="accent" 
+          <button mat-raised-button color="accent"
             [disabled]="!profileForm.valid"
-            (click)="setPassword()">Change</button>
+          (click)="setPassword()">Change</button>
         </div>
       </div>
-    </ng-container>
-    <div *ngIf="showUnlock()" class="flexlayout row center">
-      <button mat-raised-button color="accent" (click)="unlock()">
-        Unlock
-      </button>
-    </div>
-    <div class="flexlayout row center flexwrap" *ngIf="formError !== ''">
-      <span class="error">{{formError}}</span>
-    </div>
+    }
+    @if (showUnlock()) {
+      <div class="flexlayout row center">
+        <button mat-raised-button color="accent" (click)="unlock()">
+          Unlock
+        </button>
+      </div>
+    }
+    @if (formError !== '') {
+      <div class="flexlayout row center flexwrap">
+        <span class="error">{{formError}}</span>
+      </div>
+    }
   </form>
   <div class="fxlayout flexlayout column center chart">
     <h3>Notifications Address List</h3>
     <form [formGroup]="emailForm" class="flexlayout column center">
       <div class="flexlayout row center">
-        <div *ngIf="selectedEmail === ''" class="editor">New: </div>
-        <div *ngIf="selectedEmail !== ''" class="editor">Edit: </div>
+        @if (selectedEmail === '') {
+          <div class="editor">New: </div>
+        }
+        @if (selectedEmail !== '') {
+          <div class="editor">Edit: </div>
+        }
         <input matInput formControlName="editor" class="emailinput"
           (blur)="updateEmail()">
-        <mat-icon *ngIf="selectedEmail !== ''" class="delete"
+        @if (selectedEmail !== '') {
+          <mat-icon class="delete"
           (click)="deleteEmail()">delete</mat-icon>
+        }
       </div>
       <div class="emaillist">
         <div [class]="setEmailClass('new')" (click)="selectEmail('new')">
           Add New Email Address
         </div>
-        <div *ngFor="let em of employee.emails" [class]="setEmailClass(em)"
-          (click)="selectEmail(em)">
-          {{em}}
-        </div>
+        @for (em of employee.emails; track em) {
+          <div [class]="setEmailClass(em)"
+            (click)="selectEmail(em)">
+            {{em}}
+          </div>
+        }
       </div>
     </form>
   </div>

@@ -2,18 +2,22 @@
   <div class="flexlayout column center" [style]="editorStyle()">
     <h3>Company Editor</h3>
     <div class="list" [style]="listStyle()">
-      <div *ngFor="let item of companies" [class]="itemClass(item.id)"
-        [style]="itemStyle()" (click)="onSelect(item.id)">
-        {{item.label}}
-      </div>
+      @for (item of companies; track item) {
+        <div [class]="itemClass(item.id)"
+          [style]="itemStyle()" (click)="onSelect(item.id)">
+          {{item.label}}
+        </div>
+      }
     </div>
     <form [formGroup]="companyForm" class="flexlayout column topleft">
-      <div class="formrow" *ngIf="selected.id === '' || selected.id === 'new'">
-        <div class="formlabel" [style]="formLabelStyle()">ID</div>
-        <div class="forminput" [style]="formInputStyle()">
-          <input matNativeControl formControlName="id" [style]="inputStyle()">
+      @if (selected.id === '' || selected.id === 'new') {
+        <div class="formrow">
+          <div class="formlabel" [style]="formLabelStyle()">ID</div>
+          <div class="forminput" [style]="formInputStyle()">
+            <input matNativeControl formControlName="id" [style]="inputStyle()">
+          </div>
         </div>
-      </div>
+      }
       <div class="formrow">
         <div class="formlabel" [style]="formLabelStyle()">Name</div>
         <div class="forminput" [style]="formInputStyle()">
@@ -32,31 +36,37 @@
           </select>
         </div>
       </div>
-      <div class="formrow" 
-        *ngIf="this.companyForm.controls['ingest'].value !== 'manual'">
-        <div class="formlabel" [style]="formLabelStyle()">Ingest Period</div>
-        <div class="forminput" [style]="formInputStyle()">
-          <select matNativeControl formControlName="period"
-            [style]="inputStyle()" (change)="onUpdate('period')">
-            <option value="7">Weekly</option>
-            <option value="14">BiWeekly</option>
-            <option value="15">BiMonthly</option>
-            <option value="30">Monthly</option>
-          </select>
+      @if (this.companyForm.controls['ingest'].value !== 'manual') {
+        <div class="formrow"
+          >
+          <div class="formlabel" [style]="formLabelStyle()">Ingest Period</div>
+          <div class="forminput" [style]="formInputStyle()">
+            <select matNativeControl formControlName="period"
+              [style]="inputStyle()" (change)="onUpdate('period')">
+              <option value="7">Weekly</option>
+              <option value="14">BiWeekly</option>
+              <option value="15">BiMonthly</option>
+              <option value="30">Monthly</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="formrow" 
-        *ngIf="this.companyForm.controls['ingest'].value !== 'manual' && this.companyForm.controls['period'].value === '7'">
-        <div class="formlabel" [style]="formLabelStyle()">Period Start Day</div>
-        <div class="forminput" [style]="formInputStyle()">
-          <select matNativeControl formControlName="start"
-            [style]="inputStyle()" (change)="onUpdate('start')">
-            <option *ngFor="let wd of weekdays;let i = index" [value]="i">
-              {{wd}}
-            </option>
-          </select>
+      }
+      @if (this.companyForm.controls['ingest'].value !== 'manual' && this.companyForm.controls['period'].value === '7') {
+        <div class="formrow"
+          >
+          <div class="formlabel" [style]="formLabelStyle()">Period Start Day</div>
+          <div class="forminput" [style]="formInputStyle()">
+            <select matNativeControl formControlName="start"
+              [style]="inputStyle()" (change)="onUpdate('start')">
+              @for (wd of weekdays; track wd; let i = $index) {
+                <option [value]="i">
+                  {{wd}}
+                </option>
+              }
+            </select>
+          </div>
         </div>
-      </div>
+      }
       <div class="formrow" [style]="formFullStyle()">
         <div class="formlabel" [style]="formLabelStyle()">Has Holidays</div>
         <div class="forminput" style="background-color: white;color: black;">
@@ -70,25 +80,30 @@
         </div>
       </div>
       <div class="formfull flexlayout row center flexgap">
-        <button mat-raised-button 
-          *ngIf="(selected.id === '' || selected.id === 'new') && companyForm.valid"
-          color="accent" (click)="onAdd()">
-          Add
-        </button>
-        <button mat-raised-button (click)="onDelete()"
-          *ngIf="selected.id !== '' && selected.id !== 'new'" color="warn">
-          Delete
-        </button>
+        @if ((selected.id === '' || selected.id === 'new') && companyForm.valid) {
+          <button mat-raised-button
+            color="accent" (click)="onAdd()">
+            Add
+          </button>
+        }
+        @if (selected.id !== '' && selected.id !== 'new') {
+          <button mat-raised-button (click)="onDelete()"
+            color="warn">
+            Delete
+          </button>
+        }
         <button mat-raised-button (click)="onClear()">Clear</button>
       </div>
     </form>
   </div>
-  <app-team-editor-company-holiday 
-    *ngIf="this.companyForm.controls['holidays'].value"
-    [team]="team" [company]="selected"
+  @if (this.companyForm.controls['holidays'].value) {
+    <app-team-editor-company-holiday
+      [team]="team" [company]="selected"
     [width]="columnWidth"></app-team-editor-company-holiday>
-  <app-team-editor-company-modtime 
-    *ngIf="this.companyForm.controls['modtime'].value"
-    [team]="team" [company]="selected"
+  }
+  @if (this.companyForm.controls['modtime'].value) {
+    <app-team-editor-company-modtime
+      [team]="team" [company]="selected"
     [width]="columnWidth"></app-team-editor-company-modtime>
+  }
 </div>

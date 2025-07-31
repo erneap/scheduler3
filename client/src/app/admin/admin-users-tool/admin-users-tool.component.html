@@ -3,10 +3,12 @@
     <h4>Account List</h4>
   </div>
   <div class="list">
-    <div *ngFor="let user of userList" [class]="userClass(user)"
-      (click)="onSelect(user.id)">
-      {{user.getFullName()}}
-    </div>
+    @for (user of userList; track user) {
+      <div [class]="userClass(user)"
+        (click)="onSelect(user.id)">
+        {{user.getFullName()}}
+      </div>
+    }
   </div>
   <div class="editor">
     <form [formGroup]="userForm" class="flexlayout row topleft">
@@ -15,19 +17,25 @@
           <mat-label>Permissions</mat-label>
           <mat-select formControlName="perms" multiple
             (selectionChange)="changePermission()">
-            <mat-option *ngFor="let perm of permissions;let i=index"
+            @for (perm of permissions; track perm; let i = $index) {
+              <mat-option
               [value]="perm">{{permNames[i]}}</mat-option>
+            }
           </mat-select>
-          <mat-error *ngIf="userForm.controls['perms'].invalid" class="error">
-            Required
-          </mat-error>
+          @if (userForm.controls['perms'].invalid) {
+            <mat-error class="error">
+              Required
+            </mat-error>
+          }
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>New Password</mat-label>
           <input matInput type="password" formControlName="password">
-          <mat-error *ngIf="userForm.controls['password'].invalid" class="error">
-            Required
-          </mat-error>
+          @if (userForm.controls['password'].invalid) {
+            <mat-error class="error">
+              Required
+            </mat-error>
+          }
         </mat-form-field>
       </div>
       <div class="flexlayout column topleft flexstretch" style="gap: 10px;">

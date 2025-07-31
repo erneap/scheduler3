@@ -1,10 +1,12 @@
 <div class="toplevel" [style]="pageStyle()">
   <form [formGroup]="reportForm" class="flexlayout column topleft">
     <div class="list">
-      <div *ngFor="let item of reports" [class]="setItemClass(item.id)"
-        (click)="onSelect(item.id)">
-        {{item.label}}
-      </div>
+      @for (item of reports; track item) {
+        <div [class]="setItemClass(item.id)"
+          (click)="onSelect(item.id)">
+          {{item.label}}
+        </div>
+      }
     </div>
     <div class="formrow">
       <div class="formlabel" [style]="labelStyle()">Report Name*</div>
@@ -18,23 +20,25 @@
       <div class="forminput" [style]="inputStyle()">
         <select matNativeControl (change)="onChange('companyid')" class="inputf"
           formControlName="companyid">
-          <option *ngFor="let item of companylist" [value]="item.id">
-            {{item.label}}
-          </option>
+          @for (item of companylist; track item) {
+            <option [value]="item.id">
+              {{item.label}}
+            </option>
+          }
         </select>
       </div>
     </div>
     <div class="formrow">
       <div class="formlabel" [style]="labelStyle()">Name Sort By First Name:</div>
       <div class="forminput" [style]="inputStyle()">
-        <mat-checkbox formControlName="sortfirst" 
-          (change)="onChange('sortfirst')"></mat-checkbox>
+        <mat-checkbox formControlName="sortfirst"
+        (change)="onChange('sortfirst')"></mat-checkbox>
       </div>
     </div>
     <div class="formrow">
       <div class="formlabel" [style]="labelStyle()">Start Date</div>
       <div class="forminput" [style]="inputStyle()">
-        <input matNativeControl formControlName="start" 
+        <input matNativeControl formControlName="start"
           style="border: none;width: 60%;"
           [matDatepicker]="startpicker"
           (dateChange)="onChange('start')">
@@ -45,7 +49,7 @@
     <div class="formrow">
       <div class="formlabel" [style]="labelStyle()">End Date</div>
       <div class="forminput" [style]="inputStyle()">
-        <input matNativeControl formControlName="end" 
+        <input matNativeControl formControlName="end"
           style="border: none;width: 60%;"
           [matDatepicker]="endpicker"
           (dateChange)="onChange('end')">
@@ -69,22 +73,30 @@
       </mat-radio-group>
     </div>
     <div class="flexlayout row center flexgap">
-      <button mat-raised-button color="accent"
-        *ngIf="this.reportForm.valid && this.selected.id <= 0"
+      @if (this.reportForm.valid && this.selected.id <= 0) {
+        <button mat-raised-button color="accent"
         (click)="onAddReport()">Add</button>
-      <button mat-raised-button color="warn"
-        *ngIf="this.reportForm.valid && this.selected.id <= 0"
+      }
+      @if (this.reportForm.valid && this.selected.id <= 0) {
+        <button mat-raised-button color="warn"
         (click)="onClear()">Clear</button>
-      <button mat-raised-button color="warn"
-        *ngIf="selected.id > 0" (click)="onDeleteReport()">Delete</button>
+      }
+      @if (selected.id > 0) {
+        <button mat-raised-button color="warn"
+        (click)="onDeleteReport()">Delete</button>
+      }
     </div>
   </form>
-  <app-site-editor-reports-forecast-period *ngIf="selected.id > 0"
-    [site]="site" [report]="selected" [teamid]="team.id" 
-    (changed)="onSiteChanged($event)">
-  </app-site-editor-reports-forecast-period>
-  <app-site-editor-reports-forecast-labor *ngIf="selected.id > 0"
-    [siteid]="site.id" [report]="selected" [teamid]="team.id" 
-    [width]="width" (changed)="onSiteChanged($event)">
-  </app-site-editor-reports-forecast-labor>
+  @if (selected.id > 0) {
+    <app-site-editor-reports-forecast-period
+      [site]="site" [report]="selected" [teamid]="team.id"
+      (changed)="onSiteChanged($event)">
+    </app-site-editor-reports-forecast-period>
+  }
+  @if (selected.id > 0) {
+    <app-site-editor-reports-forecast-labor
+      [siteid]="site.id" [report]="selected" [teamid]="team.id"
+      [width]="width" (changed)="onSiteChanged($event)">
+    </app-site-editor-reports-forecast-labor>
+  }
 </div>

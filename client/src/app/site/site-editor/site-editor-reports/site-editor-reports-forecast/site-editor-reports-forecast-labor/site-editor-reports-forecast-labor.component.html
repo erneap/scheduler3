@@ -1,21 +1,23 @@
 <div class="flexlayout column topleft">
   <h5>Selected Report Labor Codes</h5>
   <div class="list">
-    <div *ngFor="let item of laborcodes" [class]="setItemClass(item.id)"
-      (click)="onSelectLaborCode(item.id)">
-      {{item.label}}
-    </div>
+    @for (item of laborcodes; track item) {
+      <div [class]="setItemClass(item.id)"
+        (click)="onSelectLaborCode(item.id)">
+        {{item.label}}
+      </div>
+    }
   </div>
   <form [formGroup]="laborForm" class="flexlayout column center">
-    <div class="formlabel formfull" 
+    <div class="formlabel formfull"
       style="background-color: black;color: white;">
       Labor Code Editor
     </div>
     <div class="formrow">
       <div class="formlabel">Charge Number *</div>
       <div class="forminput">
-        <input matNativeControl formControlName="chargenumber" 
-          (blur)="onUpdateLaborCode('chargenumber')" 
+        <input matNativeControl formControlName="chargenumber"
+          (blur)="onUpdateLaborCode('chargenumber')"
           class="forminput"
           [style]="setLaborInputStyle('chargenumber')">
       </div>
@@ -23,17 +25,17 @@
     <div class="formrow">
       <div class="formlabel">Extension *</div>
       <div class="forminput">
-        <input matNativeControl formControlName="extension" 
+        <input matNativeControl formControlName="extension"
           class="forminput"
-          (blur)="onUpdateLaborCode('extension')" 
+          (blur)="onUpdateLaborCode('extension')"
           [style]="setLaborInputStyle('extension')">
       </div>
     </div>
     <div class="formrow">
       <div class="formlabel">CLIN</div>
       <div class="forminput">
-        <input matNativeControl formControlName="clin" 
-          (blur)="onUpdateLaborCode('clin')" 
+        <input matNativeControl formControlName="clin"
+          (blur)="onUpdateLaborCode('clin')"
           class="forminput"
           [style]="setLaborInputStyle('clin')">
       </div>
@@ -41,8 +43,8 @@
     <div class="formrow">
       <div class="formlabel">SLIN</div>
       <div class="forminput">
-        <input matNativeControl formControlName="slin" 
-          (blur)="onUpdateLaborCode('slin')" 
+        <input matNativeControl formControlName="slin"
+          (blur)="onUpdateLaborCode('slin')"
           class="forminput"
           [style]="setLaborInputStyle('slin')">
       </div>
@@ -50,8 +52,8 @@
     <div class="formrow">
       <div class="formlabel">WBS</div>
       <div class="forminput">
-        <input matNativeControl formControlName="wbs" 
-          (blur)="onUpdateLaborCode('wbs')" 
+        <input matNativeControl formControlName="wbs"
+          (blur)="onUpdateLaborCode('wbs')"
           class="forminput"
           [style]="setLaborInputStyle('wbs')">
       </div>
@@ -59,8 +61,8 @@
     <div class="formrow">
       <div class="formlabel">Location</div>
       <div class="forminput">
-        <input matNativeControl formControlName="location" 
-          (blur)="onUpdateLaborCode('location')" 
+        <input matNativeControl formControlName="location"
+          (blur)="onUpdateLaborCode('location')"
           class="forminput"
           [style]="setLaborInputStyle('location')">
       </div>
@@ -68,9 +70,9 @@
     <div class="formrow">
       <div class="formlabel">Slots</div>
       <div class="forminput">
-        <input matNativeControl formControlName="minimum" 
+        <input matNativeControl formControlName="minimum"
           type="number"
-          (blur)="onUpdateLaborCode('minimum')" 
+          (blur)="onUpdateLaborCode('minimum')"
           class="forminput"
           [style]="setLaborInputStyle('minimum')">
       </div>
@@ -78,8 +80,8 @@
     <div class="formrow">
       <div class="formlabel">Contract Hours</div>
       <div class="forminput">
-        <input matNativeControl formControlName="hoursPerEmployee" 
-          (blur)="onUpdateLaborCode('hoursPerEmployee')" 
+        <input matNativeControl formControlName="hoursPerEmployee"
+          (blur)="onUpdateLaborCode('hoursPerEmployee')"
           class="forminput"
           [style]="setLaborInputStyle('hoursPerEmployee')">
       </div>
@@ -88,7 +90,7 @@
       <div class="formlabel">Empty Name</div>
       <div class="forminput">
         <input matNativeControl formControlName="notAssignedName"
-          (blur)="onUpdateLaborCode('notAssignedName')" 
+          (blur)="onUpdateLaborCode('notAssignedName')"
           class="forminput"
           [style]="setLaborInputStyle('notAssignedName')">
       </div>
@@ -96,7 +98,7 @@
     <div class="formrow">
       <div class="formlabel">Charge Start Date</div>
       <div class="forminput" style="background-color: white;">
-        <input matNativeControl formControlName="startDate" 
+        <input matNativeControl formControlName="startDate"
           style="border: none;width: 60px;"
           [matDatepicker]="startpicker"
           (dateChange)="onUpdateLaborCode('startDate')">
@@ -107,7 +109,7 @@
     <div class="formrow">
       <div class="formlabel">Charge End Date</div>
       <div class="forminput" style="background-color: white;">
-        <input matNativeControl formControlName="endDate" 
+        <input matNativeControl formControlName="endDate"
           style="border: none;width: 60px;"
           [matDatepicker]="endpicker"
           (dateChange)="onUpdateLaborCode('endDate')">
@@ -116,14 +118,16 @@
       </div>
     </div>
     <div class="formrow">
-      <button mat-raised-button color="accent"
-        *ngIf="laborForm.valid && selected.chargeNumber === 'new'"
+      @if (laborForm.valid && selected.chargeNumber === 'new') {
+        <button mat-raised-button color="accent"
         (click)="onAddLaborCode()">Add</button>
+      }
       <button mat-raised-button
-        (click)="onSelectLaborCode('new-new')">Clear</button>
-      <button mat-raised-button color="warn"
-        *ngIf="selected.chargeNumber !== 'new'"
+      (click)="onSelectLaborCode('new-new')">Clear</button>
+      @if (selected.chargeNumber !== 'new') {
+        <button mat-raised-button color="warn"
         (click)="onDeleteLaborCode()">Delete</button>
+      }
     </div>
   </form>
 </div>

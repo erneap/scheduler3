@@ -1,42 +1,47 @@
 <div class="fxLayout flexlayout column topleft">
   <mat-card style="background-color: #673ab7; color: white;">
-      <mat-card-header style="text-align: center;">
-          <mat-card-title>
-              <div class="mat-headline">Employee's Messages</div>
-              </mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="flexlayout column topleft">
-        <div class="flexlayout row center title"
-          style="border-bottom: solid 1px black;">
-          <div class="checkbox">
-            <mat-checkbox [checked]="allChecked"
+    <mat-card-header style="text-align: center;">
+      <mat-card-title>
+        <div class="mat-headline">Employee's Messages</div>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="flexlayout column topleft">
+      <div class="flexlayout row center title"
+        style="border-bottom: solid 1px black;">
+        <div class="checkbox">
+          <mat-checkbox [checked]="allChecked"
             matTooltip="Check all messages/notifications"
             (click)="onAllCheckedClick()"
-            ></mat-checkbox>
-          </div>
-          <div class="date" [style]="getUTCDateWidth()">DATE</div>
-          <div class="message" [style]="getMsgWidth()">Message/Notice</div>
+          ></mat-checkbox>
         </div>
-        <app-notifications-message *ngFor="let msg of messages;let i = index"
+        <div class="date" [style]="getUTCDateWidth()">DATE</div>
+        <div class="message" [style]="getMsgWidth()">Message/Notice</div>
+      </div>
+      @for (msg of messages; track msg; let i = $index) {
+        <app-notifications-message
           [message]="msg" [messageStyle]="getStyle(i)"
-          (checkChanged)="onChange($event)"></app-notifications-message>
-        <div>
-          <button mat-raised-button color="accent" 
-            *ngIf="anyChecked"
-            (click)="onAcknowledge()">Acknowledge Checked Messages</button>
+        (checkChanged)="onChange($event)"></app-notifications-message>
+      }
+      <div>
+        @if (anyChecked) {
+          <button mat-raised-button color="accent"
+          (click)="onAcknowledge()">Acknowledge Checked Messages</button>
+        }
+        @if (gotoApprovers) {
           <button mat-raised-button color="warn"
-            *ngIf="gotoApprovers"
             (click)="onApprovers()"
             >
             Proceed to Leave Request Approver
           </button>
+        }
+        @if (gotoLeaveRequests) {
           <button mat-raised-button color="warn"
-            *ngIf="gotoLeaveRequests"
             (click)="onLeaveRequest()"
             >
             Proceed to Employee Leave Requests
           </button>
-        </div>
-      </mat-card-content>
+        }
+      </div>
+    </mat-card-content>
   </mat-card>
 </div>

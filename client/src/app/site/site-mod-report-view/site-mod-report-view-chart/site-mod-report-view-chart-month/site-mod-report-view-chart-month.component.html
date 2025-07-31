@@ -4,21 +4,27 @@
   </div>
   <div class="row">
     <div class="label month" style="width: 50px">Total</div>
-    <ng-container *ngIf="month.expand">
-      <div class="label week" *ngFor="let week of month.weeks"
-        style="width: 50px;">
-        {{week.end.getUTCMonth() + 1}}/{{week.end.getUTCDate()}}
-      </div>
-    </ng-container>
+    @if (month.expand) {
+      @for (week of month.weeks; track week) {
+        <div class="label week"
+          style="width: 50px;">
+          {{week.end.getUTCMonth() + 1}}/{{week.end.getUTCDate()}}
+        </div>
+      }
+    }
   </div>
-  <div class="row" *ngFor="let emp of employees;let e = index">
-    <div [class]="getStyle('total', e)">
-      {{getTotalValue(emp)}}
+  @for (emp of employees; track emp; let e = $index) {
+    <div class="row">
+      <div [class]="getStyle('total', e)">
+        {{getTotalValue(emp)}}
+      </div>
+      @if (month.expand) {
+        @for (week of month.weeks; track week) {
+          <div [class]="getStyle('week', e)">
+            {{getWeekValue(emp, week)}}
+          </div>
+        }
+      }
     </div>
-    <ng-container *ngIf="month.expand">
-      <div [class]="getStyle('week', e)" *ngFor="let week of month.weeks">
-        {{getWeekValue(emp, week)}}
-      </div>
-    </ng-container>
-  </div>
+  }
 </div>

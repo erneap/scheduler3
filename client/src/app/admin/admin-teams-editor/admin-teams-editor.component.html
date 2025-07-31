@@ -4,19 +4,27 @@
       <mat-label>Choose Team to Edit</mat-label>
       <mat-select formControlName="team" (selectionChange)="onSelect()">
         <mat-option value="">Add New Team</mat-option>
-        <mat-option *ngFor="let team of teams" [value]="team.id">
-          {{team.name}}
-        </mat-option>
+        @for (team of teams; track team) {
+          <mat-option [value]="team.id">
+            {{team.name}}
+          </mat-option>
+        }
       </mat-select>
     </mat-form-field>
-    <button mat-icon-button *ngIf="selectedTeam.id !== ''"
-      class="delete" matTooltip="Delete selected team" (click)="onDelete()">
-      <mat-icon>delete</mat-icon>
-    </button>
+    @if (selectedTeam.id !== '') {
+      <button mat-icon-button
+        class="delete" matTooltip="Delete selected team" (click)="onDelete()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    }
   </form>
-  <app-new-team *ngIf="selectedTeam.id === ''" (added)="updateTeam($event)">
-  </app-new-team>
-  <app-team-editor *ngIf="selectedTeam.id !== ''" (changed)="updateTeam($event)"
-    [width]="appState.viewWidth - 405">
-  </app-team-editor>
+  @if (selectedTeam.id === '') {
+    <app-new-team (added)="updateTeam($event)">
+    </app-new-team>
+  }
+  @if (selectedTeam.id !== '') {
+    <app-team-editor (changed)="updateTeam($event)"
+      [width]="appState.viewWidth - 405">
+    </app-team-editor>
+  }
 </div>

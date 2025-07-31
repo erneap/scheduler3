@@ -1,200 +1,233 @@
 <div class="fxLayout flexlayout column center">
   <mat-card style="background-color: #673ab7; color: white;">
-      <mat-card-header>
-        <div class="flexlayout row center">
-          <div class="headline">New Site Editor</div>
-          <span class="flex-spacer"></span>
-          <button mat-icon-button
-            matTooltip="Clear editor">
-            <mat-icon>deselect</mat-icon>
-          </button>
-        </div>
-      </mat-card-header>
-      <mat-card-content class="flexlayout column center">
-          <mat-accordion>
-            <mat-expansion-panel expanded="true" style="background-color: lightblue;">
-              <mat-expansion-panel-header style="background-color: #3691b0;">
-                <mat-panel-title style="color: white;">Site Basic Information</mat-panel-title>
-              </mat-expansion-panel-header>
-              <div class="flexlayout column center" style="margin-top: 10px;">
-                <form [formGroup]="siteForm">
-                  <div class="flexlayout row center">
-                    <mat-form-field class="formField">
-                      <mat-label>Identifier</mat-label>
-                      <input matInput formControlName="id">
-                      <mat-error *ngIf="this.siteForm.get('id')?.hasError('required')"
-                        class="error">Required</mat-error>
-                      <mat-error *ngIf="this.siteForm.get('id')?.hasError('pattern')"
-                        class="error">Only lower case letters and numbers allowed</mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="formField">
-                      <mat-label>Title</mat-label>
-                      <input matInput formControlName="title">
-                      <mat-error *ngIf="this.siteForm.get('title')?.hasError('required')"
-                        class="error">Required</mat-error>
-                    </mat-form-field>
-                    <div class="formField">
-                      <mat-checkbox formControlName="mids"
-                        >Use MIDS Rotations</mat-checkbox>
-                    </div>
-                  </div>
-                  <div class="flexlayout row center">
-                    <mat-form-field class="formField">
-                      <mat-label>UTC (Zulu) Offset</mat-label>
-                      <mat-select formControlName="offset">
-                        <mat-option *ngFor="let off of offsets" [value]="off">
-                          {{off.toFixed(1)}}
-                        </mat-option>
-                      </mat-select>
-                      <mat-hint>+/- from Zulu Time</mat-hint>
-                      <mat-error *ngIf="this.siteForm.get('offset')?.hasError('required')"
-                        class="error">Required</mat-error>
-                    </mat-form-field>
-                  </div>
-                </form>
+    <mat-card-header>
+      <div class="flexlayout row center">
+        <div class="headline">New Site Editor</div>
+        <span class="flex-spacer"></span>
+        <button mat-icon-button
+          matTooltip="Clear editor">
+          <mat-icon>deselect</mat-icon>
+        </button>
+      </div>
+    </mat-card-header>
+    <mat-card-content class="flexlayout column center">
+      <mat-accordion>
+        <mat-expansion-panel expanded="true" style="background-color: lightblue;">
+          <mat-expansion-panel-header style="background-color: #3691b0;">
+            <mat-panel-title style="color: white;">Site Basic Information</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="flexlayout column center" style="margin-top: 10px;">
+            <form [formGroup]="siteForm">
+              <div class="flexlayout row center">
+                <mat-form-field class="formField">
+                  <mat-label>Identifier</mat-label>
+                  <input matInput formControlName="id">
+                  @if (this.siteForm.get('id')?.hasError('required')) {
+                    <mat-error
+                    class="error">Required</mat-error>
+                  }
+                  @if (this.siteForm.get('id')?.hasError('pattern')) {
+                    <mat-error
+                    class="error">Only lower case letters and numbers allowed</mat-error>
+                  }
+                </mat-form-field>
+                <mat-form-field class="formField">
+                  <mat-label>Title</mat-label>
+                  <input matInput formControlName="title">
+                  @if (this.siteForm.get('title')?.hasError('required')) {
+                    <mat-error
+                    class="error">Required</mat-error>
+                  }
+                </mat-form-field>
+                <div class="formField">
+                  <mat-checkbox formControlName="mids"
+                  >Use MIDS Rotations</mat-checkbox>
+                </div>
               </div>
-            </mat-expansion-panel>
-            <mat-expansion-panel style="background-color: lightblue;">
-              <mat-expansion-panel-header style="background-color: #3691b0;">
-                <mat-panel-title style="color: white;">
-                  Site Lead Information
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <div class="flexlayout column center" style="margin-top: 10px;">
-                <form [formGroup]="leadForm">
-                  <div class="flexlayout row center">
-                    <mat-form-field>
-                      <mat-label>E-mail Address</mat-label>
-                      <input matInput formControlName="email">
-                      <mat-error *ngIf="this.leadForm.get('email')?.hasError('required')"
-                        class="error">Required</mat-error>
-                      <mat-error *ngIf="this.leadForm.get('email')?.hasError('email')"
-                        class="error">Must be in Email Format</mat-error>
-                    </mat-form-field>
-                  </div>
-                  <div class="flexlayout row center">
-                    <div class="formField">
-                      <mat-form-field class="fieldWidth">
-                        <mat-label>First Name</mat-label>
-                        <input matInput formControlName="first">
-                        <mat-error *ngIf="this.leadForm.get('first')?.hasError('required')"
-                          class="error">Required</mat-error>
-                      </mat-form-field>
-                    </div>
-                    <div class="formField">
-                      <mat-form-field class="fieldWidth">
-                        <mat-label>Middle Name</mat-label>
-                        <input matInput formControlName="middle">
-                        <mat-hint>Optional</mat-hint>
-                      </mat-form-field>
-                    </div>
-                    <div class="formField">
-                      <mat-form-field class="fieldWidth">
-                        <mat-label>Last Name</mat-label>
-                        <input matInput formControlName="last">
-                        <mat-error *ngIf="this.leadForm.get('last')?.hasError('required')"
-                          class="error">Required</mat-error>
-                      </mat-form-field>
-                    </div>
-                  </div>
-                  <div class="flexlayout row center">
-                    <div class="formFieldWide">
-                      <mat-form-field class="fieldWidthWide">
-                        <mat-label>New Password</mat-label>
-                        <input matInput type="password" formControlName="password">
-                        <mat-error *ngIf="this.leadForm.get('password')?.invalid"
-                          class="error">
-                          {{getLeadPasswordError()}}
-                        </mat-error>
-                      </mat-form-field>
-                    </div>
-                    <div class="formFieldWide">
-                      <mat-form-field class="fieldWidthWide">
-                        <mat-label>Verify New Password</mat-label>
-                        <input matInput type="password" formControlName="password2">
-                        <mat-error *ngIf="this.leadForm.get('password2')?.invalid"
-                          class="error">
-                          {{getLeadVerifyError()}}
-                        </mat-error>
-                      </mat-form-field>
-                    </div>
-                  </div>
-                </form>
+              <div class="flexlayout row center">
+                <mat-form-field class="formField">
+                  <mat-label>UTC (Zulu) Offset</mat-label>
+                  <mat-select formControlName="offset">
+                    @for (off of offsets; track off) {
+                      <mat-option [value]="off">
+                        {{off.toFixed(1)}}
+                      </mat-option>
+                    }
+                  </mat-select>
+                  <mat-hint>+/- from Zulu Time</mat-hint>
+                  @if (this.siteForm.get('offset')?.hasError('required')) {
+                    <mat-error
+                    class="error">Required</mat-error>
+                  }
+                </mat-form-field>
               </div>
-            </mat-expansion-panel>
-            <mat-expansion-panel style="background-color: lightblue;">
-              <mat-expansion-panel-header style="background-color: #3691b0;">
-                <mat-panel-title style="color: white;">
-                  Site Scheduler Information (Optional)
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <div class="flexlayout column center" style="margin-top: 10px;">
-                <form [formGroup]="schedulerForm">
-                  <div class="flexlayout row center">
-                    <mat-form-field>
-                      <mat-label>E-mail Address</mat-label>
-                      <input matInput formControlName="email">
-                      <mat-error *ngIf="this.schedulerForm.get('newemail')?.hasError('required')"
-                        class="error">Required</mat-error>
-                    </mat-form-field>
-                  </div>
-                  <div class="flexlayout row center">
-                    <div class="formField">
-                      <mat-form-field class="fieldWidth">
-                        <mat-label>First Name</mat-label>
-                        <input matInput formControlName="first">
-                        <mat-error *ngIf="this.schedulerForm.get('first')?.hasError('required')"
-                          class="error">Required</mat-error>
-                      </mat-form-field>
-                    </div>
-                    <div class="formField">
-                      <mat-form-field class="fieldWidth">
-                        <mat-label>Middle Name</mat-label>
-                        <input matInput formControlName="middle">
-                        <mat-hint>Optional</mat-hint>
-                      </mat-form-field>
-                    </div>
-                    <div class="formField">
-                      <mat-form-field class="fieldWidth">
-                        <mat-label>Last Name</mat-label>
-                        <input matInput formControlName="last">
-                        <mat-error *ngIf="this.schedulerForm.get('last')?.hasError('required')"
-                          class="error">Required</mat-error>
-                      </mat-form-field>
-                    </div>
-                  </div>
-                  <div class="flexlayout row center">
-                    <div class="formFieldWide">
-                      <mat-form-field class="fieldWidthWide">
-                        <mat-label>New Password</mat-label>
-                        <input matInput type="password" formControlName="password">
-                        <mat-error *ngIf="this.schedulerForm.get('newpassword')?.invalid"
-                          class="error">
-                          {{getPasswordError()}}
-                        </mat-error>
-                      </mat-form-field>
-                    </div>
-                    <div class="formFieldWide">
-                      <mat-form-field class="fieldWidthWide">
-                        <mat-label>Verify New Password</mat-label>
-                        <input matInput type="password" formControlName="password2">
-                        <mat-error *ngIf="this.schedulerForm.get('password2')?.invalid"
-                          class="error">
-                          {{getVerifyError()}}
-                        </mat-error>
-                      </mat-form-field>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <div class="flexlayout row center" style="padding: 5px 0 5px 0;">
-            <button mat-raised-button color="accent"
-              *ngIf="this.siteForm.valid && this.leadForm.valid"
-              matTooltip="Add Site" (click)="addSite()"
-              >Add</button>
+            </form>
           </div>
-      </mat-card-content>
+        </mat-expansion-panel>
+        <mat-expansion-panel style="background-color: lightblue;">
+          <mat-expansion-panel-header style="background-color: #3691b0;">
+            <mat-panel-title style="color: white;">
+              Site Lead Information
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="flexlayout column center" style="margin-top: 10px;">
+            <form [formGroup]="leadForm">
+              <div class="flexlayout row center">
+                <mat-form-field>
+                  <mat-label>E-mail Address</mat-label>
+                  <input matInput formControlName="email">
+                  @if (this.leadForm.get('email')?.hasError('required')) {
+                    <mat-error
+                    class="error">Required</mat-error>
+                  }
+                  @if (this.leadForm.get('email')?.hasError('email')) {
+                    <mat-error
+                    class="error">Must be in Email Format</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+              <div class="flexlayout row center">
+                <div class="formField">
+                  <mat-form-field class="fieldWidth">
+                    <mat-label>First Name</mat-label>
+                    <input matInput formControlName="first">
+                    @if (this.leadForm.get('first')?.hasError('required')) {
+                      <mat-error
+                      class="error">Required</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="formField">
+                  <mat-form-field class="fieldWidth">
+                    <mat-label>Middle Name</mat-label>
+                    <input matInput formControlName="middle">
+                    <mat-hint>Optional</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="formField">
+                  <mat-form-field class="fieldWidth">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput formControlName="last">
+                    @if (this.leadForm.get('last')?.hasError('required')) {
+                      <mat-error
+                      class="error">Required</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="flexlayout row center">
+                <div class="formFieldWide">
+                  <mat-form-field class="fieldWidthWide">
+                    <mat-label>New Password</mat-label>
+                    <input matInput type="password" formControlName="password">
+                    @if (this.leadForm.get('password')?.invalid) {
+                      <mat-error
+                        class="error">
+                        {{getLeadPasswordError()}}
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="formFieldWide">
+                  <mat-form-field class="fieldWidthWide">
+                    <mat-label>Verify New Password</mat-label>
+                    <input matInput type="password" formControlName="password2">
+                    @if (this.leadForm.get('password2')?.invalid) {
+                      <mat-error
+                        class="error">
+                        {{getLeadVerifyError()}}
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel style="background-color: lightblue;">
+          <mat-expansion-panel-header style="background-color: #3691b0;">
+            <mat-panel-title style="color: white;">
+              Site Scheduler Information (Optional)
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="flexlayout column center" style="margin-top: 10px;">
+            <form [formGroup]="schedulerForm">
+              <div class="flexlayout row center">
+                <mat-form-field>
+                  <mat-label>E-mail Address</mat-label>
+                  <input matInput formControlName="email">
+                  @if (this.schedulerForm.get('newemail')?.hasError('required')) {
+                    <mat-error
+                    class="error">Required</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+              <div class="flexlayout row center">
+                <div class="formField">
+                  <mat-form-field class="fieldWidth">
+                    <mat-label>First Name</mat-label>
+                    <input matInput formControlName="first">
+                    @if (this.schedulerForm.get('first')?.hasError('required')) {
+                      <mat-error
+                      class="error">Required</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="formField">
+                  <mat-form-field class="fieldWidth">
+                    <mat-label>Middle Name</mat-label>
+                    <input matInput formControlName="middle">
+                    <mat-hint>Optional</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="formField">
+                  <mat-form-field class="fieldWidth">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput formControlName="last">
+                    @if (this.schedulerForm.get('last')?.hasError('required')) {
+                      <mat-error
+                      class="error">Required</mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="flexlayout row center">
+                <div class="formFieldWide">
+                  <mat-form-field class="fieldWidthWide">
+                    <mat-label>New Password</mat-label>
+                    <input matInput type="password" formControlName="password">
+                    @if (this.schedulerForm.get('newpassword')?.invalid) {
+                      <mat-error
+                        class="error">
+                        {{getPasswordError()}}
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="formFieldWide">
+                  <mat-form-field class="fieldWidthWide">
+                    <mat-label>Verify New Password</mat-label>
+                    <input matInput type="password" formControlName="password2">
+                    @if (this.schedulerForm.get('password2')?.invalid) {
+                      <mat-error
+                        class="error">
+                        {{getVerifyError()}}
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <div class="flexlayout row center" style="padding: 5px 0 5px 0;">
+        @if (this.siteForm.valid && this.leadForm.valid) {
+          <button mat-raised-button color="accent"
+            matTooltip="Add Site" (click)="addSite()"
+          >Add</button>
+        }
+      </div>
+    </mat-card-content>
   </mat-card>
 </div>

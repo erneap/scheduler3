@@ -1,23 +1,24 @@
 <div class="flexlayout column center">
   <div class="flexlayout row center">
     <div class="movement" [style]="headerStyle('movement')">
-      <button mat-icon-button color="warn"
-        matTooltip="Delete this schedule"
-        *ngIf="deletable"
-        (click)="deleteSchedule()">
-        <mat-icon>delete</mat-icon>
-      </button>
+      @if (deletable) {
+        <button mat-icon-button color="warn"
+          matTooltip="Delete this schedule"
+          (click)="deleteSchedule()">
+          <mat-icon>delete</mat-icon>
+        </button>
+      }
     </div>
     <div class="month" [style]="headerStyle('month')">{{label}}</div>
     <div class="movement" [style]="headerStyle('movement')">
       <form [formGroup]="scheduleForm">
-      <select class="day-form-field" formControlName="days"
-        (change)="changeDays()"
-      style="color: white;">
-        <ng-container *ngFor="let opt of days">
-          <option [value]="opt" class="options">{{opt}}</option>
-        </ng-container>
-      </select>
+        <select class="day-form-field" formControlName="days"
+          (change)="changeDays()"
+          style="color: white;">
+          @for (opt of days; track opt) {
+            <option [value]="opt" class="options">{{opt}}</option>
+          }
+        </select>
       </form>
     </div>
   </div>
@@ -30,17 +31,18 @@
     <div class="daycell" [style]="weekdayStyle(5)">FRI</div>
     <div class="daycell" [style]="weekdayStyle(6)">SAT</div>
   </div>
-  <ng-container *ngFor="let week of workweeks">
+  @for (week of workweeks; track week) {
     <div class="flexlayout row center">
-      <app-site-employees-assignment-schedule-day 
-        *ngFor="let wd of week.getWorkdays()"
-        [site]="site"
-        [showdates]="showdates"
-        [disabled]="isDisabled(wd.id)"
-        [copy]="setCopy(wd.id)"
-        [width]="width"
-        [workday]="wd" (changedate)="updateDate($event)">
-      </app-site-employees-assignment-schedule-day>
+      @for (wd of week.getWorkdays(); track wd) {
+        <app-site-employees-assignment-schedule-day
+          [site]="site"
+          [showdates]="showdates"
+          [disabled]="isDisabled(wd.id)"
+          [copy]="setCopy(wd.id)"
+          [width]="width"
+          [workday]="wd" (changedate)="updateDate($event)">
+        </app-site-employees-assignment-schedule-day>
+      }
     </div>
-  </ng-container>
+  }
 </div>

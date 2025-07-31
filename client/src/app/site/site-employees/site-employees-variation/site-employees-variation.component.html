@@ -3,27 +3,30 @@
     <div class="flexlayout row topleft flexwrap">
       <mat-form-field class="formFieldWider">
         <mat-label>Selected Variation</mat-label>
-        <mat-select (selectionChange)="selectVariation()" 
+        <mat-select (selectionChange)="selectVariation()"
           formControlName="variation">
           <mat-option value="0">New Variation</mat-option>
-          <mat-option *ngFor="let vari of variations" [value]="vari.id">
-            {{getLabel(vari)}}
-          </mat-option>
+          @for (vari of variations; track vari) {
+            <mat-option [value]="vari.id">
+              {{getLabel(vari)}}
+            </mat-option>
+          }
         </mat-select>
       </mat-form-field>
-      <button mat-icon-button color="accent"
-          *ngIf="this.variation && this.variation.id > 0"
+      @if (this.variation && this.variation.id > 0) {
+        <button mat-icon-button color="accent"
           matTooltip="Delete Current Variation"
           (click)="deleteVariation()">
           <mat-icon>delete</mat-icon>
-      </button>
+        </button>
+      }
     </div>
     <div class="flexlayout row topleft flexgap flexwrap">
       <div class="formField">
         <mat-form-field class="fieldWidth">
           <mat-label>Start Date</mat-label>
           <input matInput [matDatepicker]="startpicker"
-            formControlName="start" 
+            formControlName="start"
             (dateChange)="updateVariation('start')">
           <mat-datepicker-toggle matIconSuffix [for]="startpicker"></mat-datepicker-toggle>
           <mat-datepicker #startpicker></mat-datepicker>
@@ -33,35 +36,36 @@
         <mat-form-field class="fieldWidth">
           <mat-label>End Date</mat-label>
           <input matInput [matDatepicker]="endpicker"
-            formControlName="end" 
+            formControlName="end"
             (dateChange)="updateVariation('end')">
           <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
           <mat-datepicker #endpicker></mat-datepicker>
         </mat-form-field>
       </div>
       <div class="list" style="background-color: white;">
-        <mat-checkbox formControlName="mids" 
+        <mat-checkbox formControlName="mids"
           (change)="updateVariation('mids')">
-          MID Shift Rotation</mat-checkbox>
-        <mat-checkbox formControlName="dates" 
+        MID Shift Rotation</mat-checkbox>
+        <mat-checkbox formControlName="dates"
           (change)="updateVariation('dates')">
-          Show Dates for Period</mat-checkbox>
+        Show Dates for Period</mat-checkbox>
       </div>
     </div>
   </form>
-    <div class="flexlayout row center">
-      <app-site-employees-variation-calendar
-        [variation]="variation"
-        [site]="site"
-        [width]="width"
-        (change)="updateSchedule($event)">
-      </app-site-employees-variation-calendar>
-    </div>
-    <div class="flexlayout row center">
-      <button mat-raised-button color="accent" 
-        *ngIf="variation.id === 0 && variationForm.valid"
+  <div class="flexlayout row center">
+    <app-site-employees-variation-calendar
+      [variation]="variation"
+      [site]="site"
+      [width]="width"
+      (change)="updateSchedule($event)">
+    </app-site-employees-variation-calendar>
+  </div>
+  <div class="flexlayout row center">
+    @if (variation.id === 0 && variationForm.valid) {
+      <button mat-raised-button color="accent"
         (click)="addVariation()">
         Add
       </button>
-    </div>
+    }
+  </div>
 </div>

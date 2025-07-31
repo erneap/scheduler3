@@ -3,30 +3,44 @@
   <div class="flexlayout row topleft flexgap">
     <div class="flexlayout row topcenter">
       <div class="sectionlist">
-        <div *ngFor="let item of sections" [class]="setSectionItem(item.id)"
-          (click)="onSelectSection(item.id)">
-          {{item.label}}
-        </div>
+        @for (item of sections; track item) {
+          <div [class]="setSectionItem(item.id)"
+            (click)="onSelectSection(item.id)">
+            {{item.label}}
+          </div>
+        }
       </div>
       <div class="layout-stretch sortdiv">
-        <div class="movement layout-top" (click)="moveSection('up')"
-          *ngIf="showMoveUp">
-          <mat-icon>arrow_drop_up</mat-icon>
-        </div>
-        <div class="movement layout-top" *ngIf="!showMoveUp">
-        </div>
-        <div class="delete" *ngIf="this.selected.id > 0"
-          (click)="deleteSection()">
-          <mat-icon>delete</mat-icon>
-        </div>
-        <div class="delete" *ngIf="this.selected.id <= 0">
-        </div>
-        <div class="movement layout-bottom" (click)="moveSection('down')"
-          *ngIf="showMoveDown">
-          <mat-icon>arrow_drop_down</mat-icon>
-        </div>
-        <div class="movement layout-bottom" *ngIf="!showMoveDown">
-        </div>
+        @if (showMoveUp) {
+          <div class="movement layout-top" (click)="moveSection('up')"
+            >
+            <mat-icon>arrow_drop_up</mat-icon>
+          </div>
+        }
+        @if (!showMoveUp) {
+          <div class="movement layout-top">
+          </div>
+        }
+        @if (this.selected.id > 0) {
+          <div class="delete"
+            (click)="deleteSection()">
+            <mat-icon>delete</mat-icon>
+          </div>
+        }
+        @if (this.selected.id <= 0) {
+          <div class="delete">
+          </div>
+        }
+        @if (showMoveDown) {
+          <div class="movement layout-bottom" (click)="moveSection('down')"
+            >
+            <mat-icon>arrow_drop_down</mat-icon>
+          </div>
+        }
+        @if (!showMoveDown) {
+          <div class="movement layout-bottom">
+          </div>
+        }
       </div>
     </div>
     <form [formGroup]="sectionForm" class="flexlayout column topcenter">
@@ -36,9 +50,11 @@
           <select matNativeControl formControlName="company"
             class="forminput" (change)="updateSection('company')"
             [style]="setInputStyle('company')">
-            <option *ngFor="let co of companylist" [value]="co.id">
-              {{co.name}}
-            </option>
+            @for (co of companylist; track co) {
+              <option [value]="co.id">
+                {{co.name}}
+              </option>
+            }
           </select>
         </div>
       </div>
@@ -61,7 +77,7 @@
       <div class="formrow">
         <div class="formlabel">Show Unit in Section</div>
         <div class="forminput" style="background-color: white;">
-          <mat-checkbox formControlName="showunit" 
+          <mat-checkbox formControlName="showunit"
             (change)="updateSection('showunit')">
           </mat-checkbox>
         </div>
@@ -71,17 +87,21 @@
       </div>
       <div class="formrow formfull">
         <div class="laborlist">
-          <div *ngFor="let item of laborcodes" [class]="setLaborClass(item.id)" 
-            (click)="updateSectionLaborCode(item.id)">
-            {{item.label}}
-          </div>
+          @for (item of laborcodes; track item) {
+            <div [class]="setLaborClass(item.id)"
+              (click)="updateSectionLaborCode(item.id)">
+              {{item.label}}
+            </div>
+          }
         </div>
       </div>
-      <div class="formrow formfull" *ngIf="this.selected.id <= 0">
-        <button mat-raised-button color="accent" (click)="addNewSection()">
-          Add
-        </button>
-      </div>
+      @if (this.selected.id <= 0) {
+        <div class="formrow formfull">
+          <button mat-raised-button color="accent" (click)="addNewSection()">
+            Add
+          </button>
+        </div>
+      }
     </form>
   </div>
 </div>

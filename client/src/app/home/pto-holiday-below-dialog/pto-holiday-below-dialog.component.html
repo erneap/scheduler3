@@ -1,6 +1,7 @@
 <h1 mat-dialog-title>PTO/Holiday Scheduling Problem</h1>
 <div mat-dialog-content class="flexlayout column center">
-    <div class="flexlayout column center" *ngIf="showHolidays"
+  @if (showHolidays) {
+    <div class="flexlayout column center"
       style="margin-top: 5px;">
       <div>You are below 80% of scheduled holidays</div>
       <div class="highlight">
@@ -8,7 +9,9 @@
         = {{holidayPercent.toFixed(1)}}%
       </div>
     </div>
-    <div class="flexlayout column center" *ngIf="showPTO"
+  }
+  @if (showPTO) {
+    <div class="flexlayout column center"
       style="margin-top: 5px;">
       <div>You are above 40 hours of unscheduled PTO</div>
       <div class="highlight">
@@ -16,8 +19,9 @@
         = {{ptoPercent.toFixed(1)}} hours
       </div>
     </div>
-    <p>Please schedule necessary PTO/Holidays!</p>
+  }
+  <p>Please schedule necessary PTO/Holidays!</p>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-button (click)="onNoClick()">Close</button>
 </div>

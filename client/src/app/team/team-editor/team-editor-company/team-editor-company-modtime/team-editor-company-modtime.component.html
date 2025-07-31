@@ -1,8 +1,10 @@
 <div class="flexlayout column center">
   <h3>ModTime Periods</h3>
   <div class="list" [style]="listStyle()">
-    <div *ngFor="let item of modtimes" [class]="itemClass(item.id)"
+    @for (item of modtimes; track item) {
+      <div [class]="itemClass(item.id)"
       [style]="itemStyle()" (click)="onSelect(item.id)">{{item.label}}</div>
+    }
   </div>
   <form [formGroup]="modForm" class="flexlayout column center">
     <div class="formrow">
@@ -10,20 +12,20 @@
         Year
       </div>
       <div class="forminput whiteBackground" [style]="formStyle()">
-        <ng-container *ngIf="selected.year <= 0">
+        @if (selected.year <= 0) {
           <input matNativeControl formControlName="year" type="number"
             class="forminput" [style]="dateStyle()">
-        </ng-container>
-        <ng-container *ngIf="selected.year > 0">
+        }
+        @if (selected.year > 0) {
           <input matNativeControl formControlName="year" readonly
             class="forminput" [style]="dateStyle()">
-        </ng-container>
+        }
       </div>
     </div>
     <div class="formrow">
       <div class="formlabel" [style]="formStyle()">Period Start Date</div>
       <div class="forminput whiteBackground" [style]="formStyle()">
-        <input matNativeControl formControlName="start" 
+        <input matNativeControl formControlName="start"
           [style]="dateStyle()"
           (dateChange)="onUpdate('start')"
           [matDatepicker]="startpicker">
@@ -34,7 +36,7 @@
     <div class="formrow">
       <div class="formlabel" [style]="formStyle()">Period End Date</div>
       <div class="forminput whiteBackground" [style]="formStyle()">
-        <input matNativeControl formControlName="end" 
+        <input matNativeControl formControlName="end"
           [style]="dateStyle()"
           (dateChange)="onUpdate('end')"
           [matDatepicker]="endpicker">
@@ -43,19 +45,25 @@
       </div>
     </div>
     <div class="formrow flexgap">
-      <button mat-raised-button color="accent" *ngIf="selected.year <= 0"
-        (click)="onAdd()">
-        Add
-      </button>
-      <button mat-raised-button color="warn" *ngIf="selected.year > 0"
-        (click)="onDelete()">
-        Delete
-      </button>
+      @if (selected.year <= 0) {
+        <button mat-raised-button color="accent"
+          (click)="onAdd()">
+          Add
+        </button>
+      }
+      @if (selected.year > 0) {
+        <button mat-raised-button color="warn"
+          (click)="onDelete()">
+          Delete
+        </button>
+      }
       <button mat-raised-button (click)="onClear()">Clear</button>
     </div>
-    <div class="formrow error flexwrap" *ngIf="error !== ''"
-      [style]="errorStyle()">
-      {{error}}
-    </div>
+    @if (error !== '') {
+      <div class="formrow error flexwrap"
+        [style]="errorStyle()">
+        {{error}}
+      </div>
+    }
   </form>
 </div>

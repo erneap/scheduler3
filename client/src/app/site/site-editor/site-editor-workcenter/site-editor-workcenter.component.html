@@ -7,75 +7,94 @@
       </div>
       <div class="flexlayout row topcenter">
         <div class="list">
-          <div *ngFor="let item of workcenters"
-          (click)="onSelectWorkcenter(item.id)"
-          [class]="setItemClass(item.id)"
-          >{{item.label}}</div>
+          @for (item of workcenters; track item) {
+            <div
+              (click)="onSelectWorkcenter(item.id)"
+              [class]="setItemClass(item.id)"
+            >{{item.label}}</div>
+          }
         </div>
         <div class="layout-stretch sortdiv">
           <div class="layout-top movement"
             matTooltip="Change Display Order - Move Up"
             (click)="onChangeSort('up')">
-            <mat-icon *ngIf="showSortUp">arrow_drop_up</mat-icon>
+            @if (showSortUp) {
+              <mat-icon>arrow_drop_up</mat-icon>
+            }
           </div>
           <div class="delete">
-            <div class="deletebutton"
-              *ngIf="selected.id !== 'new' && selected.id !== ''"
-              matTooltip="Delete selected workcenter"
-              (click)="onDeleteWorkcenter()">
-              <mat-icon>delete</mat-icon>
-            </div>
-          </div> 
+            @if (selected.id !== 'new' && selected.id !== '') {
+              <div class="deletebutton"
+                matTooltip="Delete selected workcenter"
+                (click)="onDeleteWorkcenter()">
+                <mat-icon>delete</mat-icon>
+              </div>
+            }
+          </div>
           <div class="layout-bottom movement"
             matTooltip="Change Order - Move Down"
             (click)="onChangeSort('down')">
-            <mat-icon *ngIf="showSortDown">arrow_drop_down</mat-icon>
+            @if (showSortDown) {
+              <mat-icon>arrow_drop_down</mat-icon>
+            }
           </div>
         </div>
       </div>
     </div>
     <form [formGroup]="wcForm" class="fxLayout-column-topleft"
       style="margin-top: 15px;">
-      <mat-form-field appearance="fill" style="margin-bottom: 25px;"
-        *ngIf="selected.id === 'new'">
-        <mat-label>Workcenter Identifier</mat-label>
-        <input matInput formControlName="id" (blur)="onChangeField('id')">
-        <mat-hint>Only lower case letters, numbers and / or -</mat-hint>
-        <mat-error *ngIf="wcForm.controls['id'].hasError('required')"
-          class="error">Required</mat-error>
-        <mat-error *ngIf="wcForm.controls['id'].hasError('pattern')"
-          class="error">Check Pattern</mat-error>
-      </mat-form-field>
+      @if (selected.id === 'new') {
+        <mat-form-field appearance="fill" style="margin-bottom: 25px;"
+          >
+          <mat-label>Workcenter Identifier</mat-label>
+          <input matInput formControlName="id" (blur)="onChangeField('id')">
+          <mat-hint>Only lower case letters, numbers and / or -</mat-hint>
+          @if (wcForm.controls['id'].hasError('required')) {
+            <mat-error
+            class="error">Required</mat-error>
+          }
+          @if (wcForm.controls['id'].hasError('pattern')) {
+            <mat-error
+            class="error">Check Pattern</mat-error>
+          }
+        </mat-form-field>
+      }
       <mat-form-field appearance="fill">
         <mat-label>Workcenter Name/Title</mat-label>
         <input matInput formControlName="name" (blur)="onChangeField('name')">
-        <mat-error *ngIf="wcForm.controls['id'].hasError('required')"
+        @if (wcForm.controls['id'].hasError('required')) {
+          <mat-error
           class="error">Required</mat-error>
+        }
       </mat-form-field>
       <div class="flexlayout row center">
-        <button mat-raised-button color="warn" style="margin-left: 10px;"
-          *ngIf="selected.id === 'new'"
+        @if (selected.id === 'new') {
+          <button mat-raised-button color="warn" style="margin-left: 10px;"
           (click)="onClearClick()">Clear</button>
-        <button mat-raised-button color="accent"
-          *ngIf="selected.id === 'new'"
+        }
+        @if (selected.id === 'new') {
+          <button mat-raised-button color="accent"
           (click)="onAddWorkcenter()" cdkFocusInitial>Add</button>
+        }
       </div>
     </form>
-    <div class="flexlayout column top" 
-    style="border: solid 1px white;padding: 2px;"
-    *ngIf="selected.id !== 'new'">
-      <mat-tab-group [backgroundColor]="'warn'" [(selectedIndex)]="posSelectIndex">
-        <mat-tab label="Workcenter Shifts">
-          <app-site-editor-workcenter-shift [workcenter]="selected"
-            [site]="site" [teamid]="teamid" (changed)="onChanged($event)">
-          </app-site-editor-workcenter-shift>
-        </mat-tab>
-        <mat-tab label="Workcenter Positions">
-          <app-site-editor-workcenter-position [workcenter]="selected"
-            [site]="site" [teamid]="teamid" (changed)="onChanged($event)">
-          </app-site-editor-workcenter-position>
-        </mat-tab>
-      </mat-tab-group>
-    </div>
+    @if (selected.id !== 'new') {
+      <div class="flexlayout column top"
+        style="border: solid 1px white;padding: 2px;"
+        >
+        <mat-tab-group [backgroundColor]="'warn'" [(selectedIndex)]="posSelectIndex">
+          <mat-tab label="Workcenter Shifts">
+            <app-site-editor-workcenter-shift [workcenter]="selected"
+              [site]="site" [teamid]="teamid" (changed)="onChanged($event)">
+            </app-site-editor-workcenter-shift>
+          </mat-tab>
+          <mat-tab label="Workcenter Positions">
+            <app-site-editor-workcenter-position [workcenter]="selected"
+              [site]="site" [teamid]="teamid" (changed)="onChanged($event)">
+            </app-site-editor-workcenter-position>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    }
   </div>
 </div>

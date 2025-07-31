@@ -1,23 +1,27 @@
 <div class="toplevel">
   <div class="label">Employee's Contact Information</div>
-  <div class="flexlayout row topleft" style="width: 100%;"
-    *ngFor="let item of contacts;let i = index">
-    <div [class]="itemClass(i)">
-      {{contactType(item.typeid)}}
-    </div>
-    <div [class]="itemClass(i)">
-      {{(item.value !== '') ? item.value : '&nbsp;'}}
-    </div>
-  </div>
-  <ng-container *ngIf="otherEmails.length > 0">
+  @for (item of contacts; track item; let i = $index) {
     <div class="flexlayout row topleft" style="width: 100%;"
-      *ngFor="let item of otherEmails;let i = index">
-      <div [class]="emailClass(i)">
-        {{(i === 0) ? 'Other Email': '&nbsp;'}}
+      >
+      <div [class]="itemClass(i)">
+        {{contactType(item.typeid)}}
       </div>
-      <div [class]="emailClass(i)">
-        {{item}}
+      <div [class]="itemClass(i)">
+        {{(item.value !== '') ? item.value : '&nbsp;'}}
       </div>
     </div>
-  </ng-container>
+  }
+  @if (otherEmails.length > 0) {
+    @for (item of otherEmails; track item; let i = $index) {
+      <div class="flexlayout row topleft" style="width: 100%;"
+        >
+        <div [class]="emailClass(i)">
+          {{(i === 0) ? 'Other Email': '&nbsp;'}}
+        </div>
+        <div [class]="emailClass(i)">
+          {{item}}
+        </div>
+      </div>
+    }
+  }
 </div>

@@ -1,10 +1,11 @@
 <div class="flexlayout row center">
-  <app-employee-leave-request-editor-modtime-calendar-week-day
-    *ngFor="let day of weekdays" 
-    [leaveday]="day"
-    [workcodes]="workcodes" 
-    [workcenters]="workcenters"
-    [show]="showDay(day.leavedate)"
-    [width]="width" (changed)="dayChanged($event)" >
-  </app-employee-leave-request-editor-modtime-calendar-week-day>
+  @for (day of weekdays; track day) {
+    <app-employee-leave-request-editor-modtime-calendar-week-day
+      [leaveday]="day"
+      [workcodes]="workcodes"
+      [workcenters]="workcenters"
+      [show]="showDay(day.leavedate)"
+      [width]="width" (changed)="dayChanged($event)" >
+    </app-employee-leave-request-editor-modtime-calendar-week-day>
+  }
 </div>

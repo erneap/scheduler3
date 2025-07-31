@@ -19,16 +19,20 @@
             <mat-form-field>
               <mat-label>E-mail Address</mat-label>
               <input matInput formControlName="email">
-              <mat-error *ngIf="this.employeeForm.get('newemail')?.hasError('required')"
+              @if (this.employeeForm.get('newemail')?.hasError('required')) {
+                <mat-error
                 class="error">Required</mat-error>
+              }
             </mat-form-field>
           </div>
           <div class="flexlayout row center flexgap">
             <mat-form-field class="fieldWidth">
               <mat-label>First Name</mat-label>
               <input matInput formControlName="first">
-              <mat-error *ngIf="this.employeeForm.get('first')?.hasError('required')"
+              @if (this.employeeForm.get('first')?.hasError('required')) {
+                <mat-error
                 class="error">Required</mat-error>
+              }
             </mat-form-field>
             <mat-form-field class="fieldWidth">
               <mat-label>Middle Name</mat-label>
@@ -38,26 +42,32 @@
             <mat-form-field class="fieldWidth">
               <mat-label>Last Name</mat-label>
               <input matInput formControlName="last">
-              <mat-error *ngIf="this.employeeForm.get('last')?.hasError('required')"
+              @if (this.employeeForm.get('last')?.hasError('required')) {
+                <mat-error
                 class="error">Required</mat-error>
+              }
             </mat-form-field>
           </div>
           <div class="flexlayout row center flexgap">
             <mat-form-field class="fieldWidthWide">
               <mat-label>New Password</mat-label>
               <input matInput type="password" formControlName="password">
-              <mat-error *ngIf="this.employeeForm.get('newpassword')?.invalid"
-                class="error">
-                {{getPasswordError()}}
-              </mat-error>
+              @if (this.employeeForm.get('newpassword')?.invalid) {
+                <mat-error
+                  class="error">
+                  {{getPasswordError()}}
+                </mat-error>
+              }
             </mat-form-field>
             <mat-form-field class="fieldWidthWide">
               <mat-label>Verify New Password</mat-label>
               <input matInput type="password" formControlName="password2">
-              <mat-error *ngIf="this.employeeForm.get('password2')?.invalid"
-                class="error">
-                {{getVerifyError()}}
-              </mat-error>
+              @if (this.employeeForm.get('password2')?.invalid) {
+                <mat-error
+                  class="error">
+                  {{getVerifyError()}}
+                </mat-error>
+              }
             </mat-form-field>
           </div>
         </div>
@@ -71,18 +81,24 @@
             <mat-form-field class="fieldWidth">
               <mat-label>Company</mat-label>
               <mat-select formControlName="company">
-                <mat-option *ngFor="let co of companies"
+                @for (co of companies; track co) {
+                  <mat-option
                   [value]="co.id">{{co.name}}</mat-option>
+                }
               </mat-select>
-              <mat-error *ngIf="this.employeeForm.get('company')?.hasError('required')"
-              class="error">Required</mat-error>
+              @if (this.employeeForm.get('company')?.hasError('required')) {
+                <mat-error
+                class="error">Required</mat-error>
+              }
             </mat-form-field>
             <mat-form-field class="fieldWidth">
               <mat-label>Employee ID</mat-label>
               <input matInput formControlName="employeeid">
               <mat-hint>Company Employee ID</mat-hint>
-              <mat-error *ngIf="this.employeeForm.get('employeeid')?.hasError('required')"
+              @if (this.employeeForm.get('employeeid')?.hasError('required')) {
+                <mat-error
                 class="error">Required</mat-error>
+              }
             </mat-form-field>
             <mat-form-field class="fieldWidth">
               <mat-label>Alternate ID</mat-label>
@@ -92,8 +108,10 @@
             <mat-form-field class="fieldWidth">
               <mat-label>Job Title</mat-label>
               <input matInput formControlName="jobtitle">
-              <mat-error *ngIf="this.employeeForm.get('jobtitle')?.hasError('required')"
+              @if (this.employeeForm.get('jobtitle')?.hasError('required')) {
+                <mat-error
                 class="error">Required</mat-error>
+              }
             </mat-form-field>
             <mat-form-field class="fieldWidth">
               <mat-label>Rank/Grade</mat-label>
@@ -121,10 +139,12 @@
           <label>Initial Labor Code Assigned:</label>
           <mat-radio-group class="fxLayout-column-topleft"
             formControlName="laborcode">
-            <mat-radio-button *ngFor="let lc of laborcodes"
-              [value]="lc.chargeNumber + '|' + lc.extension">
-              {{lc.chargeNumber}} - {{lc.extension}}
-            </mat-radio-button>
+            @for (lc of laborcodes; track lc) {
+              <mat-radio-button
+                [value]="lc.chargeNumber + '|' + lc.extension">
+                {{lc.chargeNumber}} - {{lc.extension}}
+              </mat-radio-button>
+            }
           </mat-radio-group>
         </div>
       </mat-expansion-panel>
@@ -137,8 +157,10 @@
             <mat-form-field class="fieldWidth">
               <mat-label>Assignment Workcenter</mat-label>
               <mat-select formControlName="workcenter">
-                <mat-option *ngFor="let wkctr of workcenters"
+                @for (wkctr of workcenters; track wkctr) {
+                  <mat-option
                   [value]="wkctr.id">{{wkctr.name.toUpperCase()}}</mat-option>
+                }
               </mat-select>
             </mat-form-field>
             <mat-form-field class="fieldWidth">
@@ -149,27 +171,31 @@
               <mat-datepicker #startpicker></mat-datepicker>
             </mat-form-field>
           </div>
-          <app-site-employees-assignment-schedule 
+          <app-site-employees-assignment-schedule
             [site]="site" [width]="width - 100"
             (change)="changeAssignmentSchedule($event)"
             [schedule]="schedule">
           </app-site-employees-assignment-schedule>
         </div>
       </mat-expansion-panel>
-      <mat-expansion-panel style="background-color: lightblue;"
-        *ngIf="newError !== ''" [expanded]="newError !== ''">
-        <mat-expansion-panel-header style="background-color: #3691b0;">
-          <mat-panel-title style="color: white;">Add Problem (Error Message)</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="error">
-          <span style="color: black;">Error: </span>
-          {{newError}}
-        </div>
-      </mat-expansion-panel>
+      @if (newError !== '') {
+        <mat-expansion-panel style="background-color: lightblue;"
+          [expanded]="newError !== ''">
+          <mat-expansion-panel-header style="background-color: #3691b0;">
+            <mat-panel-title style="color: white;">Add Problem (Error Message)</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="error">
+            <span style="color: black;">Error: </span>
+            {{newError}}
+          </div>
+        </mat-expansion-panel>
+      }
     </mat-accordion>
-    <div class="flexlayout row center" *ngIf="employeeForm.valid">
-      <button mat-raised-button color="accent"
-      (click)="addEmployee()">Add</button>
-    </div>
+    @if (employeeForm.valid) {
+      <div class="flexlayout row center">
+        <button mat-raised-button color="accent"
+        (click)="addEmployee()">Add</button>
+      </div>
+    }
   </form>
 </div>

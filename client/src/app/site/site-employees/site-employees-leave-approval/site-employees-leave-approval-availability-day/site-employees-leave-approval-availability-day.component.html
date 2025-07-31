@@ -2,10 +2,12 @@
   <app-site-employees-leave-approval-availability-day-shift
     [viewtype]="'day'" [date]="date" [width]="width">
   </app-site-employees-leave-approval-availability-day-shift>
-  <app-site-employees-leave-approval-availability-day-shift
-    *ngFor="let sid of shiftids; let i = index" [site]="site" 
-    [employeeid]="employeeid" [date]="date" [requestid]="requestid"
-    [workcenterid]="workcenterid" [shiftid]="sid" 
-    [viewtype]="(i % 2 === 0) ? 'even' : 'odd'" [width]="width">
-  </app-site-employees-leave-approval-availability-day-shift>
+  @for (sid of shiftids; track sid; let i = $index) {
+    <app-site-employees-leave-approval-availability-day-shift
+      [site]="site"
+      [employeeid]="employeeid" [date]="date" [requestid]="requestid"
+      [workcenterid]="workcenterid" [shiftid]="sid"
+      [viewtype]="(i % 2 === 0) ? 'even' : 'odd'" [width]="width">
+    </app-site-employees-leave-approval-availability-day-shift>
+  }
 </div>
