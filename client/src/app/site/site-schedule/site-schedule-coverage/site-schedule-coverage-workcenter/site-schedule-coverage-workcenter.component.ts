@@ -4,9 +4,10 @@ import { IWorkcenter, Workcenter } from 'src/app/models/sites/workcenter';
 import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
-  selector: 'app-site-schedule-coverage-workcenter',
-  templateUrl: './site-schedule-coverage-workcenter.component.html',
-  styleUrls: ['./site-schedule-coverage-workcenter.component.scss']
+    selector: 'app-site-schedule-coverage-workcenter',
+    templateUrl: './site-schedule-coverage-workcenter.component.html',
+    styleUrls: ['./site-schedule-coverage-workcenter.component.scss'],
+    standalone: false
 })
 export class SiteScheduleCoverageWorkcenterComponent {
   private _site: Site = new Site();

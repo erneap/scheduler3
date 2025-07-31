@@ -9,9 +9,10 @@ import { Team } from 'src/app/models/teams/team';
 import { Site } from 'src/app/models/sites/site';
 
 @Component({
-  selector: 'app-employee-leave-request-editor-modtime-calendar',
-  templateUrl: './employee-leave-request-editor-modtime-calendar.component.html',
-  styleUrl: './employee-leave-request-editor-modtime-calendar.component.scss'
+    selector: 'app-employee-leave-request-editor-modtime-calendar',
+    templateUrl: './employee-leave-request-editor-modtime-calendar.component.html',
+    styleUrl: './employee-leave-request-editor-modtime-calendar.component.scss',
+    standalone: false
 })
 export class EmployeeLeaveRequestEditorModtimeCalendarComponent {
   private _request: LeaveRequest = new LeaveRequest();

@@ -3,9 +3,10 @@ import { MonthPeriod, WeekPeriod } from '../../site-mod-report-view.model';
 import { Employee } from 'src/app/models/employees/employee';
 
 @Component({
-  selector: 'app-site-mod-report-view-chart-month',
-  templateUrl: './site-mod-report-view-chart-month.component.html',
-  styleUrl: './site-mod-report-view-chart-month.component.scss'
+    selector: 'app-site-mod-report-view-chart-month',
+    templateUrl: './site-mod-report-view-chart-month.component.html',
+    styleUrl: './site-mod-report-view-chart-month.component.scss',
+    standalone: false
 })
 export class SiteModReportViewChartMonthComponent {
   private _month: MonthPeriod = new MonthPeriod();

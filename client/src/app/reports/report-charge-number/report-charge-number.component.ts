@@ -8,9 +8,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-report-charge-number',
-  templateUrl: './report-charge-number.component.html',
-  styleUrls: ['./report-charge-number.component.scss']
+    selector: 'app-report-charge-number',
+    templateUrl: './report-charge-number.component.html',
+    styleUrls: ['./report-charge-number.component.scss'],
+    standalone: false
 })
 export class ReportChargeNumberComponent {
   @Input() reportType: string = '';

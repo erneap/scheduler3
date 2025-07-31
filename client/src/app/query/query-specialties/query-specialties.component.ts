@@ -5,9 +5,10 @@ import { Team } from 'src/app/models/teams/team';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-query-specialties',
-  templateUrl: './query-specialties.component.html',
-  styleUrls: ['./query-specialties.component.scss']
+    selector: 'app-query-specialties',
+    templateUrl: './query-specialties.component.html',
+    styleUrls: ['./query-specialties.component.scss'],
+    standalone: false
 })
 export class QuerySpecialtiesComponent {
   private _employee: Employee = new Employee();

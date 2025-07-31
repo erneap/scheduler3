@@ -11,9 +11,10 @@ import { DialogService } from 'src/app/services/dialog-service.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
-  selector: 'app-site-employees-leave-chart-row',
-  templateUrl: './site-employees-leave-chart-row.component.html',
-  styleUrl: './site-employees-leave-chart-row.component.scss'
+    selector: 'app-site-employees-leave-chart-row',
+    templateUrl: './site-employees-leave-chart-row.component.html',
+    styleUrl: './site-employees-leave-chart-row.component.scss',
+    standalone: false
 })
 export class SiteEmployeesLeaveChartRowComponent {
   private _leave: LeaveDay | undefined;

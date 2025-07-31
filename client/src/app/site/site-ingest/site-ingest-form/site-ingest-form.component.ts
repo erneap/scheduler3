@@ -17,9 +17,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-ingest-form',
-  templateUrl: './site-ingest-form.component.html',
-  styleUrls: ['./site-ingest-form.component.scss']
+    selector: 'app-site-ingest-form',
+    templateUrl: './site-ingest-form.component.html',
+    styleUrls: ['./site-ingest-form.component.scss'],
+    standalone: false
 })
 export class SiteIngestFormComponent {
   team: Team;

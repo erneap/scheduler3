@@ -7,9 +7,10 @@ import { AuthService } from '../services/auth.service';
 import { AppList, ILogList, LogList } from '../models/logs/applist';
 
 @Component({
-  selector: 'app-logs',
-  templateUrl: './logs.component.html',
-  styleUrls: ['./logs.component.scss']
+    selector: 'app-logs',
+    templateUrl: './logs.component.html',
+    styleUrls: ['./logs.component.scss'],
+    standalone: false
 })
 export class LogsComponent {
   logForm: FormGroup;

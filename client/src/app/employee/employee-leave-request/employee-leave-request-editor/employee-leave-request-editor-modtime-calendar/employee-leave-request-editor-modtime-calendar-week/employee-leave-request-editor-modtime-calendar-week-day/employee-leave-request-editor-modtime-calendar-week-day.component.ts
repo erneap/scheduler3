@@ -5,9 +5,10 @@ import { Workcenter } from 'src/app/models/sites/workcenter';
 import { Workcode } from 'src/app/models/teams/workcode';
 
 @Component({
-  selector: 'app-employee-leave-request-editor-modtime-calendar-week-day',
-  templateUrl: './employee-leave-request-editor-modtime-calendar-week-day.component.html',
-  styleUrl: './employee-leave-request-editor-modtime-calendar-week-day.component.scss'
+    selector: 'app-employee-leave-request-editor-modtime-calendar-week-day',
+    templateUrl: './employee-leave-request-editor-modtime-calendar-week-day.component.html',
+    styleUrl: './employee-leave-request-editor-modtime-calendar-week-day.component.scss',
+    standalone: false
 })
 export class EmployeeLeaveRequestEditorModtimeCalendarWeekDayComponent {
   private _leaveDay: LeaveDay = new LeaveDay();

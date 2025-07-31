@@ -10,9 +10,10 @@ import { DialogService } from 'src/app/services/dialog-service.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-team-editor-contacttypes',
-  templateUrl: './team-editor-contacttypes.component.html',
-  styleUrls: ['./team-editor-contacttypes.component.scss']
+    selector: 'app-team-editor-contacttypes',
+    templateUrl: './team-editor-contacttypes.component.html',
+    styleUrls: ['./team-editor-contacttypes.component.scss'],
+    standalone: false
 })
 export class TeamEditorContacttypesComponent {
   private _team: Team = new Team();

@@ -4,9 +4,10 @@ import { ISite, Site } from 'src/app/models/sites/site';
 import { Shift } from 'src/app/models/sites/workcenter';
 
 @Component({
-  selector: 'app-site-schedule-coverage-day',
-  templateUrl: './site-schedule-coverage-day.component.html',
-  styleUrls: ['./site-schedule-coverage-day.component.scss']
+    selector: 'app-site-schedule-coverage-day',
+    templateUrl: './site-schedule-coverage-day.component.html',
+    styleUrls: ['./site-schedule-coverage-day.component.scss'],
+    standalone: false
 })
 export class SiteScheduleCoverageDayComponent {
   private _site: Site = new Site();

@@ -8,9 +8,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-report-mod-time',
-  templateUrl: './report-mod-time.component.html',
-  styleUrls: ['./report-mod-time.component.scss']
+    selector: 'app-report-mod-time',
+    templateUrl: './report-mod-time.component.html',
+    styleUrls: ['./report-mod-time.component.scss'],
+    standalone: false
 })
 export class ReportModTimeComponent {
   @Input() reportType: string = '';

@@ -3,9 +3,10 @@ import { INotification, Notification } from 'src/app/models/employees/notificati
 import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
-  selector: 'app-notifications-message',
-  templateUrl: './notifications-message.component.html',
-  styleUrls: ['./notifications-message.component.scss']
+    selector: 'app-notifications-message',
+    templateUrl: './notifications-message.component.html',
+    styleUrls: ['./notifications-message.component.scss'],
+    standalone: false
 })
 export class NotificationsMessageComponent {
   private _msg: Notification | undefined;

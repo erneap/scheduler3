@@ -4,9 +4,10 @@ import { Workcode } from 'src/app/models/teams/workcode';
 import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
-  selector: 'app-site-schedule-month-day',
-  templateUrl: './site-schedule-month-day.component.html',
-  styleUrls: ['./site-schedule-month-day.component.scss']
+    selector: 'app-site-schedule-month-day',
+    templateUrl: './site-schedule-month-day.component.html',
+    styleUrls: ['./site-schedule-month-day.component.scss'],
+    standalone: false
 })
 export class SiteScheduleMonthDayComponent {
   @Input() workcodes: Workcode[] = [];

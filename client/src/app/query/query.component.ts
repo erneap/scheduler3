@@ -9,9 +9,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Team } from '../models/teams/team';
 
 @Component({
-  selector: 'app-query',
-  templateUrl: './query.component.html',
-  styleUrls: ['./query.component.scss']
+    selector: 'app-query',
+    templateUrl: './query.component.html',
+    styleUrls: ['./query.component.scss'],
+    standalone: false
 })
 export class QueryComponent {
   employees: Employee[] = [];

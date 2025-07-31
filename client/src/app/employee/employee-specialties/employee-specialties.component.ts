@@ -11,9 +11,10 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-employee-specialties',
-  templateUrl: './employee-specialties.component.html',
-  styleUrls: ['./employee-specialties.component.scss']
+    selector: 'app-employee-specialties',
+    templateUrl: './employee-specialties.component.html',
+    styleUrls: ['./employee-specialties.component.scss'],
+    standalone: false
 })
 export class EmployeeSpecialtiesComponent {
   private _team: Team = new Team();

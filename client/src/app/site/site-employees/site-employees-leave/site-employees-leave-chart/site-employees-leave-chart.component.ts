@@ -4,9 +4,10 @@ import { LeaveDay } from 'src/app/models/employees/leave';
 import { Workcode } from 'src/app/models/teams/workcode';
 
 @Component({
-  selector: 'app-site-employees-leave-chart',
-  templateUrl: './site-employees-leave-chart.component.html',
-  styleUrl: './site-employees-leave-chart.component.scss'
+    selector: 'app-site-employees-leave-chart',
+    templateUrl: './site-employees-leave-chart.component.html',
+    styleUrl: './site-employees-leave-chart.component.scss',
+    standalone: false
 })
 export class SiteEmployeesLeaveChartComponent {
   private _employee: Employee = new Employee()

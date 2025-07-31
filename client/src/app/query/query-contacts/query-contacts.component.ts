@@ -5,9 +5,10 @@ import { Team } from 'src/app/models/teams/team';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-query-contacts',
-  templateUrl: './query-contacts.component.html',
-  styleUrls: ['./query-contacts.component.scss']
+    selector: 'app-query-contacts',
+    templateUrl: './query-contacts.component.html',
+    styleUrls: ['./query-contacts.component.scss'],
+    standalone: false
 })
 export class QueryContactsComponent {
   private _employee: Employee = new Employee();

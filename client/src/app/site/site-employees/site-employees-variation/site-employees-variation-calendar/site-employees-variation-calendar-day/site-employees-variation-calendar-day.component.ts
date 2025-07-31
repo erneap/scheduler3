@@ -8,9 +8,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-employees-variation-calendar-day',
-  templateUrl: './site-employees-variation-calendar-day.component.html',
-  styleUrl: './site-employees-variation-calendar-day.component.scss'
+    selector: 'app-site-employees-variation-calendar-day',
+    templateUrl: './site-employees-variation-calendar-day.component.html',
+    styleUrl: './site-employees-variation-calendar-day.component.scss',
+    standalone: false
 })
 export class SiteEmployeesVariationCalendarDayComponent {
   dayStyle: string = 'background-color: white; color: black;';

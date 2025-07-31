@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
-  selector: 'app-site-mod-report-view',
-  templateUrl: './site-mod-report-view.component.html',
-  styleUrls: ['./site-mod-report-view.component.scss']
+    selector: 'app-site-mod-report-view',
+    templateUrl: './site-mod-report-view.component.html',
+    styleUrls: ['./site-mod-report-view.component.scss'],
+    standalone: false
 })
 export class SiteModReportViewComponent {
   width: number = 960;

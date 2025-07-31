@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ListItem } from './listitem';
 
 @Component({
-  selector: 'app-generic-button-list',
-  templateUrl: './button-list.component.html',
-  styleUrls: ['./button-list.component.scss']
+    selector: 'app-generic-button-list',
+    templateUrl: './button-list.component.html',
+    styleUrls: ['./button-list.component.scss'],
+    standalone: false
 })
 export class ButtonListComponent {
   private _items: ListItem[] = [];

@@ -3,6 +3,7 @@ module github.com/erneap/scheduler3/ChangeID
 go 1.23.0
 
 require (
+	github.com/erneap/go-models/v2 v2.1.1
 	github.com/erneap/models/v2 v2.0.7
 	go.mongodb.org/mongo-driver v1.12.1
 )

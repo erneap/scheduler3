@@ -4,9 +4,10 @@ import { Workcode } from 'src/app/models/teams/workcode';
 import { IngestManualChange } from 'src/app/models/web/internalWeb';
 
 @Component({
-  selector: 'app-site-ingest-form-month-employee',
-  templateUrl: './site-ingest-form-month-employee.component.html',
-  styleUrls: ['./site-ingest-form-month-employee.component.scss']
+    selector: 'app-site-ingest-form-month-employee',
+    templateUrl: './site-ingest-form-month-employee.component.html',
+    styleUrls: ['./site-ingest-form-month-employee.component.scss'],
+    standalone: false
 })
 export class SiteIngestFormMonthEmployeeComponent {
   @Input() ingest: string = 'manual';

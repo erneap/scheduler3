@@ -11,9 +11,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-editor-workcenter-position',
-  templateUrl: './site-editor-workcenter-position.component.html',
-  styleUrls: ['./site-editor-workcenter-position.component.scss']
+    selector: 'app-site-editor-workcenter-position',
+    templateUrl: './site-editor-workcenter-position.component.html',
+    styleUrls: ['./site-editor-workcenter-position.component.scss'],
+    standalone: false
 })
 export class SiteEditorWorkcenterPositionComponent {
   private _wkctr: Workcenter = new Workcenter();

@@ -11,9 +11,10 @@ import { DialogService } from 'src/app/services/dialog-service.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-team-editor-company-holiday',
-  templateUrl: './team-editor-company-holiday.component.html',
-  styleUrls: ['./team-editor-company-holiday.component.scss']
+    selector: 'app-team-editor-company-holiday',
+    templateUrl: './team-editor-company-holiday.component.html',
+    styleUrls: ['./team-editor-company-holiday.component.scss'],
+    standalone: false
 })
 export class TeamEditorCompanyHolidayComponent {
   private _team: Team = new Team();

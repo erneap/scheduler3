@@ -7,9 +7,10 @@ export interface DeletionMessage {
 }
 
 @Component({
-  selector: 'app-deletion-confirmation',
-  templateUrl: './deletion-confirmation.component.html',
-  styleUrls: ['./deletion-confirmation.component.scss']
+    selector: 'app-deletion-confirmation',
+    templateUrl: './deletion-confirmation.component.html',
+    styleUrls: ['./deletion-confirmation.component.scss'],
+    standalone: false
 })
 export class DeletionConfirmationComponent {
   yes: string = 'yes';

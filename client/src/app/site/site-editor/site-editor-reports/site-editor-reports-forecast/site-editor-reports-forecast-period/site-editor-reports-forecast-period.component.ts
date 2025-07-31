@@ -10,9 +10,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-editor-reports-forecast-period',
-  templateUrl: './site-editor-reports-forecast-period.component.html',
-  styleUrls: ['./site-editor-reports-forecast-period.component.scss']
+    selector: 'app-site-editor-reports-forecast-period',
+    templateUrl: './site-editor-reports-forecast-period.component.html',
+    styleUrls: ['./site-editor-reports-forecast-period.component.scss'],
+    standalone: false
 })
 export class SiteEditorReportsForecastPeriodComponent {
   private _report: ForecastReport = new ForecastReport();

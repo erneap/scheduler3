@@ -4,9 +4,10 @@ import { ISite, Site } from 'src/app/models/sites/site';
 import { Shift } from 'src/app/models/sites/workcenter';
 
 @Component({
-  selector: 'app-site-employees-leave-approval-availability-day-shift',
-  templateUrl: './site-employees-leave-approval-availability-day-shift.component.html',
-  styleUrls: ['./site-employees-leave-approval-availability-day-shift.component.scss']
+    selector: 'app-site-employees-leave-approval-availability-day-shift',
+    templateUrl: './site-employees-leave-approval-availability-day-shift.component.html',
+    styleUrls: ['./site-employees-leave-approval-availability-day-shift.component.scss'],
+    standalone: false
 })
 export class SiteEmployeesLeaveApprovalAvailabilityDayShiftComponent {
   private _site: Site = new Site();

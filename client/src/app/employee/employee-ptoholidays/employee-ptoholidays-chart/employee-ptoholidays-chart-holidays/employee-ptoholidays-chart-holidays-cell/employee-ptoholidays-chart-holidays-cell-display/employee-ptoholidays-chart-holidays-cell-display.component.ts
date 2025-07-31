@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { ILeaveDay, LeaveDay } from 'src/app/models/employees/leave';
 
 @Component({
-  selector: 'app-employee-ptoholidays-chart-holidays-cell-display',
-  templateUrl: './employee-ptoholidays-chart-holidays-cell-display.component.html',
-  styleUrl: './employee-ptoholidays-chart-holidays-cell-display.component.scss'
+    selector: 'app-employee-ptoholidays-chart-holidays-cell-display',
+    templateUrl: './employee-ptoholidays-chart-holidays-cell-display.component.html',
+    styleUrl: './employee-ptoholidays-chart-holidays-cell-display.component.scss',
+    standalone: false
 })
 export class EmployeePTOHolidaysChartHolidaysCellDisplayComponent {
   private _holiday: LeaveDay = new LeaveDay();

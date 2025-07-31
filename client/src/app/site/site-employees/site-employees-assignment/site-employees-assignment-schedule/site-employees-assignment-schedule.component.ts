@@ -7,9 +7,10 @@ import { ISchedule, Schedule, Workday } from 'src/app/models/employees/assignmen
 import { ISite, Site } from 'src/app/models/sites/site';
 
 @Component({
-  selector: 'app-site-employees-assignment-schedule',
-  templateUrl: './site-employees-assignment-schedule.component.html',
-  styleUrls: ['./site-employees-assignment-schedule.component.scss']
+    selector: 'app-site-employees-assignment-schedule',
+    templateUrl: './site-employees-assignment-schedule.component.html',
+    styleUrls: ['./site-employees-assignment-schedule.component.scss'],
+    standalone: false
 })
 export class SiteEmployeesAssignmentScheduleComponent {
   private _schedule: Schedule = new Schedule();

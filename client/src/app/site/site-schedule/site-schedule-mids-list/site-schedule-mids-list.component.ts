@@ -5,9 +5,10 @@ import { WebEmployeeVariation } from 'src/app/models/web/internalWeb';
 import { SiteService } from 'src/app/services/site.service';
 
 @Component({
-  selector: 'app-site-schedule-mids-list',
-  templateUrl: './site-schedule-mids-list.component.html',
-  styleUrls: ['./site-schedule-mids-list.component.scss']
+    selector: 'app-site-schedule-mids-list',
+    templateUrl: './site-schedule-mids-list.component.html',
+    styleUrls: ['./site-schedule-mids-list.component.scss'],
+    standalone: false
 })
 export class SiteScheduleMidsListComponent {
   midList: WebEmployeeVariation[] = [];

@@ -8,9 +8,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DialogService } from 'src/app/services/dialog-service.service';
 
 @Component({
-  selector: 'app-admin-users-tool',
-  templateUrl: './admin-users-tool.component.html',
-  styleUrls: ['./admin-users-tool.component.scss']
+    selector: 'app-admin-users-tool',
+    templateUrl: './admin-users-tool.component.html',
+    styleUrls: ['./admin-users-tool.component.scss'],
+    standalone: false
 })
 export class AdminUsersToolComponent {
   userList: User[] = [];

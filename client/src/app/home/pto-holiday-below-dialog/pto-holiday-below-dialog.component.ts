@@ -2,9 +2,10 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-pto-holiday-below-dialog',
-  templateUrl: './pto-holiday-below-dialog.component.html',
-  styleUrls: ['./pto-holiday-below-dialog.component.scss']
+    selector: 'app-pto-holiday-below-dialog',
+    templateUrl: './pto-holiday-below-dialog.component.html',
+    styleUrls: ['./pto-holiday-below-dialog.component.scss'],
+    standalone: false
 })
 export class PtoHolidayBelowDialogComponent {
   showPTO: boolean = true;

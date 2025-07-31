@@ -10,9 +10,10 @@ import { DialogService } from 'src/app/services/dialog-service.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-team-editor-specialtytypes',
-  templateUrl: './team-editor-specialtytypes.component.html',
-  styleUrls: ['./team-editor-specialtytypes.component.scss']
+    selector: 'app-team-editor-specialtytypes',
+    templateUrl: './team-editor-specialtytypes.component.html',
+    styleUrls: ['./team-editor-specialtytypes.component.scss'],
+    standalone: false
 })
 export class TeamEditorSpecialtytypesComponent {
   private _team: Team = new Team();

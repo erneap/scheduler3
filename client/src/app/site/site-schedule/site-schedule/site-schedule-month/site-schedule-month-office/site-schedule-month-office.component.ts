@@ -6,9 +6,10 @@ import { Workcode } from 'src/app/models/teams/workcode';
 import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
-  selector: 'app-site-schedule-month-office',
-  templateUrl: './site-schedule-month-office.component.html',
-  styleUrls: ['./site-schedule-month-office.component.scss']
+    selector: 'app-site-schedule-month-office',
+    templateUrl: './site-schedule-month-office.component.html',
+    styleUrls: ['./site-schedule-month-office.component.scss'],
+    standalone: false
 })
 export class SiteScheduleMonthOfficeComponent {
   private _site: Site = new Site();

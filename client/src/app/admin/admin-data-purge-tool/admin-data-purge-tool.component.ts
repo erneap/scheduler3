@@ -8,9 +8,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DialogService } from 'src/app/services/dialog-service.service';
 
 @Component({
-  selector: 'app-admin-data-purge-tool',
-  templateUrl: './admin-data-purge-tool.component.html',
-  styleUrls: ['./admin-data-purge-tool.component.scss']
+    selector: 'app-admin-data-purge-tool',
+    templateUrl: './admin-data-purge-tool.component.html',
+    styleUrls: ['./admin-data-purge-tool.component.scss'],
+    standalone: false
 })
 export class AdminDataPurgeToolComponent {
   purgeForm: FormGroup;

@@ -10,9 +10,10 @@ import { DialogService } from 'src/app/services/dialog-service.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
-  selector: 'app-employee-leave-request',
-  templateUrl: './employee-leave-request.component.html',
-  styleUrls: ['./employee-leave-request.component.scss']
+    selector: 'app-employee-leave-request',
+    templateUrl: './employee-leave-request.component.html',
+    styleUrls: ['./employee-leave-request.component.scss'],
+    standalone: false
 })
 export class EmployeeLeaveRequestComponent {
   private _employee: Employee = new Employee();

@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
-  selector: 'app-site-schedule',
-  templateUrl: './site-schedule.component.html',
-  styleUrls: ['./site-schedule.component.scss']
+    selector: 'app-site-schedule',
+    templateUrl: './site-schedule.component.html',
+    styleUrls: ['./site-schedule.component.scss'],
+    standalone: false
 })
 export class SiteScheduleComponent {
   constructor(

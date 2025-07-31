@@ -9,9 +9,10 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { SiteService } from 'src/app/services/site.service';
 
 @Component({
-  selector: 'app-site-employees-leave-balance-year',
-  templateUrl: './site-employees-leave-balance-year.component.html',
-  styleUrls: ['./site-employees-leave-balance-year.component.scss']
+    selector: 'app-site-employees-leave-balance-year',
+    templateUrl: './site-employees-leave-balance-year.component.html',
+    styleUrls: ['./site-employees-leave-balance-year.component.scss'],
+    standalone: false
 })
 export class SiteEmployeesLeaveBalanceYearComponent {
   private _employee: Employee = new Employee();

@@ -10,9 +10,10 @@ import { DialogService } from 'src/app/services/dialog-service.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-team-editor-workcode',
-  templateUrl: './team-editor-workcode.component.html',
-  styleUrls: ['./team-editor-workcode.component.scss']
+    selector: 'app-team-editor-workcode',
+    templateUrl: './team-editor-workcode.component.html',
+    styleUrls: ['./team-editor-workcode.component.scss'],
+    standalone: false
 })
 export class TeamEditorWorkcodeComponent {
   @Input() width: number = 1200;

@@ -10,9 +10,10 @@ import { DialogService } from 'src/app/services/dialog-service.service';
 import { Team } from 'src/app/models/teams/team';
 
 @Component({
-  selector: 'app-site-mod-report-view-chart',
-  templateUrl: './site-mod-report-view-chart.component.html',
-  styleUrl: './site-mod-report-view-chart.component.scss'
+    selector: 'app-site-mod-report-view-chart',
+    templateUrl: './site-mod-report-view-chart.component.html',
+    styleUrl: './site-mod-report-view-chart.component.scss',
+    standalone: false
 })
 export class SiteModReportViewChartComponent {
   private _width: number = 700;

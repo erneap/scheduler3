@@ -10,9 +10,10 @@ import { DialogService } from 'src/app/services/dialog-service.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-admin-teams-editor',
-  templateUrl: './admin-teams-editor.component.html',
-  styleUrls: ['./admin-teams-editor.component.scss']
+    selector: 'app-admin-teams-editor',
+    templateUrl: './admin-teams-editor.component.html',
+    styleUrls: ['./admin-teams-editor.component.scss'],
+    standalone: false
 })
 export class AdminTeamsEditorComponent {
   teams: Team[] = [];

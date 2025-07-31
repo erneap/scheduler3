@@ -15,9 +15,10 @@ export class LeaveWeek {
 }
 
 @Component({
-  selector: 'app-employee-leave-request-editor-calendar',
-  templateUrl: './employee-leave-request-editor-calendar.component.html',
-  styleUrls: ['./employee-leave-request-editor-calendar.component.scss']
+    selector: 'app-employee-leave-request-editor-calendar',
+    templateUrl: './employee-leave-request-editor-calendar.component.html',
+    styleUrls: ['./employee-leave-request-editor-calendar.component.scss'],
+    standalone: false
 })
 export class EmployeeLeaveRequestEditorCalendarComponent {
   private _request: LeaveRequest = new LeaveRequest();

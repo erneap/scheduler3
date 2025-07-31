@@ -8,9 +8,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-report-leave-list',
-  templateUrl: './report-leave-list.component.html',
-  styleUrls: ['./report-leave-list.component.scss']
+    selector: 'app-report-leave-list',
+    templateUrl: './report-leave-list.component.html',
+    styleUrls: ['./report-leave-list.component.scss'],
+    standalone: false
 })
 export class ReportLeaveListComponent {
 

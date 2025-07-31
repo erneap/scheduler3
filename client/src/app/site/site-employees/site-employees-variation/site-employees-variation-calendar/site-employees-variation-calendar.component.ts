@@ -6,9 +6,10 @@ import { IVariation, Variation, Workday } from 'src/app/models/employees/assignm
 import { ISite, Site } from 'src/app/models/sites/site';
 
 @Component({
-  selector: 'app-site-employees-variation-calendar',
-  templateUrl: './site-employees-variation-calendar.component.html',
-  styleUrl: './site-employees-variation-calendar.component.scss'
+    selector: 'app-site-employees-variation-calendar',
+    templateUrl: './site-employees-variation-calendar.component.html',
+    styleUrl: './site-employees-variation-calendar.component.scss',
+    standalone: false
 })
 export class SiteEmployeesVariationCalendarComponent {
   private _variation: Variation = new Variation();

@@ -14,9 +14,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-team-editor-site-editor-new-site',
-  templateUrl: './team-editor-site-editor-new-site.component.html',
-  styleUrls: ['./team-editor-site-editor-new-site.component.scss']
+    selector: 'app-team-editor-site-editor-new-site',
+    templateUrl: './team-editor-site-editor-new-site.component.html',
+    styleUrls: ['./team-editor-site-editor-new-site.component.scss'],
+    standalone: false
 })
 export class TeamEditorSiteEditorNewSiteComponent {
   private _team: Team = new Team()

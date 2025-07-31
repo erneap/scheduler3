@@ -3,9 +3,10 @@ import { Site } from 'src/app/models/sites/site';
 import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
-  selector: 'app-site-ingest',
-  templateUrl: './site-ingest.component.html',
-  styleUrls: ['./site-ingest.component.scss']
+    selector: 'app-site-ingest',
+    templateUrl: './site-ingest.component.html',
+    styleUrls: ['./site-ingest.component.scss'],
+    standalone: false
 })
 export class SiteIngestComponent {
   constructor(

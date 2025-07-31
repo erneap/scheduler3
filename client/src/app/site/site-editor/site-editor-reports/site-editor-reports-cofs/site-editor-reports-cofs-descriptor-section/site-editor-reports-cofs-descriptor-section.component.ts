@@ -15,9 +15,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-editor-reports-cofs-descriptor-section',
-  templateUrl: './site-editor-reports-cofs-descriptor-section.component.html',
-  styleUrls: ['./site-editor-reports-cofs-descriptor-section.component.scss']
+    selector: 'app-site-editor-reports-cofs-descriptor-section',
+    templateUrl: './site-editor-reports-cofs-descriptor-section.component.html',
+    styleUrls: ['./site-editor-reports-cofs-descriptor-section.component.scss'],
+    standalone: false
 })
 export class SiteEditorReportsCofsDescriptorSectionComponent {
   private _site: Site = new Site();

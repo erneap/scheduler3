@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
-  selector: 'app-employee-profile',
-  templateUrl: './employee-profile.component.html',
-  styleUrls: ['./employee-profile.component.scss']
+    selector: 'app-employee-profile',
+    templateUrl: './employee-profile.component.html',
+    styleUrls: ['./employee-profile.component.scss'],
+    standalone: false
 })
 export class EmployeeProfileComponent {
   width: number = 800;

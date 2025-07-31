@@ -4,9 +4,10 @@ import { MessageService } from 'src/app/services/message.service';
 const { version: appVersion } = require('../../../../package.json');
 
 @Component({
-  selector: 'app-statusbar',
-  templateUrl: './statusbar.component.html',
-  styleUrls: ['./statusbar.component.scss']
+    selector: 'app-statusbar',
+    templateUrl: './statusbar.component.html',
+    styleUrls: ['./statusbar.component.scss'],
+    standalone: false
 })
 export class StatusbarComponent {
   appVersion: string = "";

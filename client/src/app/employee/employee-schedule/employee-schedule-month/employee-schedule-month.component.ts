@@ -14,9 +14,10 @@ import { Site } from 'src/app/models/sites/site';
 import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
-  selector: 'app-employee-schedule-month',
-  templateUrl: './employee-schedule-month.component.html',
-  styleUrls: ['./employee-schedule-month.component.scss']
+    selector: 'app-employee-schedule-month',
+    templateUrl: './employee-schedule-month.component.html',
+    styleUrls: ['./employee-schedule-month.component.scss'],
+    standalone: false
 })
 export class EmployeeScheduleMonthComponent {
   @Input() workcenters: Workcenter[] = [];

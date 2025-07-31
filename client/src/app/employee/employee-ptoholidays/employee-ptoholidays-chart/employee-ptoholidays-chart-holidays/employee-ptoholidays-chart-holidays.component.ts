@@ -9,9 +9,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-employee-ptoholidays-chart-holidays',
-  templateUrl: './employee-ptoholidays-chart-holidays.component.html',
-  styleUrl: './employee-ptoholidays-chart-holidays.component.scss'
+    selector: 'app-employee-ptoholidays-chart-holidays',
+    templateUrl: './employee-ptoholidays-chart-holidays.component.html',
+    styleUrl: './employee-ptoholidays-chart-holidays.component.scss',
+    standalone: false
 })
 export class EmployeePTOHolidaysChartHolidaysComponent {
   private _year: number = (new Date()).getUTCFullYear();

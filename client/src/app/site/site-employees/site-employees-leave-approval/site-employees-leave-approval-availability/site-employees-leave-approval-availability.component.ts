@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { ISite, Site } from 'src/app/models/sites/site';
 
 @Component({
-  selector: 'app-site-employees-leave-approval-availability',
-  templateUrl: './site-employees-leave-approval-availability.component.html',
-  styleUrls: ['./site-employees-leave-approval-availability.component.scss']
+    selector: 'app-site-employees-leave-approval-availability',
+    templateUrl: './site-employees-leave-approval-availability.component.html',
+    styleUrls: ['./site-employees-leave-approval-availability.component.scss'],
+    standalone: false
 })
 export class SiteEmployeesLeaveApprovalAvailabilityComponent {
   private _site: Site = new Site();

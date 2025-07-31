@@ -7,9 +7,10 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-employee-contact-info',
-  templateUrl: './employee-contact-info.component.html',
-  styleUrls: ['./employee-contact-info.component.scss']
+    selector: 'app-employee-contact-info',
+    templateUrl: './employee-contact-info.component.html',
+    styleUrls: ['./employee-contact-info.component.scss'],
+    standalone: false
 })
 export class EmployeeContactInfoComponent {
   private _team: Team = new Team();

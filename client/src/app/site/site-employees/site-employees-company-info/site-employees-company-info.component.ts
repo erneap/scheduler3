@@ -10,9 +10,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-employees-company-info',
-  templateUrl: './site-employees-company-info.component.html',
-  styleUrls: ['./site-employees-company-info.component.scss']
+    selector: 'app-site-employees-company-info',
+    templateUrl: './site-employees-company-info.component.html',
+    styleUrls: ['./site-employees-company-info.component.scss'],
+    standalone: false
 })
 export class SiteEmployeesCompanyInfoComponent {
   private _employee: Employee = new Employee();

@@ -4,9 +4,10 @@ import { Workcode } from 'src/app/models/teams/workcode';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-schedule-legend',
-  templateUrl: './site-schedule-legend.component.html',
-  styleUrls: ['./site-schedule-legend.component.scss']
+    selector: 'app-site-schedule-legend',
+    templateUrl: './site-schedule-legend.component.html',
+    styleUrls: ['./site-schedule-legend.component.scss'],
+    standalone: false
 })
 export class SiteScheduleLegendComponent {
   leavecodes: Workcode[];

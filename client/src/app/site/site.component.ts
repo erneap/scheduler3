@@ -7,9 +7,10 @@ import { SiteService } from '../services/site.service';
 import { TeamService } from '../services/team.service';
 
 @Component({
-  selector: 'app-site',
-  templateUrl: './site.component.html',
-  styleUrls: ['./site.component.scss']
+    selector: 'app-site',
+    templateUrl: './site.component.html',
+    styleUrls: ['./site.component.scss'],
+    standalone: false
 })
 export class SiteComponent {
   private _site: Site = new Site();

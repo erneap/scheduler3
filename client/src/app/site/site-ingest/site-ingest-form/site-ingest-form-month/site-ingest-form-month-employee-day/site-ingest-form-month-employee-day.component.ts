@@ -6,9 +6,10 @@ import { IngestManualChange } from 'src/app/models/web/internalWeb';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
-  selector: 'app-site-ingest-form-month-employee-day',
-  templateUrl: './site-ingest-form-month-employee-day.component.html',
-  styleUrls: ['./site-ingest-form-month-employee-day.component.scss']
+    selector: 'app-site-ingest-form-month-employee-day',
+    templateUrl: './site-ingest-form-month-employee-day.component.html',
+    styleUrls: ['./site-ingest-form-month-employee-day.component.scss'],
+    standalone: false
 })
 export class SiteIngestFormMonthEmployeeDayComponent {
   @Input() ingest: string = 'manual';

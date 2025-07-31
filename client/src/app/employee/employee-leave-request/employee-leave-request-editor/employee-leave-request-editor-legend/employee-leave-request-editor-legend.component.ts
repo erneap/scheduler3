@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { Workcode } from 'src/app/models/teams/workcode';
 
 @Component({
-  selector: 'app-employee-leave-request-editor-legend',
-  templateUrl: './employee-leave-request-editor-legend.component.html',
-  styleUrls: ['./employee-leave-request-editor-legend.component.scss']
+    selector: 'app-employee-leave-request-editor-legend',
+    templateUrl: './employee-leave-request-editor-legend.component.html',
+    styleUrls: ['./employee-leave-request-editor-legend.component.scss'],
+    standalone: false
 })
 export class EmployeeLeaveRequestEditorLegendComponent {
   @Input() leavecodes: Workcode[] = [];

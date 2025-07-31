@@ -6,9 +6,10 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-employee-ptoholidays-chart',
-  templateUrl: './employee-ptoholidays-chart.component.html',
-  styleUrl: './employee-ptoholidays-chart.component.scss'
+    selector: 'app-employee-ptoholidays-chart',
+    templateUrl: './employee-ptoholidays-chart.component.html',
+    styleUrl: './employee-ptoholidays-chart.component.scss',
+    standalone: false
 })
 export class EmployeePTOHolidaysChartComponent {
   private _employee: Employee = new Employee();

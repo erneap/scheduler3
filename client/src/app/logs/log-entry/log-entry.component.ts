@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { LogEntry } from 'src/app/models/logs/logentry';
 
 @Component({
-  selector: 'app-log-entry',
-  templateUrl: './log-entry.component.html',
-  styleUrls: ['./log-entry.component.scss']
+    selector: 'app-log-entry',
+    templateUrl: './log-entry.component.html',
+    styleUrls: ['./log-entry.component.scss'],
+    standalone: false
 })
 export class LogEntryComponent {
   private _entry: LogEntry = new LogEntry();

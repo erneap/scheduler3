@@ -15,9 +15,10 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { SiteService } from 'src/app/services/site.service';
 
 @Component({
-  selector: 'app-employee-profile-form',
-  templateUrl: './employee-profile-form.component.html',
-  styleUrls: ['./employee-profile-form.component.scss']
+    selector: 'app-employee-profile-form',
+    templateUrl: './employee-profile-form.component.html',
+    styleUrls: ['./employee-profile-form.component.scss'],
+    standalone: false
 })
 export class EmployeeProfileFormComponent {
   private _employee: Employee | undefined;

@@ -4,9 +4,10 @@ import { CompanyHoliday } from 'src/app/models/teams/company';
 import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
-  selector: 'app-employee-ptoholidays-chart-holidays-cell',
-  templateUrl: './employee-ptoholidays-chart-holidays-cell.component.html',
-  styleUrl: './employee-ptoholidays-chart-holidays-cell.component.scss'
+    selector: 'app-employee-ptoholidays-chart-holidays-cell',
+    templateUrl: './employee-ptoholidays-chart-holidays-cell.component.html',
+    styleUrl: './employee-ptoholidays-chart-holidays-cell.component.scss',
+    standalone: false
 })
 export class EmployeePTOHolidaysChartHolidaysCellComponent {
   private _holiday: CompanyHoliday = new CompanyHoliday(); 

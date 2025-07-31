@@ -17,9 +17,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-forgot-password-reset',
-  templateUrl: './forgot-password-reset.component.html',
-  styleUrls: ['./forgot-password-reset.component.scss']
+    selector: 'app-forgot-password-reset',
+    templateUrl: './forgot-password-reset.component.html',
+    styleUrls: ['./forgot-password-reset.component.scss'],
+    standalone: false
 })
 export class ForgotPasswordResetComponent {
   changeForm: FormGroup;

@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 @Component({
-  selector: 'app-site-employees-leave-balance-dialog',
-  templateUrl: './site-employees-leave-balance-dialog.component.html',
-  styleUrls: ['./site-employees-leave-balance-dialog.component.scss']
+    selector: 'app-site-employees-leave-balance-dialog',
+    templateUrl: './site-employees-leave-balance-dialog.component.html',
+    styleUrls: ['./site-employees-leave-balance-dialog.component.scss'],
+    standalone: false
 })
 export class SiteEmployeesLeaveBalanceDialogComponent {
   balanceForm: FormGroup;

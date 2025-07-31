@@ -3,9 +3,10 @@ import { LeaveMonth } from 'src/app/models/employees/leave';
 import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
-  selector: 'app-employee-ptoholidays-chart-ptomonth',
-  templateUrl: './employee-ptoholidays-chart-ptomonth.component.html',
-  styleUrl: './employee-ptoholidays-chart-ptomonth.component.scss'
+    selector: 'app-employee-ptoholidays-chart-ptomonth',
+    templateUrl: './employee-ptoholidays-chart-ptomonth.component.html',
+    styleUrl: './employee-ptoholidays-chart-ptomonth.component.scss',
+    standalone: false
 })
 export class EmployeePTOHolidaysChartPTOMonthComponent {
   private _month: LeaveMonth = new LeaveMonth();

@@ -17,18 +17,19 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { SiteService } from 'src/app/services/site.service';
 
 @Component({
-  selector: 'app-site-employees-assignment',
-  templateUrl: './site-employees-assignment.component.html',
-  styleUrls: ['./site-employees-assignment.component.scss'],
-  providers: [
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true}},
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
-  ]
+    selector: 'app-site-employees-assignment',
+    templateUrl: './site-employees-assignment.component.html',
+    styleUrls: ['./site-employees-assignment.component.scss'],
+    providers: [
+        { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+        },
+        { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    ],
+    standalone: false
 })
 export class SiteEmployeesAssignmentComponent {
   private _employee: Employee = new Employee();

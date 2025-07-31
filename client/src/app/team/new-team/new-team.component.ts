@@ -11,9 +11,10 @@ import { DialogService } from 'src/app/services/dialog-service.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-new-team',
-  templateUrl: './new-team.component.html',
-  styleUrls: ['./new-team.component.scss']
+    selector: 'app-new-team',
+    templateUrl: './new-team.component.html',
+    styleUrls: ['./new-team.component.scss'],
+    standalone: false
 })
 export class NewTeamComponent {
   @Output() added = new EventEmitter<Team>();

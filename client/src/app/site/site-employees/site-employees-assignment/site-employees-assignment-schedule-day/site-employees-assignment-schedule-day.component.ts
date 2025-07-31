@@ -8,9 +8,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-employees-assignment-schedule-day',
-  templateUrl: './site-employees-assignment-schedule-day.component.html',
-  styleUrls: ['./site-employees-assignment-schedule-day.component.scss']
+    selector: 'app-site-employees-assignment-schedule-day',
+    templateUrl: './site-employees-assignment-schedule-day.component.html',
+    styleUrls: ['./site-employees-assignment-schedule-day.component.scss'],
+    standalone: false
 })
 export class SiteEmployeesAssignmentScheduleDayComponent {
   dayStyle: string = 'background-color: white; color: black;';

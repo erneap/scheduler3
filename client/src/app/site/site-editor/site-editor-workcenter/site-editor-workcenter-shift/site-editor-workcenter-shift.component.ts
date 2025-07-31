@@ -14,9 +14,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-editor-workcenter-shift',
-  templateUrl: './site-editor-workcenter-shift.component.html',
-  styleUrls: ['./site-editor-workcenter-shift.component.scss']
+    selector: 'app-site-editor-workcenter-shift',
+    templateUrl: './site-editor-workcenter-shift.component.html',
+    styleUrls: ['./site-editor-workcenter-shift.component.scss'],
+    standalone: false
 })
 export class SiteEditorWorkcenterShiftComponent {
   private _wkctr: Workcenter = new Workcenter();

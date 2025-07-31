@@ -13,9 +13,10 @@ import { SiteResponse } from 'src/app/models/web/siteWeb';
 import { EmployeeResponse } from 'src/app/models/web/employeeWeb';
 
 @Component({
-  selector: 'app-site-employees-leave-balance',
-  templateUrl: './site-employees-leave-balance.component.html',
-  styleUrls: ['./site-employees-leave-balance.component.scss']
+    selector: 'app-site-employees-leave-balance',
+    templateUrl: './site-employees-leave-balance.component.html',
+    styleUrls: ['./site-employees-leave-balance.component.scss'],
+    standalone: false
 })
 export class SiteEmployeesLeaveBalanceComponent {
   private _employee: Employee = new Employee();

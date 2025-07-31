@@ -3,9 +3,10 @@ import { Employee, IEmployee } from 'src/app/models/employees/employee';
 import { Workcode } from 'src/app/models/teams/workcode';
 
 @Component({
-  selector: 'app-site-schedule-month-days',
-  templateUrl: './site-schedule-month-days.component.html',
-  styleUrls: ['./site-schedule-month-days.component.scss']
+    selector: 'app-site-schedule-month-days',
+    templateUrl: './site-schedule-month-days.component.html',
+    styleUrls: ['./site-schedule-month-days.component.scss'],
+    standalone: false
 })
 export class SiteScheduleMonthDaysComponent {
   @Input() workcodes: Workcode[] = [];

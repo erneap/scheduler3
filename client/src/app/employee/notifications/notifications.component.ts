@@ -8,9 +8,10 @@ import { DialogService } from 'src/app/services/dialog-service.service';
 import { MessageService } from 'src/app/services/message.service';
 
 @Component({
-  selector: 'app-notifications',
-  templateUrl: './notifications.component.html',
-  styleUrls: ['./notifications.component.scss']
+    selector: 'app-notifications',
+    templateUrl: './notifications.component.html',
+    styleUrls: ['./notifications.component.scss'],
+    standalone: false
 })
 export class NotificationsComponent {
   messages: Notification[] = []

@@ -7,9 +7,10 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-employee-ptoholidays',
-  templateUrl: './employee-ptoholidays.component.html',
-  styleUrl: './employee-ptoholidays.component.scss'
+    selector: 'app-employee-ptoholidays',
+    templateUrl: './employee-ptoholidays.component.html',
+    styleUrl: './employee-ptoholidays.component.scss',
+    standalone: false
 })
 export class EmployeePtoholidaysComponent {
   @Input() width: number = 920;

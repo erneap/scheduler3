@@ -5,9 +5,10 @@ import { Workcode } from 'src/app/models/teams/workcode';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-employee-schedule-day',
-  templateUrl: './employee-schedule-day.component.html',
-  styleUrls: ['./employee-schedule-day.component.scss']
+    selector: 'app-employee-schedule-day',
+    templateUrl: './employee-schedule-day.component.html',
+    styleUrls: ['./employee-schedule-day.component.scss'],
+    standalone: false
 })
 export class EmployeeScheduleDayComponent {
   private _workday: Workday = new Workday();

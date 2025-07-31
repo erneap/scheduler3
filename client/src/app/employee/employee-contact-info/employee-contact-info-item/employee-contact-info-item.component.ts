@@ -9,9 +9,10 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { SiteService } from 'src/app/services/site.service';
 
 @Component({
-  selector: 'app-employee-contact-info-item',
-  templateUrl: './employee-contact-info-item.component.html',
-  styleUrls: ['./employee-contact-info-item.component.scss']
+    selector: 'app-employee-contact-info-item',
+    templateUrl: './employee-contact-info-item.component.html',
+    styleUrls: ['./employee-contact-info-item.component.scss'],
+    standalone: false
 })
 export class EmployeeContactInfoItemComponent {
   private _contactType: ContactType | undefined;

@@ -5,9 +5,10 @@ import { AppStateService } from 'src/app/services/app-state.service';
 import { User } from 'src/app/models/users/user';
 
 @Component({
-  selector: 'app-navigation-menu',
-  templateUrl: './navigation-menu.component.html',
-  styleUrls: ['./navigation-menu.component.scss']
+    selector: 'app-navigation-menu',
+    templateUrl: './navigation-menu.component.html',
+    styleUrls: ['./navigation-menu.component.scss'],
+    standalone: false
 })
 export class NavigationMenuComponent {
   @Input() user: User | undefined;

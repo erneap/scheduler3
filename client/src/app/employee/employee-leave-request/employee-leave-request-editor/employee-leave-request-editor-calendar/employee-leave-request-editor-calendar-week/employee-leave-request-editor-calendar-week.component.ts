@@ -3,9 +3,10 @@ import { ILeaveDay, LeaveDay } from 'src/app/models/employees/leave';
 import { Workcode } from 'src/app/models/teams/workcode';
 
 @Component({
-  selector: 'app-employee-leave-request-editor-calendar-week',
-  templateUrl: './employee-leave-request-editor-calendar-week.component.html',
-  styleUrls: ['./employee-leave-request-editor-calendar-week.component.scss']
+    selector: 'app-employee-leave-request-editor-calendar-week',
+    templateUrl: './employee-leave-request-editor-calendar-week.component.html',
+    styleUrls: ['./employee-leave-request-editor-calendar-week.component.scss'],
+    standalone: false
 })
 export class EmployeeLeaveRequestEditorCalendarWeekComponent {
   private _weekdays: LeaveDay[] = [];

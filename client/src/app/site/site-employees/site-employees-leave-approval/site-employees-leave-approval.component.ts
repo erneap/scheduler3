@@ -12,9 +12,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-employees-leave-approval',
-  templateUrl: './site-employees-leave-approval.component.html',
-  styleUrls: ['./site-employees-leave-approval.component.scss']
+    selector: 'app-site-employees-leave-approval',
+    templateUrl: './site-employees-leave-approval.component.html',
+    styleUrls: ['./site-employees-leave-approval.component.scss'],
+    standalone: false
 })
 export class SiteEmployeesLeaveApprovalComponent {
   private _site: Site;

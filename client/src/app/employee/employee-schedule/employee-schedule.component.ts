@@ -5,9 +5,10 @@ import { AppStateService } from 'src/app/services/app-state.service';
 import { SiteService } from 'src/app/services/site.service';
 
 @Component({
-  selector: 'app-employee-schedule',
-  templateUrl: './employee-schedule.component.html',
-  styleUrls: ['./employee-schedule.component.scss']
+    selector: 'app-employee-schedule',
+    templateUrl: './employee-schedule.component.html',
+    styleUrls: ['./employee-schedule.component.scss'],
+    standalone: false
 })
 export class EmployeeScheduleComponent {
   workcenters: Workcenter[] = []

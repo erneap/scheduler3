@@ -5,9 +5,10 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-employee-ptoholidays-chart-ptomonth-dates',
-  templateUrl: './employee-ptoholidays-chart-ptomonth-dates.component.html',
-  styleUrl: './employee-ptoholidays-chart-ptomonth-dates.component.scss'
+    selector: 'app-employee-ptoholidays-chart-ptomonth-dates',
+    templateUrl: './employee-ptoholidays-chart-ptomonth-dates.component.html',
+    styleUrl: './employee-ptoholidays-chart-ptomonth-dates.component.scss',
+    standalone: false
 })
 export class EmployeePTOHolidaysChartPTOMonthDatesComponent {
   private _leaves: LeaveDay[] = [];

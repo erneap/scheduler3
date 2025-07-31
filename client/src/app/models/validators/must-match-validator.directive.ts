@@ -2,12 +2,13 @@ import { Directive } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 @Directive({
-  selector: '[appMustMatchValidator]',
-  providers: [{
-    provide: NG_VALIDATORS,
-    useExisting: MustMatchValidator,
-    multi: true
-  }]
+    selector: '[appMustMatchValidator]',
+    providers: [{
+            provide: NG_VALIDATORS,
+            useExisting: MustMatchValidator,
+            multi: true
+        }],
+    standalone: false
 })
 export class MustMatchValidator implements Validator {
   validate(control: AbstractControl) : {[key: string]: any} | null {

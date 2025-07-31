@@ -7,9 +7,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-report-cert-of-service',
-  templateUrl: './report-cert-of-service.component.html',
-  styleUrls: ['./report-cert-of-service.component.scss']
+    selector: 'app-report-cert-of-service',
+    templateUrl: './report-cert-of-service.component.html',
+    styleUrls: ['./report-cert-of-service.component.scss'],
+    standalone: false
 })
 export class ReportCertOfServiceComponent {
   @Input() reportType: string = '';

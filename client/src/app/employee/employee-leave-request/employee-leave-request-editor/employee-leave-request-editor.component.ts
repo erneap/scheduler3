@@ -21,18 +21,19 @@ import { Company, CompanyHoliday, CompanyHolidays } from 'src/app/models/teams/c
 import { NoticeDialogComponent } from 'src/app/generic/notice-dialog/notice-dialog.component';
 
 @Component({
-  selector: 'app-employee-leave-request-editor',
-  templateUrl: './employee-leave-request-editor.component.html',
-  styleUrls: ['./employee-leave-request-editor.component.scss'],
-  providers: [
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true}},
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
-  ]
+    selector: 'app-employee-leave-request-editor',
+    templateUrl: './employee-leave-request-editor.component.html',
+    styleUrls: ['./employee-leave-request-editor.component.scss'],
+    providers: [
+        { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+        },
+        { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    ],
+    standalone: false
 })
 export class EmployeeLeaveRequestEditorComponent {
   private _request: LeaveRequest = new LeaveRequest();

@@ -12,9 +12,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-editor-workcenter',
-  templateUrl: './site-editor-workcenter.component.html',
-  styleUrls: ['./site-editor-workcenter.component.scss']
+    selector: 'app-site-editor-workcenter',
+    templateUrl: './site-editor-workcenter.component.html',
+    styleUrls: ['./site-editor-workcenter.component.scss'],
+    standalone: false
 })
 export class SiteEditorWorkcenterComponent {
   private _team: string = '';

@@ -7,9 +7,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-report-mid-shift',
-  templateUrl: './report-mid-shift.component.html',
-  styleUrls: ['./report-mid-shift.component.scss']
+    selector: 'app-report-mid-shift',
+    templateUrl: './report-mid-shift.component.html',
+    styleUrls: ['./report-mid-shift.component.scss'],
+    standalone: false
 })
 export class ReportMidShiftComponent {
   @Input() reportType: string = ""

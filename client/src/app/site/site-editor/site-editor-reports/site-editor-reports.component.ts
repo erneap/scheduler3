@@ -6,9 +6,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-editor-reports',
-  templateUrl: './site-editor-reports.component.html',
-  styleUrls: ['./site-editor-reports.component.scss']
+    selector: 'app-site-editor-reports',
+    templateUrl: './site-editor-reports.component.html',
+    styleUrls: ['./site-editor-reports.component.scss'],
+    standalone: false
 })
 export class SiteEditorReportsComponent {
   @Input() team: Team = new Team();

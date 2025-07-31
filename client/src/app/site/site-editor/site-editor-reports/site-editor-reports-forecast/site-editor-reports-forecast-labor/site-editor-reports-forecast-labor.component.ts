@@ -13,9 +13,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-editor-reports-forecast-labor',
-  templateUrl: './site-editor-reports-forecast-labor.component.html',
-  styleUrls: ['./site-editor-reports-forecast-labor.component.scss']
+    selector: 'app-site-editor-reports-forecast-labor',
+    templateUrl: './site-editor-reports-forecast-labor.component.html',
+    styleUrls: ['./site-editor-reports-forecast-labor.component.scss'],
+    standalone: false
 })
 export class SiteEditorReportsForecastLaborComponent {
   private _report: ForecastReport = new ForecastReport();

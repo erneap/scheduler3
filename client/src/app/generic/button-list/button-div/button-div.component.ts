@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-generic-list-button-div',
-  templateUrl: './button-div.component.html',
-  styleUrls: ['./button-div.component.scss']
+    selector: 'app-generic-list-button-div',
+    templateUrl: './button-div.component.html',
+    styleUrls: ['./button-div.component.scss'],
+    standalone: false
 })
 export class ButtonDivComponent {
   private _label: string = '';

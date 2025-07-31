@@ -6,9 +6,10 @@ import { EmployeeService } from 'src/app/services/employee.service';
 import { SiteService } from 'src/app/services/site.service';
 
 @Component({
-  selector: 'app-employee-ptoholidays-chart-pto',
-  templateUrl: './employee-ptoholidays-chart-pto.component.html',
-  styleUrl: './employee-ptoholidays-chart-pto.component.scss'
+    selector: 'app-employee-ptoholidays-chart-pto',
+    templateUrl: './employee-ptoholidays-chart-pto.component.html',
+    styleUrl: './employee-ptoholidays-chart-pto.component.scss',
+    standalone: false
 })
 export class EmployeePTOHolidaysChartPTOComponent {
   private _year: number = (new Date()).getUTCFullYear();

@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { ISite, Site } from 'src/app/models/sites/site';
 
 @Component({
-  selector: 'app-site-schedule-coverage-days',
-  templateUrl: './site-schedule-coverage-days.component.html',
-  styleUrls: ['./site-schedule-coverage-days.component.scss']
+    selector: 'app-site-schedule-coverage-days',
+    templateUrl: './site-schedule-coverage-days.component.html',
+    styleUrls: ['./site-schedule-coverage-days.component.scss'],
+    standalone: false
 })
 export class SiteScheduleCoverageDaysComponent {
   private _site: Site = new Site();

@@ -11,9 +11,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-schedule-coverage',
-  templateUrl: './site-schedule-coverage.component.html',
-  styleUrls: ['./site-schedule-coverage.component.scss']
+    selector: 'app-site-schedule-coverage',
+    templateUrl: './site-schedule-coverage.component.html',
+    styleUrls: ['./site-schedule-coverage.component.scss'],
+    standalone: false
 })
 export class SiteScheduleCoverageComponent {
   months: string[] = new Array("January", "February", "March", "April", "May",

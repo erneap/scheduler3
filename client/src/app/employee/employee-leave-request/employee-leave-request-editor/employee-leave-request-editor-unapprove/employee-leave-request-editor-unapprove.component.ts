@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-employee-leave-request-editor-unapprove',
-  templateUrl: './employee-leave-request-editor-unapprove.component.html',
-  styleUrls: ['./employee-leave-request-editor-unapprove.component.scss']
+    selector: 'app-employee-leave-request-editor-unapprove',
+    templateUrl: './employee-leave-request-editor-unapprove.component.html',
+    styleUrls: ['./employee-leave-request-editor-unapprove.component.scss'],
+    standalone: false
 })
 export class EmployeeLeaveRequestEditorUnapproveComponent {
   commentForm: FormGroup;

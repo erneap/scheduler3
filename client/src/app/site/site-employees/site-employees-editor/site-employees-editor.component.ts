@@ -11,9 +11,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-employees-editor',
-  templateUrl: './site-employees-editor.component.html',
-  styleUrls: ['./site-employees-editor.component.scss']
+    selector: 'app-site-employees-editor',
+    templateUrl: './site-employees-editor.component.html',
+    styleUrls: ['./site-employees-editor.component.scss'],
+    standalone: false
 })
 export class SiteEmployeesEditorComponent {
   private _employee: Employee = new Employee();

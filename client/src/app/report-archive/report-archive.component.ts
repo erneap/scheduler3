@@ -8,9 +8,10 @@ import { AuthService } from '../services/auth.service';
 
 
 @Component({
-  selector: 'app-report-archive',
-  templateUrl: './report-archive.component.html',
-  styleUrl: './report-archive.component.scss'
+    selector: 'app-report-archive',
+    templateUrl: './report-archive.component.html',
+    styleUrl: './report-archive.component.scss',
+    standalone: false
 })
 export class ReportArchiveComponent {
   archiveForm: FormGroup;

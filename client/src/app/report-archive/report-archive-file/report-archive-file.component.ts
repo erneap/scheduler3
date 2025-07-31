@@ -4,9 +4,10 @@ import { DBReport, IDBReport } from 'src/app/models/reports/reportType';
 import { DialogService } from 'src/app/services/dialog-service.service';
 
 @Component({
-  selector: 'app-report-archive-file',
-  templateUrl: './report-archive-file.component.html',
-  styleUrl: './report-archive-file.component.scss'
+    selector: 'app-report-archive-file',
+    templateUrl: './report-archive-file.component.html',
+    styleUrl: './report-archive-file.component.scss',
+    standalone: false
 })
 export class ReportArchiveFileComponent {
   _report: DBReport = new DBReport();

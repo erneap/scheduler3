@@ -17,9 +17,10 @@ import { SiteService } from 'src/app/services/site.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
-  selector: 'app-site-ingest-form-month',
-  templateUrl: './site-ingest-form-month.component.html',
-  styleUrls: ['./site-ingest-form-month.component.scss']
+    selector: 'app-site-ingest-form-month',
+    templateUrl: './site-ingest-form-month.component.html',
+    styleUrls: ['./site-ingest-form-month.component.scss'],
+    standalone: false
 })
 export class SiteIngestFormMonthComponent {
   @Input() width: number = 1158;
