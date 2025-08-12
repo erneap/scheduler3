@@ -57,13 +57,13 @@ func (s *SAPIngest) ProcessFile(file *multipart.FileHeader) ([]ExcelRow,
 	for i, row := range rows {
 		if i == 0 {
 			for j, colCell := range row {
-				columns[colCell] = j
+				columns[strings.ToLower(colCell)] = j
 			}
 		} else {
-			explanation := row[columns["Explanation"]]
-			description := row[columns["Charge Number Desc"]]
+			explanation := row[columns["explanation"]]
+			description := row[columns["charge number desc"]]
 			if !strings.Contains(explanation, "Total") {
-				date := converters.ParseDate(row[columns["Date"]])
+				date := converters.ParseDate(row[columns["date"]])
 				if date.Before(startDate) {
 					startDate = time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0,
 						0, time.UTC)
@@ -72,11 +72,11 @@ func (s *SAPIngest) ProcessFile(file *multipart.FileHeader) ([]ExcelRow,
 					endDate = time.Date(date.Year(), date.Month(), date.Day(), 0, 0, 0,
 						0, time.UTC)
 				}
-				companyID := row[columns["Personnel no."]]
-				chargeNo := strings.TrimSpace(row[columns["Charge Number"]])
-				premimum := strings.TrimSpace(row[columns["Prem. no."]])
-				extension := strings.TrimSpace(row[columns["Ext."]])
-				hours := converters.ParseFloat(row[columns["Hours"]])
+				companyID := row[columns["personnel no."]]
+				chargeNo := strings.TrimSpace(row[columns["charge number"]])
+				premimum := strings.TrimSpace(row[columns["prem. no."]])
+				extension := strings.TrimSpace(row[columns["ext."]])
+				hours := converters.ParseFloat(row[columns["hours"]])
 				// check to see if ingest row is for a leave type record
 				bLeave := false
 				if team != nil {
