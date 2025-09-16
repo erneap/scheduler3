@@ -317,6 +317,7 @@ func IngestFiles(c *gin.Context) {
 				}
 			}
 		}
+
 		password := ""
 		for _, co := range team.Companies {
 			if co.ID == companyid {

@@ -3,7 +3,7 @@ module github.com/erneap/scheduler3/general-api
 go 1.23.0
 
 require (
-	github.com/erneap/models/v2 v2.2.2
+	github.com/erneap/models/v2 v2.2.3
 	github.com/gin-gonic/gin v1.10.0
 	go.mongodb.org/mongo-driver v1.17.1
 )
