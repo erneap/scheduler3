@@ -91,6 +91,14 @@ func (s *SAPIngest) ProcessFile(file *multipart.FileHeader) ([]ExcelRow,
 									Code:      code,
 									Hours:     hours,
 								}
+								if strings.EqualFold(code, "h") {
+									if len(explanation) > 1 {
+										if strings.ToLower(explanation)[:1] == "h" ||
+											strings.ToLower(explanation)[:1] == "f" {
+											record.HolidayID = explanation[:2]
+										}
+									}
+								}
 								records = append(records, record)
 								bLeave = true
 							}

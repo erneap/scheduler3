@@ -11,6 +11,7 @@ type ExcelRow struct {
 	Code         string
 	Modified     bool
 	Hours        float64
+	HolidayID    string
 }
 
 type ByExcelRow []ExcelRow

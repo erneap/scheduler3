@@ -265,6 +265,7 @@ func IngestFiles(c *gin.Context) {
 								Hours:     rec.Hours,
 								Status:    "ACTUAL",
 								RequestID: "",
+								TagDay:    rec.HolidayID,
 							}
 							emp.Leaves = append(emp.Leaves, lv)
 							empls[i] = emp
