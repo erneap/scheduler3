@@ -99,7 +99,8 @@ export class SiteEmployeesVariationComponent {
   }
 
   setVariationLists() {
-    const now = new Date();
+    let now = new Date();
+    now = new Date(now.getTime() - (7 * 24 * 3600000));
     const site = this.siteService.getSite();
     let siteid = '';
     if (site) {
