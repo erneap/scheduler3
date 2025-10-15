@@ -4,6 +4,7 @@ import { ISite, Site } from 'src/app/models/sites/site';
 import { IWorkcenter, Workcenter } from 'src/app/models/sites/workcenter';
 import { Workcode } from 'src/app/models/teams/workcode';
 import { AppStateService } from 'src/app/services/app-state.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-site-schedule-month-office',
@@ -46,7 +47,8 @@ export class SiteScheduleMonthOfficeComponent {
   width: number = 25;
 
   constructor(
-    protected appState: AppStateService
+    protected appState: AppStateService,
+    protected authService: AuthService
   ) {}
 
   setMonth() {

@@ -60,3 +60,7 @@
     }
   </div>
 </div>
+<div *ngIf="authService.hasRole('siteleader') || authService.hasRole('scheduler')" class="overall">
+  <app-site-schedule-coverage-workcenter [site]="site" [workcenter]="workcenter" [month]="month">
+  </app-site-schedule-coverage-workcenter>
+</div>
