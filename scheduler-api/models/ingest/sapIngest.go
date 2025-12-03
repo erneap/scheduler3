@@ -3,6 +3,7 @@ package ingest
 import (
 	"log"
 	"mime/multipart"
+	"regexp"
 	"strings"
 	"time"
 
@@ -92,10 +93,12 @@ func (s *SAPIngest) ProcessFile(file *multipart.FileHeader) ([]ExcelRow,
 									Hours:     hours,
 								}
 								if strings.EqualFold(code, "h") {
+									pattern := "[hf][0-9]{1,2}"
+									re := regexp.MustCompile(pattern)
 									if len(explanation) > 1 {
-										if strings.ToLower(explanation)[:1] == "h" ||
-											strings.ToLower(explanation)[:1] == "f" {
-											record.HolidayID = explanation[:2]
+										index := re.FindStringIndex(strings.ToLower(explanation))
+										if index != nil {
+											record.HolidayID = explanation[index[0]:index[1]]
 										}
 									}
 								}
